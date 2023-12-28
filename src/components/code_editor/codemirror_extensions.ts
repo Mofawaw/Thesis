@@ -17,13 +17,12 @@ const customTheme = EditorView.theme({
     "&": {
         color: textColor,
         backgroundColor: backgroundColor,
-        border: "none"
+    },
+    "&.cm-focused": {
+        outline: "none"
     },
     ".cm-content": {
-        caretColor: textColor
-    },
-    "&.cm-focused .cm-selectionBackground, .cm-selectionBackground, .cm-content ::selection": {
-        backgroundColor: selectionColor
+        caretColor: textColor,
     },
     ".cm-gutters": {
         backgroundColor: backgroundColor,
@@ -38,7 +37,6 @@ const customTheme = EditorView.theme({
     },
     ".cm-activeLineGutter": {
         backgroundColor: selectionColor,
-        color: immutableObjColor,
     }
 }, { dark: false });
 
