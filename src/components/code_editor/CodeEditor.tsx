@@ -3,6 +3,7 @@ import { EditorState } from '@codemirror/state';
 import { EditorView, keymap, lineNumbers, highlightActiveLine } from '@codemirror/view';
 import { python } from '@codemirror/lang-python';
 import { defaultKeymap } from '@codemirror/commands';
+import { theme, lineNumberStyling } from './codemirror_extensions.ts';
 
 const CodeEditor = () => {
     const editorRef = useRef<HTMLDivElement>(null);
@@ -16,7 +17,9 @@ const CodeEditor = () => {
             extensions: [
                 keymap.of(defaultKeymap),
                 python(),
+                theme,
                 lineNumbers(),
+                lineNumberStyling(),
                 highlightActiveLine(),
                 EditorView.updateListener.of(update => {
                     if (update.docChanged) {
