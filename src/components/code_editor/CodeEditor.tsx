@@ -1,33 +1,50 @@
 import { useEffect, useRef, useState } from 'react';
 import { EditorState } from '@codemirror/state';
-import { EditorView } from '@codemirror/view';
+import { EditorView, keymap, lineNumbers, highlightActiveLine } from '@codemirror/view';
 import { python } from '@codemirror/lang-python';
+import { defaultKeymap } from '@codemirror/commands';
 
-const CodeEditor: React.FC = () => {
-    const editorDiv = useRef<HTMLDivElement>(null);
-    const [editorView, setEditorView] = useState<EditorView | null>(null);
+const CodeEditor = () => {
+    const editorRef = useRef<HTMLDivElement>(null);
+    const [code, setCode] = useState<string>('');
 
     useEffect(() => {
-        if (editorDiv.current) {
-            const startState = EditorState.create({
-                doc: 'print("Hello, world!")',
-                extensions: [python()],
-            });
+        if (!editorRef.current) return;
 
-            const view = new EditorView({
-                state: startState,
-                parent: editorDiv.current,
-            });
+        const startState = EditorState.create({
+            doc: "",
+            extensions: [
+                keymap.of(defaultKeymap),
+                python(),
+                lineNumbers(),
+                highlightActiveLine(),
+                EditorView.updateListener.of(update => {
+                    if (update.docChanged) {
+                        setCode(update.state.doc.toString());
+                    }
+                })
+            ]
+        });
 
-            setEditorView(view);
-        }
+        const view = new EditorView({
+            state: startState,
+            parent: editorRef.current
+        });
 
         return () => {
-            editorView?.destroy();
+            view.destroy();
         };
     }, []);
 
-    return <div ref={editorDiv} />;
+    return (
+        <div className="flex flex-col">
+            <div ref={editorRef} className="editor" />
+            <div className="output mt-4">
+                <strong>Output:</strong>
+                <pre>{code}</pre>
+            </div>
+        </div>
+    );
 };
 
 export default CodeEditor;
