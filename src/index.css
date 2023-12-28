@@ -1,3 +1,47 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face
+{
+  font-family: "SuperCell Magic";
+  src: url("./assets/fonts/supercell-magic.ttf");
+}
+
+@layer base
+{
+  h1
+  {
+    @apply text-8xl;
+    @apply font-th-magic;
+    @apply text-th-black-100;
+  }
+
+  h2
+  {
+    @apply text-6xl;
+    @apply font-th-magic;
+    @apply text-th-black-100;
+  }
+
+  h3
+  {
+    @apply text-3xl;
+    @apply font-th-magic;
+    @apply text-th-black-100;
+  }
+
+  h4
+  {
+    @apply text-xl;
+    @apply font-th-magic;
+    @apply text-th-black-100;
+  }
+
+  body
+  {
+    @apply text-base;
+    @apply font-th-mono;
+    @apply text-th-black-100;
+  }
+}
