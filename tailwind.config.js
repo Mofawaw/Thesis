@@ -5,6 +5,10 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    fontFamily: {
+      'th-magic': ['SuperCell Magic'],
+      'th-mono': ['Monaco'],
+    },
     colors: {
       'th-white': '#FFFFFF',
       'th-background': '#FAF8F4',
