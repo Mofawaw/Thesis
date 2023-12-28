@@ -31,6 +31,7 @@ const customTheme = EditorView.theme({
     },
     ".cm-gutterElement.line-has-code": {
         color: activeLineColor,
+        backgroundColor: selectionColor
     },
     ".cm-activeLine": {
         backgroundColor: selectionColor
