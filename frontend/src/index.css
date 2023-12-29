@@ -45,3 +45,11 @@
     @apply text-th-black-100;
   }
 }
+
+@layer components
+{
+  .th-hr
+  {
+    @apply h-px my-0 bg-th-black-20 border-0;
+  }
+}

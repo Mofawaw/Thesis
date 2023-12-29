@@ -1,5 +1,5 @@
-import CodeEditor from "./CodeEditor.tsx";
-import CodeConsole from "./CodeConsole.tsx"
+import CodeEditor from "./components/CodeEditor.tsx";
+import CodeConsole from "./components/CodeConsole.tsx"
 import useCodeIDEStore from './codeide_store.ts'
 
 export default function CodeIDE({ height }: { height: number }) {
@@ -37,7 +37,9 @@ export default function CodeIDE({ height }: { height: number }) {
       <div className="my-2 px-4">
         <CodeEditor height={height - 240} />
       </div>
-      <hr className="h-px my-0 bg-th-black-20 border-0" />
+
+      <hr className="th-hr" />
+
       <div className="flex flex-row justify-between px-4">
         <button className="text-th-black-100" onClick={compile}>Run</button>
         <div className="flex flex-row gap-4">
@@ -45,7 +47,9 @@ export default function CodeIDE({ height }: { height: number }) {
           <button className="text-th-tint-100">Next</button>
         </div>
       </div>
-      <hr className="h-px my-0 bg-th-black-20 border-0" />
+
+      <hr className="th-hr" />
+
       <div className="px-4">
         <CodeConsole />
       </div>

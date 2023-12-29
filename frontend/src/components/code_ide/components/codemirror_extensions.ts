@@ -1,7 +1,7 @@
 import { EditorView, gutter, GutterMarker } from '@codemirror/view';
 import { HighlightStyle, syntaxHighlighting } from '@codemirror/language';
 import { tags } from '@lezer/highlight';
-import config from '../../../tailwind.config.ts'
+import config from '../../../../tailwind.config.ts'
 
 const { colors } = config.theme
 const { fontFamily } = config.theme
