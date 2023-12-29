@@ -5,10 +5,10 @@ import { python } from '@codemirror/lang-python';
 import { defaultKeymap } from '@codemirror/commands';
 import { theme, lineNumberStyling } from './codemirror_extensions.ts';
 
-const CodeEditor = () => {
+export default function CodeEditor({ editorHeight }) {
     const editorRef = useRef<HTMLDivElement>(null);
     const [code, setCode] = useState<string>('');
-    const [editorHeight, setEditorHeight] = useState<number>(300);
+    // const [editorHeight, setEditorHeight] = useState<number>(300);
 
     useEffect(() => {
         if (!editorRef.current) return;
@@ -47,6 +47,4 @@ const CodeEditor = () => {
             <div ref={editorRef} className="editor" style={{ height: `${editorHeight}px`, overflow: 'auto' }} />
         </div>
     );
-};
-
-export default CodeEditor;
+}

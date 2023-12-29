@@ -19,7 +19,7 @@ export default function ComponentNode({ data }: { data: ComponentNodeData }) {
   };
 
   return (
-    <div className={styles.customHandle}>
+    <div className={`${styles.customHandle} nowheel`}>
       <NodeResizer
         minWidth={minWidth}
         minHeight={minHeight}
@@ -31,7 +31,7 @@ export default function ComponentNode({ data }: { data: ComponentNodeData }) {
         className="bg-th-white border-th border-th-black-20 rounded-th"
         style={{ width: size.width, height: size.height }}
       >
-        {CustomComponent ? <CustomComponent /> : <p>No component provided</p>}
+        {CustomComponent ? <CustomComponent editorHeight={size.height} /> : <p>Error: No component found.</p>}
       </div>
     </div>
   );
