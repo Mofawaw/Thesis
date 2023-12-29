@@ -1,14 +1,13 @@
-import { useCallback } from 'react';
 import ReactFlow, { Controls, useNodesState } from 'reactflow';
 
 import 'reactflow/dist/style.css';
-import CustomNode from './CustomNode.tsx';
+import ComponentNode from './ComponentNode.tsx';
 
 const initialNodes = [
-  { id: '1', type: 'custom', position: { x: 0, y: 0 }, data: { label: '1' } }
+  { id: '1', type: 'component', position: { x: 0, y: 0 }, data: null }
 ];
 
-const nodeTypes = { custom: CustomNode };
+const nodeTypes = { component: ComponentNode };
 
 export default function App() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { NodeResizer, ResizeParams, ResizeDragEvent } from 'reactflow';
-import styles from './customnode.module.css'
+import styles from './componentnode.module.css'
 
-export default function CustomNode() {
+export default function ComponentNode() {
   const [size, setSize] = useState({ width: 200, height: 200 });
 
   const handleResize = (event: ResizeDragEvent, { width, height }: ResizeParams): void => {
