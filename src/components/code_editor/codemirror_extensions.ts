@@ -1,16 +1,19 @@
 import { EditorView } from '@codemirror/view';
 import { HighlightStyle, syntaxHighlighting } from '@codemirror/language';
 import { tags } from '@lezer/highlight';
+import config from '../../../tailwind.config.ts'
 
-const keywordColor = "#000000";
-const variableColor = "#000000";
-const mutableObjColor = "#268bd2";
-const immutableObjColor = "#98c379";
-const backgroundColor = "#ffffff";
-const textColor = "#aaaaaa";
+const { colors } = config.theme
 
-const activeLineColor = "#000000";
-const selectionColor = "#eeeeee";
+const keywordColor = colors['th-black'][100];
+const variableColor = colors['th-black'][100];
+const mutableObjColor = colors['th-reference'][100];
+const immutableObjColor = colors['th-value'][100];
+const backgroundColor = colors['th-white'];
+const textColor = colors['th-black'][40];
+
+const activeLineNumberColor = colors['th-black'][100];
+const selectionColor = colors['th-black'][10];
 
 // ----- Theme -----
 const customTheme = EditorView.theme({
@@ -27,10 +30,10 @@ const customTheme = EditorView.theme({
     ".cm-gutters": {
         backgroundColor: backgroundColor,
         color: textColor,
-        border: "none"
+        border: "none",
     },
     ".cm-gutterElement.line-has-code": {
-        color: activeLineColor,
+        color: activeLineNumberColor,
         backgroundColor: selectionColor
     },
     ".cm-activeLine": {
@@ -55,13 +58,13 @@ const theme = [customTheme, syntaxHighlighting(customHighlightStyle)];
 
 export { theme, customHighlightStyle, customTheme };
 
-// ----- Gutter: lineNumberStyling
+// ----- Gutter: lineNumberStyling -----
 function lineNumberStyling() {
     return EditorView.updateListener.of((update) => {
         if (!update.docChanged && !update.selectionSet) return;
 
         let lastNonEmptyLine = 0;
-        // Find the last non-empty line number
+        // Find last non-empty line number
         for (let i = 1; i <= update.state.doc.lines; i++) {
             const line = update.state.doc.line(i);
             if (line.text.trim() !== '') {
@@ -69,7 +72,7 @@ function lineNumberStyling() {
             }
         }
 
-        // Apply the class to line numbers up to the last non-empty line
+        // Apply class to line numbers up to the last non-empty line
         const gutterElements = update.view.dom.getElementsByClassName('cm-gutterElement');
         for (let i = 0; i < lastNonEmptyLine; i++) {
             if (gutterElements[i]) {
@@ -77,7 +80,7 @@ function lineNumberStyling() {
             }
         }
 
-        // Remove the class from line numbers beyond the last non-empty line
+        // Remove class from line numbers beyond the last non-empty line
         for (let i = lastNonEmptyLine; i < gutterElements.length; i++) {
             if (gutterElements[i]) {
                 gutterElements[i].classList.remove('line-has-code');
