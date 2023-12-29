@@ -1,9 +1,11 @@
-import CodeEditor from "./components/code_editor/CodeEditor"
 
+import Level from "./components/level/Level.tsx"
 function App() {
   return (
     <>
-      <CodeEditor />
+      </div>
+        <Level />
+      <div className="App">
     </>
   )
 }
