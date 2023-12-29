@@ -1,8 +1,5 @@
 import { useCallback } from 'react';
-import ReactFlow, {
-  Controls,
-  useNodesState,
-} from 'reactflow';
+import ReactFlow, { Controls, useNodesState } from 'reactflow';
 
 import 'reactflow/dist/style.css';
 import CustomNode from './CustomNode.tsx';

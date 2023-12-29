@@ -1,0 +1,11 @@
+@tailwind utilities;
+
+.customHandle :global(.react-flow__resize-control.line)
+{
+  @apply border-8 border-th-black-20 border-opacity-0
+}
+
+.customHandle :global(.react-flow__resize-control.handle)
+{
+  @apply border-8 border-th-black-20 opacity-0
+}
