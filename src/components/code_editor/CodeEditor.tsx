@@ -5,15 +5,15 @@ import { python } from '@codemirror/lang-python';
 import { defaultKeymap } from '@codemirror/commands';
 import { theme, lineNumberStyling } from './codemirror_extensions.ts';
 
-export default function CodeEditor({ editorHeight }) {
+export default function CodeEditor({ height }: { height: number }) {
     const editorRef = useRef<HTMLDivElement>(null);
     const [code, setCode] = useState<string>('');
-    // const [editorHeight, setEditorHeight] = useState<number>(300);
+    // const [height, setHeight] = useState<number>(500);
 
     useEffect(() => {
         if (!editorRef.current) return;
 
-        const initialCode = Array(10).fill('\n').join('');
+        const initialCode = Array(19).fill('\n').join('');
         const startState = EditorState.create({
             doc: initialCode,
             extensions: [
@@ -27,6 +27,15 @@ export default function CodeEditor({ editorHeight }) {
                 EditorView.updateListener.of(update => {
                     if (update.docChanged) {
                         setCode(update.state.doc.toString());
+                    }
+                    if (update.focusChanged) {
+                        if (update.view.hasFocus) {
+                            editorRef.current?.classList.add("nodrag");
+                            editorRef.current?.classList.add("nowheel");
+                        } else {
+                            editorRef.current?.classList.remove("nodrag");
+                            editorRef.current?.classList.remove("nowheel");
+                        }
                     }
                 })
             ]
@@ -44,7 +53,7 @@ export default function CodeEditor({ editorHeight }) {
 
     return (
         <div className="flex flex-col">
-            <div ref={editorRef} className="editor" style={{ height: `${editorHeight}px`, overflow: 'auto' }} />
+            <div ref={editorRef} className="editor" style={{ height: `${height}px`, overflow: 'auto' }} />
         </div>
     );
 }
