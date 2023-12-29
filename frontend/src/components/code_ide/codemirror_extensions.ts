@@ -17,8 +17,8 @@ const activeLineNumberColor = colors['th-black'][100];
 const activeLineColor = colors['th-tint'][40];
 const currentLineColor = colors['th-black'][10];
 
-// ----- Theme -----
-const customTheme = EditorView.theme({
+// ----- Editor Theme -----
+const codeEditorTheme = EditorView.theme({
     "&": {
         color: textColor,
         backgroundColor: backgroundColor,
@@ -49,7 +49,7 @@ const customTheme = EditorView.theme({
     }
 }, { dark: false });
 
-const customHighlightStyle = HighlightStyle.define([
+const codeEditorHighlightStyle = HighlightStyle.define([
     { tag: tags.keyword, color: keywordColor },
     { tag: tags.name, color: variableColor },
     { tag: tags.string, color: immutableObjColor },
@@ -59,9 +59,35 @@ const customHighlightStyle = HighlightStyle.define([
     { tag: tags.function(tags.variableName), color: mutableObjColor },
 ]);
 
-const theme = [customTheme, syntaxHighlighting(customHighlightStyle)];
+const codeEditorStyles = [codeEditorTheme, syntaxHighlighting(codeEditorHighlightStyle)];
 
-export { theme, customHighlightStyle, customTheme };
+export { codeEditorStyles };
+
+// ----- Console Theme -----
+const codeConsoleTheme = EditorView.theme({
+    "&": {
+        color: keywordColor,
+        backgroundColor: backgroundColor,
+        fontFamily: fontFamily['th-mono'][0],
+        fontSize: "1rem",
+        lineHeight: "1.5rem"
+    },
+    "&.cm-focused": {
+        outline: "none"
+    },
+    ".cm-content": {
+        caretColor: textColor,
+    },
+    ".cm-gutters": {
+        backgroundColor: backgroundColor,
+        color: textColor,
+        border: "none",
+    },
+}, { dark: false });
+
+const codeConsoleStyles = [codeConsoleTheme];
+
+export { codeConsoleStyles };
 
 // ----- Gutter: lineNumberStyling ----
 function lineNumberStyling() {

@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { EditorState, Transaction } from '@codemirror/state';
 import { EditorView, gutter, GutterMarker } from '@codemirror/view';
-import { theme } from './codemirror_extensions.ts';
+import { python } from '@codemirror/lang-python';
+import { codeConsoleStyles } from './codemirror_extensions.ts';
 import useCodeIDEStore from './codeide_store.ts'
 
 class PercentGutterMarker extends GutterMarker {
@@ -30,7 +31,8 @@ export default function CodeConsole() {
     const startState = EditorState.create({
       doc: initialCode,
       extensions: [
-        theme,
+        python(),
+        codeConsoleStyles,
         percentLineNumbers(),
         EditorState.transactionFilter.of((tr) => {
           const isProgrammatic = tr.annotation(Transaction.userEvent) === 'programmatic';
