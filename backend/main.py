@@ -1,11 +1,13 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import subprocess
 import uuid
 import os
 
 app = Flask(__name__)
+CORS(app)
 
-@app.route('/run_code', methods=['POST'])
+@app.route('/compile', methods=['POST'])
 def run_code():
     code = request.json.get('code', '')
 
@@ -32,4 +34,4 @@ def run_code():
     return jsonify({'output': result.stdout, 'error': result.stderr})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0',port=5000)
