@@ -22,6 +22,9 @@ export default function CodeIDE({ height }: { height: number }) {
       })
       .then(data => {
         setOutput(data.output);
+        if (data.error) {
+          setOutput(data.error);
+        }
         console.log('Output:', data.output);
       })
       .catch((error) => {
