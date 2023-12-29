@@ -32,6 +32,7 @@ export default function CodeIDE({ height }: { height: number }) {
           <button className="text-th-tint-100">Next</button>
         </div>
       </div>
+      <hr className="h-px my-0 bg-th-black-20 border-0" />
     </div>
   )
 
