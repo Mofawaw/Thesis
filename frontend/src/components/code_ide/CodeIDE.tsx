@@ -2,6 +2,10 @@ import CodeEditor from "./components/CodeEditor.tsx";
 import CodeConsole from "./components/CodeConsole.tsx"
 import useCodeIDEStore from './codeide_store.ts'
 
+import PlayIcon from '../../assets/icons/play.svg';
+import ArrowLeftIcon from '../../assets/icons/arrow-left.svg';
+import ArrowRightIcon from '../../assets/icons/arrow-right.svg';
+
 export default function CodeIDE({ height }: { height: number }) {
   const code = useCodeIDEStore((state) => state.code)
   const setOutput = useCodeIDEStore((state) => state.setOutput)
@@ -41,10 +45,12 @@ export default function CodeIDE({ height }: { height: number }) {
       <hr className="th-hr" />
 
       <div className="flex flex-row justify-between px-4">
-        <button className="text-th-black-100" onClick={compile}>Run</button>
-        <div className="flex flex-row gap-4">
-          <button className="text-th-tint-100">Back</button>
-          <button className="text-th-tint-100">Next</button>
+        <button onClick={compile}>
+          <img src={PlayIcon} alt="Play button" className="h-6 w-6" />
+        </button>
+        <div className="flex flex-row gap-2">
+          <button><img src={ArrowLeftIcon} alt="Left arrow" className="h-6 w-6" /></button>
+          <button><img src={ArrowRightIcon} alt="Right arrow" className="h-6 w-6" /></button>
         </div>
       </div>
 

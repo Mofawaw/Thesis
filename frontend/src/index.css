@@ -50,6 +50,6 @@
 {
   .th-hr
   {
-    @apply h-px my-0 bg-th-black-20 border-0;
+    @apply h-px my-0 bg-th-black-10 border-0;
   }
 }

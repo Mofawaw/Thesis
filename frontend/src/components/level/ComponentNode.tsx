@@ -28,7 +28,7 @@ export default function ComponentNode({ data }: { data: ComponentNodeData }) {
         onResize={handleResize}
       />
       <div
-        className="bg-th-white border-th border-th-black-20 rounded-th"
+        className="bg-th-white border-th border-th-black-10 rounded-th"
         style={{ width: size.width, height: size.height }}
       >
         {CustomComponent ? <CustomComponent height={size.height} /> : <p>Error: No component found.</p>}
