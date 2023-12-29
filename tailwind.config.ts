@@ -18,6 +18,7 @@ export default {
         40: '#9B9B9B',
         30: '#C3C3C3',
         20: '#D7D7D7',
+        10: '#EBEBEB',
       },
       'th-tint': {
         100: '#F8B50E',

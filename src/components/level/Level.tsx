@@ -1,6 +1,7 @@
 import ReactFlow, { Controls, useNodesState } from 'reactflow';
 import 'reactflow/dist/style.css';
 import ComponentNode from './ComponentNode.tsx';
+import CodeEditor from '../code_editor/CodeEditor.tsx';
 
 const initialNodes = [
   {
@@ -8,23 +9,12 @@ const initialNodes = [
     type: 'component',
     position: { x: 0, y: 0 },
     data: {
-      component: CustomComponent,
-      minWidth: 200,
-      minHeight: 200
-    }
-  },
-  {
-    id: '2',
-    type: 'component',
-    position: { x: 0, y: 0 },
-    data: {
-      component: CustomComponent,
-      minWidth: 400,
-      minHeight: 600
+      component: CodeEditor,
+      minWidth: 700,
+      minHeight: 500
     }
   }
 ];
-
 
 const nodeTypes = { component: ComponentNode };
 
@@ -32,7 +22,7 @@ export default function App() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
 
   return (
-    <div style={{ width: '100vw', height: '100vh' }}>
+    <div className="w-screen h-screen">
       <ReactFlow
         nodes={nodes}
         onNodesChange={onNodesChange}
@@ -43,10 +33,4 @@ export default function App() {
       </ReactFlow>
     </div>
   );
-}
-
-function CustomComponent() {
-  return (
-    <h2>This is a custom Component!</h2>
-  )
 }
