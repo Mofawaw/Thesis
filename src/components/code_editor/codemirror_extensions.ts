@@ -4,6 +4,7 @@ import { tags } from '@lezer/highlight';
 import config from '../../../tailwind.config.ts'
 
 const { colors } = config.theme
+const { fontFamily } = config.theme
 
 const keywordColor = colors['th-black'][100];
 const variableColor = colors['th-black'][100];
@@ -21,6 +22,9 @@ const customTheme = EditorView.theme({
     "&": {
         color: textColor,
         backgroundColor: backgroundColor,
+        fontFamily: fontFamily['th-mono'][0],
+        fontSize: "1rem",
+        lineHeight: "1.5rem"
     },
     "&.cm-focused": {
         outline: "none"
