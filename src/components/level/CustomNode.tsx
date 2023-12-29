@@ -19,7 +19,7 @@ export default function CustomNode() {
         onResize={handleResize}
       />
       <div
-        className="bg-th-white border-4 border-th-black-20 rounded-2xl"
+        className="bg-th-white border-th border-th-black-20 rounded-th"
         style={{ width: size.width, height: size.height }}
       />
     </div>
