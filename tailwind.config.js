@@ -48,7 +48,15 @@ export default {
         20: '#F5D1E9',
       },
     },
-    extend: {},
+    extend: {
+      borderWidth: {
+        'th-xl': '10px',
+        'th': '5px'
+      },
+      borderRadius: {
+        'th': '10px'
+      }
+    },
   },
   plugins: [],
 }
