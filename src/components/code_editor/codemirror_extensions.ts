@@ -13,7 +13,8 @@ const backgroundColor = colors['th-white'];
 const textColor = colors['th-black'][40];
 
 const activeLineNumberColor = colors['th-black'][100];
-const selectionColor = colors['th-black'][10];
+const activeLineColor = colors['th-tint'][40];
+const currentLineColor = colors['th-black'][10];
 
 // ----- Theme -----
 const customTheme = EditorView.theme({
@@ -34,13 +35,13 @@ const customTheme = EditorView.theme({
     },
     ".cm-gutterElement.line-has-code": {
         color: activeLineNumberColor,
-        backgroundColor: selectionColor
+        backgroundColor: activeLineColor
     },
     ".cm-activeLine": {
-        backgroundColor: selectionColor
+        backgroundColor: currentLineColor
     },
     ".cm-activeLineGutter": {
-        backgroundColor: selectionColor,
+        backgroundColor: currentLineColor,
     }
 }, { dark: false });
 
@@ -58,7 +59,7 @@ const theme = [customTheme, syntaxHighlighting(customHighlightStyle)];
 
 export { theme, customHighlightStyle, customTheme };
 
-// ----- Gutter: lineNumberStyling -----
+// ----- Gutter: lineNumberStyling ----
 function lineNumberStyling() {
     return EditorView.updateListener.of((update) => {
         if (!update.docChanged && !update.selectionSet) return;
