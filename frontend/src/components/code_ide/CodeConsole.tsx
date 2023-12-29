@@ -1,23 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { EditorState, Transaction } from '@codemirror/state';
-import { EditorView, gutter, GutterMarker } from '@codemirror/view';
+import { EditorView } from '@codemirror/view';
 import { python } from '@codemirror/lang-python';
-import { codeConsoleStyles } from './codemirror_extensions.ts';
+import { codeConsoleStyles, percentLineNumbers } from './codemirror_extensions.ts';
 import useCodeIDEStore from './codeide_store.ts'
-
-class PercentGutterMarker extends GutterMarker {
-  toDOM() {
-    return document.createTextNode("%");
-  }
-}
-
-function percentLineNumbers() {
-  return gutter({
-    class: "cm-lineNumbers",
-    lineMarker: () => new PercentGutterMarker(),
-    initialSpacer: () => new PercentGutterMarker()
-  });
-}
 
 export default function CodeConsole() {
   const editorRef = useRef<HTMLDivElement>(null);

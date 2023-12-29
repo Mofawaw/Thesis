@@ -1,4 +1,4 @@
-import { EditorView } from '@codemirror/view';
+import { EditorView, gutter, GutterMarker } from '@codemirror/view';
 import { HighlightStyle, syntaxHighlighting } from '@codemirror/language';
 import { tags } from '@lezer/highlight';
 import config from '../../../tailwind.config.ts'
@@ -17,7 +17,7 @@ const activeLineNumberColor = colors['th-black'][100];
 const activeLineColor = colors['th-tint'][40];
 const currentLineColor = colors['th-black'][10];
 
-// ----- Editor Theme -----
+// ----- CodeEditor: Theme -----
 const codeEditorTheme = EditorView.theme({
     "&": {
         color: textColor,
@@ -63,7 +63,7 @@ const codeEditorStyles = [codeEditorTheme, syntaxHighlighting(codeEditorHighligh
 
 export { codeEditorStyles };
 
-// ----- Console Theme -----
+// ----- CodeConsole: Theme -----
 const codeConsoleTheme = EditorView.theme({
     "&": {
         color: keywordColor,
@@ -89,7 +89,7 @@ const codeConsoleStyles = [codeConsoleTheme];
 
 export { codeConsoleStyles };
 
-// ----- Gutter: lineNumberStyling ----
+// ----- CodeEditor: Gutter: lineNumberStyling -----
 function lineNumberStyling() {
     return EditorView.updateListener.of((update) => {
         if (!update.docChanged && !update.selectionSet) return;
@@ -121,3 +121,20 @@ function lineNumberStyling() {
 }
 
 export { lineNumberStyling }
+
+// ----- CodeConsole: Gutter: PercentGutterMarker -----
+class PercentGutterMarker extends GutterMarker {
+    toDOM() {
+        return document.createTextNode("%");
+    }
+}
+
+function percentLineNumbers() {
+    return gutter({
+        class: "cm-lineNumbers",
+        lineMarker: () => new PercentGutterMarker(),
+        initialSpacer: () => new PercentGutterMarker()
+    });
+}
+
+export { percentLineNumbers }
