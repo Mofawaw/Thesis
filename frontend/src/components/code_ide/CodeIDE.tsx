@@ -5,10 +5,17 @@ export default function CodeIDE({ height }: { height: number }) {
   const code = useCodeIDEStore((state) => state.code)
 
   return (
-    <>
+    <div className="flex flex-col gap-0 p-4">
       <CodeEditor height={height - 200} />
-      <pre>{code}</pre>
-    </>
+      <hr className="h-px my-0 bg-th-black-20 border-0" />
+      <div className="flex flex-row justify-between py-2">
+        <button className="text-th-black-100">Run</button>
+        <div className="flex flex-row gap-4">
+          <button className="text-th-tint-100">Back</button>
+          <button className="text-th-tint-100">Next</button>
+        </div>
+      </div>
+    </div>
   )
 
 }

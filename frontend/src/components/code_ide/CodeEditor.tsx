@@ -8,7 +8,6 @@ import useCodeIDEStore from './codeide_store.ts'
 
 export default function CodeEditor({ height }: { height: number }) {
     const editorRef = useRef<HTMLDivElement>(null);
-    // const [code, setCode] = useState<string>('');
     const setCode = useCodeIDEStore((state) => state.setCode)
 
     useEffect(() => {
