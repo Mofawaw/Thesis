@@ -1,9 +1,18 @@
-import { useState } from 'react';
-import { NodeResizer, ResizeParams, ResizeDragEvent } from 'reactflow';
-import styles from './componentnode.module.css'
+import React, { useState } from 'react';
+import { NodeResizer, ResizeDragEvent, ResizeParams } from 'reactflow';
+import styles from './componentnode.module.css';
 
-export default function ComponentNode() {
-  const [size, setSize] = useState({ width: 200, height: 200 });
+interface ComponentNodeData {
+  component: React.ComponentType<any>;
+  minWidth: number;
+  minHeight: number;
+}
+
+export default function ComponentNode({ data }: { data: ComponentNodeData }) {
+  const { component: CustomComponent, minWidth, minHeight } = data;
+  const maxWidth = minWidth * 2;
+  const maxHeight = minHeight * 2;
+  const [size, setSize] = useState({ width: minWidth, height: minHeight });
 
   const handleResize = (event: ResizeDragEvent, { width, height }: ResizeParams): void => {
     setSize({ width, height });
@@ -12,16 +21,18 @@ export default function ComponentNode() {
   return (
     <div className={styles.customHandle}>
       <NodeResizer
-        minWidth={200}
-        minHeight={200}
-        maxWidth={1000}
-        maxHeight={1000}
+        minWidth={minWidth}
+        minHeight={minHeight}
+        maxWidth={maxWidth}
+        maxHeight={maxHeight}
         onResize={handleResize}
       />
       <div
         className="bg-th-white border-th border-th-black-20 rounded-th"
         style={{ width: size.width, height: size.height }}
-      />
+      >
+        {CustomComponent ? <CustomComponent /> : <p>No component provided</p>}
+      </div>
     </div>
   );
 }
