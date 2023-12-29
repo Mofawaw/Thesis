@@ -9,8 +9,8 @@ lerna-debug.log*
 
 # Dependencies
 node_modules
-/dist
-/dist-ssr
+dist
+dist-ssr
 *.local
 
 # Editor directories and files
@@ -32,22 +32,22 @@ node_modules
 *.env.production.local
 
 # Backend
-/backend/__pycache__/
-/backend/*.py[cod]
-/backend/*$py.class
-/backend/.env
-/backend/*.db
-/backend/instance/
-/backend/.pytest_cache/
-/backend/.coverage
-/backend/htmlcov/
-/backend/dist/
-/backend/build/
-/backend/*.egg-info/
-/backend/.tox/
-/backend/.venv/
-/backend/venv/
-/backend/env/
-/backend/.envrc
-/backend/.mypy_cache/
-/backend/.DS_Store
+backend/__pycache__/
+backend/*.py[cod]
+backend/*$py.class
+backend/.env
+backend/*.db
+backend/instance/
+backend/.pytest_cache/
+backend/.coverage
+backend/htmlcov/
+backend/dist/
+backend/build/
+backend/*.egg-info/
+backend/.tox/
+backend/.venv/
+backend/venv/
+backend/env/
+backend/.envrc
+backend/.mypy_cache/
+backend/.DS_Store
