@@ -4,10 +4,12 @@ import { EditorView, keymap, lineNumbers, highlightActiveLine, highlightActiveLi
 import { python } from '@codemirror/lang-python';
 import { defaultKeymap } from '@codemirror/commands';
 import { theme, lineNumberStyling } from './codemirror_extensions.ts';
+import useCodeIDEStore from './codeide_store.ts'
 
 export default function CodeEditor({ height }: { height: number }) {
     const editorRef = useRef<HTMLDivElement>(null);
-    const [code, setCode] = useState<string>('');
+    // const [code, setCode] = useState<string>('');
+    const setCode = useCodeIDEStore((state) => state.setCode)
 
     useEffect(() => {
         if (!editorRef.current) return;

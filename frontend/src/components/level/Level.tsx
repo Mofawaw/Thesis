@@ -1,7 +1,7 @@
 import ReactFlow, { Controls, useNodesState } from 'reactflow';
 import 'reactflow/dist/style.css';
 import ComponentNode from './ComponentNode.tsx';
-import CodeEditor from '../code_ide/CodeEditor.tsx';
+import CodeIDE from '../code_ide/CodeIDE.tsx';
 
 const initialNodes = [
   {
@@ -9,7 +9,7 @@ const initialNodes = [
     type: 'component',
     position: { x: 0, y: 0 },
     data: {
-      component: CodeEditor,
+      component: CodeIDE,
       minWidth: 700,
       minHeight: 500
     }
