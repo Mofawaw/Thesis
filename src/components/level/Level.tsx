@@ -10,8 +10,8 @@ const initialNodes = [
     position: { x: 0, y: 0 },
     data: {
       component: CodeEditor,
-      minWidth: 1000,
-      minHeight: 1000
+      minWidth: 700,
+      minHeight: 500
     }
   }
 ];
@@ -22,7 +22,7 @@ export default function App() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
 
   return (
-    <div style={{ width: '100vw', height: '100vh' }}>
+    <div className="w-screen h-screen">
       <ReactFlow
         nodes={nodes}
         onNodesChange={onNodesChange}
