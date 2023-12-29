@@ -1,7 +1,7 @@
 import ReactFlow, { Controls, useNodesState } from 'reactflow';
 import 'reactflow/dist/style.css';
 import ComponentNode from './ComponentNode.tsx';
-import CodeEditor from '../code_editor/CodeEditor.tsx';
+import CodeEditor from '../code_ide/CodeEditor.tsx';
 
 const initialNodes = [
   {

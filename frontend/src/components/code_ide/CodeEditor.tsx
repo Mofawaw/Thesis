@@ -8,7 +8,6 @@ import { theme, lineNumberStyling } from './codemirror_extensions.ts';
 export default function CodeEditor({ height }: { height: number }) {
     const editorRef = useRef<HTMLDivElement>(null);
     const [code, setCode] = useState<string>('');
-    // const [height, setHeight] = useState<number>(500);
 
     useEffect(() => {
         if (!editorRef.current) return;
