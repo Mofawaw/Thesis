@@ -1,9 +1,9 @@
-import CodeEditor from "./CodeEditor";
+import CodeEditor from "./CodeEditor.tsx";
+import CodeConsole from "./CodeConsole.tsx"
 import useCodeIDEStore from './codeide_store.ts'
 
 export default function CodeIDE({ height }: { height: number }) {
   const code = useCodeIDEStore((state) => state.code)
-  const output = useCodeIDEStore((state) => state.output)
   const setOutput = useCodeIDEStore((state) => state.setOutput)
 
   function compile() {
@@ -32,7 +32,7 @@ export default function CodeIDE({ height }: { height: number }) {
   return (
     <div className="flex flex-col gap-2 p-4">
       <div className="my-2">
-        <CodeEditor height={height - 200} />
+        <CodeEditor height={height - 240} />
       </div>
       <hr className="h-px my-0 bg-th-black-20 border-0" />
       <div className="flex flex-row justify-between">
@@ -43,7 +43,7 @@ export default function CodeIDE({ height }: { height: number }) {
         </div>
       </div>
       <hr className="h-px my-0 bg-th-black-20 border-0" />
-      <pre>{output}</pre>
+      <CodeConsole />
     </div>
   )
 }

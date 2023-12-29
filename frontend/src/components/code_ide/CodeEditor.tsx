@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { EditorState } from '@codemirror/state';
 import { EditorView, keymap, lineNumbers, highlightActiveLine, highlightActiveLineGutter } from '@codemirror/view';
 import { python } from '@codemirror/lang-python';
@@ -57,3 +57,4 @@ export default function CodeEditor({ height }: { height: number }) {
         </div>
     );
 }
+
