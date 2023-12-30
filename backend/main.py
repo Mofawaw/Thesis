@@ -7,8 +7,9 @@ import os
 app = Flask(__name__)
 CORS(app)
 
+# Compile Code
 @app.route('/compile', methods=['POST'])
-def run_code():
+def compile():
     code = request.json.get('code', '')
 
     file_name = f"/tmp/{uuid.uuid4()}.py"

@@ -1,6 +1,6 @@
 import json
-from helper import MemoryHelper
-from compiler import MemoryGraph
+from memory_helper import MemoryHelper
+from memory_compiler import MemoryGraph
 
 class MemoryEncoderManager:
     def encode_debug(self, graph):

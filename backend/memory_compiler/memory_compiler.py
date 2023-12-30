@@ -1,6 +1,6 @@
 import ast
 import inspect
-from helper import MemoryHelper
+from memory_helper import MemoryHelper
             
 class MemoryGraph:
     def __init__(self):
