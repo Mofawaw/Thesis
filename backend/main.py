@@ -17,9 +17,16 @@ def compile():
     with open(file_name, 'w') as file:
         file.write(code)
 
+    docker_command = [
+        "docker", "run", "--rm",
+        "-v", f"{file_name}:/usr/src/app/app.py",  
+        "-w", "/usr/src/app",  
+        "python:3.9",  
+        "python", "app.py"
+    ]
+
     try:
-        result = subprocess.run(["python", file_name], capture_output=True, text=True, timeout=10)
-        # result = subprocess.run(["docker", "run", "--rm", "-v", f"{file_name}:/usr/src/app/app.py", "python-sandbox"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        result = subprocess.run(docker_command, capture_output=True, text=True, timeout=10)
         output = result.stdout
         error = result.stderr
     except subprocess.TimeoutExpired:
