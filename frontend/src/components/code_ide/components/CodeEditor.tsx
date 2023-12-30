@@ -52,9 +52,7 @@ export default function CodeEditor({ height }: { height: number }) {
     }, []);
 
     return (
-        <div className="flex flex-col">
-            <div ref={editorRef} className="editor" style={{ height: `${height}px`, overflow: 'auto' }} />
-        </div>
+        <div ref={editorRef} className="editor" style={{ height: `${height}px`, overflow: 'auto' }} />
     );
 }
 

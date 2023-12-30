@@ -1,7 +1,7 @@
 import CodeEditor from "./components/CodeEditor.tsx";
 import CodeConsole from "./components/CodeConsole.tsx"
 import CodeGraph from "./components/CodeGraph.tsx";
-import useCodeIDEStore from './codeide_store.ts'
+import useCodeIDEStore from './codeide_store.ts';
 
 import PlayIcon from '../../assets/icons/play.svg';
 import ArrowLeftIcon from '../../assets/icons/arrow-left.svg';
@@ -60,8 +60,8 @@ export default function CodeIDE({ height }: { height: number }) {
   }
 
   return (
-    <div className="flex flex-row h-full">
-      <div className="basis-3/5 flex flex-col gap-2 py-4">
+    <div className="flex flex-row h-full w-full">
+      <div className="basis-3/5 flex-none flex flex-col gap-2 py-4" >
         <div className="my-2 px-4">
           <CodeEditor height={height - 240} />
         </div>
@@ -87,7 +87,7 @@ export default function CodeIDE({ height }: { height: number }) {
 
       <div className="th-yline" />
 
-      <div className="basis-2/5 my-4 mr-4">
+      <div className="basis-2/5 flex-none my-4 mr-4 relative">
         <CodeGraph />
       </div>
     </div>
