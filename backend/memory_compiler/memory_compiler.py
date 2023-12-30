@@ -65,7 +65,7 @@ class MemoryCompiler:
 
         self._analyze(code, code_variables, code_objects)
 
-        self.__final_graph = self.__graphs[-1] if self.__graphs else _MemoryGraph()
+        self.__final_graph = self.__graphs[-1] if self.__graphs else MemoryGraph()
 
         for obj_id in self.__final_graph.objects:
             if obj_id in code_objects:
