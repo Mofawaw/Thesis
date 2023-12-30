@@ -38,13 +38,13 @@ export default function CodeIDE({ height }: { height: number }) {
   }
 
   return (
-    <div className="flex flex-row gap-2">
-      <div className="basis-2/3 flex flex-col gap-2 py-4">
+    <div className="flex flex-row h-full">
+      <div className="basis-3/5 flex flex-col gap-2 py-4">
         <div className="my-2 px-4">
           <CodeEditor height={height - 240} />
         </div>
 
-        <hr className="th-hr" />
+        <div className="th-xline" />
 
         <div className="flex flex-row justify-between px-4">
           <button onClick={compile}>
@@ -56,14 +56,16 @@ export default function CodeIDE({ height }: { height: number }) {
           </div>
         </div>
 
-        <hr className="th-hr" />
+        <div className="th-xline" />
 
         <div className="px-4">
           <CodeConsole />
         </div>
       </div>
 
-      <div className="basis-1/3 bg-th-tint-20 my-4 mr-4">
+      <div className="th-yline" />
+
+      <div className="basis-2/5 my-4 mr-4">
         <CodeGraph />
       </div>
     </div>
