@@ -60,13 +60,16 @@ def generate_graph():
         result = subprocess.run(docker_command, capture_output=True, text=True, timeout=10)
         output = result.stdout
         error = result.stderr if result.stderr else ''
-        print(output)
     except subprocess.TimeoutExpired:
         output = ''
         error = 'Execution timed out'
     except Exception as e:
         output = ''
         error = str(e)
+
+    print("Executed Code:", code)
+    print("Memory Graph:", output)
+    print("Error:", error if error else "No error")
 
     return jsonify({'memory_graph': output, 'error': error})
 
