@@ -38,13 +38,12 @@ export default function CodeGraph() {
       <Stage width={dimensions.width} height={dimensions.height}>
         <Layer>
           {graph.nodes.map((node) => (
-            <Rect
-              key={node.id}
+            <Node
+              id={node.id}
               x={node.position.x}
               y={node.position.y}
               width={100}
-              height={30}
-              fill={"green"}
+              label={node.label}
             />
           ))}
         </Layer>
@@ -53,13 +52,13 @@ export default function CodeGraph() {
   );
 }
 
-// interface NodeProps { key: string, x: number, y: number, width: number, label: string }
+interface NodeProps { id: string, x: number, y: number, width: number, label: string }
 
-// function Node({ key, x, y, width, label }: NodeProps) {
-//   return (
-//     <>
-//       <Rect key={key} x={x} y={y} width={width} height={30} fill={"green"} draggable={true} />
-//       <Text x={x} y={y - 20} label={label} />
-//     </>
-//   );
-// }
+function Node({ id, x, y, width, label }: NodeProps) {
+  return (
+    <>
+      <Rect id={id} x={x} y={y} width={width} height={35} fill={"green"} />
+      <Text x={x} y={y - 20} label={label} />
+    </>
+  );
+}

@@ -39,6 +39,20 @@ const useCodeIDEStore = create<CodeIDEStore>((set) => ({
 
 export default useCodeIDEStore;
 
+export const codeIDEHelper = {
+  editor: {
+    getHeight: (availableHeight: number) => (availableHeight - 240)
+  },
+  graph: {
+    node: {
+      width: { stack: 80, heap: 120 },
+      height: 35,
+      gap: { x: 50, y: 5 }
+    },
+    referenceOffset: 20,
+  }
+}
+
 function generatePositions(graph: Graph): Graph {
   const stackValueNodes = graph.nodes.filter((node: any) => node.type === ('value-stack'));
   const stackReferenceNodes = graph.nodes.filter((node: any) => node.type === ('reference-stack'));
@@ -47,18 +61,17 @@ function generatePositions(graph: Graph): Graph {
   const heapReferenceNodes = graph.nodes.filter((node: any) => node.type.startsWith('reference-heap'));
 
   const xStack = 0;
-  const xHeap = 150;
-  const yGap = 35;
-  const yValue = 0;
-  const yReference = 20;
+  const xHeap = codeIDEHelper.graph.node.width.stack + codeIDEHelper.graph.node.gap.x;
+  const yGap = codeIDEHelper.graph.node.height + codeIDEHelper.graph.node.gap.y;
+  const yReferenceOffset = codeIDEHelper.graph.referenceOffset;
 
   stackValueNodes.concat(stackReferenceNodes).forEach((node: any, i: number) => {
-    const yOffset = node.type.startsWith('value') ? yValue : yReference;
+    const yOffset = node.type.startsWith('reference') ? yReferenceOffset : 0;
     node.position = { x: xStack, y: yOffset + i * yGap };
   });
 
   heapValueNodes.concat(heapReferenceNodes).forEach((node: any, i: number) => {
-    const yOffset = node.type.startsWith('value') ? yValue : yReference;
+    const yOffset = node.type.startsWith('reference') ? yReferenceOffset : 0;
     node.position = { x: xHeap, y: yOffset + i * yGap };
   });
 
