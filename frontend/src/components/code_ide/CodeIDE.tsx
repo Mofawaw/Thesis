@@ -1,7 +1,7 @@
 import CodeEditor from "./components/CodeEditor.tsx";
 import CodeConsole from "./components/CodeConsole.tsx"
 import CodeGraph from "./components/CodeGraph.tsx";
-import useCodeIDEStore, { codeIDEHelper } from './codeide_store.ts';
+import useCodeIDEStore, { codeIDEHelper } from './codeIDEStore.ts';
 
 import PlayIcon from '../../assets/icons/play.svg';
 import ArrowLeftIcon from '../../assets/icons/arrow-left.svg';

@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { EditorState, Transaction } from '@codemirror/state';
 import { EditorView } from '@codemirror/view';
 import { python } from '@codemirror/lang-python';
-import { codeConsoleStyles, percentLineNumbers } from './codemirror_extensions.ts';
-import useCodeIDEStore from '../codeide_store.ts'
+import { codeConsoleStyles, percentLineNumbers } from './codeConsoleHelper.ts';
+import useCodeIDEStore from '../codeIDEStore.ts'
 
 export default function CodeConsole() {
   const editorRef = useRef<HTMLDivElement>(null);

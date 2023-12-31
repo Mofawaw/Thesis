@@ -1,4 +1,4 @@
-import { EditorView, gutter, GutterMarker } from '@codemirror/view';
+import { EditorView } from '@codemirror/view';
 import { HighlightStyle, syntaxHighlighting } from '@codemirror/language';
 import { tags } from '@lezer/highlight';
 import config from '../../../../tailwind.config.ts'
@@ -17,7 +17,7 @@ const activeLineNumberColor = colors['th-black'][100];
 const activeLineColor = colors['th-tint'][40];
 const currentLineColor = colors['th-black'][10];
 
-// ----- CodeEditor: Theme -----
+// Theme
 const codeEditorTheme = EditorView.theme({
     "&": {
         color: textColor,
@@ -63,33 +63,7 @@ const codeEditorStyles = [codeEditorTheme, syntaxHighlighting(codeEditorHighligh
 
 export { codeEditorStyles };
 
-// ----- CodeConsole: Theme -----
-const codeConsoleTheme = EditorView.theme({
-    "&": {
-        color: keywordColor,
-        backgroundColor: backgroundColor,
-        fontFamily: fontFamily['th-mono'][0],
-        fontSize: "1rem",
-        lineHeight: "1.5rem"
-    },
-    "&.cm-focused": {
-        outline: "none"
-    },
-    ".cm-content": {
-        caretColor: textColor,
-    },
-    ".cm-gutters": {
-        backgroundColor: backgroundColor,
-        color: textColor,
-        border: "none",
-    },
-}, { dark: false });
-
-const codeConsoleStyles = [codeConsoleTheme];
-
-export { codeConsoleStyles };
-
-// ----- CodeEditor: Gutter: lineNumberStyling -----
+// Gutter
 function lineNumberStyling() {
     return EditorView.updateListener.of((update) => {
         if (!update.docChanged && !update.selectionSet) return;
@@ -121,20 +95,3 @@ function lineNumberStyling() {
 }
 
 export { lineNumberStyling }
-
-// ----- CodeConsole: Gutter: PercentGutterMarker -----
-class PercentGutterMarker extends GutterMarker {
-    toDOM() {
-        return document.createTextNode("%");
-    }
-}
-
-function percentLineNumbers() {
-    return gutter({
-        class: "cm-lineNumbers",
-        lineMarker: () => new PercentGutterMarker(),
-        initialSpacer: () => new PercentGutterMarker()
-    });
-}
-
-export { percentLineNumbers }

@@ -3,8 +3,8 @@ import { EditorState } from '@codemirror/state';
 import { EditorView, keymap, lineNumbers, highlightActiveLine, highlightActiveLineGutter } from '@codemirror/view';
 import { python } from '@codemirror/lang-python';
 import { defaultKeymap } from '@codemirror/commands';
-import { codeEditorStyles, lineNumberStyling } from './codemirror_extensions.ts';
-import useCodeIDEStore from '../codeide_store.ts'
+import { codeEditorStyles, lineNumberStyling } from './codeEditorHelper.ts';
+import useCodeIDEStore from '../codeIDEStore.ts'
 
 export default function CodeEditor({ height }: { height: number }) {
     const editorRef = useRef<HTMLDivElement>(null);

@@ -40,6 +40,11 @@
 
   body
   {
+    @apply th-body;
+  }
+
+  .th-body
+  {
     @apply text-base;
     @apply font-th-mono;
     @apply text-th-black-100;

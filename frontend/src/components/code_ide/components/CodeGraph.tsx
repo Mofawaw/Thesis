@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState } from 'react';
-import { Stage, Layer, Rect, Arrow, Text } from 'react-konva';
-import useCodeIDEStore from '../codeide_store.ts'
+import { Stage, Layer, Group, Rect, Arrow, Text } from 'react-konva';
+import useCodeIDEStore, { codeIDEHelper } from '../codeIDEStore.ts'
+import { nodeStyles } from './codeGraphHelper.ts'
 
 export default function CodeGraph() {
   const canvasRef = useRef<HTMLDivElement>(null);
@@ -39,10 +40,10 @@ export default function CodeGraph() {
         <Layer>
           {graph.nodes.map((node) => (
             <Node
-              id={node.id}
+              key={node.id}
               x={node.position.x}
               y={node.position.y}
-              width={100}
+              width={codeIDEHelper.graph.node.getWidth(node.type)}
               label={node.label}
             />
           ))}
@@ -52,13 +53,18 @@ export default function CodeGraph() {
   );
 }
 
-interface NodeProps { id: string, x: number, y: number, width: number, label: string }
+interface NodeProps { x: number, y: number, width: number, label: string }
 
-function Node({ id, x, y, width, label }: NodeProps) {
+function Node({ x, y, width, label }: NodeProps) {
   return (
-    <>
-      <Rect id={id} x={x} y={y} width={width} height={35} fill={"green"} />
-      <Text x={x} y={y - 20} label={label} />
-    </>
+    <Group clip={{
+      x: x,
+      y: y,
+      width: width,
+      height: codeIDEHelper.graph.node.height,
+    }}>
+      <Rect x={x} y={y} width={width} height={codeIDEHelper.graph.node.height} fill={nodeStyles.rect.fill} />
+      <Text x={x + 5} y={y + 35 / 3} text={label} fontFamily={nodeStyles.text.fontFamily} fontSize={nodeStyles.text.fontSize} fill={nodeStyles.text.fill} />
+    </Group>
   );
 }

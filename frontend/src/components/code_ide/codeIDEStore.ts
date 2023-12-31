@@ -45,7 +45,7 @@ export const codeIDEHelper = {
   },
   graph: {
     node: {
-      width: { stack: 80, heap: 120 },
+      getWidth: (nodeType: string) => (nodeType.includes("stack") ? 80 : 150),
       height: 35,
       gap: { x: 50, y: 5 }
     },
@@ -61,7 +61,7 @@ function generatePositions(graph: Graph): Graph {
   const heapReferenceNodes = graph.nodes.filter((node: any) => node.type.startsWith('reference-heap'));
 
   const xStack = 0;
-  const xHeap = codeIDEHelper.graph.node.width.stack + codeIDEHelper.graph.node.gap.x;
+  const xHeap = codeIDEHelper.graph.node.getWidth('stack') + codeIDEHelper.graph.node.gap.x;
   const yGap = codeIDEHelper.graph.node.height + codeIDEHelper.graph.node.gap.y;
   const yReferenceOffset = codeIDEHelper.graph.referenceOffset;
 
