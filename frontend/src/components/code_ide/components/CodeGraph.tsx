@@ -7,8 +7,8 @@ export default function CodeGraph() {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
   // Positions for rectangles
-  const rect1 = { x: 50, y: 75, width: 100, height: 50 };
-  const rect2 = { x: 200, y: 75, width: 100, height: 50 };
+  const rect1 = { x: 0, y: 0, width: 80, height: 30 };
+  const rect2 = { x: 150, y: 0, width: 120, height: 30 };
 
   // Calculate the start and end points for the arrow
   const arrowStart = {
@@ -44,11 +44,11 @@ export default function CodeGraph() {
 
           <Arrow
             points={[arrowStart.x, arrowStart.y, arrowEnd.x, arrowEnd.y]}
-            pointerLength={10}
-            pointerWidth={10}
+            pointerLength={5}
+            pointerWidth={5}
             fill="black"
             stroke="black"
-            strokeWidth={2}
+            strokeWidth={1.5}
           />
         </Layer>
       </Stage>
