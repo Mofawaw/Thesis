@@ -77,19 +77,19 @@ class _GraphMemoryEncoder(json.JSONEncoder):
         for name, details in variables.items():
             if 'value' in details:
                 nodes.append({
-                    "id": f"vs-{value_counter}",
+                    "id": f"n-vs-{value_counter}",
                     "type": "value-stack",
                     "label": name
                 })
                 nodes.append({
-                    "id": f"vh-{value_counter}",
+                    "id": f"n-vh-{value_counter}",
                     "type": "value-heap",
                     "label": details['value']
                 })
                 value_counter += 1
             elif 'objectid' in details:
                 nodes.append({
-                    "id": f"rs-{reference_counter}",
+                    "id": f"n-rs-{reference_counter}",
                     "type": "reference-stack",
                     "label": name
                 })
@@ -100,7 +100,7 @@ class _GraphMemoryEncoder(json.JSONEncoder):
             node_id = "rhd" if obj['deallocated'] else "rh"
             node_type = "heap-deallocated" if obj['deallocated'] else "heap"
             nodes.append({
-                "id": f"{node_id}-{obj['order']}",
+                "id": f"n-{node_id}-{obj['order']}",
                 "type": f"reference-{node_type}",
                 "label": self._get_object_value(obj)
             })
@@ -115,7 +115,7 @@ class _GraphMemoryEncoder(json.JSONEncoder):
         for name, details in variables.items():
             if 'value' in details:
                 edges.append({
-                    "id": f"v-{value_edge_counter}",
+                    "id": f"e-v-{value_edge_counter}",
                     "type": "value",
                     "source": f"vs-{value_edge_counter}",
                     "target": f"vh-{value_edge_counter}"
@@ -129,7 +129,7 @@ class _GraphMemoryEncoder(json.JSONEncoder):
                 object_order = object_order_mapping.get(details['objectid'], None)
                 if object_order is not None:
                     edges.append({
-                        "id": f"r-{reference_edge_counter}",
+                        "id": f"e-r-{reference_edge_counter}",
                         "type": "reference",
                         "source": f"rs-{reference_edge_counter}",
                         "target": f"rh-{object_order}"
