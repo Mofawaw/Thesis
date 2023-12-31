@@ -10,6 +10,7 @@ import ArrowRightIcon from '../../assets/icons/arrow-right.svg';
 export default function CodeIDE({ height }: { height: number }) {
   const code = useCodeIDEStore((state) => state.code)
   const setOutput = useCodeIDEStore((state) => state.setOutput)
+  const setGraph = useCodeIDEStore((state) => state.setGraph)
 
   function compile() {
     fetch('http://127.0.0.1:5000/compile', {
@@ -52,6 +53,7 @@ export default function CodeIDE({ height }: { height: number }) {
         return response.json();
       })
       .then(data => {
+        setGraph(data.memory_graph)
         console.log('Memory Graph:', data.memory_graph);
       })
       .catch((error) => {

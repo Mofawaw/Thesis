@@ -1,10 +1,11 @@
 import { useRef, useEffect, useState } from 'react';
-import { Stage, Layer, Rect, Arrow } from 'react-konva';
+import { Stage, Layer, Rect, Arrow, Text } from 'react-konva';
 import useCodeIDEStore from '../codeide_store.ts'
 
 export default function CodeGraph() {
   const canvasRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  const graph = useCodeIDEStore((state) => state.graph)
 
   // Positions for rectangles
   const rect1 = { x: 0, y: 0, width: 80, height: 30 };
@@ -38,20 +39,29 @@ export default function CodeGraph() {
     <div ref={canvasRef} className="w-full h-full nodrag nowheel">
       <Stage width={dimensions.width} height={dimensions.height}>
         <Layer>
-          <Rect {...rect1} fill="green" draggable />
-
-          <Rect {...rect2} fill="blue" draggable />
-
-          <Arrow
-            points={[arrowStart.x, arrowStart.y, arrowEnd.x, arrowEnd.y]}
-            pointerLength={5}
-            pointerWidth={5}
-            fill="black"
-            stroke="black"
-            strokeWidth={1.5}
-          />
+          {graph.nodes.map((node) => (
+            <Rect
+              key={node.id}
+              x={node.position.x}
+              y={node.position.y}
+              width={100}
+              height={30}
+              fill={"green"}
+            />
+          ))}
         </Layer>
       </Stage>
     </div>
   );
 }
+
+// interface NodeProps { key: string, x: number, y: number, width: number, label: string }
+
+// function Node({ key, x, y, width, label }: NodeProps) {
+//   return (
+//     <>
+//       <Rect key={key} x={x} y={y} width={width} height={30} fill={"green"} draggable={true} />
+//       <Text x={x} y={y - 20} label={label} />
+//     </>
+//   );
+// }
