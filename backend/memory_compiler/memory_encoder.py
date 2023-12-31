@@ -78,33 +78,30 @@ class _GraphMemoryEncoder(json.JSONEncoder):
             if 'value' in details:
                 nodes.append({
                     "id": f"vs-{value_counter}",
-                    "type": "stack",
-                    "location": "value-types",
+                    "type": "value-stack",
                     "label": name
                 })
                 nodes.append({
                     "id": f"vh-{value_counter}",
-                    "type": "heap",
-                    "location": "value-types",
+                    "type": "value-heap",
                     "label": details['value']
                 })
                 value_counter += 1
             elif 'objectid' in details:
                 nodes.append({
                     "id": f"rs-{reference_counter}",
-                    "type": "stack",
-                    "location": "reference-types",
+                    "type": "reference-stack",
                     "label": name
                 })
                 reference_counter += 1
 
         # Heap objects
         for _, obj in objects:
+            node_id = "rhd" if obj['deallocated'] else "rh"
             node_type = "heap-deallocated" if obj['deallocated'] else "heap"
             nodes.append({
-                "id": f"rh-{obj['order']}",
-                "type": node_type,
-                "location": "reference-types",
+                "id": f"{node_id}-{obj['order']}",
+                "type": f"reference-{node_type}",
                 "label": self._get_object_value(obj)
             })
 
@@ -119,9 +116,9 @@ class _GraphMemoryEncoder(json.JSONEncoder):
             if 'value' in details:
                 edges.append({
                     "id": f"v-{value_edge_counter}",
+                    "type": "value",
                     "source": f"vs-{value_edge_counter}",
-                    "target": f"vh-{value_edge_counter}",
-                    "location": "value-types"
+                    "target": f"vh-{value_edge_counter}"
                 })
                 value_edge_counter += 1
 
@@ -133,9 +130,9 @@ class _GraphMemoryEncoder(json.JSONEncoder):
                 if object_order is not None:
                     edges.append({
                         "id": f"r-{reference_edge_counter}",
+                        "type": "reference",
                         "source": f"rs-{reference_edge_counter}",
-                        "target": f"rh-{object_order}",
-                        "location": "reference-types"
+                        "target": f"rh-{object_order}"
                     })
                     reference_edge_counter += 1
 
