@@ -96,8 +96,8 @@ function jsonGraphDecoder(jsonData: any): Graph {
 
   // Decode edges
   const edges = jsonData.edges.map((edge: any) => {
-    const sourceNodeId = `n-${edge.source}`;
-    const targetNodeId = `n-${edge.target}`;
+    const sourceNodeId = edge.source;
+    const targetNodeId = edge.target;
 
     const sourceNode = nodeMap.get(sourceNodeId);
     const targetNode = nodeMap.get(targetNodeId);

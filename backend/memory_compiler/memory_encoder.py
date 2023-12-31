@@ -117,8 +117,8 @@ class _GraphMemoryEncoder(json.JSONEncoder):
                 edges.append({
                     "id": f"e-v-{value_edge_counter}",
                     "type": "value",
-                    "source": f"vs-{value_edge_counter}",
-                    "target": f"vh-{value_edge_counter}"
+                    "source": f"n-vs-{value_edge_counter}",
+                    "target": f"n-vh-{value_edge_counter}"
                 })
                 value_edge_counter += 1
 
@@ -131,8 +131,8 @@ class _GraphMemoryEncoder(json.JSONEncoder):
                     edges.append({
                         "id": f"e-r-{reference_edge_counter}",
                         "type": "reference",
-                        "source": f"rs-{reference_edge_counter}",
-                        "target": f"rh-{object_order}"
+                        "source": f"n-rs-{reference_edge_counter}",
+                        "target": f"n-rh-{object_order}"
                     })
                     reference_edge_counter += 1
 
