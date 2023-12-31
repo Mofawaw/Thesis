@@ -12,8 +12,8 @@ export default function CodeIDE({ height }: { height: number }) {
   const setOutput = useCodeIDEStore((state) => state.setOutput)
   const setGraph = useCodeIDEStore((state) => state.setGraph)
 
-  function compile() {
-    fetch('http://127.0.0.1:5000/compile', {
+  function compileGetOutput() {
+    fetch('http://127.0.0.1:5000/compile_get_output', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -38,8 +38,8 @@ export default function CodeIDE({ height }: { height: number }) {
       });
   }
 
-  function get_memory_graph() {
-    fetch('http://127.0.0.1:5000/generate_graph', {
+  function compileGetGraph() {
+    fetch('http://127.0.0.1:5000/compile_get_graph', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -53,8 +53,9 @@ export default function CodeIDE({ height }: { height: number }) {
         return response.json();
       })
       .then(data => {
-        setGraph(data.memory_graph)
-        console.log('Memory Graph:', data.memory_graph);
+        const jsonData = JSON.parse(data.graph);
+        setGraph(jsonData)
+        console.log('Graph:', data.graph);
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -71,12 +72,12 @@ export default function CodeIDE({ height }: { height: number }) {
         <div className="th-xline" />
 
         <div className="flex flex-row justify-between px-4">
-          <button onClick={compile}>
+          <button onClick={compileGetOutput}>
             <img src={PlayIcon} alt="Play button" className="h-6 w-6" />
           </button>
           <div className="flex flex-row gap-2">
-            <button onClick={get_memory_graph}><img src={ArrowLeftIcon} alt="Left arrow" className="h-6 w-6" /></button>
-            <button><img src={ArrowRightIcon} alt="Right arrow" className="h-6 w-6" /></button>
+            <button><img src={ArrowLeftIcon} alt="Left arrow" className="h-6 w-6" /></button>
+            <button onClick={compileGetGraph}><img src={ArrowRightIcon} alt="Right arrow" className="h-6 w-6" /></button>
           </div>
         </div>
 

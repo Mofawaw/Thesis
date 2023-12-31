@@ -7,11 +7,9 @@ export default function CodeGraph() {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const graph = useCodeIDEStore((state) => state.graph)
 
-  // Positions for rectangles
   const rect1 = { x: 0, y: 0, width: 80, height: 30 };
   const rect2 = { x: 150, y: 0, width: 120, height: 30 };
 
-  // Calculate the start and end points for the arrow
   const arrowStart = {
     x: rect1.x + rect1.width,
     y: rect1.y + rect1.height / 2,

@@ -66,9 +66,7 @@ function generatePositions(graph: Graph): Graph {
   return graph
 }
 
-function jsonGraphDecoder(jsonString: any): Graph {
-  const jsonData = JSON.parse(jsonString);
-
+function jsonGraphDecoder(jsonData: any): Graph {
   const nodeMap = new Map<string, Node>();
 
   // Decode nodes

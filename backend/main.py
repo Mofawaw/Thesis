@@ -3,14 +3,13 @@ from flask_cors import CORS
 import subprocess
 import uuid
 import os
-import json
 
 app = Flask(__name__)
 CORS(app)
 
 # Compile Code
-@app.route('/compile', methods=['POST'])
-def compile():
+@app.route('/compile_get_output', methods=['POST'])
+def compile_get_output():
     code = request.json.get('code', '')
 
     file_name = f"/tmp/{uuid.uuid4()}.py"
@@ -43,8 +42,8 @@ def compile():
     return jsonify({'output': result.stdout, 'error': result.stderr})
 
 # Retrieve Memory Graph
-@app.route('/generate_graph', methods=['POST'])
-def generate_graph():
+@app.route('/compile_get_graph', methods=['POST'])
+def compile_get_graph():
     code = request.json.get('code', '')
 
     script_path = "/usr/src/app/memory_compiler/script.py"
@@ -58,20 +57,20 @@ def generate_graph():
     ]
     try:
         result = subprocess.run(docker_command, capture_output=True, text=True, timeout=10)
-        output = result.stdout
+        graph = result.stdout
         error = result.stderr if result.stderr else ''
     except subprocess.TimeoutExpired:
-        output = ''
+        graph = ''
         error = 'Execution timed out'
     except Exception as e:
-        output = ''
+        graph = ''
         error = str(e)
 
     print("Executed Code:", code)
-    print("Memory Graph:", output)
+    print("Memory Graph:", graph)
     print("Error:", error if error else "No error")
 
-    return jsonify({'memory_graph': output, 'error': error})
+    return jsonify({'graph': graph, 'error': error})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=5000)
