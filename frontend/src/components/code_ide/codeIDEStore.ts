@@ -34,7 +34,7 @@ const useCodeIDEStore = create<CodeIDEStore>((set) => ({
   graph: { nodes: [], edges: [] },
   setCode: (newCode: string) => set(() => ({ code: newCode })),
   setOutput: (newOutput: string) => set(() => ({ output: newOutput })),
-  setGraph: (newGraphJSON: any) => set(() => ({ graph: jsonGraphDecoder(newGraphJSON) }))
+  setGraph: (newGraphJSON: any) => set(() => ({ graph: newGraphJSON }))
 }));
 
 export default useCodeIDEStore;
@@ -51,60 +51,4 @@ export const codeIDEHelper = {
     },
     referenceOffset: 20,
   }
-}
-
-function generatePositions(graph: Graph): Graph {
-  const stackValueNodes = graph.nodes.filter((node: any) => node.type === ('value-stack'));
-  const stackReferenceNodes = graph.nodes.filter((node: any) => node.type === ('reference-stack'));
-
-  const heapValueNodes = graph.nodes.filter((node: any) => node.type === ('value-heap'));
-  const heapReferenceNodes = graph.nodes.filter((node: any) => node.type.startsWith('reference-heap'));
-
-  const xStack = 0;
-  const xHeap = codeIDEHelper.graph.node.getWidth('stack') + codeIDEHelper.graph.node.gap.x;
-  const yGap = codeIDEHelper.graph.node.height + codeIDEHelper.graph.node.gap.y;
-  const yReferenceOffset = codeIDEHelper.graph.referenceOffset;
-
-  stackValueNodes.concat(stackReferenceNodes).forEach((node: any, i: number) => {
-    const yOffset = node.type.startsWith('reference') ? yReferenceOffset : 0;
-    node.position = { x: xStack, y: yOffset + i * yGap };
-  });
-
-  heapValueNodes.concat(heapReferenceNodes).forEach((node: any, i: number) => {
-    const yOffset = node.type.startsWith('reference') ? yReferenceOffset : 0;
-    node.position = { x: xHeap, y: yOffset + i * yGap };
-  });
-
-  graph.nodes = stackValueNodes.concat(stackReferenceNodes, heapValueNodes, heapReferenceNodes);
-  return graph
-}
-
-function jsonGraphDecoder(jsonData: any): Graph {
-  // Decode nodes
-  const nodes = jsonData.nodes.map((node: any) => {
-    const newNode: Node = {
-      id: node.id,
-      type: node.type,
-      label: node.label,
-      position: { x: 0, y: 0 }
-    };
-    return newNode;
-  });
-
-  // Decode edges
-  const edges = jsonData.edges.map((edge: any) => {
-    return {
-      id: edge.id,
-      type: edge.type,
-      source: edge.source,
-      target: edge.target
-    };
-  });
-
-  const graph = { nodes, edges }
-  generatePositions(graph)
-
-  console.log(JSON.stringify(graph))
-
-  return graph;
 }

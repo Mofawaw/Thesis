@@ -13,7 +13,7 @@ export default function CodeEditor({ height }: { height: number }) {
     useEffect(() => {
         if (!editorRef.current) return;
 
-        const initialCode = Array(4).fill('\n').join('');
+        const initialCode = "";
         const startState = EditorState.create({
             doc: initialCode,
             extensions: [
