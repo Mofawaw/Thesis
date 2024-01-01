@@ -20,46 +20,56 @@ export const codeIDEHelper = {
 
 export const addData = (jsonData: any, graph: dia.Graph) => {
   const nodeRectMap = new Map<string, shapes.standard.Rectangle>();
+  let maxWidthOfStackNodes = 0;
 
-  // Helper function to generate positions
-  const generatePositions = (nodes: any) => {
-    const xStack = 0;
-    const xHeap = codeIDEHelper.graph.node.getWidth('stack') + codeIDEHelper.graph.node.gap.x;
-    const yGap = codeIDEHelper.graph.node.height + codeIDEHelper.graph.node.gap.y;
-    const yReferenceOffset = codeIDEHelper.graph.referenceOffset;
-
-    nodes.forEach((node: any, i: any) => {
-      const xOffset = node.type.includes("stack") ? xStack : xHeap;
-      const yOffset = node.type.startsWith('reference') ? yReferenceOffset : 0;
-      node.position = { x: xOffset, y: yOffset + i * yGap };
-    });
-  };
-
-  // Separate nodes by type
-  const stackNodes = jsonData.nodes.filter((node: any) => node.type.includes("stack"));
-  const heapNodes = jsonData.nodes.filter((node: any) => node.type.includes("heap"));
-
-  // Generate positions for each group
-  generatePositions(stackNodes);
-  generatePositions(heapNodes);
-
-  // Process all nodes
-  jsonData.nodes.forEach((node: any) => {
+  const createAndResizeRect = (labelText: string) => {
     const rect = new shapes.standard.Rectangle();
-    rect.position(node.position.x, node.position.y);
-    rect.resize(100, 35);
+    rect.resize(100, 35); // Initial size
 
-    const labelText = node.label;
     const canvas = document.createElement("canvas");
     const context = canvas.getContext("2d");
 
     if (context) {
       context.font = `15px ${fontFamily['th-mono'][0]}`;
       const textWidth = context.measureText(labelText).width;
-      rect.resize(textWidth + 20, 35);
+      rect.resize(textWidth + 20, 35); // Resize based on text width
     } else {
       console.error("Canvas context not available");
     }
+
+    return rect;
+  };
+
+  // First, process stack nodes to find the maximum width
+  jsonData.nodes.filter((node: any) => node.type.includes("stack")).forEach((node: any) => {
+    const rect = createAndResizeRect(node.label);
+    maxWidthOfStackNodes = Math.max(maxWidthOfStackNodes, rect.size().width);
+  });
+
+  // Helper function to set positions
+  const setPositions = (nodes: any, isStack: boolean) => {
+    const yGap = codeIDEHelper.graph.node.height + codeIDEHelper.graph.node.gap.y;
+    const yReferenceOffset = codeIDEHelper.graph.referenceOffset;
+
+    nodes.forEach((node: any, i: number) => {
+      const xOffset = isStack ? 0 : maxWidthOfStackNodes + 30;
+      const yOffset = node.type.startsWith('reference') ? yReferenceOffset : 0;
+      node.position = { x: xOffset, y: yOffset + i * yGap };
+    });
+  };
+
+  // Separate nodes by type again
+  const stackNodes = jsonData.nodes.filter((node: any) => node.type.includes("stack"));
+  const heapNodes = jsonData.nodes.filter((node: any) => node.type.includes("heap"));
+
+  // Set positions
+  setPositions(stackNodes, true);
+  setPositions(heapNodes, false);
+
+  // Process all nodes again
+  jsonData.nodes.forEach((node: any) => {
+    const rect = createAndResizeRect(node.label);
+    rect.position(node.position.x, node.position.y);
 
     rect.attr({
       body: {
@@ -69,15 +79,17 @@ export const addData = (jsonData: any, graph: dia.Graph) => {
         ry: 5
       },
       label: {
-        text: labelText,
+        text: node.label,
         fontSize: "15px",
         fontFamily: fontFamily['th-mono'][0],
         fill: colors['th-black'][100],
       },
     });
+
     graph.addCell(rect);
     nodeRectMap.set(node.id, rect);
   });
+
 
   // Process edges
   jsonData.edges.forEach((edge: any) => {
