@@ -1,70 +1,95 @@
-import { useRef, useEffect, useState } from 'react';
-import { Stage, Layer, Group, Rect, Arrow, Text } from 'react-konva';
-import useCodeIDEStore, { codeIDEHelper } from '../codeIDEStore.ts'
-import { nodeStyles } from './codeGraphHelper.ts'
+import { useEffect, useRef, useState } from 'react';
+import { dia, shapes } from 'jointjs';
+import useCodeIDEStore from '../codeIDEStore.ts';
 
 export default function CodeGraph() {
+  const parentRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLDivElement>(null);
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-  const graph = useCodeIDEStore((state) => state.graph)
-
-  const rect1 = { x: 0, y: 0, width: 80, height: 30 };
-  const rect2 = { x: 150, y: 0, width: 120, height: 30 };
-
-  const arrowStart = {
-    x: rect1.x + rect1.width,
-    y: rect1.y + rect1.height / 2,
-  };
-  const arrowEnd = {
-    x: rect2.x,
-    y: rect2.y + rect2.height / 2,
-  };
+  const graphData = useCodeIDEStore((state) => state.graph);
 
   useEffect(() => {
-    const updateSize = () => {
+    if (!canvasRef.current) return;
+
+    const graph = new dia.Graph();
+    const paper = new dia.Paper({
+      model: graph,
+      el: canvasRef.current,
+      width: 0,
+      height: 0,
+      frozen: true,
+      async: true,
+      sorting: dia.Paper.sorting.APPROX,
+      cellViewNamespace: shapes
+    });
+
+    graphData.nodes.forEach((node) => {
+      const rect = new shapes.standard.Rectangle();
+      rect.position(node.position.x, node.position.y);
+      rect.resize(100, 35);
+      rect.attr({
+        body: {
+          fill: 'blue',
+        },
+        label: {
+          text: node.label,
+          fill: 'white',
+        },
+      });
+      graph.addCell(rect);
+    });
+
+    // graphData.edges.forEach((edge) => {
+    //   const link = new shapes.standard.Link();
+    //   link.source({ id: edge.source.id });
+    //   link.target({ id: edge.target.id });
+    //   graph.addCell(link);
+    // });
+
+    paper.unfreeze();
+
+    // let maxX = 0, maxY = 0;
+    // graph.getElements().forEach((element) => {
+    //   const bbox = element.getBBox();
+    //   maxX = Math.max(maxX, bbox.x + bbox.width);
+    //   maxY = Math.max(maxY, bbox.y + bbox.height);
+    // });
+
+    // const padding = 10;
+    // paper.setDimensions(maxX + padding, maxY + padding);
+
+    return () => {
+      graph.clear();
       if (canvasRef.current) {
-        setDimensions({
-          width: canvasRef.current.offsetWidth,
-          height: canvasRef.current.offsetHeight,
-        });
+        canvasRef.current.innerHTML = '';
       }
     };
-    updateSize();
-    window.addEventListener('resize', updateSize);
-    return () => window.removeEventListener('resize', updateSize);
+  }, [graphData]);
+
+  useEffect(() => {
+    const resizeObserver = new ResizeObserver(entries => {
+      for (let entry of entries) {
+        if (canvasRef.current) {
+          const { width, height } = entry.contentRect;
+          canvasRef.current.style.width = `${width}px`;
+          canvasRef.current.style.height = `${height}px`;
+        }
+      }
+    });
+
+    if (parentRef.current) {
+      resizeObserver.observe(parentRef.current);
+    }
+
+    return () => {
+      if (parentRef.current) {
+        resizeObserver.unobserve(parentRef.current);
+      }
+    };
   }, []);
 
   return (
-    <div ref={canvasRef} className="w-full h-full nodrag nowheel">
-      <Stage width={dimensions.width} height={dimensions.height}>
-        <Layer>
-          {graph.nodes.map((node) => (
-            <Node
-              key={node.id}
-              x={node.position.x}
-              y={node.position.y}
-              width={codeIDEHelper.graph.node.getWidth(node.type)}
-              label={node.label}
-            />
-          ))}
-        </Layer>
-      </Stage>
+    <div ref={parentRef} className="w-full h-full bg-th-tint-20 nowheel">
+      <div ref={canvasRef} className="w-full h-full" />
     </div>
-  );
-}
-
-interface NodeProps { x: number, y: number, width: number, label: string }
-
-function Node({ x, y, width, label }: NodeProps) {
-  return (
-    <Group clip={{
-      x: x,
-      y: y,
-      width: width,
-      height: codeIDEHelper.graph.node.height,
-    }}>
-      <Rect x={x} y={y} width={width} height={codeIDEHelper.graph.node.height} fill={nodeStyles.rect.fill} />
-      <Text x={x + 5} y={y + 35 / 3} text={label} fontFamily={nodeStyles.text.fontFamily} fontSize={nodeStyles.text.fontSize} fill={nodeStyles.text.fill} />
-    </Group>
   );
 }
