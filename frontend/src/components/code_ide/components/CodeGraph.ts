@@ -2,6 +2,7 @@ interface Node {
   id: string;
   type: string;
   label: string;
+  position: { x: number, y: number };
 }
 
 interface Edge {

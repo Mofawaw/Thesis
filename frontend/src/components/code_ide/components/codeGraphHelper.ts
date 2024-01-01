@@ -42,7 +42,14 @@ export const addData = (codeGraph: CodeGraph, graph: dia.Graph) => {
     return rect;
   };
 
-  codeGraph.nodes.filter((node: any) => node.type.includes("stack")).forEach((node: any) => {
+  const sortNodes = (nodes: any[]) => {
+    const valueNodes = nodes.filter(node => node.type.includes("value"));
+    const referenceNodes = nodes.filter(node => node.type.includes("reference"));
+    return [...valueNodes, ...referenceNodes];
+  };
+
+  const stackNodes = sortNodes(codeGraph.nodes.filter(node => node.type.includes("stack")));
+  stackNodes.forEach((node: any) => {
     const rect = createAndResizeRect(node.label);
     maxWidthOfStackNodes = Math.max(maxWidthOfStackNodes, rect.size().width);
   });
@@ -58,8 +65,7 @@ export const addData = (codeGraph: CodeGraph, graph: dia.Graph) => {
     });
   };
 
-  const stackNodes = codeGraph.nodes.filter((node: any) => node.type.includes("stack"));
-  const heapNodes = codeGraph.nodes.filter((node: any) => node.type.includes("heap"));
+  const heapNodes = sortNodes(codeGraph.nodes.filter(node => node.type.includes("heap")));
 
   setPositions(stackNodes, true);
   setPositions(heapNodes, false);
