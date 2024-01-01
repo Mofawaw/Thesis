@@ -15,8 +15,8 @@ export default function CodeGraph() {
     const paper = new dia.Paper({
       model: graph,
       el: canvasRef.current,
-      width: 0,
-      height: 0,
+      width: '100%',
+      height: '100%',
       frozen: true,
       async: true,
       sorting: dia.Paper.sorting.APPROX,
@@ -58,18 +58,8 @@ export default function CodeGraph() {
   }, []);
 
   return (
-    <div ref={parentRef} className="w-full h-full nowheel">
-      <div ref={canvasRef} className="w-full h-full" />
+    <div ref={parentRef} className="w-full h-full overflow-auto">
+      <div ref={canvasRef} className="w-full h-full overflow-auto" />
     </div>
   );
 }
-
-// let maxX = 0, maxY = 0;
-// graph.getElements().forEach((element) => {
-//   const bbox = element.getBBox();
-//   maxX = Math.max(maxX, bbox.x + bbox.width);
-//   maxY = Math.max(maxY, bbox.y + bbox.height);
-// });
-
-// const padding = 10;
-// paper.setDimensions(maxX + padding, maxY + padding);
