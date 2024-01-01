@@ -10,8 +10,8 @@ const initialNodes = [
     position: { x: 0, y: 0 },
     data: {
       component: CodeIDE,
-      minWidth: 800,
-      minHeight: 500
+      minWidth: 900,
+      minHeight: 700
     }
   }
 ];

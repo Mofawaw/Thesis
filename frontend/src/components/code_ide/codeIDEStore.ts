@@ -1,6 +1,14 @@
 import { create } from 'zustand';
 import CodeGraph from './components/CodeGraph.ts'
 
+const initialCode = [
+  "a = 1",
+  "b = 2",
+  "a = b",
+  "print(a)",
+  "print(b)"
+].join('\n');
+
 type CodeIDEStore = {
   code: string;
   output: string;
@@ -11,7 +19,7 @@ type CodeIDEStore = {
 };
 
 const useCodeIDEStore = create<CodeIDEStore>((set) => ({
-  code: '',
+  code: initialCode,
   output: '',
   graph: { nodes: [], edges: [] },
   setCode: (newCode: string) => set(() => ({ code: newCode })),

@@ -8,14 +8,14 @@ import useCodeIDEStore from '../codeIDEStore.ts'
 
 export default function CodeEditor({ height }: { height: number }) {
     const editorRef = useRef<HTMLDivElement>(null);
+    const code = useCodeIDEStore((state) => state.code)
     const setCode = useCodeIDEStore((state) => state.setCode)
 
     useEffect(() => {
         if (!editorRef.current) return;
 
-        const initialCode = "";
         const startState = EditorState.create({
-            doc: initialCode,
+            doc: code,
             extensions: [
                 keymap.of(defaultKeymap),
                 python(),
