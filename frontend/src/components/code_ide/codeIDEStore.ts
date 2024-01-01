@@ -1,31 +1,13 @@
 import { create } from 'zustand';
-
-interface Node {
-  id: string;
-  type: string;
-  label: string;
-  position: { x: number, y: number };
-}
-
-interface Edge {
-  id: string;
-  type: string;
-  source: string;
-  target: string;
-}
-
-export interface Graph {
-  nodes: Node[],
-  edges: Edge[]
-}
+import CodeGraph from './components/CodeGraph.ts'
 
 type CodeIDEStore = {
   code: string;
   output: string;
-  graph: Graph;
+  graph: CodeGraph;
   setCode: (newCode: string) => (void);
   setOutput: (newOutput: string) => (void);
-  setGraph: (newGraphJSON: any) => (void);
+  setGraph: (newGraphJSON: CodeGraph) => (void);
 };
 
 const useCodeIDEStore = create<CodeIDEStore>((set) => ({
@@ -34,7 +16,7 @@ const useCodeIDEStore = create<CodeIDEStore>((set) => ({
   graph: { nodes: [], edges: [] },
   setCode: (newCode: string) => set(() => ({ code: newCode })),
   setOutput: (newOutput: string) => set(() => ({ output: newOutput })),
-  setGraph: (newGraphJSON: any) => set(() => ({ graph: newGraphJSON }))
+  setGraph: (newGraphJSON: CodeGraph) => set(() => ({ graph: newGraphJSON }))
 }));
 
 export default useCodeIDEStore;

@@ -1,5 +1,6 @@
 import config from '../../../../tailwind.config.ts'
 import { dia, shapes } from 'jointjs';
+import CodeGraph from './CodeGraph.ts';
 
 const { colors } = config.theme
 const { fontFamily } = config.theme
@@ -19,7 +20,7 @@ const styles = {
   referenceOffset: 20,
 }
 
-export const addData = (jsonData: any, graph: dia.Graph) => {
+export const addData = (codeGraph: CodeGraph, graph: dia.Graph) => {
   const nodeRectMap = new Map<string, shapes.standard.Rectangle>();
   let maxWidthOfStackNodes = 0;
 
@@ -41,7 +42,7 @@ export const addData = (jsonData: any, graph: dia.Graph) => {
     return rect;
   };
 
-  jsonData.nodes.filter((node: any) => node.type.includes("stack")).forEach((node: any) => {
+  codeGraph.nodes.filter((node: any) => node.type.includes("stack")).forEach((node: any) => {
     const rect = createAndResizeRect(node.label);
     maxWidthOfStackNodes = Math.max(maxWidthOfStackNodes, rect.size().width);
   });
@@ -57,13 +58,13 @@ export const addData = (jsonData: any, graph: dia.Graph) => {
     });
   };
 
-  const stackNodes = jsonData.nodes.filter((node: any) => node.type.includes("stack"));
-  const heapNodes = jsonData.nodes.filter((node: any) => node.type.includes("heap"));
+  const stackNodes = codeGraph.nodes.filter((node: any) => node.type.includes("stack"));
+  const heapNodes = codeGraph.nodes.filter((node: any) => node.type.includes("heap"));
 
   setPositions(stackNodes, true);
   setPositions(heapNodes, false);
 
-  jsonData.nodes.forEach((node: any) => {
+  codeGraph.nodes.forEach((node: any) => {
     const rect = createAndResizeRect(node.label);
     rect.position(node.position.x, node.position.y);
 
@@ -86,7 +87,7 @@ export const addData = (jsonData: any, graph: dia.Graph) => {
     nodeRectMap.set(node.id, rect);
   });
 
-  jsonData.edges.forEach((edge: any) => {
+  codeGraph.edges.forEach((edge: any) => {
     const sourceNodeRect = nodeRectMap.get(edge.source);
     const targetNodeRect = nodeRectMap.get(edge.target);
 
