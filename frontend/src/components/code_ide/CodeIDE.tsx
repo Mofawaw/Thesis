@@ -90,7 +90,7 @@ export default function CodeIDE({ height }: { height: number }) {
 
       <div className="th-yline" />
 
-      <div className="basis-2/5 flex-none my-4 mr-4 overflow-auto">
+      <div className="basis-2/5 flex-none my-4 mx-4 overflow-auto">
         <CodeGraph />
       </div>
     </div>

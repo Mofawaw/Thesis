@@ -10,11 +10,11 @@ interface Node {
 interface Edge {
   id: string;
   type: string;
-  source: Node;
-  target: Node;
+  source: string;
+  target: string;
 }
 
-interface Graph {
+export interface Graph {
   nodes: Node[],
   edges: Edge[]
 }
@@ -80,8 +80,6 @@ function generatePositions(graph: Graph): Graph {
 }
 
 function jsonGraphDecoder(jsonData: any): Graph {
-  const nodeMap = new Map<string, Node>();
-
   // Decode nodes
   const nodes = jsonData.nodes.map((node: any) => {
     const newNode: Node = {
@@ -90,27 +88,16 @@ function jsonGraphDecoder(jsonData: any): Graph {
       label: node.label,
       position: { x: 0, y: 0 }
     };
-    nodeMap.set(node.id, newNode);
     return newNode;
   });
 
   // Decode edges
   const edges = jsonData.edges.map((edge: any) => {
-    const sourceNodeId = edge.source;
-    const targetNodeId = edge.target;
-
-    const sourceNode = nodeMap.get(sourceNodeId);
-    const targetNode = nodeMap.get(targetNodeId);
-
-    if (!sourceNode || !targetNode) {
-      throw new Error("Invalid edge reference in the data");
-    }
-
     return {
       id: edge.id,
       type: edge.type,
-      source: sourceNode,
-      target: targetNode
+      source: edge.source,
+      target: edge.target
     };
   });
 

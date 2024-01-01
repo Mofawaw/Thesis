@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { dia, shapes } from 'jointjs';
 import useCodeIDEStore from '../codeIDEStore.ts';
+import { addData } from './codeGraphHelper';
 
 export default function CodeGraph() {
   const parentRef = useRef<HTMLDivElement>(null);
@@ -22,40 +23,9 @@ export default function CodeGraph() {
       cellViewNamespace: shapes
     });
 
-    graphData.nodes.forEach((node) => {
-      const rect = new shapes.standard.Rectangle();
-      rect.position(node.position.x, node.position.y);
-      rect.resize(100, 35);
-      rect.attr({
-        body: {
-          fill: 'blue',
-        },
-        label: {
-          text: node.label,
-          fill: 'white',
-        },
-      });
-      graph.addCell(rect);
-    });
-
-    // graphData.edges.forEach((edge) => {
-    //   const link = new shapes.standard.Link();
-    //   link.source({ id: edge.source.id });
-    //   link.target({ id: edge.target.id });
-    //   graph.addCell(link);
-    // });
+    addData(graphData, graph);
 
     paper.unfreeze();
-
-    // let maxX = 0, maxY = 0;
-    // graph.getElements().forEach((element) => {
-    //   const bbox = element.getBBox();
-    //   maxX = Math.max(maxX, bbox.x + bbox.width);
-    //   maxY = Math.max(maxY, bbox.y + bbox.height);
-    // });
-
-    // const padding = 10;
-    // paper.setDimensions(maxX + padding, maxY + padding);
 
     return () => {
       graph.clear();
@@ -88,8 +58,18 @@ export default function CodeGraph() {
   }, []);
 
   return (
-    <div ref={parentRef} className="w-full h-full bg-th-tint-20 nowheel">
+    <div ref={parentRef} className="w-full h-full nowheel">
       <div ref={canvasRef} className="w-full h-full" />
     </div>
   );
 }
+
+// let maxX = 0, maxY = 0;
+// graph.getElements().forEach((element) => {
+//   const bbox = element.getBBox();
+//   maxX = Math.max(maxX, bbox.x + bbox.width);
+//   maxY = Math.max(maxY, bbox.y + bbox.height);
+// });
+
+// const padding = 10;
+// paper.setDimensions(maxX + padding, maxY + padding);
