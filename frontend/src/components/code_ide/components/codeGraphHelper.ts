@@ -22,7 +22,22 @@ export const addData = (data: Graph, graph: dia.Graph) => {
   data.nodes.forEach(node => {
     const rect = new shapes.standard.Rectangle();
     rect.position(node.position.x, node.position.y);
-    rect.resize(codeIDEHelper.graph.node.getWidth(node.type), 35);
+    rect.resize(100, 35);
+
+    const labelText = node.label;
+
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+
+    if (context) {
+      context.font = `15px ${fontFamily['th-mono'][0]}`;
+      const textWidth = context.measureText(labelText).width;
+
+      rect.resize(textWidth + 20, 35);
+    } else {
+      console.error("Canvas context not available");
+    }
+
     rect.attr({
       body: {
         fill: colors['th-black'][10],
@@ -32,7 +47,7 @@ export const addData = (data: Graph, graph: dia.Graph) => {
       },
       label: {
         text: node.label,
-        fontSize: 15,
+        fontSize: "15px",
         fontFamily: fontFamily['th-mono'][0],
         fill: colors['th-black'][100],
       },
@@ -51,8 +66,9 @@ export const addData = (data: Graph, graph: dia.Graph) => {
 
     const link = new shapes.standard.Link({
       source: sourceNodeRect,
-      target: targetNodeRect
+      target: targetNodeRect,
     });
+
     graph.addCell(link);
   });
 };
