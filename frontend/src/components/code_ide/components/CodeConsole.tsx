@@ -65,8 +65,8 @@ export default function CodeConsole() {
   }, [output, editorView]);
 
   return (
-    <div className="flex flex-col">
-      <div ref={editorRef} className="editor h-28 overflow-auto" />
+    <div className="flex flex-col overflow-hidden">
+      <div ref={editorRef} className="editor overflow-auto" />
     </div>
   );
 }

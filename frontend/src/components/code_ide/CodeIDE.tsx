@@ -13,6 +13,7 @@ export default function CodeIDE({ height }: { height: number }) {
   const setGraph = useCodeIDEStore((state) => state.setGraph)
 
   function compileGetOutput() {
+    console.log("Request: compile_get_output")
     fetch('http://127.0.0.1:5000/compile_get_output', {
       method: 'POST',
       headers: {
@@ -27,10 +28,12 @@ export default function CodeIDE({ height }: { height: number }) {
         return response.json();
       })
       .then(data => {
-        setOutput(data.output);
         if (data.error) {
           setOutput(data.error);
+          console.log('Error:', data.error);
+          return
         }
+        setOutput(data.output);
         console.log('Output:', data.output);
       })
       .catch((error) => {
@@ -39,6 +42,7 @@ export default function CodeIDE({ height }: { height: number }) {
   }
 
   function compileGetGraph() {
+    console.log("Request: compile_get_graph")
     fetch('http://127.0.0.1:5000/compile_get_graph', {
       method: 'POST',
       headers: {
@@ -53,6 +57,10 @@ export default function CodeIDE({ height }: { height: number }) {
         return response.json();
       })
       .then(data => {
+        if (data.error) {
+          console.log('Error: ', data.error);
+          return
+        }
         const jsonData = JSON.parse(data.graph);
         setGraph(jsonData)
         console.log('Graph:', data.graph);
@@ -64,7 +72,7 @@ export default function CodeIDE({ height }: { height: number }) {
 
   return (
     <div className="flex flex-row h-full w-full">
-      <div className="basis-3/5 flex-none flex flex-col gap-2 py-4" >
+      <div className="basis-3/5 flex-none flex flex-col gap-2 py-4 overflow-hidden" >
         <div className="my-2 px-4">
           <CodeEditor height={codeIDEHelper.editor.getHeight(height)} />
         </div>
@@ -83,7 +91,7 @@ export default function CodeIDE({ height }: { height: number }) {
 
         <div className="th-xline" />
 
-        <div className="px-4">
+        <div className="px-4 overflow-hidden">
           <CodeConsole />
         </div>
       </div>
