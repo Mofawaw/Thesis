@@ -31,10 +31,10 @@ export default function CodeIDE({ height }: { height: number }) {
         if (data.error) {
           setOutput(data.error);
           console.log('Error:', data.error);
-          return
+        } else {
+          setOutput(data.output);
+          console.log('Output:', data.output);
         }
-        setOutput(data.output);
-        console.log('Output:', data.output);
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -58,9 +58,9 @@ export default function CodeIDE({ height }: { height: number }) {
       })
       .then(data => {
         if (data.success) {
+          console.log('Graph:', data.graph);
           const jsonData = JSON.parse(data.graph);
           setGraph(jsonData)
-          console.log('Graph:', data.graph);
         } else {
           console.log('Error generating Graph')
         }
