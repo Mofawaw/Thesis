@@ -55,22 +55,27 @@ def compile_get_graph():
         "python:3.9",
         "python", script_path, code
     ]
+
+    graph = ''
+    error = ''
     try:
         result = subprocess.run(docker_command, capture_output=True, text=True, timeout=10)
-        graph = result.stdout
-        error = result.stderr if result.stderr else ''
+        if result.returncode != 0:
+            error = result.stderr
+        else:
+            graph = result.stdout
     except subprocess.TimeoutExpired:
-        graph = ''
         error = 'Execution timed out'
     except Exception as e:
-        graph = ''
         error = str(e)
 
     print("Executed Code:", code)
     print("Memory Graph:", graph)
     print("Error:", error if error else "No error")
 
-    return jsonify({'graph': graph, 'error': error})
+    success = not bool(error)
+
+    return jsonify({'success': success, 'graph': graph})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=5000)

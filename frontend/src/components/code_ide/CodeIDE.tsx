@@ -57,13 +57,13 @@ export default function CodeIDE({ height }: { height: number }) {
         return response.json();
       })
       .then(data => {
-        if (data.error) {
-          console.log('Error: ', data.error);
-          return
+        if (data.success) {
+          const jsonData = JSON.parse(data.graph);
+          setGraph(jsonData)
+          console.log('Graph:', data.graph);
+        } else {
+          console.log('Error generating Graph')
         }
-        const jsonData = JSON.parse(data.graph);
-        setGraph(jsonData)
-        console.log('Graph:', data.graph);
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -71,7 +71,7 @@ export default function CodeIDE({ height }: { height: number }) {
   }
 
   return (
-    <div className="flex flex-row h-full w-full">
+    <div className="flex flex-row h-full w-full overflow-hidden">
       <div className="basis-3/5 flex-none flex flex-col gap-2 py-4 overflow-hidden" >
         <div className="my-2 px-4">
           <CodeEditor height={codeIDEHelper.editor.getHeight(height)} />
