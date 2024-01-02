@@ -5,8 +5,6 @@ import { codeIDEHelper } from './codeIDEStore.ts';
 import { compileGetOutput } from "./codeIDEHelper.ts";
 
 import PlayIcon from '../../assets/icons/play.svg';
-import ArrowLeftIcon from '../../assets/icons/arrow-left.svg';
-import ArrowRightIcon from '../../assets/icons/arrow-right.svg';
 
 export default function CodeIDE({ height }: { height: number }) {
   return (
@@ -22,10 +20,6 @@ export default function CodeIDE({ height }: { height: number }) {
           <button onClick={compileGetOutput}>
             <img src={PlayIcon} alt="Play button" className="h-6 w-6" />
           </button>
-          <div className="flex flex-row gap-2">
-            <button><img src={ArrowLeftIcon} alt="Left arrow" className="h-6 w-6" /></button>
-            <button><img src={ArrowRightIcon} alt="Right arrow" className="h-6 w-6" /></button>
-          </div>
         </div>
 
         <div className="th-xline" />
