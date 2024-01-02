@@ -1,6 +1,8 @@
-import { CodeIDEStore } from './codeIDEStore.ts'
+import useCodeIDEStore from './codeIDEStore.ts';
 
-export function compileGetOutput(code: CodeIDEStore["code"], setOutput: CodeIDEStore["setOutput"]) {
+export function compileGetOutput() {
+  const { code, setOutput } = useCodeIDEStore.getState();
+
   console.log("Request: compile_get_output")
   console.log('Code', code)
   fetch('http://127.0.0.1:5000/compile_get_output', {
@@ -30,15 +32,17 @@ export function compileGetOutput(code: CodeIDEStore["code"], setOutput: CodeIDES
     });
 }
 
-export function compileGetGraph(code: CodeIDEStore["code"], setGraph: CodeIDEStore["setGraph"]) {
+export function compileGetGraph() {
+  const store = useCodeIDEStore.getState();
+
   console.log("Request: compile_get_graph")
-  console.log('Code', code)
+  console.log('Code', store.code)
   fetch('http://127.0.0.1:5000/compile_get_graph', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ code: code }),
+    body: JSON.stringify({ code: store.code }),
   })
     .then(response => {
       if (!response.ok) {
@@ -50,12 +54,15 @@ export function compileGetGraph(code: CodeIDEStore["code"], setGraph: CodeIDESto
       if (data.success) {
         console.log('Graph:', data.graph);
         const jsonData = JSON.parse(data.graph);
-        setGraph(jsonData)
+        store.setGraph(jsonData)
+        store.setLastLineGraphLoaded(store.lastLineGraphLoading);
       } else {
         console.log('Error generating Graph')
+        store.setLastLineGraphLoading(store.lastLineGraphLoaded);
       }
     })
     .catch((error) => {
       console.error('Error:', error);
-    });
+      store.setLastLineGraphLoading(store.lastLineGraphLoaded);
+    })
 }

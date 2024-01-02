@@ -1,7 +1,7 @@
 import CodeEditor from "./components/CodeEditor.tsx";
 import CodeConsole from "./components/CodeConsole.tsx"
 import CodeGraph from "./components/CodeGraph.tsx";
-import useCodeIDEStore, { codeIDEHelper } from './codeIDEStore.ts';
+import { codeIDEHelper } from './codeIDEStore.ts';
 import { compileGetOutput } from "./codeIDEHelper.ts";
 
 import PlayIcon from '../../assets/icons/play.svg';
@@ -9,9 +9,6 @@ import ArrowLeftIcon from '../../assets/icons/arrow-left.svg';
 import ArrowRightIcon from '../../assets/icons/arrow-right.svg';
 
 export default function CodeIDE({ height }: { height: number }) {
-  const code = useCodeIDEStore((state) => state.code)
-  const setOutput = useCodeIDEStore((state) => state.setOutput)
-
   return (
     <div className="flex flex-row h-full w-full overflow-hidden">
       <div className="basis-3/5 flex-none flex flex-col gap-2 py-4 overflow-hidden" >
@@ -22,7 +19,7 @@ export default function CodeIDE({ height }: { height: number }) {
         <div className="th-xline" />
 
         <div className="flex flex-row justify-between px-4">
-          <button onClick={() => compileGetOutput(code, setOutput)}>
+          <button onClick={compileGetOutput}>
             <img src={PlayIcon} alt="Play button" className="h-6 w-6" />
           </button>
           <div className="flex flex-row gap-2">

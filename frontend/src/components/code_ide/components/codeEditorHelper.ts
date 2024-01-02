@@ -1,7 +1,8 @@
-import { EditorView } from '@codemirror/view';
+import { EditorView, ViewPlugin, ViewUpdate } from '@codemirror/view';
 import { HighlightStyle, syntaxHighlighting } from '@codemirror/language';
 import { tags } from '@lezer/highlight';
 import config from '../../../../tailwind.config.ts'
+import useCodeIDEStore from '../codeIDEStore.ts';
 
 const { colors } = config.theme
 const { fontFamily } = config.theme
@@ -14,7 +15,8 @@ const backgroundColor = colors['th-white'];
 const textColor = colors['th-black'][40];
 
 const activeLineNumberColor = colors['th-black'][100];
-const activeLineColor = colors['th-tint'][40];
+const lineGraphLoadingColor = colors['th-black'][10];
+const lineGraphLoadedColor = colors['th-black'][20];
 const currentLineColor = colors['th-black'][10];
 
 // Theme
@@ -37,15 +39,16 @@ const codeEditorTheme = EditorView.theme({
         color: textColor,
         border: "none",
     },
-    ".cm-gutterElement.line-has-code": {
+    ".cm-gutterElement.lastLineGraphLoading": {
         color: activeLineNumberColor,
-        backgroundColor: activeLineColor
+        backgroundColor: lineGraphLoadingColor
+    },
+    ".cm-gutterElement.lastLineGraphLoaded": {
+        color: activeLineNumberColor,
+        backgroundColor: lineGraphLoadedColor
     },
     ".cm-activeLine": {
         backgroundColor: currentLineColor
-    },
-    ".cm-activeLineGutter": {
-        backgroundColor: currentLineColor,
     }
 }, { dark: false });
 
@@ -64,34 +67,54 @@ const codeEditorStyles = [codeEditorTheme, syntaxHighlighting(codeEditorHighligh
 export { codeEditorStyles };
 
 // Gutter
-function lineNumberStyling() {
-    return EditorView.updateListener.of((update) => {
-        if (!update.docChanged && !update.selectionSet) return;
+export const dynamicLineStyling = ViewPlugin.fromClass(class {
+    view: EditorView;
+    unsubscribe: () => void = () => { };
 
-        let lastNonEmptyLine = 0;
-        // Find last non-empty line number
-        for (let i = 1; i <= update.state.doc.lines; i++) {
-            const line = update.state.doc.line(i);
-            if (line.text.trim() !== '') {
-                lastNonEmptyLine = i + 1;
+    constructor(view: EditorView) {
+        this.view = view;
+        this.updateFromStore();
+    }
+
+    updateFromStore() {
+        this.unsubscribe = useCodeIDEStore.subscribe(state => {
+            console.log("useCodeIDEStore change");
+
+            const gutterElements = this.view.dom.getElementsByClassName('cm-gutterElement');
+            for (let i = 0; i < gutterElements.length; i++) {
+                const lineElement = gutterElements[i];
+                if (lineElement) {
+                    lineElement.classList.remove('lastLineGraphLoading', 'lastLineGraphLoaded');
+                    if (i <= state.lastLineGraphLoaded) {
+                        lineElement.classList.add('lastLineGraphLoaded');
+                    } else if (i > state.lastLineGraphLoaded && i <= state.lastLineGraphLoading) {
+                        lineElement.classList.add('lastLineGraphLoading');
+                    }
+                }
             }
+        });
+    }
+
+    update(update: ViewUpdate) {
+        if (update.docChanged || update.viewportChanged) {
         }
+    }
 
-        // Apply class to line numbers up to the last non-empty line
-        const gutterElements = update.view.dom.getElementsByClassName('cm-gutterElement');
-        for (let i = 0; i < lastNonEmptyLine; i++) {
-            if (gutterElements[i]) {
-                gutterElements[i].classList.add('line-has-code');
-            }
-        }
+    destroy() {
+        this.unsubscribe();
+    }
+});
 
-        // Remove class from line numbers beyond the last non-empty line
-        for (let i = lastNonEmptyLine; i < gutterElements.length; i++) {
-            if (gutterElements[i]) {
-                gutterElements[i].classList.remove('line-has-code');
-            }
+export function findModifiedLine(update: any) {
+    let modifiedLine = 0;
+    update.changes.iterChanges((from: any, to: any, fromB: any, toB: any, inserted: any) => {
+        if (update.state.doc.length === 0) {
+            modifiedLine = 0;
+        } else {
+            const startLine = update.state.doc.lineAt(Math.min(from, update.state.doc.length - 1)).number;
+            const endLine = update.state.doc.lineAt(Math.min(to, update.state.doc.length - 1)).number;
+            modifiedLine = Math.max(modifiedLine, startLine, endLine);
         }
     });
+    return modifiedLine;
 }
-
-export { lineNumberStyling }

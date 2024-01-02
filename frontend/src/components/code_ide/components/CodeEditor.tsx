@@ -1,41 +1,52 @@
 import { useEffect, useRef } from 'react';
 import { EditorState } from '@codemirror/state';
-import { EditorView, keymap, lineNumbers, highlightActiveLine, highlightActiveLineGutter } from '@codemirror/view';
+import { EditorView, keymap, lineNumbers, highlightActiveLine } from '@codemirror/view';
 import { python } from '@codemirror/lang-python';
 import { defaultKeymap } from '@codemirror/commands';
-import { codeEditorStyles, lineNumberStyling } from './codeEditorHelper.ts';
+import { codeEditorStyles, dynamicLineStyling, findModifiedLine } from './codeEditorHelper.ts';
 import useCodeIDEStore from '../codeIDEStore.ts'
 import { compileGetGraph } from '../codeIDEHelper.ts';
+import debounce from '../../../helper/debounce.ts';
 
 export default function CodeEditor({ height }: { height: number }) {
     const editorRef = useRef<HTMLDivElement>(null);
-    const code = useCodeIDEStore((state) => state.code)
-    const setCode = useCodeIDEStore((state) => state.setCode)
-    const setGraph = useCodeIDEStore((state) => state.setGraph)
-    const fetchTimeoutRef = useRef<number>();
+    const store = useCodeIDEStore.getState()
+
+    const debouncedCompileGetGraph = debounce(() => {
+        compileGetGraph();
+    }, 1000);
 
     useEffect(() => {
         if (!editorRef.current) return;
 
         const startState = EditorState.create({
-            doc: code,
+            doc: store.code,
             extensions: [
                 keymap.of(defaultKeymap),
                 python(),
                 codeEditorStyles,
                 lineNumbers(),
-                lineNumberStyling(),
+                dynamicLineStyling,
                 highlightActiveLine(),
-                highlightActiveLineGutter(),
                 EditorView.updateListener.of(update => {
+                    const innerStore = useCodeIDEStore.getState()
                     if (update.docChanged) {
-                        setCode(update.state.doc.toString());
+                        innerStore.setCode(update.state.doc.toString());
 
-                        clearTimeout(fetchTimeoutRef.current);
-                        fetchTimeoutRef.current = setTimeout(() => {
-                            const latestCode = useCodeIDEStore.getState().code;
-                            compileGetGraph(latestCode, setGraph)
-                        }, 2000);
+                        const modifiedLine = findModifiedLine(update);
+                        console.log("modifiedLine: ", modifiedLine)
+                        console.log("lastLineGraphLoaded: ", innerStore.lastLineGraphLoaded)
+
+                        if (modifiedLine < innerStore.lastLineGraphLoaded) {
+                            console.log("modifiedLine < lastLineGraphLoaded")
+                            innerStore.setLastLineGraphLoaded(0);
+                            innerStore.setGraph({ nodes: [], edges: [] });
+                        } else if (modifiedLine === innerStore.lastLineGraphLoaded) {
+                            console.log("modifiedLine = lastLineGraphLoaded");
+                            innerStore.setLastLineGraphLoaded(innerStore.lastLineGraphLoaded - 1);
+                        }
+
+                        debouncedCompileGetGraph();
                     }
                     if (update.focusChanged) {
                         if (update.view.hasFocus) {
