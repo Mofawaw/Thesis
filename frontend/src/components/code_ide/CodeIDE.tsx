@@ -2,6 +2,7 @@ import CodeEditor from "./components/CodeEditor.tsx";
 import CodeConsole from "./components/CodeConsole.tsx"
 import CodeGraph from "./components/CodeGraph.tsx";
 import useCodeIDEStore, { codeIDEHelper } from './codeIDEStore.ts';
+import { compileGetOutput } from "./codeIDEHelper.ts";
 
 import PlayIcon from '../../assets/icons/play.svg';
 import ArrowLeftIcon from '../../assets/icons/arrow-left.svg';
@@ -10,65 +11,6 @@ import ArrowRightIcon from '../../assets/icons/arrow-right.svg';
 export default function CodeIDE({ height }: { height: number }) {
   const code = useCodeIDEStore((state) => state.code)
   const setOutput = useCodeIDEStore((state) => state.setOutput)
-  const setGraph = useCodeIDEStore((state) => state.setGraph)
-
-  function compileGetOutput() {
-    console.log("Request: compile_get_output")
-    fetch('http://127.0.0.1:5000/compile_get_output', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ code: code }),
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then(data => {
-        if (data.error) {
-          setOutput(data.error);
-          console.log('Error:', data.error);
-        } else {
-          setOutput(data.output);
-          console.log('Output:', data.output);
-        }
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-  }
-
-  function compileGetGraph() {
-    console.log("Request: compile_get_graph")
-    fetch('http://127.0.0.1:5000/compile_get_graph', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ code: code }),
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then(data => {
-        if (data.success) {
-          console.log('Graph:', data.graph);
-          const jsonData = JSON.parse(data.graph);
-          setGraph(jsonData)
-        } else {
-          console.log('Error generating Graph')
-        }
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-  }
 
   return (
     <div className="flex flex-row h-full w-full overflow-hidden">
@@ -80,12 +22,12 @@ export default function CodeIDE({ height }: { height: number }) {
         <div className="th-xline" />
 
         <div className="flex flex-row justify-between px-4">
-          <button onClick={compileGetOutput}>
+          <button onClick={() => compileGetOutput(code, setOutput)}>
             <img src={PlayIcon} alt="Play button" className="h-6 w-6" />
           </button>
           <div className="flex flex-row gap-2">
             <button><img src={ArrowLeftIcon} alt="Left arrow" className="h-6 w-6" /></button>
-            <button onClick={compileGetGraph}><img src={ArrowRightIcon} alt="Right arrow" className="h-6 w-6" /></button>
+            <button><img src={ArrowRightIcon} alt="Right arrow" className="h-6 w-6" /></button>
           </div>
         </div>
 

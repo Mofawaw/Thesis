@@ -9,10 +9,14 @@ const initialCode = [
   "print(b)"
 ].join('\n');
 
-type CodeIDEStore = {
+export type CodeIDEStore = {
   code: string;
   output: string;
   graph: CodeGraph;
+  // codeToGraph: {
+  //   lastLineFetching: number;
+  //   lastLineInGraph: number;
+  // };
   setCode: (newCode: string) => (void);
   setOutput: (newOutput: string) => (void);
   setGraph: (newGraphJSON: CodeGraph) => (void);

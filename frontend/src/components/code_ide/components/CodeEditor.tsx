@@ -5,11 +5,14 @@ import { python } from '@codemirror/lang-python';
 import { defaultKeymap } from '@codemirror/commands';
 import { codeEditorStyles, lineNumberStyling } from './codeEditorHelper.ts';
 import useCodeIDEStore from '../codeIDEStore.ts'
+import { compileGetGraph } from '../codeIDEHelper.ts';
 
 export default function CodeEditor({ height }: { height: number }) {
     const editorRef = useRef<HTMLDivElement>(null);
     const code = useCodeIDEStore((state) => state.code)
     const setCode = useCodeIDEStore((state) => state.setCode)
+    const setGraph = useCodeIDEStore((state) => state.setGraph)
+    const fetchTimeoutRef = useRef<number>();
 
     useEffect(() => {
         if (!editorRef.current) return;
@@ -27,6 +30,12 @@ export default function CodeEditor({ height }: { height: number }) {
                 EditorView.updateListener.of(update => {
                     if (update.docChanged) {
                         setCode(update.state.doc.toString());
+
+                        clearTimeout(fetchTimeoutRef.current);
+                        fetchTimeoutRef.current = setTimeout(() => {
+                            const latestCode = useCodeIDEStore.getState().code;
+                            compileGetGraph(latestCode, setGraph)
+                        }, 2000);
                     }
                     if (update.focusChanged) {
                         if (update.view.hasFocus) {
