@@ -2,8 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 import { EditorState, Transaction } from '@codemirror/state';
 import { EditorView } from '@codemirror/view';
 import { python } from '@codemirror/lang-python';
-import { codeConsoleStyles, percentLineNumbers } from './codemirror_extensions.ts';
-import useCodeIDEStore from '../codeide_store.ts'
+import { codeConsoleStyles, percentLineNumbers } from './codeConsoleHelper.ts';
+import useCodeIDEStore from '../codeIDEStore.ts'
+import { codeIDELayout } from "../codeIDEHelper.ts";
 
 export default function CodeConsole() {
   const editorRef = useRef<HTMLDivElement>(null);
@@ -65,8 +66,8 @@ export default function CodeConsole() {
   }, [output, editorView]);
 
   return (
-    <div className="flex flex-col">
-      <div ref={editorRef} className="editor h-28 overflow-auto" />
+    <div className="flex flex-col overflow-auto">
+      <div ref={editorRef} className="editor" style={{ height: `${codeIDELayout.consoleHeight}px`, overflow: 'auto' }} />
     </div>
   );
 }

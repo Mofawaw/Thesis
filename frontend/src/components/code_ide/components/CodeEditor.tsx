@@ -3,30 +3,36 @@ import { EditorState } from '@codemirror/state';
 import { EditorView, keymap, lineNumbers, highlightActiveLine, highlightActiveLineGutter } from '@codemirror/view';
 import { python } from '@codemirror/lang-python';
 import { defaultKeymap } from '@codemirror/commands';
-import { codeEditorStyles, lineNumberStyling } from './codemirror_extensions.ts';
-import useCodeIDEStore from '../codeide_store.ts'
+import { codeEditorStyles } from './codeEditorHelper.ts';
+import useCodeIDEStore from '../codeIDEStore.ts'
+import { compileGetGraph } from '../codeIDEHelper.ts';
+import debounce from '../../../helper/debounce.ts';
 
 export default function CodeEditor({ height }: { height: number }) {
     const editorRef = useRef<HTMLDivElement>(null);
-    const setCode = useCodeIDEStore((state) => state.setCode)
+    const store = useCodeIDEStore.getState()
+
+    const debouncedCompileGetGraph = debounce(() => {
+        compileGetGraph();
+    }, 1000);
 
     useEffect(() => {
         if (!editorRef.current) return;
 
-        const initialCode = Array(4).fill('\n').join('');
         const startState = EditorState.create({
-            doc: initialCode,
+            doc: store.code,
             extensions: [
                 keymap.of(defaultKeymap),
                 python(),
                 codeEditorStyles,
                 lineNumbers(),
-                lineNumberStyling(),
                 highlightActiveLine(),
                 highlightActiveLineGutter(),
                 EditorView.updateListener.of(update => {
+                    const innerStore = useCodeIDEStore.getState()
                     if (update.docChanged) {
-                        setCode(update.state.doc.toString());
+                        innerStore.setCode(update.state.doc.toString());
+                        debouncedCompileGetGraph();
                     }
                     if (update.focusChanged) {
                         if (update.view.hasFocus) {
@@ -52,9 +58,7 @@ export default function CodeEditor({ height }: { height: number }) {
     }, []);
 
     return (
-        <div className="flex flex-col">
-            <div ref={editorRef} className="editor" style={{ height: `${height}px`, overflow: 'auto' }} />
-        </div>
+        <div ref={editorRef} className="editor" style={{ height: `${height}px`, overflow: 'auto' }} />
     );
 }
 

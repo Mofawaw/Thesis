@@ -1,63 +1,39 @@
 import CodeEditor from "./components/CodeEditor.tsx";
 import CodeConsole from "./components/CodeConsole.tsx"
-import useCodeIDEStore from './codeide_store.ts'
+import CodeGraph from "./components/CodeGraph.tsx";
+import { codeIDELayout, compileGetOutput } from "./codeIDEHelper.ts";
 
 import PlayIcon from '../../assets/icons/play.svg';
-import ArrowLeftIcon from '../../assets/icons/arrow-left.svg';
-import ArrowRightIcon from '../../assets/icons/arrow-right.svg';
 
 export default function CodeIDE({ height }: { height: number }) {
-  const code = useCodeIDEStore((state) => state.code)
-  const setOutput = useCodeIDEStore((state) => state.setOutput)
-
-  function compile() {
-    fetch('http://127.0.0.1:5000/compile', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ code: code }),
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then(data => {
-        setOutput(data.output);
-        if (data.error) {
-          setOutput(data.error);
-        }
-        console.log('Output:', data.output);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-  }
-
   return (
-    <div className="flex flex-col gap-2 py-4">
-      <div className="my-2 px-4">
-        <CodeEditor height={height - 240} />
-      </div>
+    <div className="flex flex-row h-full w-full overflow-hidden">
+      <div className="basis-3/5 flex-none flex flex-col gap-2 py-4 overflow-hidden" id="code-program" >
+        <div className="px-4 mb-2">
+          <h3 className="my-4">Programm</h3>
+          <CodeEditor height={codeIDELayout.getEditorHeight(height)} />
+        </div>
 
-      <hr className="th-hr" />
+        <div className="flex flex-col gap-2 justify-center">
+          <div className="th-xline px-[-1rem]" />
 
-      <div className="flex flex-row justify-between px-4">
-        <button onClick={compile}>
-          <img src={PlayIcon} alt="Play button" className="h-6 w-6" />
-        </button>
-        <div className="flex flex-row gap-2">
-          <button><img src={ArrowLeftIcon} alt="Left arrow" className="h-6 w-6" /></button>
-          <button><img src={ArrowRightIcon} alt="Right arrow" className="h-6 w-6" /></button>
+          <div className="flex flex-row justify-between px-4">
+            <button onClick={compileGetOutput}><img src={PlayIcon} alt="Run" className="h-6 w-6" /></button>
+          </div>
+
+          <div className="th-xline" />
+        </div>
+
+        <div className="px-4 mt-2 overflow-hidden">
+          <CodeConsole />
         </div>
       </div>
 
-      <hr className="th-hr" />
+      <div className="th-yline" />
 
-      <div className="px-4">
-        <CodeConsole />
+      <div className="basis-2/5 flex-none p-4 nowheel overflow-hidden">
+        <h3 className="my-4">Speicher</h3>
+        <CodeGraph />
       </div>
     </div>
   )

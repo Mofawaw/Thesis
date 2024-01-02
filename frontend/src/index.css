@@ -40,6 +40,11 @@
 
   body
   {
+    @apply th-body;
+  }
+
+  .th-body
+  {
     @apply text-base;
     @apply font-th-mono;
     @apply text-th-black-100;
@@ -48,8 +53,13 @@
 
 @layer components
 {
-  .th-hr
+  .th-xline
   {
-    @apply h-[1.5px] my-0 bg-th-black-10 border-0;
+    @apply border-t-[1.5px] border-th-black-10
+  }
+
+  .th-yline
+  {
+    @apply border-l-[1.5px] border-th-black-10;
   }
 }

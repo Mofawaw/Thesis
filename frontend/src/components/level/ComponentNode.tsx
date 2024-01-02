@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NodeResizer, ResizeDragEvent, ResizeParams } from 'reactflow';
-import styles from './componentnode.module.css';
+import styles from './componentNode.module.css';
 
 interface ComponentNodeData {
   component: React.ComponentType<any>;
