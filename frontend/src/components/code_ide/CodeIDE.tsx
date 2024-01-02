@@ -31,7 +31,7 @@ export default function CodeIDE({ height }: { height: number }) {
 
       <div className="th-yline" />
 
-      <div className="basis-2/5 flex-none p-4 nowheel overflow-hidden">
+      <div className="basis-2/5 flex-none p-4 nowheel nodrag overflow-hidden">
         <h3 className="my-4">Speicher</h3>
         <CodeGraph />
       </div>

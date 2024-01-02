@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { dia, shapes } from 'jointjs';
 import useCodeIDEStore from '../codeIDEStore.ts';
-import { addData } from './codeGraphHelper';
+import { Mode, addData } from './codeGraphHelper';
 
 export default function CodeGraph() {
   const parentRef = useRef<HTMLDivElement>(null);
@@ -24,8 +24,7 @@ export default function CodeGraph() {
       cellViewNamespace: shapes,
     });
 
-    addData(graphData, graph);
-
+    addData(graphData, graph, Mode.input);
     paper.unfreeze();
 
     return () => {
@@ -36,6 +35,7 @@ export default function CodeGraph() {
     };
   }, [graphData]);
 
+  // Responsivity
   useEffect(() => {
     const resizeObserver = new ResizeObserver(entries => {
       for (let entry of entries) {

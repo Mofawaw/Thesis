@@ -1,11 +1,11 @@
-interface Node {
+export interface Node {
   id: string;
   type: string;
   label: string;
   position: { x: number, y: number };
 }
 
-interface Edge {
+export interface Edge {
   id: string;
   type: string;
   source: string;
