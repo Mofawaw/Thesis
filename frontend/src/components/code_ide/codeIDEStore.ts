@@ -32,17 +32,3 @@ const useCodeIDEStore = create<CodeIDEStore>((set) => {
 });
 
 export default useCodeIDEStore;
-
-export const codeIDEHelper = {
-  editor: {
-    getHeight: (availableHeight: number) => (availableHeight - 240)
-  },
-  graph: {
-    node: {
-      getWidth: (nodeType: string) => (nodeType.includes("stack") ? 80 : 150),
-      height: 35,
-      gap: { x: 50, y: 5 }
-    },
-    referenceOffset: 20,
-  }
-}

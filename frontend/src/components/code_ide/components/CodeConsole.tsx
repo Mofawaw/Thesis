@@ -4,6 +4,7 @@ import { EditorView } from '@codemirror/view';
 import { python } from '@codemirror/lang-python';
 import { codeConsoleStyles, percentLineNumbers } from './codeConsoleHelper.ts';
 import useCodeIDEStore from '../codeIDEStore.ts'
+import { codeIDELayout } from "../codeIDEHelper.ts";
 
 export default function CodeConsole() {
   const editorRef = useRef<HTMLDivElement>(null);
@@ -66,7 +67,7 @@ export default function CodeConsole() {
 
   return (
     <div className="flex flex-col overflow-auto">
-      <div ref={editorRef} className="editor h-40 overflow-auto" />
+      <div ref={editorRef} className="editor" style={{ height: `${codeIDELayout.consoleHeight}px`, overflow: 'auto' }} />
     </div>
   );
 }
