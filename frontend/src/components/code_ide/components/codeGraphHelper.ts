@@ -31,23 +31,27 @@ export const addData = (codeGraph: CodeGraph, graph: dia.Graph, mode: Mode) => {
   const maxWidthOfHeapNodes = calculateMaxWidth(codeGraph.nodes, "heap");
 
   positionNodes(codeGraph.nodes, maxWidthOfStackNodes);
-  addNodesToGraph(codeGraph.nodes, graph, nodeRectMap);
+  addNodesToGraph(codeGraph.nodes, graph, nodeRectMap, maxWidthOfStackNodes, maxWidthOfHeapNodes, mode);
   addEdgesToGraph(codeGraph.edges, nodeRectMap, graph);
 };
 
-const createAndResizeRect = (labelText: string): shapes.standard.Rectangle => {
+const createAndResizeRect = (labelText: string, maxWidth: number, mode: Mode): shapes.standard.Rectangle => {
   const rect = new shapes.standard.Rectangle();
   rect.resize(styles.node.width, styles.node.height);
 
-  const canvas = document.createElement("canvas");
-  const context = canvas.getContext("2d");
-
-  if (context) {
-    context.font = `${styles.node.font.size} ${styles.node.font.family}`;
-    const textWidth = context.measureText(labelText).width;
-    rect.resize(textWidth + (styles.node.padding * 2), styles.node.height);
+  if (mode === Mode.input) {
+    rect.resize(maxWidth, styles.node.height);
   } else {
-    console.error("Canvas context not available");
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+
+    if (context) {
+      context.font = `${styles.node.font.size} ${styles.node.font.family}`;
+      const textWidth = context.measureText(labelText).width;
+      rect.resize(textWidth + (styles.node.padding * 2), styles.node.height);
+    } else {
+      console.error("Canvas context not available");
+    }
   }
 
   return rect;
@@ -57,7 +61,7 @@ const calculateMaxWidth = (nodes: Node[], type: string): number => {
   return nodes
     .filter(node => node.type.includes(type))
     .reduce((maxWidth, node) => {
-      const rect = createAndResizeRect(node.label);
+      const rect = createAndResizeRect(node.label, 0, Mode.default);
       return Math.max(maxWidth, rect.size().width);
     }, 0);
 };
@@ -69,12 +73,13 @@ const positionNodes = (nodes: Node[], maxWidthOfStackNodes: number): void => {
     return [...valueNodes, ...referenceNodes];
   };
 
-  const setPosition = (nodes: Node[], isStack: boolean, maxWidthOfStackNodes: number): void => {
+  const setPosition = (nodes: Node[], isStack: boolean): void => {
     const yGap = styles.node.height + styles.node.gap.y;
     const yReferenceOffset = styles.referenceOffset;
 
     nodes.forEach((node, i) => {
-      const xOffset = isStack ? 0 : maxWidthOfStackNodes + styles.node.gap.x;
+      let xOffset = 0;
+      xOffset = isStack ? 0 : maxWidthOfStackNodes + styles.node.gap.x;
       const yOffset = node.type.startsWith('reference') ? yReferenceOffset : 0;
       node.position = { x: xOffset, y: yOffset + i * yGap };
     });
@@ -83,13 +88,14 @@ const positionNodes = (nodes: Node[], maxWidthOfStackNodes: number): void => {
   const stackNodes = sortNodes(nodes.filter(node => node.type.includes("stack")));
   const heapNodes = sortNodes(nodes.filter(node => node.type.includes("heap")));
 
-  setPosition(stackNodes, true, maxWidthOfStackNodes);
-  setPosition(heapNodes, false, maxWidthOfStackNodes);
+  setPosition(stackNodes, true);
+  setPosition(heapNodes, false);
 };
 
-const addNodesToGraph = (nodes: Node[], graph: dia.Graph, nodeRectMap: Map<string, shapes.standard.Rectangle>): void => {
+const addNodesToGraph = (nodes: Node[], graph: dia.Graph, nodeRectMap: Map<string, shapes.standard.Rectangle>, maxWidthOfStackNodes: number, maxWidthOfHeapNodes: number, mode: Mode): void => {
   nodes.forEach((node) => {
-    const rect = createAndResizeRect(node.label);
+    const maxWidth = node.type.includes("stack") ? maxWidthOfStackNodes : maxWidthOfHeapNodes;
+    const rect = createAndResizeRect(node.label, maxWidth, mode);
     rect.position(node.position.x, node.position.y);
     rect.attr({
       body: {
@@ -141,7 +147,7 @@ const addEdgesToGraph = (edges: Edge[], nodeRectMap: Map<string, shapes.standard
           strokeWidth: 2,
           targetMarker: {
             'type': 'path',
-            'd': 'M 8 -4 0 0 8 4 Z'
+            'd': 'M 6 -3 0 0 6 3 Z'
           }
         }
       }
