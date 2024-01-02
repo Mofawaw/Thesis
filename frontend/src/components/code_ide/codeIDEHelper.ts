@@ -55,14 +55,11 @@ export function compileGetGraph() {
         console.log('Graph:', data.graph);
         const jsonData = JSON.parse(data.graph);
         store.setGraph(jsonData)
-        store.setLastLineGraphLoaded(store.lastLineGraphLoading);
       } else {
         console.log('Error generating Graph')
-        store.setLastLineGraphLoading(store.lastLineGraphLoaded);
       }
     })
     .catch((error) => {
       console.error('Error:', error);
-      store.setLastLineGraphLoading(store.lastLineGraphLoaded);
     })
 }

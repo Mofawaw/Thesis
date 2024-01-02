@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react';
 import { EditorState } from '@codemirror/state';
-import { EditorView, keymap, lineNumbers, highlightActiveLine } from '@codemirror/view';
+import { EditorView, keymap, lineNumbers, highlightActiveLine, highlightActiveLineGutter } from '@codemirror/view';
 import { python } from '@codemirror/lang-python';
 import { defaultKeymap } from '@codemirror/commands';
-import { codeEditorStyles, dynamicLineStyling, findModifiedLine } from './codeEditorHelper.ts';
+import { codeEditorStyles } from './codeEditorHelper.ts';
 import useCodeIDEStore from '../codeIDEStore.ts'
 import { compileGetGraph } from '../codeIDEHelper.ts';
 import debounce from '../../../helper/debounce.ts';
@@ -26,26 +26,12 @@ export default function CodeEditor({ height }: { height: number }) {
                 python(),
                 codeEditorStyles,
                 lineNumbers(),
-                dynamicLineStyling,
                 highlightActiveLine(),
+                highlightActiveLineGutter(),
                 EditorView.updateListener.of(update => {
                     const innerStore = useCodeIDEStore.getState()
                     if (update.docChanged) {
                         innerStore.setCode(update.state.doc.toString());
-
-                        const modifiedLine = findModifiedLine(update);
-                        console.log("modifiedLine: ", modifiedLine)
-                        console.log("lastLineGraphLoaded: ", innerStore.lastLineGraphLoaded)
-
-                        if (modifiedLine < innerStore.lastLineGraphLoaded) {
-                            console.log("modifiedLine < lastLineGraphLoaded")
-                            innerStore.setLastLineGraphLoaded(0);
-                            innerStore.setGraph({ nodes: [], edges: [] });
-                        } else if (modifiedLine === innerStore.lastLineGraphLoaded) {
-                            console.log("modifiedLine = lastLineGraphLoaded");
-                            innerStore.setLastLineGraphLoaded(innerStore.lastLineGraphLoaded - 1);
-                        }
-
                         debouncedCompileGetGraph();
                     }
                     if (update.focusChanged) {
