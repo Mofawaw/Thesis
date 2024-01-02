@@ -2,10 +2,10 @@ import { useEffect, useRef } from 'react';
 import { EditorState } from '@codemirror/state';
 import { EditorView, keymap, lineNumbers, highlightActiveLine, highlightActiveLineGutter } from '@codemirror/view';
 import { python } from '@codemirror/lang-python';
-import { defaultKeymap } from '@codemirror/commands';
+import { defaultKeymap, indentWithTab, history, redo } from '@codemirror/commands';
 import { codeEditorStyles } from './codeEditorHelper.ts';
 import useCodeIDEStore from '../codeIDEStore.ts'
-import { compileGetGraph } from '../codeIDEHelper.ts';
+import { compileGetGraph, compileGetOutput } from '../codeIDEHelper.ts';
 import debounce from '../../../helper/debounce.ts';
 
 export default function CodeEditor({ height }: { height: number }) {
@@ -16,14 +16,36 @@ export default function CodeEditor({ height }: { height: number }) {
         compileGetGraph();
     }, 1000);
 
+    const redoKeymap = keymap.of([{
+        key: "Mod-Shift-z",
+        run: redo
+    }]);
+
+    const saveKeymap = keymap.of([{
+        key: "Mod-s",
+        run: () => { compileGetGraph(); return true; },
+        preventDefault: true
+    }]);
+
+    const runKeymap = keymap.of([{
+        key: "Mod-r",
+        run: () => { compileGetOutput(); return true; },
+        preventDefault: true
+    }]);
+
+
     useEffect(() => {
         if (!editorRef.current) return;
 
         const startState = EditorState.create({
             doc: store.code,
             extensions: [
-                keymap.of(defaultKeymap),
                 python(),
+                keymap.of([indentWithTab, ...defaultKeymap]),
+                redoKeymap,
+                saveKeymap,
+                runKeymap,
+                history(),
                 codeEditorStyles,
                 lineNumbers(),
                 highlightActiveLine(),
