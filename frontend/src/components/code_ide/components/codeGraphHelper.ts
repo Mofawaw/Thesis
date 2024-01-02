@@ -73,7 +73,6 @@ export const addData = (codeGraph: CodeGraph, graph: dia.Graph) => {
   codeGraph.nodes.forEach((node: any) => {
     const rect = createAndResizeRect(node.label);
     rect.position(node.position.x, node.position.y);
-
     rect.attr({
       body: {
         fill: styles.node.color.rect,
@@ -86,7 +85,7 @@ export const addData = (codeGraph: CodeGraph, graph: dia.Graph) => {
         fontSize: styles.node.font.size,
         fontFamily: styles.node.font.family,
         fill: styles.node.color.text,
-      },
+      }
     });
 
     graph.addCell(rect);

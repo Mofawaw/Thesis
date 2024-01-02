@@ -19,8 +19,9 @@ export default function CodeGraph() {
       height: '100%',
       frozen: true,
       async: true,
+      interactive: { linkMove: false, elementMove: false },
       sorting: dia.Paper.sorting.APPROX,
-      cellViewNamespace: shapes
+      cellViewNamespace: shapes,
     });
 
     addData(graphData, graph);
