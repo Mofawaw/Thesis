@@ -1,6 +1,6 @@
 import config from '../../../../tailwind.config.ts'
 import { dia, shapes } from 'jointjs';
-import CodeGraph from './CodeGraph.ts';
+import CodeGraph, { Node, Edge } from './CodeGraph.ts';
 
 const { colors } = config.theme
 const { fontFamily } = config.theme
@@ -20,14 +20,28 @@ const styles = {
   referenceOffset: 20,
 }
 
-export const addData = (codeGraph: CodeGraph, graph: dia.Graph) => {
+export enum Mode {
+  default = 'default',
+  input = 'input'
+}
+
+export const addData = (codeGraph: CodeGraph, graph: dia.Graph, mode: Mode) => {
   const nodeRectMap = new Map<string, shapes.standard.Rectangle>();
-  let maxWidthOfStackNodes = 0;
+  const maxWidthOfStackNodes = calculateMaxWidth(codeGraph.nodes, "stack");
+  const maxWidthOfHeapNodes = calculateMaxWidth(codeGraph.nodes, "heap");
 
-  const createAndResizeRect = (labelText: string) => {
-    const rect = new shapes.standard.Rectangle();
-    rect.resize(styles.node.width, styles.node.height);
+  positionNodes(codeGraph.nodes, maxWidthOfStackNodes);
+  addNodesToGraph(codeGraph.nodes, graph, nodeRectMap, maxWidthOfStackNodes, maxWidthOfHeapNodes, mode);
+  addEdgesToGraph(codeGraph.edges, nodeRectMap, graph);
+};
 
+const createAndResizeRect = (labelText: string, maxWidth: number, mode: Mode): shapes.standard.Rectangle => {
+  const rect = new shapes.standard.Rectangle();
+  rect.resize(styles.node.width, styles.node.height);
+
+  if (mode === Mode.input) {
+    rect.resize(maxWidth, styles.node.height);
+  } else {
     const canvas = document.createElement("canvas");
     const context = canvas.getContext("2d");
 
@@ -38,40 +52,50 @@ export const addData = (codeGraph: CodeGraph, graph: dia.Graph) => {
     } else {
       console.error("Canvas context not available");
     }
+  }
 
-    return rect;
-  };
+  return rect;
+};
 
-  const sortNodes = (nodes: any[]) => {
+const calculateMaxWidth = (nodes: Node[], type: string): number => {
+  return nodes
+    .filter(node => node.type.includes(type))
+    .reduce((maxWidth, node) => {
+      const rect = createAndResizeRect(node.label, 0, Mode.default);
+      return Math.max(maxWidth, rect.size().width);
+    }, 0);
+};
+
+const positionNodes = (nodes: Node[], maxWidthOfStackNodes: number): void => {
+  const sortNodes = (nodes: Node[]): Node[] => {
     const valueNodes = nodes.filter(node => node.type.includes("value"));
     const referenceNodes = nodes.filter(node => node.type.includes("reference"));
     return [...valueNodes, ...referenceNodes];
   };
 
-  const stackNodes = sortNodes(codeGraph.nodes.filter(node => node.type.includes("stack")));
-  stackNodes.forEach((node: any) => {
-    const rect = createAndResizeRect(node.label);
-    maxWidthOfStackNodes = Math.max(maxWidthOfStackNodes, rect.size().width);
-  });
-
-  const setPositions = (nodes: any, isStack: boolean) => {
+  const setPosition = (nodes: Node[], isStack: boolean): void => {
     const yGap = styles.node.height + styles.node.gap.y;
     const yReferenceOffset = styles.referenceOffset;
 
-    nodes.forEach((node: any, i: number) => {
-      const xOffset = isStack ? 0 : maxWidthOfStackNodes + styles.node.gap.x;
+    nodes.forEach((node, i) => {
+      let xOffset = 0;
+      xOffset = isStack ? 0 : maxWidthOfStackNodes + styles.node.gap.x;
       const yOffset = node.type.startsWith('reference') ? yReferenceOffset : 0;
       node.position = { x: xOffset, y: yOffset + i * yGap };
     });
   };
 
-  const heapNodes = sortNodes(codeGraph.nodes.filter(node => node.type.includes("heap")));
+  const stackNodes = sortNodes(nodes.filter(node => node.type.includes("stack")));
+  const heapNodes = sortNodes(nodes.filter(node => node.type.includes("heap")));
 
-  setPositions(stackNodes, true);
-  setPositions(heapNodes, false);
+  setPosition(stackNodes, true);
+  setPosition(heapNodes, false);
+};
 
-  codeGraph.nodes.forEach((node: any) => {
-    const rect = createAndResizeRect(node.label);
+const addNodesToGraph = (nodes: Node[], graph: dia.Graph, nodeRectMap: Map<string, shapes.standard.Rectangle>, maxWidthOfStackNodes: number, maxWidthOfHeapNodes: number, mode: Mode): void => {
+  nodes.forEach((node) => {
+    const maxWidth = node.type.includes("stack") ? maxWidthOfStackNodes : maxWidthOfHeapNodes;
+    const rect = createAndResizeRect(node.label, maxWidth, mode);
     rect.position(node.position.x, node.position.y);
     rect.attr({
       body: {
@@ -84,15 +108,17 @@ export const addData = (codeGraph: CodeGraph, graph: dia.Graph) => {
         text: node.label,
         fontSize: styles.node.font.size,
         fontFamily: styles.node.font.family,
-        fill: styles.node.color.text,
+        fill: styles.node.color.text
       }
     });
 
     graph.addCell(rect);
     nodeRectMap.set(node.id, rect);
   });
+};
 
-  codeGraph.edges.forEach((edge: any) => {
+const addEdgesToGraph = (edges: Edge[], nodeRectMap: Map<string, shapes.standard.Rectangle>, graph: dia.Graph): void => {
+  edges.forEach((edge) => {
     const sourceNodeRect = nodeRectMap.get(edge.source);
     const targetNodeRect = nodeRectMap.get(edge.target);
 
@@ -100,14 +126,12 @@ export const addData = (codeGraph: CodeGraph, graph: dia.Graph) => {
       throw new Error("Invalid edge reference in the data");
     }
 
-    // sourcePoint (end x, center y)
     const sourceBBox = sourceNodeRect.getBBox();
     const sourcePoint = {
       x: sourceBBox.x + sourceBBox.width,
       y: sourceBBox.y + sourceBBox.height / 2
     };
 
-    // targetPoint (beginning x, center y)
     const targetBBox = targetNodeRect.getBBox();
     const targetPoint = {
       x: targetBBox.x,
@@ -123,7 +147,7 @@ export const addData = (codeGraph: CodeGraph, graph: dia.Graph) => {
           strokeWidth: 2,
           targetMarker: {
             'type': 'path',
-            'd': 'M 8 -4 0 0 8 4 Z'
+            'd': 'M 6 -3 0 0 6 3 Z'
           }
         }
       }

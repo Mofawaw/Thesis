@@ -1,12 +1,14 @@
 import { useEffect, useRef } from 'react';
 import { dia, shapes } from 'jointjs';
 import useCodeIDEStore from '../codeIDEStore.ts';
-import { addData } from './codeGraphHelper';
+import { Mode, addData } from './codeGraphHelper';
 
 export default function CodeGraph() {
   const parentRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLDivElement>(null);
   const graphData = useCodeIDEStore((state) => state.graph);
+
+  const mode = Mode.input;
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -24,9 +26,22 @@ export default function CodeGraph() {
       cellViewNamespace: shapes,
     });
 
-    addData(graphData, graph);
-
+    addData(graphData, graph, mode);
     paper.unfreeze();
+
+    // Mode: Input
+    if (mode.toString() === Mode.input) {
+      paper.on('element:pointerdown', (cellView) => {
+        const model = (cellView as any).model;
+
+        if (model instanceof dia.Element) {
+          const textElement = cellView.findBySelector('text')[0];
+          if (textElement) {
+            createInlineEditor(paper, model);
+          }
+        }
+      });
+    }
 
     return () => {
       graph.clear();
@@ -36,6 +51,7 @@ export default function CodeGraph() {
     };
   }, [graphData]);
 
+  // Responsivity
   useEffect(() => {
     const resizeObserver = new ResizeObserver(entries => {
       for (let entry of entries) {
@@ -64,3 +80,57 @@ export default function CodeGraph() {
     </div>
   );
 }
+
+const createInlineEditor = (paper: dia.Paper, model: dia.Element) => {
+  const currentText = model.attr('label/text');
+
+  const bbox = model.findView(paper).getBBox();
+
+  const paperRect = (paper as any).el.getBoundingClientRect();
+
+  const absoluteX = paperRect.left + bbox.x;
+  const absoluteY = paperRect.top + bbox.y;
+
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.value = currentText;
+
+  const padding = 8;
+  const inputWidth = bbox.width - 2 * padding;
+  const inputHeight = 20;
+
+  input.style.position = 'absolute';
+  input.style.left = `${absoluteX + padding}px`;
+  input.style.top = `${absoluteY + (bbox.height / 2) - (inputHeight / 2)}px`;
+  input.style.width = `${inputWidth}px`;
+  input.style.height = `${inputHeight}px`;
+
+  input.style.textAlign = 'center';
+
+  const updateText = (newText: string) => {
+    model.attr('label/text', newText);
+  };
+
+  input.addEventListener('blur', () => {
+    setTimeout(() => {
+      updateText(input.value);
+    }, 0);
+  });
+
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      input.remove();
+    }
+  });
+
+  const outsideClickListener = (event: MouseEvent) => {
+    if (!input.contains(event.target as Node)) {
+      input.remove();
+    }
+  };
+
+  document.body.appendChild(input);
+  input.focus();
+
+  setTimeout(() => document.addEventListener('mousedown', outsideClickListener), 0);
+};
