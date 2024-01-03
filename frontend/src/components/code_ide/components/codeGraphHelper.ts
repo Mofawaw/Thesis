@@ -1,6 +1,7 @@
 import config from '../../../../tailwind.config.ts'
 import { dia, shapes } from 'jointjs';
 import CodeGraph, { Node, Edge } from '../types/CodeGraph.ts'
+import { GraphMode } from '../types/CodeIDEMode.ts';
 
 const { colors } = config.theme
 const { fontFamily } = config.theme
@@ -20,12 +21,7 @@ const styles = {
   referenceOffset: 20,
 }
 
-export enum Mode {
-  default = 'default',
-  input = 'input'
-}
-
-export const addData = (codeGraph: CodeGraph, graph: dia.Graph, mode: Mode) => {
+export const addData = (codeGraph: CodeGraph, graph: dia.Graph, mode: GraphMode) => {
   const nodeRectMap = new Map<string, shapes.standard.Rectangle>();
   const maxWidthOfStackNodes = calculateMaxWidth(codeGraph.nodes, "stack");
   const maxWidthOfHeapNodes = calculateMaxWidth(codeGraph.nodes, "heap");
@@ -35,11 +31,11 @@ export const addData = (codeGraph: CodeGraph, graph: dia.Graph, mode: Mode) => {
   addEdgesToGraph(codeGraph.edges, nodeRectMap, graph);
 };
 
-const createAndResizeRect = (labelText: string, maxWidth: number, mode: Mode): shapes.standard.Rectangle => {
+const createAndResizeRect = (labelText: string, maxWidth: number, mode: GraphMode): shapes.standard.Rectangle => {
   const rect = new shapes.standard.Rectangle();
   rect.resize(styles.node.width, styles.node.height);
 
-  if (mode === Mode.input) {
+  if (mode === GraphMode.write) {
     rect.resize(maxWidth, styles.node.height);
   } else {
     const canvas = document.createElement("canvas");
@@ -61,7 +57,7 @@ const calculateMaxWidth = (nodes: Node[], type: string): number => {
   return nodes
     .filter(node => node.type.includes(type))
     .reduce((maxWidth, node) => {
-      const rect = createAndResizeRect(node.label, 0, Mode.default);
+      const rect = createAndResizeRect(node.label, 0, GraphMode.read);
       return Math.max(maxWidth, rect.size().width);
     }, 0);
 };
@@ -92,7 +88,7 @@ const positionNodes = (nodes: Node[], maxWidthOfStackNodes: number): void => {
   setPosition(heapNodes, false);
 };
 
-const addNodesToGraph = (nodes: Node[], graph: dia.Graph, nodeRectMap: Map<string, shapes.standard.Rectangle>, maxWidthOfStackNodes: number, maxWidthOfHeapNodes: number, mode: Mode): void => {
+const addNodesToGraph = (nodes: Node[], graph: dia.Graph, nodeRectMap: Map<string, shapes.standard.Rectangle>, maxWidthOfStackNodes: number, maxWidthOfHeapNodes: number, mode: GraphMode): void => {
   nodes.forEach((node) => {
     const maxWidth = node.type.includes("stack") ? maxWidthOfStackNodes : maxWidthOfHeapNodes;
     const rect = createAndResizeRect(node.label, maxWidth, mode);

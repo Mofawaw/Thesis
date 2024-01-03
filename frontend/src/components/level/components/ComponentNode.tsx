@@ -4,12 +4,13 @@ import styles from './componentNode.module.css';
 
 interface ComponentNodeData {
   component: React.ComponentType<any>;
+  componentProps: any;
   minWidth: number;
   minHeight: number;
 }
 
 export default function ComponentNode({ data }: { data: ComponentNodeData }) {
-  const { component: CustomComponent, minWidth, minHeight } = data;
+  const { component: CustomComponent, minWidth, minHeight, componentProps } = data;
   const maxWidth = minWidth * 2;
   const maxHeight = minHeight * 2;
   const [size, setSize] = useState({ width: minWidth, height: minHeight });
@@ -31,7 +32,7 @@ export default function ComponentNode({ data }: { data: ComponentNodeData }) {
         className="bg-th-white border-th border-th-black-10 rounded-th"
         style={{ width: size.width, height: size.height }}
       >
-        {CustomComponent ? <CustomComponent height={size.height} /> : <p>Error: No component found.</p>}
+        {CustomComponent ? <CustomComponent {...componentProps} height={size.height} /> : <p>Error: No component found.</p>}
       </div>
     </div>
   );

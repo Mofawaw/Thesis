@@ -1,14 +1,13 @@
 import { useEffect, useRef } from 'react';
 import { dia, shapes } from 'jointjs';
 import useCodeIDEStore from '../codeIDEStore.ts';
-import { Mode, addData } from './codeGraphHelper';
+import { addData } from './codeGraphHelper';
+import { GraphMode } from '../types/CodeIDEMode.ts';
 
-export default function CodeGraph() {
+export default function CodeGraph({ mode }: { mode: GraphMode }) {
   const parentRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLDivElement>(null);
   const graphData = useCodeIDEStore((state) => state.graph);
-
-  const mode = Mode.default;
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -29,8 +28,8 @@ export default function CodeGraph() {
     addData(graphData, graph, mode);
     paper.unfreeze();
 
-    // Mode: Input
-    if (mode.toString() === Mode.input) {
+    // GraphMode: write
+    if (mode.toString() === GraphMode.write) {
       paper.on('element:pointerdown', (cellView) => {
         const model = (cellView as any).model;
 

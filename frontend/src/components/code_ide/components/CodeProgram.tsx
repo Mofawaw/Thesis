@@ -2,10 +2,10 @@ import CodeEditor from "./CodeEditor.tsx";
 import CodeOutput from "./CodeOutput.tsx"
 import { codeIDELayout } from "./codeProgramHeper.ts";
 import { compileGetOutput } from "../codeIDENetwork.ts";
-
+import { ProgramMode } from "../types/CodeIDEMode.ts";
 import PlayIcon from '../../../assets/icons/play.svg';
 
-export default function CodeProgram({ height }: { height: number }) {
+export default function CodeProgram({ mode, height }: { mode: ProgramMode, height: number }) {
   return (
     <div className="basis-3/5 flex-none flex flex-col gap-2 py-4 overflow-hidden" id="code-program" >
       <div className="px-4 mb-2">
