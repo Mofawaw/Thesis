@@ -9,7 +9,7 @@ const backgroundColor = colors['th-white'];
 const textColor = colors['th-black'][40];
 
 // Theme
-const codeConsoleTheme = EditorView.theme({
+const codeOutputTheme = EditorView.theme({
   "&": {
     color: keywordColor,
     backgroundColor: backgroundColor,
@@ -30,9 +30,9 @@ const codeConsoleTheme = EditorView.theme({
   },
 }, { dark: false });
 
-const codeConsoleStyles = [codeConsoleTheme];
+const codeOutputStyles = [codeOutputTheme];
 
-export { codeConsoleStyles };
+export { codeOutputStyles };
 
 //Gutter
 class PercentGutterMarker extends GutterMarker {

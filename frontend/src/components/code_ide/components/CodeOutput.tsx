@@ -2,11 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import { EditorState, Transaction } from '@codemirror/state';
 import { EditorView } from '@codemirror/view';
 import { python } from '@codemirror/lang-python';
-import { codeConsoleStyles, percentLineNumbers } from './codeConsoleHelper.ts';
+import { codeOutputStyles, percentLineNumbers } from './codeOutputHelper.ts';
 import useCodeIDEStore from '../codeIDEStore.ts'
-import { codeIDELayout } from "../codeIDEHelper.ts";
+import { codeIDELayout } from "./codeProgramHeper.ts";
 
-export default function CodeConsole() {
+export default function CodeOutput() {
   const editorRef = useRef<HTMLDivElement>(null);
   const [editorView, setEditorView] = useState<EditorView>();
   const output = useCodeIDEStore((state) => state.output)
@@ -19,7 +19,7 @@ export default function CodeConsole() {
       doc: initialCode,
       extensions: [
         python(),
-        codeConsoleStyles,
+        codeOutputStyles,
         percentLineNumbers(),
         EditorState.transactionFilter.of((tr) => {
           const isProgrammatic = tr.annotation(Transaction.userEvent) === 'programmatic';
@@ -67,7 +67,7 @@ export default function CodeConsole() {
 
   return (
     <div className="flex flex-col overflow-auto">
-      <div ref={editorRef} className="editor" style={{ height: `${codeIDELayout.consoleHeight}px`, overflow: 'auto' }} />
+      <div ref={editorRef} className="editor" style={{ height: `${codeIDELayout.codeOutputHeight}px`, overflow: 'auto' }} />
     </div>
   );
 }

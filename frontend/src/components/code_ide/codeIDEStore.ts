@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import CodeGraph from './components/CodeGraph.ts'
+import CodeGraph from './codeIDETypes.ts'
 
 export type CodeIDEStore = {
   code: string;

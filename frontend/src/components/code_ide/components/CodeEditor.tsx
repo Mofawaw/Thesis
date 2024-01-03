@@ -5,7 +5,7 @@ import { python } from '@codemirror/lang-python';
 import { defaultKeymap, indentWithTab, history, redo } from '@codemirror/commands';
 import { codeEditorStyles } from './codeEditorHelper.ts';
 import useCodeIDEStore from '../codeIDEStore.ts'
-import { compileGetGraph, compileGetOutput } from '../codeIDEHelper.ts';
+import { compileGetGraph, compileGetOutput } from '../codeIDENetwork.ts';
 import debounce from '../../../helper/debounce.ts';
 
 export default function CodeEditor({ height }: { height: number }) {

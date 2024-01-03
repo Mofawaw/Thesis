@@ -63,8 +63,3 @@ export function compileGetGraph() {
       console.error('Error:', error);
     })
 }
-
-export const codeIDELayout = {
-  consoleHeight: 100,
-  getEditorHeight: (totalHeight: number) => (totalHeight - codeIDELayout.consoleHeight - 190),
-};

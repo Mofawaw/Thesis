@@ -8,7 +8,7 @@ export default function CodeGraph() {
   const canvasRef = useRef<HTMLDivElement>(null);
   const graphData = useCodeIDEStore((state) => state.graph);
 
-  const mode = Mode.input;
+  const mode = Mode.default;
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -75,8 +75,11 @@ export default function CodeGraph() {
   }, []);
 
   return (
-    <div ref={parentRef} className="w-full h-full overflow-auto">
-      <div ref={canvasRef} className="w-full h-full overflow-auto" />
+    <div className="basis-2/5 flex-none p-4 nowheel nodrag overflow-hidden">
+      <h3 className="my-4">Speicher</h3>
+      <div ref={parentRef} className="w-full h-full overflow-auto">
+        <div ref={canvasRef} className="w-full h-full overflow-auto" />
+      </div>
     </div>
   );
 }
