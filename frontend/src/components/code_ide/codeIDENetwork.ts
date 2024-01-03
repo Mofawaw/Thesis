@@ -1,4 +1,4 @@
-import useCodeIDEStore from './codeIDEStore.ts';
+import useCodeIDEStore from "./codeIDEStore";
 
 export function compileGetOutput() {
   const { code, setOutput } = useCodeIDEStore.getState();
