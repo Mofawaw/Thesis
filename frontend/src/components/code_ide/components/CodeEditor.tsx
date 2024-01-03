@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { EditorState } from '@codemirror/state';
+import { EditorState, Transaction } from '@codemirror/state';
 import { EditorView, keymap, lineNumbers, highlightActiveLine, highlightActiveLineGutter } from '@codemirror/view';
 import { python } from '@codemirror/lang-python';
 import { defaultKeymap, indentWithTab, history, redo } from '@codemirror/commands';
@@ -7,8 +7,9 @@ import { codeEditorStyles } from './codeEditorHelper.ts';
 import useCodeIDEStore from '../codeIDEStore.ts'
 import { compileGetGraph, compileGetOutput } from '../codeIDENetwork.ts';
 import debounce from '../../../helper/debounce.ts';
+import { ProgramMode } from '../types/CodeIDEMode.ts';
 
-export default function CodeEditor({ height, scopeId }: { height: number, scopeId: number }) {
+export default function CodeEditor({ mode, height, scopeId }: { mode: ProgramMode, height: number, scopeId: number }) {
     const editorRef = useRef<HTMLDivElement>(null);
     const store = useCodeIDEStore(scopeId).getState()
 
@@ -32,7 +33,6 @@ export default function CodeEditor({ height, scopeId }: { height: number, scopeI
         run: () => { compileGetOutput(scopeId); return true; },
         preventDefault: true
     }]);
-
 
     useEffect(() => {
         if (!editorRef.current) return;
@@ -64,6 +64,16 @@ export default function CodeEditor({ height, scopeId }: { height: number, scopeI
                             editorRef.current?.classList.remove("nowheel");
                         }
                     }
+                }),
+                // Disable edit when mode is static
+                EditorState.transactionFilter.of((tr) => {
+                    if (mode === ProgramMode.static) {
+                        const isProgrammatic = tr.annotation(Transaction.userEvent) === 'programmatic';
+                        if (tr.docChanged && !isProgrammatic) {
+                            return [];
+                        }
+                    }
+                    return tr;
                 })
             ]
         });

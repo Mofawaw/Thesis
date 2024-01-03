@@ -14,13 +14,14 @@ export default function CodeOutput({ scopeId }: { scopeId: number }) {
   useEffect(() => {
     if (!editorRef.current) return;
 
-    const initialCode = Array(19).fill('\n').join('');
+    const initialCode = Array(9).fill('\n').join('');
     const startState = EditorState.create({
       doc: initialCode,
       extensions: [
         python(),
         codeOutputStyles,
         percentLineNumbers(),
+        // Disable edit
         EditorState.transactionFilter.of((tr) => {
           const isProgrammatic = tr.annotation(Transaction.userEvent) === 'programmatic';
 
@@ -55,6 +56,7 @@ export default function CodeOutput({ scopeId }: { scopeId: number }) {
     };
   }, []);
 
+  // Updates editor programmatically based on output
   useEffect(() => {
     if (editorView) {
       const transaction = editorView.state.update({

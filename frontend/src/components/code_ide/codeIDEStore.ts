@@ -34,7 +34,6 @@ const createCodeIDEStore = (scopeId: number) => create<CodeIDEStore>((set) => {
 const storeMap = new Map();
 
 export const useCodeIDEStore = (scopeId: number) => {
-  console.log(scopeId, storeMap)
   if (!storeMap.has(scopeId)) {
     storeMap.set(scopeId, createCodeIDEStore(scopeId));
   }
