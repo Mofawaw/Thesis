@@ -1,11 +1,11 @@
-import { ProgramMode } from "../types/CodeIDEMode";
+import CodeIDEMode from "../types/CodeIDEMode";
 
 export const codeIDELayout = {
   codeOutputHeight: 100,
-  getCodeEditorHeight: (mode: ProgramMode, totalHeight: number) => {
-    if (mode === ProgramMode.static) {
+  getCodeEditorHeight: (mode: CodeIDEMode, totalHeight: number) => {
+    if (mode.has(CodeIDEMode.programRead)) {
       return totalHeight - 110
-    } else if (mode === ProgramMode.write) {
+    } else if (mode.has(CodeIDEMode.programWrite)) {
       return totalHeight - codeIDELayout.codeOutputHeight - 190
     }
     return totalHeight

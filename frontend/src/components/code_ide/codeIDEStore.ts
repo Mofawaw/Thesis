@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import CodeGraph from './types/CodeGraph.ts'
+import CodeIDEMode from './types/CodeIDEMode.ts';
 
 export type CodeIDEStore = {
   code: string;
@@ -9,6 +10,9 @@ export type CodeIDEStore = {
   setCode: (newCode: string) => (void);
   setOutput: (newOutput: string) => (void);
   setGraph: (newGraphJSON: CodeGraph) => (void);
+
+  mode: CodeIDEMode;
+  setMode: (newMode: CodeIDEMode) => (void);
 };
 
 const createCodeIDEStore = (scopeId: number) => create<CodeIDEStore>((set) => {
@@ -19,7 +23,10 @@ const createCodeIDEStore = (scopeId: number) => create<CodeIDEStore>((set) => {
 
     setCode: (newCode) => set(() => ({ code: newCode })),
     setOutput: (newOutput) => set(() => ({ output: newOutput })),
-    setGraph: (newGraphJSON) => set(() => ({ graph: newGraphJSON }))
+    setGraph: (newGraphJSON) => set(() => ({ graph: newGraphJSON })),
+
+    mode: CodeIDEMode.default,
+    setMode: (newMode) => set(() => ({ mode: newMode }))
   };
 });
 

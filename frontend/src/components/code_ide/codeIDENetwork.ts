@@ -33,16 +33,16 @@ export function compileGetOutput(scopeId: number) {
 }
 
 export function compileGetGraph(scopeId: number) {
-  const store = useCodeIDEStore(scopeId).getState();
+  const { code, setGraph } = useCodeIDEStore(scopeId).getState();
 
   console.log("Request: compile_get_graph")
-  console.log('Code', store.code)
+  console.log('Code', code)
   fetch('http://127.0.0.1:5000/compile_get_graph', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ code: store.code }),
+    body: JSON.stringify({ code: code }),
   })
     .then(response => {
       if (!response.ok) {
@@ -54,7 +54,7 @@ export function compileGetGraph(scopeId: number) {
       if (data.success) {
         console.log('Graph:', data.graph);
         const jsonData = JSON.parse(data.graph);
-        store.setGraph(jsonData)
+        setGraph(jsonData)
       } else {
         console.log('Error generating Graph')
       }

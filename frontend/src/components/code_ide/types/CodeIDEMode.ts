@@ -1,22 +1,36 @@
-export enum ProgramMode {
+enum ProgramMode {
   write = "program-write",
-  static = "program-static"
+  read = "program-static"
 }
 
-export enum GraphMode {
+enum GraphMode {
   auto = "graph-auto",
   input = "graph-input",
-  static = "graph-static"
+  read = "graph-static"
 }
 
-enum CodeIDEMode {
-  programWriteGraphRead = ProgramMode.write + "-" + GraphMode.auto,
+class CodeIDEMode {
+  value: string;
 
-  programWrite = ProgramMode.write,
-  programStatic = ProgramMode.static,
+  constructor(value: string) {
+    this.value = value;
+  }
 
-  graphStatic = GraphMode.static,
-  graphInput = GraphMode.input,
+  static programWriteGraphAuto = new CodeIDEMode(ProgramMode.write + "-" + GraphMode.auto);
+  static programWrite = new CodeIDEMode(ProgramMode.write);
+  static programRead = new CodeIDEMode(ProgramMode.read);
+  static graphAuto = new CodeIDEMode(GraphMode.auto);
+  static graphInput = new CodeIDEMode(GraphMode.input);
+  static graphRead = new CodeIDEMode(GraphMode.read);
+  static default = new CodeIDEMode("default");
+
+  has(mode: CodeIDEMode): boolean {
+    return this.value.includes(mode.value);
+  }
+
+  static equal(mode1: CodeIDEMode, mode2: CodeIDEMode): boolean {
+    return mode1.has(mode2) || mode2.has(mode1);
+  }
 }
 
 export default CodeIDEMode;

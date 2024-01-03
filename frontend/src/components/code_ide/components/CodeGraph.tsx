@@ -2,19 +2,20 @@ import { useEffect, useRef } from 'react';
 import { dia, shapes } from 'jointjs';
 import useCodeIDEStore, { CodeIDEStore } from '../codeIDEStore.ts';
 import { addData } from './codeGraphHelper';
-import { GraphMode } from '../types/CodeIDEMode.ts';
+import CodeIDEMode from '../types/CodeIDEMode.ts';
 
-export default function CodeGraph({ mode, scopeId }: { mode: GraphMode, scopeId: number }) {
+export default function CodeGraph({ scopeId }: { scopeId: number }) {
   const parentRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLDivElement>(null);
-  const graphData = useCodeIDEStore(scopeId)((state: CodeIDEStore) => state.graph);
+  const mode = useCodeIDEStore(scopeId)((state: CodeIDEStore) => state.mode)
+  const graph = useCodeIDEStore(scopeId)((state: CodeIDEStore) => state.graph)
 
   useEffect(() => {
     if (!canvasRef.current) return;
 
-    const graph = new dia.Graph();
+    const diaGraph = new dia.Graph();
     const paper = new dia.Paper({
-      model: graph,
+      model: diaGraph,
       el: canvasRef.current,
       width: '100%',
       height: '100%',
@@ -25,11 +26,11 @@ export default function CodeGraph({ mode, scopeId }: { mode: GraphMode, scopeId:
       cellViewNamespace: shapes,
     });
 
-    addData(graphData, graph, mode);
+    addData(graph, diaGraph, mode);
     paper.unfreeze();
 
-    // GraphMode: write
-    if (mode === GraphMode.input) {
+    // GraphMode: input
+    if (mode.has(CodeIDEMode.graphInput)) {
       paper.on('element:pointerdown', (cellView) => {
         const model = (cellView as any).model;
 
@@ -43,12 +44,12 @@ export default function CodeGraph({ mode, scopeId }: { mode: GraphMode, scopeId:
     }
 
     return () => {
-      graph.clear();
+      diaGraph.clear();
       if (canvasRef.current) {
         canvasRef.current.innerHTML = '';
       }
     };
-  }, [graphData]);
+  }, [graph]);
 
   // Responsivity
   useEffect(() => {

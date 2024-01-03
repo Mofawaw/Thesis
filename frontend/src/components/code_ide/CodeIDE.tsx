@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import CodeGraph from "./components/CodeGraph.tsx";
 import CodeProgram from "./components/CodeProgram.tsx";
-import CodeIDEMode, { GraphMode, ProgramMode } from "./types/CodeIDEMode.ts";
+import CodeIDEMode from "./types/CodeIDEMode.ts";
 import useCodeIDEStore from "./codeIDEStore.ts";
 
 export default function CodeIDE({ height, codeIDEMode, scopeId }: { height: number, codeIDEMode: CodeIDEMode, scopeId: number }) {
@@ -9,26 +9,26 @@ export default function CodeIDE({ height, codeIDEMode, scopeId }: { height: numb
   let codeIDEComponent;
 
   switch (codeIDEMode) {
-    case CodeIDEMode.programWriteGraphRead:
+    case CodeIDEMode.programWriteGraphAuto:
       codeIDEComponent = (
         <div className="flex flex-row overflow-hidden">
-          <CodeProgram mode={ProgramMode.write} height={height} scopeId={scopeId} />
+          <CodeProgram height={height} scopeId={scopeId} />
           <div className="th-yline" />
-          <CodeGraph mode={GraphMode.auto} scopeId={scopeId} />
+          <CodeGraph scopeId={scopeId} />
         </div>
       );
       break;
     case CodeIDEMode.programWrite:
-      codeIDEComponent = <CodeProgram mode={ProgramMode.write} height={height} scopeId={scopeId} />;
+      codeIDEComponent = <CodeProgram height={height} scopeId={scopeId} />;
       break;
-    case CodeIDEMode.programStatic:
-      codeIDEComponent = <CodeProgram mode={ProgramMode.static} height={height} scopeId={scopeId} />;
+    case CodeIDEMode.programRead:
+      codeIDEComponent = <CodeProgram height={height} scopeId={scopeId} />;
       break;
-    case CodeIDEMode.graphStatic:
-      codeIDEComponent = <CodeGraph mode={GraphMode.static} scopeId={scopeId} />;
+    case CodeIDEMode.graphRead:
+      codeIDEComponent = <CodeGraph scopeId={scopeId} />;
       break;
     case CodeIDEMode.graphInput:
-      codeIDEComponent = <CodeGraph mode={GraphMode.input} scopeId={scopeId} />;
+      codeIDEComponent = <CodeGraph scopeId={scopeId} />;
       break;
     default:
       codeIDEComponent = <div>No CodeIDEMode found.</div>
@@ -56,6 +56,7 @@ export default function CodeIDE({ height, codeIDEMode, scopeId }: { height: numb
       ]
     };
 
+    store.setMode(codeIDEMode);
     store.setCode(initialCode);
     store.setGraph(initialGraph);
   }, []);

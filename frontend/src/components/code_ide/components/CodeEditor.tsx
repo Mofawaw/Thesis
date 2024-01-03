@@ -7,14 +7,14 @@ import { codeEditorStyles } from './codeEditorHelper.ts';
 import useCodeIDEStore from '../codeIDEStore.ts'
 import { compileGetGraph, compileGetOutput } from '../codeIDENetwork.ts';
 import debounce from '../../../helper/debounce.ts';
-import { ProgramMode } from '../types/CodeIDEMode.ts';
+import CodeIDEMode from '../types/CodeIDEMode.ts';
 
-export default function CodeEditor({ mode, height, scopeId }: { mode: ProgramMode, height: number, scopeId: number }) {
+export default function CodeEditor({ height, scopeId }: { height: number, scopeId: number }) {
     const editorRef = useRef<HTMLDivElement>(null);
-    const { code, setCode } = useCodeIDEStore(scopeId).getState();
+    const { mode, code, setCode } = useCodeIDEStore(scopeId).getState();
 
     const debouncedCompileGetGraph = debounce(() => {
-        compileGetGraph(scopeId);
+        mode.has(CodeIDEMode.graphAuto) ? compileGetGraph(scopeId) : {};
     }, 1000);
 
     const redoKeymap = keymap.of([{
@@ -24,7 +24,7 @@ export default function CodeEditor({ mode, height, scopeId }: { mode: ProgramMod
 
     const saveKeymap = keymap.of([{
         key: "Mod-s",
-        run: () => { compileGetGraph(scopeId); return true; },
+        run: () => { mode.has(CodeIDEMode.graphAuto) ? compileGetGraph(scopeId) : {}; return true; },
         preventDefault: true
     }]);
 
@@ -65,9 +65,9 @@ export default function CodeEditor({ mode, height, scopeId }: { mode: ProgramMod
                         }
                     }
                 }),
-                // Disable edit when mode is static
+                // Disable edit when mode is read
                 EditorState.transactionFilter.of((tr) => {
-                    if (mode === ProgramMode.static) {
+                    if (mode.has(CodeIDEMode.programRead)) {
                         const isProgrammatic = tr.annotation(Transaction.userEvent) === 'programmatic';
                         if (tr.docChanged && !isProgrammatic) {
                             return [];
@@ -83,6 +83,7 @@ export default function CodeEditor({ mode, height, scopeId }: { mode: ProgramMod
             parent: editorRef.current
         });
 
+        console.log("Code Change")
         return () => {
             view.destroy();
         };
