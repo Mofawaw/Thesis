@@ -1,40 +1,69 @@
-import CodeEditor from "./components/CodeEditor.tsx";
-import CodeConsole from "./components/CodeConsole.tsx"
+import { useEffect } from "react";
 import CodeGraph from "./components/CodeGraph.tsx";
-import { codeIDELayout, compileGetOutput } from "./codeIDEHelper.ts";
+import CodeProgram from "./components/CodeProgram.tsx";
+import CodeIDEMode from "./types/CodeIDEMode.ts";
+import useCodeIDEStore from "./codeIDEStore.ts";
 
-import PlayIcon from '../../assets/icons/play.svg';
+export default function CodeIDE({ height, codeIDEMode, scopeId }: { height: number, codeIDEMode: CodeIDEMode, scopeId: number }) {
+  const store = useCodeIDEStore(scopeId).getState();
+  let codeIDEComponent;
 
-export default function CodeIDE({ height }: { height: number }) {
+  switch (codeIDEMode) {
+    case CodeIDEMode.programWriteGraphAuto:
+      codeIDEComponent = (
+        <div className="flex flex-row overflow-hidden">
+          <CodeProgram height={height} scopeId={scopeId} />
+          <div className="th-yline" />
+          <CodeGraph scopeId={scopeId} />
+        </div>
+      );
+      break;
+    case CodeIDEMode.programWrite:
+      codeIDEComponent = <CodeProgram height={height} scopeId={scopeId} />;
+      break;
+    case CodeIDEMode.programRead:
+      codeIDEComponent = <CodeProgram height={height} scopeId={scopeId} />;
+      break;
+    case CodeIDEMode.graphRead:
+      codeIDEComponent = <CodeGraph scopeId={scopeId} />;
+      break;
+    case CodeIDEMode.graphInput:
+      codeIDEComponent = <CodeGraph scopeId={scopeId} />;
+      break;
+    default:
+      codeIDEComponent = <div>No CodeIDEMode found.</div>
+  }
+
+  useEffect(() => {
+    const initialCode = [
+      "a = 1",
+      "b = 2",
+      "a = b",
+      "print(a)",
+      "print(b)"
+    ].join('\n');
+
+    const initialGraph = {
+      nodes: [
+        { id: "n-vs-0", type: "value-stack", label: "a" },
+        { id: "n-vh-0", type: "value-heap", label: 2 },
+        { id: "n-vs-1", type: "value-stack", label: "b" },
+        { id: "n-vh-1", type: "value-heap", label: 2 }
+      ],
+      edges: [
+        { id: "e-v-0", type: "value", source: "n-vs-0", target: "n-vh-0" },
+        { id: "e-v-1", type: "value", source: "n-vs-1", target: "n-vh-1" }
+      ]
+    };
+
+    store.setMode(codeIDEMode);
+    store.setCode(initialCode);
+    store.setGraph(initialGraph);
+  }, []);
+
   return (
-    <div className="flex flex-row h-full w-full overflow-hidden">
-      <div className="basis-3/5 flex-none flex flex-col gap-2 py-4 overflow-hidden" id="code-program" >
-        <div className="px-4 mb-2">
-          <h3 className="my-4">Programm</h3>
-          <CodeEditor height={codeIDELayout.getEditorHeight(height)} />
-        </div>
-
-        <div className="flex flex-col gap-2 justify-center">
-          <div className="th-xline px-[-1rem]" />
-
-          <div className="flex flex-row justify-between px-4">
-            <button onClick={compileGetOutput}><img src={PlayIcon} alt="Run" className="h-6 w-6" /></button>
-          </div>
-
-          <div className="th-xline" />
-        </div>
-
-        <div className="px-4 mt-2 overflow-hidden">
-          <CodeConsole />
-        </div>
-      </div>
-
-      <div className="th-yline" />
-
-      <div className="basis-2/5 flex-none p-4 nowheel nodrag overflow-hidden">
-        <h3 className="my-4">Speicher</h3>
-        <CodeGraph />
-      </div>
+    <div className="h-full w-full overflow-hidden">
+      {codeIDEComponent}
     </div>
   )
 }

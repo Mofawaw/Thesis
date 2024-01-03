@@ -1,21 +1,21 @@
 import { useEffect, useRef } from 'react';
 import { dia, shapes } from 'jointjs';
-import useCodeIDEStore from '../codeIDEStore.ts';
-import { Mode, addData } from './codeGraphHelper';
+import useCodeIDEStore, { CodeIDEStore } from '../codeIDEStore.ts';
+import { addData } from './codeGraphHelper';
+import CodeIDEMode from '../types/CodeIDEMode.ts';
 
-export default function CodeGraph() {
+export default function CodeGraph({ scopeId }: { scopeId: number }) {
   const parentRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLDivElement>(null);
-  const graphData = useCodeIDEStore((state) => state.graph);
-
-  const mode = Mode.input;
+  const mode = useCodeIDEStore(scopeId)((state: CodeIDEStore) => state.mode)
+  const graph = useCodeIDEStore(scopeId)((state: CodeIDEStore) => state.graph)
 
   useEffect(() => {
     if (!canvasRef.current) return;
 
-    const graph = new dia.Graph();
+    const diaGraph = new dia.Graph();
     const paper = new dia.Paper({
-      model: graph,
+      model: diaGraph,
       el: canvasRef.current,
       width: '100%',
       height: '100%',
@@ -26,11 +26,11 @@ export default function CodeGraph() {
       cellViewNamespace: shapes,
     });
 
-    addData(graphData, graph, mode);
+    addData(graph, diaGraph, mode);
     paper.unfreeze();
 
-    // Mode: Input
-    if (mode.toString() === Mode.input) {
+    // GraphMode: input
+    if (mode.has(CodeIDEMode.graphInput)) {
       paper.on('element:pointerdown', (cellView) => {
         const model = (cellView as any).model;
 
@@ -44,12 +44,12 @@ export default function CodeGraph() {
     }
 
     return () => {
-      graph.clear();
+      diaGraph.clear();
       if (canvasRef.current) {
         canvasRef.current.innerHTML = '';
       }
     };
-  }, [graphData]);
+  }, [graph]);
 
   // Responsivity
   useEffect(() => {
@@ -75,8 +75,11 @@ export default function CodeGraph() {
   }, []);
 
   return (
-    <div ref={parentRef} className="w-full h-full overflow-auto">
-      <div ref={canvasRef} className="w-full h-full overflow-auto" />
+    <div className="basis-2/5 flex-none p-4 nowheel nodrag overflow-hidden">
+      <h3 className="my-4">Speicher</h3>
+      <div ref={parentRef} className="w-full h-full overflow-auto">
+        <div ref={canvasRef} className="w-full h-full overflow-auto" />
+      </div>
     </div>
   );
 }

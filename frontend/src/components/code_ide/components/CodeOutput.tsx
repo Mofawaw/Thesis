@@ -2,25 +2,26 @@ import { useEffect, useRef, useState } from 'react';
 import { EditorState, Transaction } from '@codemirror/state';
 import { EditorView } from '@codemirror/view';
 import { python } from '@codemirror/lang-python';
-import { codeConsoleStyles, percentLineNumbers } from './codeConsoleHelper.ts';
-import useCodeIDEStore from '../codeIDEStore.ts'
-import { codeIDELayout } from "../codeIDEHelper.ts";
+import { codeOutputStyles, percentLineNumbers } from './codeOutputHelper.ts';
+import useCodeIDEStore, { CodeIDEStore } from '../codeIDEStore.ts'
+import { codeIDELayout } from "./codeProgramHeper.ts";
 
-export default function CodeConsole() {
+export default function CodeOutput({ scopeId }: { scopeId: number }) {
   const editorRef = useRef<HTMLDivElement>(null);
   const [editorView, setEditorView] = useState<EditorView>();
-  const output = useCodeIDEStore((state) => state.output)
+  const output = useCodeIDEStore(scopeId)((state: CodeIDEStore) => state.output)
 
   useEffect(() => {
     if (!editorRef.current) return;
 
-    const initialCode = Array(19).fill('\n').join('');
+    const initialCode = Array(9).fill('\n').join('');
     const startState = EditorState.create({
       doc: initialCode,
       extensions: [
         python(),
-        codeConsoleStyles,
+        codeOutputStyles,
         percentLineNumbers(),
+        // Disable edit
         EditorState.transactionFilter.of((tr) => {
           const isProgrammatic = tr.annotation(Transaction.userEvent) === 'programmatic';
 
@@ -55,6 +56,7 @@ export default function CodeConsole() {
     };
   }, []);
 
+  // Updates editor programmatically based on output
   useEffect(() => {
     if (editorView) {
       const transaction = editorView.state.update({
@@ -67,7 +69,7 @@ export default function CodeConsole() {
 
   return (
     <div className="flex flex-col overflow-auto">
-      <div ref={editorRef} className="editor" style={{ height: `${codeIDELayout.consoleHeight}px`, overflow: 'auto' }} />
+      <div ref={editorRef} className="editor" style={{ height: `${codeIDELayout.codeOutputHeight}px`, overflow: 'auto' }} />
     </div>
   );
 }

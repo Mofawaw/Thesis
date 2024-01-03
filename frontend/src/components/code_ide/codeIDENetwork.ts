@@ -1,7 +1,7 @@
-import useCodeIDEStore from './codeIDEStore.ts';
+import useCodeIDEStore from "./codeIDEStore";
 
-export function compileGetOutput() {
-  const { code, setOutput } = useCodeIDEStore.getState();
+export function compileGetOutput(scopeId: number) {
+  const { code, setOutput } = useCodeIDEStore(scopeId).getState();
 
   console.log("Request: compile_get_output")
   console.log('Code', code)
@@ -32,17 +32,17 @@ export function compileGetOutput() {
     });
 }
 
-export function compileGetGraph() {
-  const store = useCodeIDEStore.getState();
+export function compileGetGraph(scopeId: number) {
+  const { code, setGraph } = useCodeIDEStore(scopeId).getState();
 
   console.log("Request: compile_get_graph")
-  console.log('Code', store.code)
+  console.log('Code', code)
   fetch('http://127.0.0.1:5000/compile_get_graph', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ code: store.code }),
+    body: JSON.stringify({ code: code }),
   })
     .then(response => {
       if (!response.ok) {
@@ -54,7 +54,7 @@ export function compileGetGraph() {
       if (data.success) {
         console.log('Graph:', data.graph);
         const jsonData = JSON.parse(data.graph);
-        store.setGraph(jsonData)
+        setGraph(jsonData)
       } else {
         console.log('Error generating Graph')
       }
@@ -63,8 +63,3 @@ export function compileGetGraph() {
       console.error('Error:', error);
     })
 }
-
-export const codeIDELayout = {
-  consoleHeight: 100,
-  getEditorHeight: (totalHeight: number) => (totalHeight - codeIDELayout.consoleHeight - 190),
-};

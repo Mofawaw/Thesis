@@ -1,19 +1,20 @@
 import { useEffect, useRef } from 'react';
-import { EditorState } from '@codemirror/state';
+import { EditorState, Transaction } from '@codemirror/state';
 import { EditorView, keymap, lineNumbers, highlightActiveLine, highlightActiveLineGutter } from '@codemirror/view';
 import { python } from '@codemirror/lang-python';
 import { defaultKeymap, indentWithTab, history, redo } from '@codemirror/commands';
 import { codeEditorStyles } from './codeEditorHelper.ts';
 import useCodeIDEStore from '../codeIDEStore.ts'
-import { compileGetGraph, compileGetOutput } from '../codeIDEHelper.ts';
+import { compileGetGraph, compileGetOutput } from '../codeIDENetwork.ts';
 import debounce from '../../../helper/debounce.ts';
+import CodeIDEMode from '../types/CodeIDEMode.ts';
 
-export default function CodeEditor({ height }: { height: number }) {
+export default function CodeEditor({ height, scopeId }: { height: number, scopeId: number }) {
     const editorRef = useRef<HTMLDivElement>(null);
-    const store = useCodeIDEStore.getState()
+    const { mode, code, setCode } = useCodeIDEStore(scopeId).getState();
 
     const debouncedCompileGetGraph = debounce(() => {
-        compileGetGraph();
+        mode.has(CodeIDEMode.graphAuto) ? compileGetGraph(scopeId) : {};
     }, 1000);
 
     const redoKeymap = keymap.of([{
@@ -23,22 +24,21 @@ export default function CodeEditor({ height }: { height: number }) {
 
     const saveKeymap = keymap.of([{
         key: "Mod-s",
-        run: () => { compileGetGraph(); return true; },
+        run: () => { mode.has(CodeIDEMode.graphAuto) ? compileGetGraph(scopeId) : {}; return true; },
         preventDefault: true
     }]);
 
     const runKeymap = keymap.of([{
         key: "Mod-r",
-        run: () => { compileGetOutput(); return true; },
+        run: () => { compileGetOutput(scopeId); return true; },
         preventDefault: true
     }]);
-
 
     useEffect(() => {
         if (!editorRef.current) return;
 
         const startState = EditorState.create({
-            doc: store.code,
+            doc: code,
             extensions: [
                 python(),
                 keymap.of([indentWithTab, ...defaultKeymap]),
@@ -51,9 +51,8 @@ export default function CodeEditor({ height }: { height: number }) {
                 highlightActiveLine(),
                 highlightActiveLineGutter(),
                 EditorView.updateListener.of(update => {
-                    const innerStore = useCodeIDEStore.getState()
                     if (update.docChanged) {
-                        innerStore.setCode(update.state.doc.toString());
+                        setCode(update.state.doc.toString());
                         debouncedCompileGetGraph();
                     }
                     if (update.focusChanged) {
@@ -65,6 +64,16 @@ export default function CodeEditor({ height }: { height: number }) {
                             editorRef.current?.classList.remove("nowheel");
                         }
                     }
+                }),
+                // Disable edit when mode is read
+                EditorState.transactionFilter.of((tr) => {
+                    if (mode.has(CodeIDEMode.programRead)) {
+                        const isProgrammatic = tr.annotation(Transaction.userEvent) === 'programmatic';
+                        if (tr.docChanged && !isProgrammatic) {
+                            return [];
+                        }
+                    }
+                    return tr;
                 })
             ]
         });
@@ -74,10 +83,11 @@ export default function CodeEditor({ height }: { height: number }) {
             parent: editorRef.current
         });
 
+        console.log("Code Change")
         return () => {
             view.destroy();
         };
-    }, []);
+    }, [code]);
 
     return (
         <div ref={editorRef} className="editor" style={{ height: `${height}px`, overflow: 'auto' }} />
