@@ -1,13 +1,13 @@
 import { useEffect, useRef } from 'react';
 import { dia, shapes } from 'jointjs';
-import useCodeIDEStore from '../codeIDEStore.ts';
+import useCodeIDEStore, { CodeIDEStore } from '../codeIDEStore.ts';
 import { addData } from './codeGraphHelper';
 import { GraphMode } from '../types/CodeIDEMode.ts';
 
-export default function CodeGraph({ mode }: { mode: GraphMode }) {
+export default function CodeGraph({ mode, scopeId }: { mode: GraphMode, scopeId: number }) {
   const parentRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLDivElement>(null);
-  const graphData = useCodeIDEStore((state) => state.graph);
+  const graphData = useCodeIDEStore(scopeId)((state: CodeIDEStore) => state.graph);
 
   useEffect(() => {
     if (!canvasRef.current) return;

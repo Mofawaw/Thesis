@@ -8,58 +8,58 @@ const initialNodes = [
   {
     id: '1',
     type: 'component',
-    position: { x: 100, y: 300 },
+    position: { x: 100, y: 200 },
     data: {
       component: CodeIDE,
-      componentProps: { codeIDEMode: CodeIDEMode.programWriteGraphRead },
+      componentProps: { codeIDEMode: CodeIDEMode.programWriteGraphRead, scopeId: 1 },
       minWidth: 900,
       minHeight: 600
     }
   },
-  // {
-  //   id: '2',
-  //   type: 'component',
-  //   position: { x: 500, y: 0 },
-  //   data: {
-  //     component: CodeIDE,
-  //     componentProps: { codeIDEMode: CodeIDEMode.graphStatic },
-  //     minWidth: 400,
-  //     minHeight: 600
-  //   }
-  // },
-  // {
-  //   id: '3',
-  //   type: 'component',
-  //   position: { x: 500, y: 800 },
-  //   data: {
-  //     component: CodeIDE,
-  //     componentProps: { codeIDEMode: CodeIDEMode.graphInput },
-  //     minWidth: 400,
-  //     minHeight: 600
-  //   }
-  // },
-  // {
-  //   id: '4',
-  //   type: 'component',
-  //   position: { x: 0, y: 0 },
-  //   data: {
-  //     component: CodeIDE,
-  //     componentProps: { codeIDEMode: CodeIDEMode.programWrite },
-  //     minWidth: 400,
-  //     minHeight: 600
-  //   }
-  // },
-  // {
-  //   id: '5',
-  //   type: 'component',
-  //   position: { x: 0, y: 800 },
-  //   data: {
-  //     component: CodeIDE,
-  //     componentProps: { codeIDEMode: CodeIDEMode.programStatic },
-  //     minWidth: 400,
-  //     minHeight: 600
-  //   }
-  // }
+  {
+    id: '2',
+    type: 'component',
+    position: { x: 500, y: 0 },
+    data: {
+      component: CodeIDE,
+      componentProps: { codeIDEMode: CodeIDEMode.graphStatic, scopeId: 2 },
+      minWidth: 400,
+      minHeight: 600
+    }
+  },
+  {
+    id: '3',
+    type: 'component',
+    position: { x: 500, y: 800 },
+    data: {
+      component: CodeIDE,
+      componentProps: { codeIDEMode: CodeIDEMode.graphInput, scopeId: 3 },
+      minWidth: 400,
+      minHeight: 600
+    }
+  },
+  {
+    id: '4',
+    type: 'component',
+    position: { x: 0, y: 0 },
+    data: {
+      component: CodeIDE,
+      componentProps: { codeIDEMode: CodeIDEMode.programWrite, scopeId: 4 },
+      minWidth: 400,
+      minHeight: 600
+    }
+  },
+  {
+    id: '5',
+    type: 'component',
+    position: { x: 0, y: 800 },
+    data: {
+      component: CodeIDE,
+      componentProps: { codeIDEMode: CodeIDEMode.programStatic, scopeId: 5 },
+      minWidth: 400,
+      minHeight: 600
+    }
+  }
 ];
 
 const nodeTypes = { component: ComponentNode };

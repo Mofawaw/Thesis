@@ -11,7 +11,7 @@ export type CodeIDEStore = {
   setGraph: (newGraphJSON: CodeGraph) => (void);
 };
 
-const useCodeIDEStore = create<CodeIDEStore>((set) => {
+const createCodeIDEStore = (scopeId: number) => create<CodeIDEStore>((set) => {
   const initialCode = [ // Todo
     "a = 1",
     "b = 2",
@@ -30,5 +30,15 @@ const useCodeIDEStore = create<CodeIDEStore>((set) => {
     setGraph: (newGraphJSON) => set(() => ({ graph: newGraphJSON }))
   };
 });
+
+const storeMap = new Map();
+
+export const useCodeIDEStore = (scopeId: number) => {
+  console.log(scopeId, storeMap)
+  if (!storeMap.has(scopeId)) {
+    storeMap.set(scopeId, createCodeIDEStore(scopeId));
+  }
+  return storeMap.get(scopeId);
+};
 
 export default useCodeIDEStore;

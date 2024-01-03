@@ -8,12 +8,12 @@ import useCodeIDEStore from '../codeIDEStore.ts'
 import { compileGetGraph, compileGetOutput } from '../codeIDENetwork.ts';
 import debounce from '../../../helper/debounce.ts';
 
-export default function CodeEditor({ height }: { height: number }) {
+export default function CodeEditor({ height, scopeId }: { height: number, scopeId: number }) {
     const editorRef = useRef<HTMLDivElement>(null);
-    const store = useCodeIDEStore.getState()
+    const store = useCodeIDEStore(scopeId).getState()
 
     const debouncedCompileGetGraph = debounce(() => {
-        compileGetGraph();
+        compileGetGraph(scopeId);
     }, 1000);
 
     const redoKeymap = keymap.of([{
@@ -23,13 +23,13 @@ export default function CodeEditor({ height }: { height: number }) {
 
     const saveKeymap = keymap.of([{
         key: "Mod-s",
-        run: () => { compileGetGraph(); return true; },
+        run: () => { compileGetGraph(scopeId); return true; },
         preventDefault: true
     }]);
 
     const runKeymap = keymap.of([{
         key: "Mod-r",
-        run: () => { compileGetOutput(); return true; },
+        run: () => { compileGetOutput(scopeId); return true; },
         preventDefault: true
     }]);
 
@@ -51,9 +51,8 @@ export default function CodeEditor({ height }: { height: number }) {
                 highlightActiveLine(),
                 highlightActiveLineGutter(),
                 EditorView.updateListener.of(update => {
-                    const innerStore = useCodeIDEStore.getState()
                     if (update.docChanged) {
-                        innerStore.setCode(update.state.doc.toString());
+                        store.setCode(update.state.doc.toString());
                         debouncedCompileGetGraph();
                     }
                     if (update.focusChanged) {

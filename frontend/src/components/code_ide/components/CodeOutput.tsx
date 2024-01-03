@@ -3,13 +3,13 @@ import { EditorState, Transaction } from '@codemirror/state';
 import { EditorView } from '@codemirror/view';
 import { python } from '@codemirror/lang-python';
 import { codeOutputStyles, percentLineNumbers } from './codeOutputHelper.ts';
-import useCodeIDEStore from '../codeIDEStore.ts'
+import useCodeIDEStore, { CodeIDEStore } from '../codeIDEStore.ts'
 import { codeIDELayout } from "./codeProgramHeper.ts";
 
-export default function CodeOutput() {
+export default function CodeOutput({ scopeId }: { scopeId: number }) {
   const editorRef = useRef<HTMLDivElement>(null);
   const [editorView, setEditorView] = useState<EditorView>();
-  const output = useCodeIDEStore((state) => state.output)
+  const output = useCodeIDEStore(scopeId)((state: CodeIDEStore) => state.output)
 
   useEffect(() => {
     if (!editorRef.current) return;

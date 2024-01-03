@@ -1,7 +1,7 @@
 import useCodeIDEStore from "./codeIDEStore";
 
-export function compileGetOutput() {
-  const { code, setOutput } = useCodeIDEStore.getState();
+export function compileGetOutput(scopeId: number) {
+  const { code, setOutput } = useCodeIDEStore(scopeId).getState();
 
   console.log("Request: compile_get_output")
   console.log('Code', code)
@@ -32,8 +32,8 @@ export function compileGetOutput() {
     });
 }
 
-export function compileGetGraph() {
-  const store = useCodeIDEStore.getState();
+export function compileGetGraph(scopeId: number) {
+  const store = useCodeIDEStore(scopeId).getState();
 
   console.log("Request: compile_get_graph")
   console.log('Code', store.code)
