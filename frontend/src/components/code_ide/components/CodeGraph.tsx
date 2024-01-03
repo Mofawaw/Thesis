@@ -48,7 +48,7 @@ export default function CodeGraph({ mode, scopeId }: { mode: GraphMode, scopeId:
         canvasRef.current.innerHTML = '';
       }
     };
-  }, mode === GraphMode.auto ? [graphData] : []);
+  }, [graphData]);
 
   // Responsivity
   useEffect(() => {

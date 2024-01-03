@@ -11,7 +11,7 @@ import { ProgramMode } from '../types/CodeIDEMode.ts';
 
 export default function CodeEditor({ mode, height, scopeId }: { mode: ProgramMode, height: number, scopeId: number }) {
     const editorRef = useRef<HTMLDivElement>(null);
-    const store = useCodeIDEStore(scopeId).getState()
+    const { code, setCode } = useCodeIDEStore(scopeId).getState();
 
     const debouncedCompileGetGraph = debounce(() => {
         compileGetGraph(scopeId);
@@ -38,7 +38,7 @@ export default function CodeEditor({ mode, height, scopeId }: { mode: ProgramMod
         if (!editorRef.current) return;
 
         const startState = EditorState.create({
-            doc: store.code,
+            doc: code,
             extensions: [
                 python(),
                 keymap.of([indentWithTab, ...defaultKeymap]),
@@ -52,7 +52,7 @@ export default function CodeEditor({ mode, height, scopeId }: { mode: ProgramMod
                 highlightActiveLineGutter(),
                 EditorView.updateListener.of(update => {
                     if (update.docChanged) {
-                        store.setCode(update.state.doc.toString());
+                        setCode(update.state.doc.toString());
                         debouncedCompileGetGraph();
                     }
                     if (update.focusChanged) {
@@ -86,7 +86,7 @@ export default function CodeEditor({ mode, height, scopeId }: { mode: ProgramMod
         return () => {
             view.destroy();
         };
-    }, []);
+    }, [code]);
 
     return (
         <div ref={editorRef} className="editor" style={{ height: `${height}px`, overflow: 'auto' }} />

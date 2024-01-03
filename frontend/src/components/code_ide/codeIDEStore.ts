@@ -12,16 +12,8 @@ export type CodeIDEStore = {
 };
 
 const createCodeIDEStore = (scopeId: number) => create<CodeIDEStore>((set) => {
-  const initialCode = [ // Todo
-    "a = 1",
-    "b = 2",
-    "a = b",
-    "print(a)",
-    "print(b)"
-  ].join('\n');
-
   return {
-    code: initialCode, // Todo
+    code: '',
     output: '',
     graph: { nodes: [], edges: [] },
 
