@@ -1,18 +1,22 @@
 export enum ProgramMode {
-  read = "program-read",
-  write = "program-write"
+  write = "program-write",
+  static = "program-static"
 }
 
 export enum GraphMode {
-  read = "graph-read",
-  write = "graph-input"
+  auto = "graph-auto",
+  input = "graph-input",
+  static = "graph-static"
 }
 
 enum CodeIDEMode {
-  programWriteGraphRead = ProgramMode.write + "-" + GraphMode.read,
+  programWriteGraphRead = ProgramMode.write + "-" + GraphMode.auto,
+
   programWrite = ProgramMode.write,
-  programRead = ProgramMode.read,
-  graphWrite = GraphMode.write,
+  programStatic = ProgramMode.static,
+
+  graphStatic = GraphMode.static,
+  graphInput = GraphMode.input,
 }
 
 export default CodeIDEMode;

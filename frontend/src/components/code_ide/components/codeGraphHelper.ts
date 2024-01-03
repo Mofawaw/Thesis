@@ -35,7 +35,7 @@ const createAndResizeRect = (labelText: string, maxWidth: number, mode: GraphMod
   const rect = new shapes.standard.Rectangle();
   rect.resize(styles.node.width, styles.node.height);
 
-  if (mode === GraphMode.write) {
+  if (mode === GraphMode.input) {
     rect.resize(maxWidth, styles.node.height);
   } else {
     const canvas = document.createElement("canvas");
@@ -57,7 +57,7 @@ const calculateMaxWidth = (nodes: Node[], type: string): number => {
   return nodes
     .filter(node => node.type.includes(type))
     .reduce((maxWidth, node) => {
-      const rect = createAndResizeRect(node.label, 0, GraphMode.read);
+      const rect = createAndResizeRect(node.label, 0, GraphMode.static);
       return Math.max(maxWidth, rect.size().width);
     }, 0);
 };

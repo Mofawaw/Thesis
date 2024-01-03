@@ -22,7 +22,7 @@ const initialNodes = [
     position: { x: 500, y: 0 },
     data: {
       component: CodeIDE,
-      componentProps: { codeIDEMode: CodeIDEMode.graphWrite },
+      componentProps: { codeIDEMode: CodeIDEMode.graphStatic },
       minWidth: 400,
       minHeight: 600
     }
@@ -33,7 +33,7 @@ const initialNodes = [
     position: { x: 500, y: 800 },
     data: {
       component: CodeIDE,
-      componentProps: { codeIDEMode: CodeIDEMode.graphRead },
+      componentProps: { codeIDEMode: CodeIDEMode.graphInput },
       minWidth: 400,
       minHeight: 600
     }
@@ -55,7 +55,7 @@ const initialNodes = [
     position: { x: 0, y: 800 },
     data: {
       component: CodeIDE,
-      componentProps: { codeIDEMode: CodeIDEMode.programRead },
+      componentProps: { codeIDEMode: CodeIDEMode.programStatic },
       minWidth: 400,
       minHeight: 600
     }

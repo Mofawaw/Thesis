@@ -29,7 +29,7 @@ export default function CodeGraph({ mode }: { mode: GraphMode }) {
     paper.unfreeze();
 
     // GraphMode: write
-    if (mode.toString() === GraphMode.write) {
+    if (mode === GraphMode.input) {
       paper.on('element:pointerdown', (cellView) => {
         const model = (cellView as any).model;
 
@@ -48,7 +48,7 @@ export default function CodeGraph({ mode }: { mode: GraphMode }) {
         canvasRef.current.innerHTML = '';
       }
     };
-  }, [graphData]);
+  }, mode === GraphMode.auto ? [graphData] : []);
 
   // Responsivity
   useEffect(() => {
