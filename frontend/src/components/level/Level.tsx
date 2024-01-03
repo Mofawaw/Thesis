@@ -8,58 +8,58 @@ const initialNodes = [
   {
     id: '1',
     type: 'component',
-    position: { x: -500, y: -500 },
+    position: { x: 100, y: 300 },
     data: {
       component: CodeIDE,
       componentProps: { codeIDEMode: CodeIDEMode.programWriteGraphRead },
-      minWidth: 500,
+      minWidth: 900,
       minHeight: 600
     }
   },
-  {
-    id: '2',
-    type: 'component',
-    position: { x: 500, y: 0 },
-    data: {
-      component: CodeIDE,
-      componentProps: { codeIDEMode: CodeIDEMode.graphStatic },
-      minWidth: 400,
-      minHeight: 600
-    }
-  },
-  {
-    id: '3',
-    type: 'component',
-    position: { x: 500, y: 800 },
-    data: {
-      component: CodeIDE,
-      componentProps: { codeIDEMode: CodeIDEMode.graphInput },
-      minWidth: 400,
-      minHeight: 600
-    }
-  },
-  {
-    id: '4',
-    type: 'component',
-    position: { x: 0, y: 0 },
-    data: {
-      component: CodeIDE,
-      componentProps: { codeIDEMode: CodeIDEMode.programWrite },
-      minWidth: 400,
-      minHeight: 600
-    }
-  },
-  {
-    id: '5',
-    type: 'component',
-    position: { x: 0, y: 800 },
-    data: {
-      component: CodeIDE,
-      componentProps: { codeIDEMode: CodeIDEMode.programStatic },
-      minWidth: 400,
-      minHeight: 600
-    }
-  }
+  // {
+  //   id: '2',
+  //   type: 'component',
+  //   position: { x: 500, y: 0 },
+  //   data: {
+  //     component: CodeIDE,
+  //     componentProps: { codeIDEMode: CodeIDEMode.graphStatic },
+  //     minWidth: 400,
+  //     minHeight: 600
+  //   }
+  // },
+  // {
+  //   id: '3',
+  //   type: 'component',
+  //   position: { x: 500, y: 800 },
+  //   data: {
+  //     component: CodeIDE,
+  //     componentProps: { codeIDEMode: CodeIDEMode.graphInput },
+  //     minWidth: 400,
+  //     minHeight: 600
+  //   }
+  // },
+  // {
+  //   id: '4',
+  //   type: 'component',
+  //   position: { x: 0, y: 0 },
+  //   data: {
+  //     component: CodeIDE,
+  //     componentProps: { codeIDEMode: CodeIDEMode.programWrite },
+  //     minWidth: 400,
+  //     minHeight: 600
+  //   }
+  // },
+  // {
+  //   id: '5',
+  //   type: 'component',
+  //   position: { x: 0, y: 800 },
+  //   data: {
+  //     component: CodeIDE,
+  //     componentProps: { codeIDEMode: CodeIDEMode.programStatic },
+  //     minWidth: 400,
+  //     minHeight: 600
+  //   }
+  // }
 ];
 
 const nodeTypes = { component: ComponentNode };
