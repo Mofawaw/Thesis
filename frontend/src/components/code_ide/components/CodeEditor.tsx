@@ -14,7 +14,7 @@ export default function CodeEditor({ height, scopeId }: { height: number, scopeI
     const { mode, code, setCode } = useCodeIDEStore(scopeId).getState();
 
     const debouncedCompileGetGraph = debounce(() => {
-        mode.has(CodeIDEMode.graphAuto) ? compileGetGraph(scopeId) : {};
+        compileGetGraph(scopeId);
     }, 1000);
 
     const redoKeymap = keymap.of([{
@@ -24,7 +24,7 @@ export default function CodeEditor({ height, scopeId }: { height: number, scopeI
 
     const saveKeymap = keymap.of([{
         key: "Mod-s",
-        run: () => { mode.has(CodeIDEMode.graphAuto) ? compileGetGraph(scopeId) : {}; return true; },
+        run: () => { compileGetGraph(scopeId); return true; },
         preventDefault: true
     }]);
 
