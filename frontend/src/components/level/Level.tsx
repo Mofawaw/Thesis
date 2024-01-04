@@ -1,85 +1,72 @@
 import ReactFlow, { Controls, useNodesState } from 'reactflow';
 import 'reactflow/dist/style.css';
-import ComponentNode from './components/ComponentNode.tsx';
-import CodeIDE from '../code_ide/CodeIDE.tsx';
-import CodeIDEMode from '../code_ide/types/CodeIDEMode.ts';
+import CodeIDEMode from '../code_ide/types/CodeIDEMode';
+import CodeIDENode from './nodes/CodeIDENode';
+
+const initialCode = [
+  "a = 1",
+  "b = 2",
+  "a = b",
+  "print(a)",
+  "print(b)"
+].join('\n');
+
+const initialGraph = {
+  nodes: [
+    { id: "n-vs-0", type: "value-stack", label: "a" },
+    { id: "n-vh-0", type: "value-heap", label: 2 },
+    { id: "n-vs-1", type: "value-stack", label: "b" },
+    { id: "n-vh-1", type: "value-heap", label: 2 }
+  ],
+  edges: [
+    { id: "e-v-0", type: "value", source: "n-vs-0", target: "n-vh-0" },
+    { id: "e-v-1", type: "value", source: "n-vs-1", target: "n-vh-1" }
+  ]
+};
 
 const mode1Nodes = [
   {
-    id: '1',
-    type: 'component',
+    id: "1",
+    type: "codeIDE",
     position: { x: 100, y: 200 },
     data: {
-      component: CodeIDE,
-      componentProps: { codeIDEMode: CodeIDEMode.programWriteGraphAuto, scopeId: "1" },
-      minWidth: 900,
-      minHeight: 600
+      props: {
+        scopeId: "1",
+        mode: CodeIDEMode.programWriteGraphAuto,
+        initialCode: initialCode,
+        initialGraph: initialGraph
+      }
     }
   },
   {
-    id: '2',
-    type: 'component',
+    id: "2",
+    type: "codeIDE",
     position: { x: 100, y: 200 },
     data: {
-      component: CodeIDE,
-      componentProps: { codeIDEMode: CodeIDEMode.programWriteGraphAuto, scopeId: "2" },
-      minWidth: 900,
-      minHeight: 600
+      props: {
+        scopeId: "2",
+        mode: CodeIDEMode.programWrite,
+        initialCode: "",
+        initialGraph: { nodes: [], edges: [] }
+      }
+    }
+  },
+  {
+    id: "3",
+    type: "codeIDE",
+    position: { x: 100, y: 200 },
+    data: {
+      props: {
+        scopeId: "3",
+        mode: CodeIDEMode.graphInput,
+        initialCode: "",
+        initialGraph: { nodes: [], edges: [] }
+      }
     }
   },
 ];
 
-const mode2Nodes = [
-  {
-    id: '1',
-    type: 'component',
-    position: { x: 100, y: 200 },
-    data: {
-      component: CodeIDE,
-      componentProps: { codeIDEMode: CodeIDEMode.programWrite, scopeId: "1" },
-      minWidth: 700,
-      minHeight: 600
-    }
-  },
-  {
-    id: '2',
-    type: 'component',
-    position: { x: 850, y: 200 },
-    data: {
-      component: CodeIDE,
-      componentProps: { codeIDEMode: CodeIDEMode.graphRead, scopeId: "2" },
-      minWidth: 400,
-      minHeight: 600
-    }
-  },
-];
-
-const mode3Nodes = [
-  {
-    id: '1',
-    type: 'component',
-    position: { x: 100, y: 200 },
-    data: {
-      component: CodeIDE,
-      componentProps: { codeIDEMode: CodeIDEMode.graphInput, scopeId: "1" },
-      minWidth: 700,
-      minHeight: 600
-    }
-  },
-  {
-    id: '2',
-    type: 'component',
-    position: { x: 850, y: 200 },
-    data: {
-      component: CodeIDE,
-      componentProps: { codeIDEMode: CodeIDEMode.programRead, scopeId: "2" },
-      minWidth: 400,
-      minHeight: 600
-    }
-  },
-];
-
-const nodeTypes = { component: ComponentNode };
+const nodeTypes = { codeIDE: CodeIDENode };
 
 export default function App() {
   const [nodes, setNodes, onNodesChange] = useNodesState(mode1Nodes);

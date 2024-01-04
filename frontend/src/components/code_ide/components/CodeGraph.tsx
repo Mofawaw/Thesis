@@ -76,10 +76,7 @@ export default function CodeGraph({ scopeId }: { scopeId: string }) {
 
   return (
     <div className="basis-2/5 flex-none p-4 nowheel nodrag overflow-hidden">
-      <h3 className="my-4">Speicher</h3>
-      <div ref={parentRef} className="w-full h-full overflow-auto">
-        <div ref={canvasRef} className="w-full h-full overflow-auto" />
-      </div>
+      <div ref={canvasRef} className="w-full h-full overflow-auto" />
     </div>
   );
 }

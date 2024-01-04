@@ -9,12 +9,12 @@ import { compileGetGraph, compileGetOutput } from '../codeIDENetwork.ts';
 import debounce from '../../../helper/debounce.ts';
 import CodeIDEMode from '../types/CodeIDEMode.ts';
 
-export default function CodeEditor({ height, scopeId }: { height: number, scopeId: number }) {
+export default function CodeEditor({ height, scopeId }: { height: number, scopeId: string }) {
     const editorRef = useRef<HTMLDivElement>(null);
     const { mode, code, setCode } = useCodeIDEStore(scopeId).getState();
 
     const debouncedCompileGetGraph = debounce(() => {
-        compileGetGraph(scopeId);
+        mode.has(CodeIDEMode.programWriteGraphAuto) ? compileGetGraph(scopeId) : {};
     }, 1000);
 
     const redoKeymap = keymap.of([{
@@ -24,13 +24,13 @@ export default function CodeEditor({ height, scopeId }: { height: number, scopeI
 
     const saveKeymap = keymap.of([{
         key: "Mod-s",
-        run: () => { compileGetGraph(scopeId); return true; },
+        run: () => { mode.has(CodeIDEMode.programWriteGraphAuto) ? compileGetGraph(scopeId) : {}; return true; },
         preventDefault: true
     }]);
 
     const runKeymap = keymap.of([{
         key: "Mod-r",
-        run: () => { compileGetOutput(scopeId); return true; },
+        run: () => { mode.has(CodeIDEMode.programWrite) ? compileGetOutput(scopeId) : {}; return true; },
         preventDefault: true
     }]);
 
@@ -53,7 +53,7 @@ export default function CodeEditor({ height, scopeId }: { height: number, scopeI
                 EditorView.updateListener.of(update => {
                     if (update.docChanged) {
                         setCode(update.state.doc.toString());
-                        debouncedCompileGetGraph();
+                        mode.has(CodeIDEMode.programWriteGraphAuto) ? debouncedCompileGetGraph() : {}
                     }
                     if (update.focusChanged) {
                         if (update.view.hasFocus) {

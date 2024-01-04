@@ -1,16 +1,8 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { NodeResizer, ResizeDragEvent, ResizeParams } from 'reactflow';
-import styles from './componentNode.module.css';
+import resizerStyles from './componentNode.module.css';
 
-interface ComponentNodeData {
-  component: React.ComponentType<any>;
-  componentProps: any;
-  minWidth: number;
-  minHeight: number;
-}
-
-export default function ComponentNode({ data }: { data: ComponentNodeData }) {
-  const { component: CustomComponent, minWidth, minHeight, componentProps } = data;
+export default function ComponentNode({ minWidth, minHeight, onSizeChange, children }: { minWidth: number, minHeight: number, onSizeChange: (size: { width: number; height: number }) => void, children: React.ReactNode }) {
   const maxWidth = minWidth * 2;
   const maxHeight = minHeight * 2;
   const [size, setSize] = useState({ width: minWidth, height: minHeight });
@@ -19,8 +11,14 @@ export default function ComponentNode({ data }: { data: ComponentNodeData }) {
     setSize({ width, height });
   };
 
+  useEffect(() => {
+    if (onSizeChange) {
+      onSizeChange(size);
+    }
+  }, [size, onSizeChange]);
+
   return (
-    <div className={`${styles.customHandle}`}>
+    <div className={`${resizerStyles.customHandle}`}>
       <NodeResizer
         minWidth={minWidth}
         minHeight={minHeight}
@@ -32,7 +30,7 @@ export default function ComponentNode({ data }: { data: ComponentNodeData }) {
         className="bg-th-white border-th border-th-black-10 rounded-th"
         style={{ width: size.width, height: size.height }}
       >
-        {CustomComponent ? <CustomComponent {...componentProps} height={size.height} /> : <p>Error: No component found.</p>}
+        {children ? children : <p>Error: No content provided.</p>}
       </div>
     </div>
   );

@@ -6,14 +6,13 @@ import CodeIDEMode from "../types/CodeIDEMode.ts";
 import PlayIcon from '../../../assets/icons/play.svg';
 import useCodeIDEStore from "../codeIDEStore.ts";
 
-export default function CodeProgram({ height, scopeId }: { height: number, scopeId: number }) {
+export default function CodeProgram({ height, scopeId }: { height: number, scopeId: string }) {
   const store = useCodeIDEStore(scopeId).getState();
   let codeProgramComponent;
 
   if (store.mode.has(CodeIDEMode.programRead)) {
     codeProgramComponent = (
       <div className="p-4 mb-2">
-        <h3 className="my-4">Programm</h3>
         <CodeEditor height={codeIDELayout.getCodeEditorHeight(store.mode, height)} scopeId={scopeId} />
       </div>
     )
@@ -21,7 +20,6 @@ export default function CodeProgram({ height, scopeId }: { height: number, scope
     codeProgramComponent = (
       <div className="basis-3/5 flex-none flex flex-col gap-2 py-4 overflow-hidden" >
         <div className="px-4 mb-2">
-          <h3 className="my-4">Programm</h3>
           <CodeEditor height={codeIDELayout.getCodeEditorHeight(store.mode, height)} scopeId={scopeId} />
         </div>
 
@@ -35,7 +33,7 @@ export default function CodeProgram({ height, scopeId }: { height: number, scope
           <div className="th-xline" />
         </div>
 
-        <div className="px-4 mt-2 overflow-hidden">
+        <div className="px-4 my-2 overflow-hidden">
           <CodeOutput scopeId={scopeId} />
         </div>
       </div>

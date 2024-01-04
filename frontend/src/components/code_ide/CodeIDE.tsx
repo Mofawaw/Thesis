@@ -3,12 +3,13 @@ import CodeGraph from "./components/CodeGraph.tsx";
 import CodeProgram from "./components/CodeProgram.tsx";
 import CodeIDEMode from "./types/CodeIDEMode.ts";
 import useCodeIDEStore from "./codeIDEStore.ts";
+import CodeGraphType from "./types/CodeGraph.ts";
 
-export default function CodeIDE({ height, codeIDEMode, scopeId }: { height: number, codeIDEMode: CodeIDEMode, scopeId: string }) {
+export default function CodeIDE({ height, scopeId, mode, initialCode, initialGraph }: { height: number, scopeId: string, mode: CodeIDEMode, initialCode: string, initialGraph: CodeGraphType }) {
   const store = useCodeIDEStore(scopeId).getState();
   let codeIDEComponent;
 
-  switch (codeIDEMode) {
+  switch (mode) {
     case CodeIDEMode.programWriteGraphAuto:
       codeIDEComponent = (
         <div className="flex flex-row overflow-hidden">
@@ -35,28 +36,7 @@ export default function CodeIDE({ height, codeIDEMode, scopeId }: { height: numb
   }
 
   useEffect(() => {
-    const initialCode = [
-      "a = 1",
-      "b = 2",
-      "a = b",
-      "print(a)",
-      "print(b)"
-    ].join('\n');
-
-    const initialGraph = {
-      nodes: [
-        { id: "n-vs-0", type: "value-stack", label: "a" },
-        { id: "n-vh-0", type: "value-heap", label: 2 },
-        { id: "n-vs-1", type: "value-stack", label: "b" },
-        { id: "n-vh-1", type: "value-heap", label: 2 }
-      ],
-      edges: [
-        { id: "e-v-0", type: "value", source: "n-vs-0", target: "n-vh-0" },
-        { id: "e-v-1", type: "value", source: "n-vs-1", target: "n-vh-1" }
-      ]
-    };
-
-    store.setMode(codeIDEMode);
+    store.setMode(mode);
     store.setCode(initialCode);
     store.setGraph(initialGraph);
   }, []);
