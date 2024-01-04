@@ -2,6 +2,7 @@ import ReactFlow, { Controls, useNodesState } from 'reactflow';
 import 'reactflow/dist/style.css';
 import CodeIDEMode from '../code_ide/types/CodeIDEMode';
 import CodeIDENode from './nodes/CodeIDENode';
+import TaskNode from './nodes/TaskNode';
 
 const initialCode = [
   "a = 1",
@@ -24,7 +25,7 @@ const initialGraph = {
   ]
 };
 
-const mode1Nodes = [
+const mode1Nodes: any = [
   {
     id: "1",
     type: "codeIDE",
@@ -40,33 +41,15 @@ const mode1Nodes = [
   },
   {
     id: "2",
-    type: "codeIDE",
-    position: { x: 100, y: 200 },
+    type: "task",
+    position: { x: 1100, y: 200 },
     data: {
-      props: {
-        scopeId: "2",
-        mode: CodeIDEMode.programWrite,
-        initialCode: "",
-        initialGraph: { nodes: [], edges: [] }
-      }
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Justo laoreet sit amet cursus sit amet dictum sit amet."
     }
-  },
-  {
-    id: "3",
-    type: "codeIDE",
-    position: { x: 100, y: 200 },
-    data: {
-      props: {
-        scopeId: "3",
-        mode: CodeIDEMode.graphInput,
-        initialCode: "",
-        initialGraph: { nodes: [], edges: [] }
-      }
-    }
-  },
+  }
 ];
 
-const nodeTypes = { codeIDE: CodeIDENode };
+const nodeTypes = { codeIDE: CodeIDENode, task: TaskNode };
 
 export default function App() {
   const [nodes, setNodes, onNodesChange] = useNodesState(mode1Nodes);

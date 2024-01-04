@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { NodeResizer, ResizeDragEvent, ResizeParams } from 'reactflow';
 import resizerStyles from './componentNode.module.css';
 
-export default function ComponentNode({ minWidth, minHeight, onSizeChange, children }: { minWidth: number, minHeight: number, onSizeChange: (size: { width: number; height: number }) => void, children: React.ReactNode }) {
+export default function ComponentNode({ minWidth, minHeight, onSizeChange = () => { }, children }: { minWidth: number, minHeight: number, onSizeChange?: (size: { width: number; height: number }) => void, children: React.ReactNode }) {
   const maxWidth = minWidth * 2;
   const maxHeight = minHeight * 2;
   const [size, setSize] = useState({ width: minWidth, height: minHeight });
