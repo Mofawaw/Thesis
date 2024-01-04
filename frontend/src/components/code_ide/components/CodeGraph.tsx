@@ -4,7 +4,7 @@ import useCodeIDEStore, { CodeIDEStore } from '../codeIDEStore.ts';
 import { addData } from './codeGraphHelper';
 import CodeIDEMode from '../types/CodeIDEMode.ts';
 
-export default function CodeGraph({ scopeId }: { scopeId: number }) {
+export default function CodeGraph({ scopeId }: { scopeId: string }) {
   const parentRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLDivElement>(null);
   const mode = useCodeIDEStore(scopeId)((state: CodeIDEStore) => state.mode)

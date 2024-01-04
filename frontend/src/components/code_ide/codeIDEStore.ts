@@ -14,7 +14,7 @@ export type CodeIDEStore = {
   setGraph: (newGraphJSON: CodeGraph) => (void);
 };
 
-const createCodeIDEStore = (scopeId: number) => create<CodeIDEStore>((set) => {
+const createCodeIDEStore = (scopeId: string) => create<CodeIDEStore>((set) => {
   return {
     mode: CodeIDEMode.default,
     code: '',
@@ -30,7 +30,7 @@ const createCodeIDEStore = (scopeId: number) => create<CodeIDEStore>((set) => {
 
 const storeMap = new Map();
 
-export const useCodeIDEStore = (scopeId: number) => {
+export const useCodeIDEStore = (scopeId: string) => {
   if (!storeMap.has(scopeId)) {
     storeMap.set(scopeId, createCodeIDEStore(scopeId));
   }

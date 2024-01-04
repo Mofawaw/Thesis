@@ -4,7 +4,7 @@ import CodeProgram from "./components/CodeProgram.tsx";
 import CodeIDEMode from "./types/CodeIDEMode.ts";
 import useCodeIDEStore from "./codeIDEStore.ts";
 
-export default function CodeIDE({ height, codeIDEMode, scopeId }: { height: number, codeIDEMode: CodeIDEMode, scopeId: number }) {
+export default function CodeIDE({ height, codeIDEMode, scopeId }: { height: number, codeIDEMode: CodeIDEMode, scopeId: string }) {
   const store = useCodeIDEStore(scopeId).getState();
   let codeIDEComponent;
 

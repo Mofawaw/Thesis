@@ -11,7 +11,18 @@ const mode1Nodes = [
     position: { x: 100, y: 200 },
     data: {
       component: CodeIDE,
-      componentProps: { codeIDEMode: CodeIDEMode.programWriteGraphAuto, scopeId: 1 },
+      componentProps: { codeIDEMode: CodeIDEMode.programWriteGraphAuto, scopeId: "1" },
+      minWidth: 900,
+      minHeight: 600
+    }
+  },
+  {
+    id: '2',
+    type: 'component',
+    position: { x: 100, y: 200 },
+    data: {
+      component: CodeIDE,
+      componentProps: { codeIDEMode: CodeIDEMode.programWriteGraphAuto, scopeId: "2" },
       minWidth: 900,
       minHeight: 600
     }
@@ -25,7 +36,7 @@ const mode2Nodes = [
     position: { x: 100, y: 200 },
     data: {
       component: CodeIDE,
-      componentProps: { codeIDEMode: CodeIDEMode.programWrite, scopeId: 1 },
+      componentProps: { codeIDEMode: CodeIDEMode.programWrite, scopeId: "1" },
       minWidth: 700,
       minHeight: 600
     }
@@ -36,7 +47,7 @@ const mode2Nodes = [
     position: { x: 850, y: 200 },
     data: {
       component: CodeIDE,
-      componentProps: { codeIDEMode: CodeIDEMode.graphRead, scopeId: 2 },
+      componentProps: { codeIDEMode: CodeIDEMode.graphRead, scopeId: "2" },
       minWidth: 400,
       minHeight: 600
     }
@@ -50,7 +61,7 @@ const mode3Nodes = [
     position: { x: 100, y: 200 },
     data: {
       component: CodeIDE,
-      componentProps: { codeIDEMode: CodeIDEMode.graphInput, scopeId: 1 },
+      componentProps: { codeIDEMode: CodeIDEMode.graphInput, scopeId: "1" },
       minWidth: 700,
       minHeight: 600
     }
@@ -61,7 +72,7 @@ const mode3Nodes = [
     position: { x: 850, y: 200 },
     data: {
       component: CodeIDE,
-      componentProps: { codeIDEMode: CodeIDEMode.programRead, scopeId: 2 },
+      componentProps: { codeIDEMode: CodeIDEMode.programRead, scopeId: "2" },
       minWidth: 400,
       minHeight: 600
     }
