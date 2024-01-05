@@ -6,7 +6,7 @@ import { codeOutputStyles, percentLineNumbers } from './codeOutputHelper.ts';
 import useCodeIDEStore, { CodeIDEStore } from '../codeIDEStore.ts'
 import { codeIDELayout } from "./codeProgramHeper.ts";
 
-export default function CodeOutput({ scopeId }: { scopeId: number }) {
+export default function CodeOutput({ scopeId }: { scopeId: string }) {
   const editorRef = useRef<HTMLDivElement>(null);
   const [editorView, setEditorView] = useState<EditorView>();
   const output = useCodeIDEStore(scopeId)((state: CodeIDEStore) => state.output)

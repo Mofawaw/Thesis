@@ -2,7 +2,7 @@ import { useState } from 'react';
 import CodeIDE from '../../code_ide/CodeIDE';
 import CodeGraph from '../../code_ide/types/CodeGraph';
 import CodeIDEMode from '../../code_ide/types/CodeIDEMode';
-import ComponentNode from '../components/ComponentNode';
+import ComponentNode from './ComponentNode';
 
 interface CodeIDENodeData {
   props: {

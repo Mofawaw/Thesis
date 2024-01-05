@@ -1,69 +1,52 @@
-import ReactFlow, { Controls, useNodesState } from 'reactflow';
+import ReactFlow, { ReactFlowProvider, Controls, useNodesState, useReactFlow } from 'reactflow';
 import 'reactflow/dist/style.css';
-import CodeIDEMode from '../code_ide/types/CodeIDEMode';
-import CodeIDENode from './nodes/CodeIDENode';
-import TaskNode from './nodes/TaskNode';
+import { mode1Nodes, nodeTypes } from './levelData';
+import ThButton from '../custom/ThButton';
+import ThIconButton from '../custom/ThIconButton';
+import ThIcons from '../custom/ThIcon';
+import ThIconTextButton from '../custom/ThIconTextButton';
 
-const initialCode = [
-  "a = 1",
-  "b = 2",
-  "a = b",
-  "print(a)",
-  "print(b)"
-].join('\n');
-
-const initialGraph = {
-  nodes: [
-    { id: "n-vs-0", type: "value-stack", label: "a" },
-    { id: "n-vh-0", type: "value-heap", label: 2 },
-    { id: "n-vs-1", type: "value-stack", label: "b" },
-    { id: "n-vh-1", type: "value-heap", label: 2 }
-  ],
-  edges: [
-    { id: "e-v-0", type: "value", source: "n-vs-0", target: "n-vh-0" },
-    { id: "e-v-1", type: "value", source: "n-vs-1", target: "n-vh-1" }
-  ]
-};
-
-const mode1Nodes: any = [
-  {
-    id: "1",
-    type: "codeIDE",
-    position: { x: 100, y: 200 },
-    data: {
-      props: {
-        scopeId: "1",
-        mode: CodeIDEMode.programWriteGraphAuto,
-        initialCode: initialCode,
-        initialGraph: initialGraph
-      }
-    }
-  },
-  {
-    id: "2",
-    type: "task",
-    position: { x: 1100, y: 200 },
-    data: {
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Justo laoreet sit amet cursus sit amet dictum sit amet."
-    }
-  }
-];
-
-const nodeTypes = { codeIDE: CodeIDENode, task: TaskNode };
-
-export default function App() {
+export default function Level() {
   const [nodes, setNodes, onNodesChange] = useNodesState(mode1Nodes);
 
   return (
     <div className="w-screen h-screen">
-      <ReactFlow
-        nodes={nodes}
-        onNodesChange={onNodesChange}
-        nodeTypes={nodeTypes}
-        className="bg-th-background"
-      >
-        <Controls />
-      </ReactFlow>
+      <ReactFlowProvider>
+        <ReactFlow
+          nodes={nodes}
+          onNodesChange={onNodesChange}
+          nodeTypes={nodeTypes}
+          className="bg-th-background"
+          proOptions={{ hideAttribution: true }}
+        />
+        <LevelOverlay />
+      </ReactFlowProvider>
     </div>
   );
 }
+
+const LevelOverlay = () => {
+  const { zoomIn, zoomOut, fitView } = useReactFlow();
+
+  return (
+    <div className="relative">
+      <div className="absolute left-3 bottom-3">
+        <div className="flex flex-col gap-3">
+          <ThIconButton thColor="th-tint" icon="Plus" onClick={zoomIn} />
+          <div className="flex flex-row gap-3">
+            <ThIconButton thColor="th-tint" icon="Fit" onClick={fitView} />
+            <ThIconButton thColor="th-tint" icon="Minus" onClick={zoomOut} />
+          </div>
+        </div>
+      </div>
+
+      <div className="absolute right-3 bottom-3">
+        <div className="flex flex-row gap-3">
+          <ThIconTextButton thColor="th-reference" icon="Tutorial" text={"Tutorial"} />
+          <ThIconTextButton thColor="th-reference" icon="Tipps" text={"Tipps"} />
+          <ThIconTextButton thColor="th-reference" icon="Check" text={"Check"} />
+        </div>
+      </div>
+    </div>
+  );
+};

@@ -3,7 +3,7 @@ import CodeOutput from "./CodeOutput.tsx"
 import { codeIDELayout } from "./codeProgramHeper.ts";
 import { compileGetOutput } from "../codeIDENetwork.ts";
 import CodeIDEMode from "../types/CodeIDEMode.ts";
-import PlayIcon from '../../../assets/icons/play.svg';
+import ThIcon from '../../custom/ThIcon.tsx';
 import useCodeIDEStore from "../codeIDEStore.ts";
 
 export default function CodeProgram({ height, scopeId }: { height: number, scopeId: string }) {
@@ -27,7 +27,7 @@ export default function CodeProgram({ height, scopeId }: { height: number, scope
           <div className="th-xline px-[-1rem]" />
 
           <div className="flex flex-row justify-between px-4">
-            <button onClick={() => compileGetOutput(scopeId)}><img src={PlayIcon} alt="Run" className="h-6 w-6" /></button>
+            <button onClick={() => compileGetOutput(scopeId)}><ThIcon icon="Play" className="h-6 w-6 text-th-black-100" /></button>
           </div>
 
           <div className="th-xline" />

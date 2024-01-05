@@ -1,4 +1,4 @@
-import ComponentNode from '../components/ComponentNode';
+import ComponentNode from './ComponentNode';
 
 interface TaskNodeData {
   description: string
