@@ -7,7 +7,7 @@ export type LevelStore = {
   nodes: LevelNode[];
 
   setLevel: (newLevel: ThLevel) => void;
-  setNodes: (newNode: LevelNode[]) => void;
+  setNodes: (newNodes: LevelNode[]) => void;
 };
 
 const createLevelStore = create<LevelStore>((set) => ({
