@@ -31,6 +31,25 @@ class CodeIDEMode {
   static equal(mode1: CodeIDEMode, mode2: CodeIDEMode): boolean {
     return mode1.has(mode2) || mode2.has(mode1);
   }
+
+  static fromString(modeValue: string): CodeIDEMode {
+    switch (modeValue) {
+      case ProgramMode.write + "-" + GraphMode.auto:
+        return CodeIDEMode.programWriteGraphAuto;
+      case ProgramMode.write:
+        return CodeIDEMode.programWrite;
+      case ProgramMode.read:
+        return CodeIDEMode.programRead;
+      case GraphMode.auto:
+        return CodeIDEMode.graphAuto;
+      case GraphMode.input:
+        return CodeIDEMode.graphInput;
+      case GraphMode.read:
+        return CodeIDEMode.graphRead;
+      default:
+        return CodeIDEMode.default;
+    }
+  }
 }
 
 export default CodeIDEMode;

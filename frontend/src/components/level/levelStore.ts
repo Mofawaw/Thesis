@@ -1,12 +1,12 @@
 import { create } from 'zustand';
-import Level from './types/Level';
+import ThLevel from './types/Level';
 import LevelNodeData from './types/LevelNodeData';
 
 export type LevelStore = {
-  level: Level | null;
+  level: ThLevel | null;
   nodes: LevelNodeData[];
 
-  setLevel: (newLevel: Level) => void;
+  setLevel: (newLevel: ThLevel) => void;
   setNodes: (newNode: LevelNodeData[]) => void;
 };
 

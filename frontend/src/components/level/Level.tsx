@@ -1,6 +1,6 @@
 import ReactFlow, { ReactFlowProvider, isNode, useNodesState, useReactFlow } from 'reactflow';
 import 'reactflow/dist/style.css';
-import { mode1Nodes, sampleNode } from './levelData';
+import mode1Nodes from './levelData';
 import ThButton from '../custom/ThButton';
 import ThIconButton from '../custom/ThIconButton';
 import ThIconTextButton from '../custom/ThIconTextButton';
@@ -40,13 +40,13 @@ export default function Level() {
           className="bg-th-background"
           proOptions={{ hideAttribution: true }}
         />
-        <LevelOverlayBottom onClick={() => addNode(sampleNode)} />
+        <LevelOverlayBottom />
       </ReactFlowProvider>
     </div>
   );
 }
 
-const LevelOverlayBottom = ({ onClick }: { onClick: any }) => {
+const LevelOverlayBottom = () => {
   const { zoomIn, zoomOut, fitView } = useReactFlow();
 
   return (
@@ -64,7 +64,7 @@ const LevelOverlayBottom = ({ onClick }: { onClick: any }) => {
       <div className="absolute right-3 bottom-3">
         <div className="flex flex-row gap-3">
           <ThIconTextButton thColor="th-reference" icon="Tipps" text={"Tipps"} />
-          <ThIconTextButton thColor="th-reference" icon="Tutorial" text={"Tutorial"} onClick={onClick} />
+          <ThIconTextButton thColor="th-reference" icon="Tutorial" text={"Tutorial"} />
           <ThIconTextButton thColor="th-reference" icon="Check" text={"Check"} />
         </div>
       </div>
