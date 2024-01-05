@@ -3,8 +3,8 @@ import 'reactflow/dist/style.css';
 import { mode1Nodes, nodeTypes } from './levelData';
 import ThButton from '../custom/ThButton';
 import ThIconButton from '../custom/ThIconButton';
-import ThIcons from '../custom/ThIcon';
 import ThIconTextButton from '../custom/ThIconTextButton';
+import ThTextButton from '../custom/ThTextButton';
 
 export default function Level() {
   const [nodes, setNodes, onNodesChange] = useNodesState(mode1Nodes);
@@ -12,6 +12,7 @@ export default function Level() {
   return (
     <div className="w-screen h-screen">
       <ReactFlowProvider>
+        <LevelOverlayTop />
         <ReactFlow
           nodes={nodes}
           onNodesChange={onNodesChange}
@@ -19,13 +20,13 @@ export default function Level() {
           className="bg-th-background"
           proOptions={{ hideAttribution: true }}
         />
-        <LevelOverlay />
+        <LevelOverlayBottom />
       </ReactFlowProvider>
     </div>
   );
 }
 
-const LevelOverlay = () => {
+const LevelOverlayBottom = () => {
   const { zoomIn, zoomOut, fitView } = useReactFlow();
 
   return (
@@ -45,6 +46,20 @@ const LevelOverlay = () => {
           <ThIconTextButton thColor="th-reference" icon="Tutorial" text={"Tutorial"} />
           <ThIconTextButton thColor="th-reference" icon="Tipps" text={"Tipps"} />
           <ThIconTextButton thColor="th-reference" icon="Check" text={"Check"} />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const LevelOverlayTop = () => {
+  return (
+    <div className="relative">
+      <div className="absolute top-3 right-3 left-3">
+        <div className="flex justify-between">
+          <ThButton width={120} height={150} thColor="th-reference" />
+          <ThTextButton thColor="th-reference" text="Coding Challenge" />
+          <div className="w-[100px]" />
         </div>
       </div>
     </div>
