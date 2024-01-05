@@ -1,12 +1,12 @@
 enum ProgramMode {
   write = "program-write",
-  read = "program-static"
+  read = "program-read"
 }
 
 enum GraphMode {
   auto = "graph-auto",
   input = "graph-input",
-  read = "graph-static"
+  read = "graph-read"
 }
 
 class CodeIDEMode {

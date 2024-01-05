@@ -2,7 +2,7 @@ import { useState } from 'react';
 import CodeIDE from '../../code_ide/CodeIDE';
 import CodeIDEMode from '../../code_ide/types/CodeIDEMode';
 import ComponentNode from './component_node/ComponentNode';
-import { CodeIDENodeData } from '../types/LevelNodeData';
+import { CodeIDENodeData } from '../types/LevelNode';
 
 export default function CodeIDENode({ data }: { data: CodeIDENodeData }) {
   // Layout

@@ -1,17 +1,45 @@
-import ReactFlow, { ReactFlowProvider, isNode, useNodesState, useReactFlow } from 'reactflow';
+import ReactFlow, { ReactFlowProvider, isNode, NodeChange, applyNodeChanges, useReactFlow, ReactFlowInstance } from 'reactflow';
 import 'reactflow/dist/style.css';
-import mode1Nodes from './levelData';
-import ThButton from '../custom/ThButton';
-import ThIconButton from '../custom/ThIconButton';
-import ThIconTextButton from '../custom/ThIconTextButton';
-import ThTextButton from '../custom/ThTextButton';
 import { nodeTypes } from './nodes/LevelNodeTypes';
-import LevelNodeData from './types/LevelNodeData';
+import { generateLevelNodes, sampleLevelNode } from './levelHelper';
+import { levels } from './levelData';
+import { useCallback, useEffect, useState } from 'react';
+import LevelNode from './types/LevelNode';
+import { LevelOverlayBottom, LevelOverlayTop } from './LevelOverlays';
 
 export default function Level() {
-  const [nodes, setNodes, onNodesChange] = useNodesState(mode1Nodes);
+  return (
+    <div className="w-screen h-screen">
+      <ReactFlowProvider>
+        <div className="w-screen h-screen">
+          <LevelOverlayTop />
+          <LevelReactFlow />
+          <LevelOverlayBottom onClick={() => console.log("...")} />
+        </div>
+      </ReactFlowProvider>
+    </div>
+  );
+}
 
-  const addNode = (newNode: LevelNodeData) => {
+function LevelReactFlow() {
+  const [nodes, setNodes] = useState<LevelNode[]>([]);
+  const reactFlowInstance = useReactFlow();
+
+  const onInit = (instance: ReactFlowInstance) => {
+    const mode1Nodes = generateLevelNodes(levels[0]);
+    setNodes(mode1Nodes)
+    console.log(mode1Nodes);
+
+    const timeoutId = setTimeout(() => {
+      instance.fitView({ padding: 0.1, includeHiddenNodes: true, duration: 300 });
+    }, 200);
+    return () => clearTimeout(timeoutId);
+  };
+
+  useEffect(() => {
+  }, []);
+
+  const addNode = (newNode: LevelNode) => {
     let maxX = -Infinity;
     nodes.forEach((node) => {
       if (isNode(node)) {
@@ -29,60 +57,29 @@ export default function Level() {
     setNodes((nodes) => nodes.concat(newNode));
   };
 
+  const onNodesChange = useCallback((changes: NodeChange[]) => {
+    const filteredChanges = changes.filter(change => {
+      if (change.type === 'remove' && change.id.includes("c-")) {
+        return false;
+      }
+      return true;
+    });
+    setNodes(nodes => applyNodeChanges(filteredChanges, nodes));
+
+    const isNodeAdded = changes.some(change => change.type === 'add');
+    if (reactFlowInstance && isNodeAdded) {
+      reactFlowInstance.fitView({ padding: 0.1, includeHiddenNodes: true, duration: 300 });
+    }
+  }, [reactFlowInstance]);
+
   return (
-    <div className="w-screen h-screen">
-      <ReactFlowProvider>
-        <LevelOverlayTop />
-        <ReactFlow
-          nodes={nodes}
-          onNodesChange={onNodesChange}
-          nodeTypes={nodeTypes}
-          className="bg-th-background"
-          proOptions={{ hideAttribution: true }}
-        />
-        <LevelOverlayBottom />
-      </ReactFlowProvider>
-    </div>
+    <ReactFlow
+      nodes={nodes}
+      nodeTypes={nodeTypes}
+      onInit={onInit}
+      onNodesChange={onNodesChange}
+      className="bg-th-background"
+      proOptions={{ hideAttribution: true }}
+    />
   );
 }
-
-const LevelOverlayBottom = () => {
-  const { zoomIn, zoomOut, fitView } = useReactFlow();
-
-  return (
-    <div className="relative">
-      <div className="absolute left-3 bottom-3">
-        <div className="flex flex-col gap-3">
-          <ThIconButton thColor="th-tint" icon="Plus" onClick={zoomIn} />
-          <div className="flex flex-row gap-3">
-            <ThIconButton thColor="th-tint" icon="Fit" onClick={fitView} />
-            <ThIconButton thColor="th-tint" icon="Minus" onClick={zoomOut} />
-          </div>
-        </div>
-      </div>
-
-      <div className="absolute right-3 bottom-3">
-        <div className="flex flex-row gap-3">
-          <ThIconTextButton thColor="th-reference" icon="Tipps" text={"Tipps"} />
-          <ThIconTextButton thColor="th-reference" icon="Tutorial" text={"Tutorial"} />
-          <ThIconTextButton thColor="th-reference" icon="Check" text={"Check"} />
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const LevelOverlayTop = () => {
-  return (
-    <div className="relative">
-      <div className="absolute top-3 right-3 left-3">
-        <div className="flex justify-between">
-          {/* <ThButton width={120} height={150} thColor="th-reference" /> */}
-          <div className="w-[100px]" />
-          <ThTextButton thColor="th-reference" text="Coding Challenge" />
-          <div className="w-[100px]" />
-        </div>
-      </div>
-    </div>
-  );
-};

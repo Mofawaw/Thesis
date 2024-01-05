@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+import animationDelay from 'tailwindcss-animation-delay'
 
 interface ColorShade {
   100: string;
@@ -98,8 +99,19 @@ export default {
       },
       borderRadius: {
         'th': '15px'
-      }
+      },
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+      },
+      animation: {
+        'th-fade-in': 'fadeIn 0.3s ease-out',
+      },
     },
   },
-  plugins: [],
+  plugins: [
+    animationDelay
+  ]
 }

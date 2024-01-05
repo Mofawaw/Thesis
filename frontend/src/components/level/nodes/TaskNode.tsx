@@ -1,4 +1,4 @@
-import { TaskNodeData } from '../types/LevelNodeData';
+import { TaskNodeData } from '../types/LevelNode';
 import ComponentNode from './component_node/ComponentNode';
 
 export default function TaskNode({ data }: { data: TaskNodeData }) {
