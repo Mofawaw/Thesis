@@ -1,16 +1,9 @@
-import ComponentNode from './ComponentNode';
-
-interface TaskNodeData {
-  description: string
-}
+import { TaskNodeData } from '../types/LevelNodeData';
+import ComponentNode from './component_node/ComponentNode';
 
 export default function TaskNode({ data }: { data: TaskNodeData }) {
-  // Layout
-  const minWidth = 400;
-  const minHeight = 600;
-
   return (
-    <ComponentNode minWidth={minWidth} minHeight={minHeight}>
+    <ComponentNode minWidth={data.initialSize.width} minHeight={data.initialSize.height}>
       <h3 className="px-4 pt-8">Aufgabe</h3>
       <p className="p-4">{data.description}</p>
     </ComponentNode>

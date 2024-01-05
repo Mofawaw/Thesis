@@ -1,24 +1,12 @@
 import { useState } from 'react';
 import CodeIDE from '../../code_ide/CodeIDE';
-import CodeGraph from '../../code_ide/types/CodeGraph';
 import CodeIDEMode from '../../code_ide/types/CodeIDEMode';
-import ComponentNode from './ComponentNode';
-
-interface CodeIDENodeData {
-  props: {
-    scopeId: string,
-    mode: CodeIDEMode,
-    initialCode: string,
-    initialGraph: CodeGraph
-  };
-}
+import ComponentNode from './component_node/ComponentNode';
+import { CodeIDENodeData } from '../types/LevelNodeData';
 
 export default function CodeIDENode({ data }: { data: CodeIDENodeData }) {
   // Layout
   const [size, setSize] = useState({ width: 0, height: 0 });
-
-  const minWidth = 900;
-  const minHeight = 600;
 
   const handleSizeChange = (size: any) => {
     setSize(size);
@@ -53,7 +41,7 @@ export default function CodeIDENode({ data }: { data: CodeIDENodeData }) {
   }
 
   return (
-    <ComponentNode minWidth={minWidth} minHeight={minHeight} onSizeChange={handleSizeChange}>
+    <ComponentNode minWidth={data.initialSize.width} minHeight={data.initialSize.height} onSizeChange={handleSizeChange}>
       {nodeHeader}
       <CodeIDE height={size.height - headerHeight} {...data.props} />
     </ComponentNode>

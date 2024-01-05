@@ -35,6 +35,7 @@ export default function CodeIDE({ height, scopeId, mode, initialCode, initialGra
       codeIDEComponent = <div>No CodeIDEMode found.</div>
   }
 
+  // "Initialize" CodeIDEStore 
   useEffect(() => {
     store.setMode(mode);
     store.setCode(initialCode);
