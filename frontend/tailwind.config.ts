@@ -98,16 +98,22 @@ export default {
         'th': '5px'
       },
       borderRadius: {
-        'th': '15px'
+        'th': '15px',
+        'th-inner': '10px'
       },
       keyframes: {
         fadeIn: {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },
         },
+        background: {
+          '0%, 100%': { backgroundPosition: '0% 50%' },
+          '50%': { backgroundPosition: '100% 50%' },
+        },
       },
       animation: {
         'th-fade-in': 'fadeIn 0.3s ease-out',
+        'th-border': 'background 20s ease infinite',
       },
     },
   },

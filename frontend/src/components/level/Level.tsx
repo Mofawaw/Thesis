@@ -43,7 +43,7 @@ function LevelReactFlow({ nodes, setNodes }: { nodes: LevelNode[], setNodes: Dis
   const prevNodesLength = useRef(nodes.length);
 
   const onInit = (instance: ReactFlowInstance) => {
-    const mode1Nodes = generateLevelNodes(levels[0]);
+    const mode1Nodes = generateLevelNodes(levels[1]);
     setNodes(mode1Nodes)
     console.log(mode1Nodes);
 

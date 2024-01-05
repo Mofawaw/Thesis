@@ -23,9 +23,12 @@ export class LevelNodeSize {
 
 export type LevelNodeSizeType = typeof LevelNodeSize.small | typeof LevelNodeSize.medium | typeof LevelNodeSize.large;
 
-export interface CodeIDENodeData {
+export interface ComponentNodeData {
   initialSize: LevelNodeSizeType,
-  isMain: boolean,
+  isMain: boolean
+}
+
+export interface CodeIDENodeData extends ComponentNodeData {
   props: {
     scopeId: string,
     mode: CodeIDEMode,
@@ -34,14 +37,10 @@ export interface CodeIDENodeData {
   }
 }
 
-export interface TaskNodeData {
-  initialSize: LevelNodeSizeType,
-  isMain: boolean,
+export interface TaskNodeData extends ComponentNodeData {
   description: string
 }
 
-type LevelNode = Node & {
+export default interface LevelNode extends Node {
   data: CodeIDENodeData | TaskNodeData;
-};
-
-export default LevelNode;
+}

@@ -41,7 +41,7 @@ export default function CodeIDENode({ data }: { data: CodeIDENodeData }) {
   }
 
   return (
-    <ComponentNode minWidth={data.initialSize.width} minHeight={data.initialSize.height} onSizeChange={handleSizeChange}>
+    <ComponentNode data={data} onSizeChange={handleSizeChange}>
       {nodeHeader}
       <CodeIDE height={size.height - headerHeight} {...data.props} />
     </ComponentNode>
