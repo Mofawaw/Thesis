@@ -20,9 +20,14 @@ const ThPopupPortal: React.FC<ThPopupPortalProps> = ({ width, height, thColor, c
     setPosition({ top, left });
   }, [height, width]);
 
+  // TODO
+  const gradientBackground = 'animate-th-border rounded-th bg-th-white bg-gradient-to-r from-th-reference-40 via-th-black-10 to-th-value-40 bg-[length:400%_400%]';
+
   return ReactDOM.createPortal(
     <>
-      <div className="fixed top-0 left-0 w-full h-full bg-th-white bg-opacity-50 z-30 animate-th-fade-in" onClick={onClose} ></div>
+      <div className="fixed top-0 left-0 w-full h-full bg-th-black-40 bg-opacity-50 animate-th-fade-in z-30" >
+        <div className={`fixed top-0 left-0 w-full h-full ${gradientBackground} bg-opacity-50 z-30`} onClick={onClose} ></div>
+      </div>
 
       <div
         style={{ width: `${width}px`, height: `${height}px`, top: `${position.top}px`, left: `${position.left}px` }}

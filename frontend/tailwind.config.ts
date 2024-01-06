@@ -114,7 +114,7 @@ export default {
         },
         zoomInFromBottom: {
           '0%': {
-            transform: 'translateY(50px) scale(0.3)',
+            transform: 'translateY(100px) scale(0.3)',
             opacity: 0,
           },
           '100%': {
@@ -127,6 +127,7 @@ export default {
         'th-fade-in': 'fadeIn 0.3s ease-out',
         'th-border': 'background 20s ease infinite',
         'th-zoom-in-from-bottom': 'zoomInFromBottom 0.15s ease-out',
+        'th-spin': 'spin 0.75s linear infinite',
       },
     },
   },

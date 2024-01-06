@@ -4,8 +4,9 @@ import { nodeTypes } from './nodes/LevelNodeTypes';
 import { generateLevelNodes } from './levelHelper';
 import { levels } from './levelData';
 import { Dispatch, SetStateAction, useCallback, useRef, useState } from 'react';
-import { LevelOverlayBottom, LevelOverlayTop } from './LevelOverlays';
 import LevelNode from './types/LevelNode.ts';
+import LevelOverlayTop from './LevelOverlayTop.tsx';
+import LevelOverlayBottom from './LevelOverlayBottom.tsx';
 
 export default function Level() {
   const [nodes, setNodes] = useState<LevelNode[]>([]);
@@ -63,7 +64,6 @@ function LevelReactFlow({ nodes, setNodes }: { nodes: LevelNode[], setNodes: Dis
     setNodes(nodes => applyNodeChanges(filteredChanges, nodes));
 
     if (reactFlowInstance && nodes.length > prevNodesLength.current) {
-      console.log("Fit!")
       reactFlowInstance.fitView({ padding: 0.1, includeHiddenNodes: true, duration: 300 });
     }
     prevNodesLength.current = nodes.length;

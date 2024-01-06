@@ -1,7 +1,6 @@
 import { useReactFlow } from "reactflow";
 import ThIconButton from "../custom/ThIconButton";
 import ThIconTextButton from "../custom/ThIconTextButton";
-import ThTextButton from "../custom/ThTextButton";
 import ThDropdown from "../portals/ThDropdown";
 import ThMenuTextButton from "../custom/ThMenuTextButton";
 import { sampleLevelNode } from './levelHelper';
@@ -9,15 +8,25 @@ import LevelNode from "./types/LevelNode";
 import ThPopup from "../portals/ThPopup";
 import { useState } from "react";
 
-export const LevelOverlayBottom = ({ onAddNode }: { onAddNode: (node: LevelNode) => (void) }) => {
+export default function LevelOverlayBottom({ onAddNode }: { onAddNode: (node: LevelNode) => (void) }) {
   const { zoomIn, zoomOut, fitView } = useReactFlow();
   const [openTippsDropdown, setOpenTippsDropdown] = useState<boolean>(false);
   const [openTutorialDropdown, setOpenTutorialDropdown] = useState<boolean>(false);
   const [openCheckPopup, setOpenCheckPopup] = useState<boolean>(false);
+  const [onChecking, setOnChecking] = useState<boolean>(false);
 
   function handleCheckButtonOnClick() {
     // Logic to handle result
-    setOpenCheckPopup(true);
+    setOnChecking(true);
+    setTimeout(() => {
+      setOnChecking(false);
+      setOpenCheckPopup(true);
+    }, 5000);
+  }
+
+  function handleCheckButtonOnClose() {
+    setOpenCheckPopup(false);
+    // Logic to handle going to stage, ...
   }
 
   return (
@@ -82,28 +91,13 @@ export const LevelOverlayBottom = ({ onAddNode }: { onAddNode: (node: LevelNode)
             height={600}
             thColor="th-reference"
             button={
-              <ThIconTextButton thColor="th-reference" icon="Check" text={"Check"} onClick={handleCheckButtonOnClick} />
+              <ThIconTextButton thColor="th-reference" icon="Check" text={"Check"} isLoading={onChecking} onClick={handleCheckButtonOnClick} />
             }
             isOpen={openCheckPopup}
-            onClose={() => setOpenCheckPopup(false)}
+            onClose={handleCheckButtonOnClose}
           >
             <></>
           </ThPopup>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export const LevelOverlayTop = () => {
-  return (
-    <div className="relative">
-      <div className="absolute top-3 right-3 left-3">
-        <div className="flex justify-between">
-          {/* <ThButton width={120} height={150} thColor="th-reference" /> */}
-          <div className="w-[100px]" />
-          <ThTextButton width={300} thColor="th-reference" text="Coding Challenge" />
-          <div className="w-[100px]" />
         </div>
       </div>
     </div>

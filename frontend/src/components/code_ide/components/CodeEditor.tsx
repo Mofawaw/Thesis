@@ -83,7 +83,6 @@ export default function CodeEditor({ height, scopeId }: { height: number, scopeI
             parent: editorRef.current
         });
 
-        console.log("Code Change")
         return () => {
             view.destroy();
         };
