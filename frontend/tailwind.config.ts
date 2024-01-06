@@ -76,10 +76,12 @@ for (const colorName in colors) {
     for (const shade in pallette) {
       colorSafeList.push(`text-${colorName}-${shade}`);
       colorSafeList.push(`bg-${colorName}-${shade}`);
+      colorSafeList.push(`border-${colorName}-${shade}`);
     }
   } else {
     colorSafeList.push(`text-${colorName}`);
     colorSafeList.push(`bg-${colorName}`);
+    colorSafeList.push(`border-${colorName}`);
   }
 }
 
@@ -110,10 +112,21 @@ export default {
           '0%, 100%': { backgroundPosition: '0% 50%' },
           '50%': { backgroundPosition: '100% 50%' },
         },
+        zoomInFromBottom: {
+          '0%': {
+            transform: 'translateY(50px) scale(0.3)',
+            opacity: 0,
+          },
+          '100%': {
+            transform: 'translateY(0) scale(1)',
+            opacity: 1,
+          },
+        },
       },
       animation: {
         'th-fade-in': 'fadeIn 0.3s ease-out',
         'th-border': 'background 20s ease infinite',
+        'th-zoom-in-from-bottom': 'zoomInFromBottom 0.15s ease-out',
       },
     },
   },

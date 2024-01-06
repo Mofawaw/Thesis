@@ -1,7 +1,7 @@
 import ReactFlow, { ReactFlowProvider, NodeChange, applyNodeChanges, useReactFlow, ReactFlowInstance } from 'reactflow';
 import 'reactflow/dist/style.css';
 import { nodeTypes } from './nodes/LevelNodeTypes';
-import { generateLevelNodes, sampleLevelNode } from './levelHelper';
+import { generateLevelNodes } from './levelHelper';
 import { levels } from './levelData';
 import { Dispatch, SetStateAction, useCallback, useRef, useState } from 'react';
 import { LevelOverlayBottom, LevelOverlayTop } from './LevelOverlays';
@@ -31,7 +31,7 @@ export default function Level() {
         <div className="w-screen h-screen">
           <LevelOverlayTop />
           <LevelReactFlow nodes={nodes} setNodes={setNodes} />
-          <LevelOverlayBottom onClick={() => addNode(sampleLevelNode)} />
+          <LevelOverlayBottom onAddNode={(node) => addNode(node)} />
         </div>
       </ReactFlowProvider>
     </div>

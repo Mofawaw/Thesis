@@ -33,7 +33,7 @@
 
   h4
   {
-    @apply text-sm;
+    @apply text-base;
     @apply font-th-magic;
     @apply text-th-black-100;
   }
