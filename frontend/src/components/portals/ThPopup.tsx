@@ -7,9 +7,10 @@ interface ThPopupPortalProps {
   height: number;
   thColor: ThColorKeys;
   children: React.ReactNode;
+  onClose: () => (void);
 }
 
-const ThPopupPortal: React.FC<ThPopupPortalProps> = ({ width, height, thColor, children }) => {
+const ThPopupPortal: React.FC<ThPopupPortalProps> = ({ width, height, thColor, children, onClose }) => {
   const [position, setPosition] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
 
   useEffect(() => {
@@ -21,7 +22,7 @@ const ThPopupPortal: React.FC<ThPopupPortalProps> = ({ width, height, thColor, c
 
   return ReactDOM.createPortal(
     <>
-      <div className="fixed top-0 left-0 w-full h-full bg-th-white bg-opacity-50 backdrop-blur-[2px] z-30 animate-th-fade-in"></div>
+      <div className="fixed top-0 left-0 w-full h-full bg-th-white bg-opacity-50 z-30 animate-th-fade-in" onClick={onClose} ></div>
 
       <div
         style={{ width: `${width}px`, height: `${height}px`, top: `${position.top}px`, left: `${position.left}px` }}
@@ -38,20 +39,20 @@ interface ThPopupProps {
   width: number;
   height: number;
   thColor: ThColorKeys;
+  button: React.ReactNode;
   children: React.ReactNode;
-  trigger: React.ReactNode;
+  isOpen: boolean;
+  onClose: () => (void);
 }
 
-const ThPopup: React.FC<ThPopupProps> = ({ width, height, thColor, children, trigger }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
+const ThPopup: React.FC<ThPopupProps> = ({ width, height, thColor, button, children, isOpen, onClose }) => {
   return (
     <>
-      <div onClick={() => setIsOpen(!isOpen)}>
-        {trigger}
+      <div >
+        {button}
       </div>
       {isOpen &&
-        <ThPopupPortal width={width} height={height} thColor={thColor}>
+        <ThPopupPortal width={width} height={height} thColor={thColor} onClose={onClose}>
           {children}
         </ThPopupPortal>
       }
