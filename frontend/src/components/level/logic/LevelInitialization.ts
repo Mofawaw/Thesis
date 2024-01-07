@@ -48,3 +48,14 @@ export function generateLevelNodes(thLevel: ThLevel): LevelNode[] {
 
   return levelNodes.filter(node => node !== undefined) as LevelNode[];
 }
+
+export const sampleLevelNode: LevelNode = {
+  id: "",
+  type: "task",
+  position: { x: 0, y: 0 },
+  data: {
+    initialSize: LevelNodeSize.medium,
+    isMain: false,
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Justo laoreet sit amet cursus sit amet dictum sit amet."
+  }
+}

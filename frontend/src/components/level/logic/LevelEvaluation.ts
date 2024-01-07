@@ -3,10 +3,28 @@ import CodeGraph from "../../code_ide/types/CodeGraph";
 import LevelNode, { CodeIDENodeData } from "../types/LevelNode";
 import ThLevel from "../types/ThLevel";
 
-// Check if user has correctly completed the level task
-export async function check(thLevel: ThLevel, nodes: LevelNode[]): Promise<boolean> {
-  console.log("3 away")
+export function checkAndReturnResults(thLevel: ThLevel, nodes: LevelNode[]): Promise<{ result: boolean, message: string }> {
+  return check(thLevel, nodes)
+    .then(result => {
+      let message = "";
+      if (result) {
+        message = "Super!\nDu hast das Level erfolgreich abgeschlossen.";
+        return { result: true, message: message };
+      } else {
+        message = "Schade. Es hat noch nicht ganz geklappt.\nGrund:";
+        // TODO: message += from check
+        return { result: false, message: message };
+      }
+    })
+    .catch(error => {
+      let message = "Es hat einen Fehler gegeben. Stelle sicher dass dein Code funktioniert!";
+      message += `\nError: ${error}`; // TODO: pass errors from output, graph separately
+      return { result: false, message: message };
+    });
+}
 
+// Check if user has correctly completed the level task
+async function check(thLevel: ThLevel, nodes: LevelNode[]): Promise<boolean> {
   const category = thLevel.category;
   const mainNode = nodes.find(node => node.data.isMain);
   const mainScopeId = mainNode ? (mainNode.data as CodeIDENodeData).props.scopeId : null;
@@ -19,7 +37,6 @@ export async function check(thLevel: ThLevel, nodes: LevelNode[]): Promise<boole
   try {
     switch (category.id) {
       case "c1":
-        console.log("2 away")
         return await checkUserOutput(mainScopeId, thLevel.expectedOutput);
 
       case "c2":
@@ -37,7 +54,7 @@ export async function check(thLevel: ThLevel, nodes: LevelNode[]): Promise<boole
 }
 
 // Category 1
-export async function checkUserOutput(scopeId: string, expectedOutput: string) {
+async function checkUserOutput(scopeId: string, expectedOutput: string) {
   try {
     const codeIDEOutput = await compileGetOutput(scopeId);
     console.log("Output-CodeIDE:", codeIDEOutput);
@@ -50,7 +67,7 @@ export async function checkUserOutput(scopeId: string, expectedOutput: string) {
 }
 
 // Category 2 and 3
-export async function checkUserGraph(scopeId: string, expectedGraph: CodeGraph) {
+async function checkUserGraph(scopeId: string, expectedGraph: CodeGraph) {
   try {
     const codeIDEGraph = await compileGetGraph(scopeId);
     console.log("Graph-CodeIDE:", codeIDEGraph);

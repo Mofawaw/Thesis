@@ -63,3 +63,18 @@
     @apply border-l-[1.5px] border-th-black-10;
   }
 }
+
+@layer utilities
+{
+  .th-bg-gradient
+  {
+    @apply animate-th-gradient bg-th-gradient-40 bg-400%;
+  }
+
+  .th-text-gradient
+  {
+    @apply animate-th-gradient-fast bg-th-gradient-100 bg-400%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}

@@ -1,14 +1,14 @@
 import ReactFlow, { ReactFlowProvider, NodeChange, applyNodeChanges, useReactFlow, ReactFlowInstance } from 'reactflow';
 import 'reactflow/dist/style.css';
 import { nodeTypes } from './nodes/LevelNodeTypes';
-import { generateLevelNodes } from './levelHelper';
-import { levels } from './levelData';
-import { Dispatch, SetStateAction, useCallback, useRef, useState } from 'react';
+import { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
 import LevelNode from './types/LevelNode.ts';
 import LevelOverlayTop from './LevelOverlayTop.tsx';
 import LevelOverlayBottom from './LevelOverlayBottom.tsx';
+import ThLevel from './types/ThLevel.ts';
+import { generateLevelNodes } from './logic/LevelInitialization.ts';
 
-export default function Level() {
+export default function Level({ level }: { level: ThLevel }) {
   const [nodes, setNodes] = useState<LevelNode[]>([]);
 
   const addNode = (newNode: LevelNode) => {
@@ -26,13 +26,20 @@ export default function Level() {
     setNodes((nodes) => nodes.concat(newNode));
   };
 
+  // Initialize Nodes for Level
+  useEffect(() => {
+    const initialNodes = generateLevelNodes(level);
+    setNodes(initialNodes)
+    console.log(initialNodes);
+  }, []);
+
   return (
     <div className="w-screen h-screen">
       <ReactFlowProvider>
         <div className="w-screen h-screen">
           <LevelOverlayTop />
           <LevelReactFlow nodes={nodes} setNodes={setNodes} />
-          <LevelOverlayBottom onAddNode={(node) => addNode(node)} />
+          <LevelOverlayBottom level={level} nodes={nodes} onAddNode={(node) => addNode(node)} />
         </div>
       </ReactFlowProvider>
     </div>
@@ -44,10 +51,6 @@ function LevelReactFlow({ nodes, setNodes }: { nodes: LevelNode[], setNodes: Dis
   const prevNodesLength = useRef(nodes.length);
 
   const onInit = (instance: ReactFlowInstance) => {
-    const mode1Nodes = generateLevelNodes(levels[1]);
-    setNodes(mode1Nodes)
-    console.log(mode1Nodes);
-
     const timeoutId = setTimeout(() => {
       instance.fitView({ padding: 0.1, includeHiddenNodes: true, duration: 300 });
     }, 200);

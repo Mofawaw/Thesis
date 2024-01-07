@@ -13,6 +13,20 @@ const codeExample = [
   "print(b)"
 ].join('\n');
 
+const c1_initialCode = [
+  "apples = 4",
+  "peaches = 6",
+  "fruits = 0 # Todo 1",
+  "",
+  "print(\"Lily's fruits in total:\")",
+  "# Todo 2"
+].join('\n');
+
+const c1_expectedOutput = [
+  "Lily's fruits in total:",
+  "10"
+].join('\n')
+
 const graphExample: CodeGraph = {
   nodes: [
     { id: "n-vs-0", type: "value-stack", label: "a" },
@@ -83,9 +97,9 @@ export const levels: ThLevel[] = [
     category: categories[0],
     label: "Level 1.1",
     task: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Justo laoreet sit amet cursus sit amet dictum sit amet.",
-    initialCode: codeExample,
+    initialCode: c1_initialCode,
     initialGraph: { nodes: [], edges: [] },
-    expectedOutput: outputExample,
+    expectedOutput: c1_expectedOutput,
     expectedGraph: { nodes: [], edges: [] },
   },
   {

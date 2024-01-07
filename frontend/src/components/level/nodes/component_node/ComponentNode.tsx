@@ -16,7 +16,7 @@ export default function ComponentNode({ data, onSizeChange = () => { }, children
     }
   }, [size, onSizeChange]);
 
-  const gradientBorder = 'animate-th-border rounded-th bg-th-white bg-gradient-to-r from-th-reference-40 via-th-black-10 to-th-value-40 bg-[length:400%_400%] p-[5px]';
+  const gradientBorder = 'th-bg-gradient p-[5px]';
 
   return (
     <div

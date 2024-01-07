@@ -3,30 +3,40 @@ import ThIconButton from "../custom/ThIconButton";
 import ThIconTextButton from "../custom/ThIconTextButton";
 import ThDropdown from "../portals/ThDropdown";
 import ThMenuTextButton from "../custom/ThMenuTextButton";
-import { sampleLevelNode } from './levelHelper';
 import LevelNode from "./types/LevelNode";
 import ThPopup from "../portals/ThPopup";
 import { useState } from "react";
+import ThLevel from "./types/ThLevel";
+import { checkAndReturnResults } from "./logic/LevelEvaluation.ts";
+import { sampleLevelNode } from "./logic/LevelInitialization.ts";
+import ThTextButton from "../custom/ThTextButton.tsx";
 
-export default function LevelOverlayBottom({ onAddNode }: { onAddNode: (node: LevelNode) => (void) }) {
+export default function LevelOverlayBottom({ nodes, level, onAddNode }: { nodes: LevelNode[], level: ThLevel, onAddNode: (node: LevelNode) => (void) }) {
   const { zoomIn, zoomOut, fitView } = useReactFlow();
   const [openTippsDropdown, setOpenTippsDropdown] = useState<boolean>(false);
   const [openTutorialDropdown, setOpenTutorialDropdown] = useState<boolean>(false);
-  const [openCheckPopup, setOpenCheckPopup] = useState<boolean>(false);
+  const [openCheckResultsPopup, setOpenCheckResultsPopup] = useState<{ success?: boolean, fail?: boolean, message: string }>();
   const [onChecking, setOnChecking] = useState<boolean>(false);
 
   function handleCheckButtonOnClick() {
-    // Logic to handle result
     setOnChecking(true);
-    setTimeout(() => {
-      setOnChecking(false);
-      setOpenCheckPopup(true);
-    }, 5000);
+
+    checkAndReturnResults(level, nodes)
+      .then(result => {
+        if (result.result) {
+          setOpenCheckResultsPopup({ success: true, message: result.message });
+        } else {
+          setOpenCheckResultsPopup({ fail: true, message: result.message });
+        }
+      })
+      .finally(() => {
+        setOnChecking(false);
+      });
   }
 
   function handleCheckButtonOnClose() {
-    setOpenCheckPopup(false);
-    // Logic to handle going to stage, ...
+    setOpenCheckResultsPopup({ success: false, fail: false, message: "" });
+    // Todo: Logic to handle going to stage, ...
   }
 
   return (
@@ -77,7 +87,7 @@ export default function LevelOverlayBottom({ onAddNode }: { onAddNode: (node: Le
               <li>
                 <ThMenuTextButton width={180} thColor="th-reference" text="Wertetypen"
                   onClick={() => {
-                    onAddNode(sampleLevelNode);
+                    onAddNode(sampleLevelNode); // Todo
                     setOpenTutorialDropdown(false);
                   }}
                 />
@@ -87,16 +97,31 @@ export default function LevelOverlayBottom({ onAddNode }: { onAddNode: (node: Le
 
           {/*Check*/}
           <ThPopup
-            width={800}
-            height={600}
-            thColor="th-reference"
+            width={openCheckResultsPopup?.success ? 1000 : 650}
+            height={openCheckResultsPopup?.success ? 600 : 800}
+            thColor={openCheckResultsPopup?.success ? "th-tint" : "th-black"}
+            backgroundClass={openCheckResultsPopup?.success ? "th-bg-gradient" : "bg-none"}
             button={
               <ThIconTextButton thColor="th-reference" icon="Check" text={"Check"} isLoading={onChecking} onClick={handleCheckButtonOnClick} />
             }
-            isOpen={openCheckPopup}
+            isOpen={(openCheckResultsPopup?.success || openCheckResultsPopup?.fail) ?? false}
             onClose={handleCheckButtonOnClose}
           >
-            <></>
+
+            {openCheckResultsPopup?.success &&
+              <div className="h-full flex flex-col items-center justify-between p-12">
+                <h2 className="th-text-gradient">Erfolg!</h2>
+                <h3 className="text-center whitespace-pre-line">{openCheckResultsPopup.message}</h3>
+                <ThTextButton width={150} thColor="th-tint" text="Weiter" onClick={handleCheckButtonOnClose} />
+              </div>
+            }
+            {openCheckResultsPopup?.fail &&
+              <div className="h-full flex flex-col items-center justify-between p-12">
+                <h3>Leider falsch.</h3>
+                <p className="text-center whitespace-pre-line mt-4">{openCheckResultsPopup.message}</p>
+                <ThMenuTextButton width={150} thColor="th-black" text="Weiter" onClick={handleCheckButtonOnClose} />
+              </div>
+            }
           </ThPopup>
         </div>
       </div>
