@@ -1,8 +1,10 @@
 import CodeGraph from '../code_ide/types/CodeGraph';
+import LevelNode, { LevelNodeSize } from './types/LevelNode';
 import ThCategory from './types/ThCategory';
 import ThLevel from './types/ThLevel';
 import ThStage from './types/ThStage';
 
+// TODO: Backend
 const outputExample = ""
 
 const codeExample = [
@@ -67,7 +69,7 @@ const categories: ThCategory[] = [
     label: "Coding Challenge",
     nodes: [
       { id: "c-ide-1-main", type: "codeIDE-program-write-graph-auto", size: "large" },
-      { id: "c-task-1", type: "task", size: "small" }
+      { id: "c-task-1", type: "text", size: "small" }
     ]
   },
   {
@@ -76,7 +78,7 @@ const categories: ThCategory[] = [
     nodes: [
       { id: "c-ide-1", type: "codeIDE-graph-read", size: "small" },
       { id: "c-ide-2-main", type: "codeIDE-program-write", size: "medium" },
-      { id: "c-task-1", type: "task", size: "small" }
+      { id: "c-task-1", type: "text", size: "small" }
     ]
   },
   {
@@ -85,7 +87,7 @@ const categories: ThCategory[] = [
     nodes: [
       { id: "c-ide-1", type: "codeIDE-program-read", size: "small" },
       { id: "c-ide-2-main", type: "codeIDE-graph-input", size: "medium" },
-      { id: "c-task-1", type: "task", size: "small" }
+      { id: "c-task-1", type: "text", size: "small" }
     ]
   }
 ]
@@ -125,3 +127,16 @@ export const levels: ThLevel[] = [
     expectedGraph: graphExample,
   },
 ]
+
+// TODO: Samples
+export const sampleLevelNode: LevelNode = {
+  id: "",
+  type: "text",
+  position: { x: 0, y: 0 },
+  data: {
+    title: "Tipp 1",
+    initialSize: LevelNodeSize.medium,
+    isMain: false,
+    description: "This is a sample Tipp!"
+  }
+}

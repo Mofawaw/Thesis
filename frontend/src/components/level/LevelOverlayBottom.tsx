@@ -7,9 +7,9 @@ import LevelNode from "./types/LevelNode";
 import ThPopup from "../portals/ThPopup";
 import { useState } from "react";
 import ThLevel from "./types/ThLevel";
-import { checkAndReturnResults } from "./logic/LevelEvaluation.ts";
-import { sampleLevelNode } from "./logic/LevelInitialization.ts";
 import ThTextButton from "../custom/ThTextButton.tsx";
+import { sampleLevelNode } from "./levelData.ts";
+import { checkAndReturnResults } from "./logic/LevelEvaluation.ts";
 
 export default function LevelOverlayBottom({ nodes, level, onAddNode }: { nodes: LevelNode[], level: ThLevel, onAddNode: (node: LevelNode) => (void) }) {
   const { zoomIn, zoomOut, fitView } = useReactFlow();

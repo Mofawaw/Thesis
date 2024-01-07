@@ -1,4 +1,4 @@
 import CodeIDENode from "./CodeIDENode";
-import TaskNode from "./TaskNode";
+import TextNode from "./TextNode";
 
-export const nodeTypes = { codeIDE: CodeIDENode, task: TaskNode };
+export const nodeTypes = { codeIDE: CodeIDENode, text: TextNode };

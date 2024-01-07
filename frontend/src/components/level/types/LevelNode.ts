@@ -24,6 +24,7 @@ export class LevelNodeSize {
 export type LevelNodeSizeType = typeof LevelNodeSize.small | typeof LevelNodeSize.medium | typeof LevelNodeSize.large;
 
 export interface ComponentNodeData {
+  title?: string;
   initialSize: LevelNodeSizeType,
   isMain: boolean
 }
@@ -37,10 +38,10 @@ export interface CodeIDENodeData extends ComponentNodeData {
   }
 }
 
-export interface TaskNodeData extends ComponentNodeData {
+export interface TextNodeData extends ComponentNodeData {
   description: string
 }
 
 export default interface LevelNode extends Node {
-  data: CodeIDENodeData | TaskNodeData;
+  data: CodeIDENodeData | TextNodeData;
 }

@@ -32,12 +32,13 @@ export function generateLevelNodes(thLevel: ThLevel): LevelNode[] {
           }
         }
       };
-    } else if (node.type === 'task') {
+    } else if (node.type === 'text') { // Assuming only Task has type text
       return {
         id: node.id,
         type: node.type,
         position: { x: nodePositionX, y: 0 },
         data: {
+          title: "Aufgabe",
           initialSize: size,
           isMain: isMain,
           description: thLevel.task
@@ -47,15 +48,4 @@ export function generateLevelNodes(thLevel: ThLevel): LevelNode[] {
   });
 
   return levelNodes.filter(node => node !== undefined) as LevelNode[];
-}
-
-export const sampleLevelNode: LevelNode = {
-  id: "",
-  type: "task",
-  position: { x: 0, y: 0 },
-  data: {
-    initialSize: LevelNodeSize.medium,
-    isMain: false,
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Justo laoreet sit amet cursus sit amet dictum sit amet."
-  }
 }
