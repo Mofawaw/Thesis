@@ -1,14 +1,17 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { dia, shapes } from 'jointjs';
 import useCodeIDEStore, { CodeIDEStore } from '../codeIDEStore.ts';
-import { addData } from './codeGraphHelper';
+import { addData, styles } from './codeGraphHelper';
 import CodeIDEMode from '../types/CodeIDEMode.ts';
 
 export default function CodeGraph({ scopeId }: { scopeId: string }) {
   const parentRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLDivElement>(null);
-  const mode = useCodeIDEStore(scopeId)((state: CodeIDEStore) => state.mode)
-  const graph = useCodeIDEStore(scopeId)((state: CodeIDEStore) => state.graph)
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [selectedNode, setSelectedNode] = useState<dia.Element | null>(null);
+
+  const mode = useCodeIDEStore(scopeId)((state: CodeIDEStore) => state.mode);
+  const graph = useCodeIDEStore(scopeId)((state: CodeIDEStore) => state.graph);
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -31,15 +34,50 @@ export default function CodeGraph({ scopeId }: { scopeId: string }) {
 
     // GraphMode: input
     if (mode.has(CodeIDEMode.graphInput)) {
+      const resetAllNodeStyles = () => {
+        diaGraph.getElements().forEach(node => {
+          if (!node.attr('label/text')) {
+            node.attr({
+              body: {
+                stroke: styles.node.color.rect,
+                fill: "none"
+              }
+            });
+          } else {
+            node.attr({
+              body: {
+                stroke: styles.node.color.rect
+              }
+            });
+          }
+        });
+      };
+
       paper.on('element:pointerdown', (cellView) => {
         const model = (cellView as any).model;
-
         if (model instanceof dia.Element) {
-          const textElement = cellView.findBySelector('text')[0];
-          if (textElement) {
-            createInlineEditor(paper, model);
+          resetAllNodeStyles();
+
+          // Set new node as selected and apply styles
+          setSelectedNode(model);
+          model.attr({
+            body: {
+              stroke: styles.node.color.rectActive,
+              fill: styles.node.color.rect
+            }
+          });
+          model.toFront();
+
+          if (inputRef.current) {
+            inputRef.current.value = model.attr('label/text') || '';
+            inputRef.current.focus();
           }
         }
+      });
+
+      paper.on('blank:pointerdown', () => {
+        resetAllNodeStyles();
+        finalizeTextUpdate();
       });
     }
 
@@ -49,9 +87,47 @@ export default function CodeGraph({ scopeId }: { scopeId: string }) {
         canvasRef.current.innerHTML = '';
       }
     };
-  }, [graph]);
+  }, [graph, mode]);
 
-  // Responsivity
+  const finalizeTextUpdate = () => {
+    if (selectedNode && inputRef.current) {
+      selectedNode.attr('label/text', inputRef.current.value);
+      setSelectedNode(null);
+    }
+  };
+
+  useEffect(() => {
+    const handleInputChange = (e: any) => {
+      if (selectedNode) {
+        selectedNode.attr('label/text', e.target.value);
+      }
+    };
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Enter') {
+        finalizeTextUpdate();
+      }
+    };
+
+    if (inputRef.current) {
+      inputRef.current.removeEventListener('input', handleInputChange);
+      inputRef.current.removeEventListener('blur', finalizeTextUpdate);
+      inputRef.current.removeEventListener('keydown', handleKeyDown);
+
+      inputRef.current.addEventListener('input', handleInputChange);
+      inputRef.current.addEventListener('blur', finalizeTextUpdate);
+      inputRef.current.addEventListener('keydown', handleKeyDown);
+    }
+
+    return () => {
+      if (inputRef.current) {
+        inputRef.current.removeEventListener('input', handleInputChange);
+        inputRef.current.removeEventListener('blur', finalizeTextUpdate);
+        inputRef.current.removeEventListener('keydown', handleKeyDown);
+      }
+    };
+  }, [selectedNode]);
+
   useEffect(() => {
     const resizeObserver = new ResizeObserver(entries => {
       for (let entry of entries) {
@@ -75,62 +151,9 @@ export default function CodeGraph({ scopeId }: { scopeId: string }) {
   }, []);
 
   return (
-    <div className="basis-2/5 flex-none p-4 nowheel nodrag overflow-hidden">
+    <div ref={parentRef} className="w-full h-full basis-2/5 flex-none p-4 nowheel nodrag overflow-hidden">
+      <input ref={inputRef} type="text" style={{ position: 'absolute', opacity: 0, pointerEvents: 'none' }} />
       <div ref={canvasRef} className="w-full h-full overflow-auto" />
     </div>
   );
 }
-
-const createInlineEditor = (paper: dia.Paper, model: dia.Element) => {
-  const currentText = model.attr('label/text');
-
-  const bbox = model.findView(paper).getBBox();
-
-  const paperRect = (paper as any).el.getBoundingClientRect();
-
-  const absoluteX = paperRect.left + bbox.x;
-  const absoluteY = paperRect.top + bbox.y;
-
-  const input = document.createElement('input');
-  input.type = 'text';
-  input.value = currentText;
-
-  const padding = 8;
-  const inputWidth = bbox.width - 2 * padding;
-  const inputHeight = 20;
-
-  input.style.position = 'absolute';
-  input.style.left = `${absoluteX + padding}px`;
-  input.style.top = `${absoluteY + (bbox.height / 2) - (inputHeight / 2)}px`;
-  input.style.width = `${inputWidth}px`;
-  input.style.height = `${inputHeight}px`;
-
-  input.style.textAlign = 'center';
-
-  const updateText = (newText: string) => {
-    model.attr('label/text', newText);
-  };
-
-  input.addEventListener('blur', () => {
-    setTimeout(() => {
-      updateText(input.value);
-    }, 0);
-  });
-
-  input.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-      input.remove();
-    }
-  });
-
-  const outsideClickListener = (event: MouseEvent) => {
-    if (!input.contains(event.target as Node)) {
-      input.remove();
-    }
-  };
-
-  document.body.appendChild(input);
-  input.focus();
-
-  setTimeout(() => document.addEventListener('mousedown', outsideClickListener), 0);
-};

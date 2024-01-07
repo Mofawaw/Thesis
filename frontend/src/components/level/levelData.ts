@@ -215,93 +215,6 @@ const c3_expectedGraph: CodeGraph = {
   ]
 }
 
-const c3_initialGraph: CodeGraph = {
-  "nodes": [
-    {
-      "id": "n-vs-0",
-      "type": "value-stack",
-      "label": ""
-    },
-    {
-      "id": "n-vh-0",
-      "type": "value-heap",
-      "label": ""
-    },
-    {
-      "id": "n-vs-1",
-      "type": "value-stack",
-      "label": ""
-    },
-    {
-      "id": "n-vh-1",
-      "type": "value-heap",
-      "label": ""
-    },
-    {
-      "id": "n-rs-0",
-      "type": "reference-stack",
-      "label": ""
-    },
-    {
-      "id": "n-rs-1",
-      "type": "reference-stack",
-      "label": ""
-    },
-    {
-      "id": "n-vs-2",
-      "type": "value-stack",
-      "label": ""
-    },
-    {
-      "id": "n-vh-2",
-      "type": "value-heap",
-      "label": ""
-    },
-    {
-      "id": "n-rhd-0",
-      "type": "reference-heap-deallocated",
-      "label": ""
-    },
-    {
-      "id": "n-rh-1",
-      "type": "reference-heap",
-      "label": ""
-    }
-  ],
-  "edges": [
-    {
-      "id": "e-v-0",
-      "type": "value",
-      "source": "n-vs-0",
-      "target": "n-vh-0"
-    },
-    {
-      "id": "e-v-1",
-      "type": "value",
-      "source": "n-vs-1",
-      "target": "n-vh-1"
-    },
-    {
-      "id": "e-v-2",
-      "type": "value",
-      "source": "n-vs-2",
-      "target": "n-vh-2"
-    },
-    {
-      "id": "e-r-0",
-      "type": "reference",
-      "source": "n-rs-0",
-      "target": "n-rh-1"
-    },
-    {
-      "id": "e-r-1",
-      "type": "reference",
-      "source": "n-rs-1",
-      "target": "n-rh-1"
-    }
-  ]
-}
-
 const stages: ThStage[] = [
   {
     id: "s1",
@@ -382,7 +295,7 @@ export const levels: ThLevel[] = [
     label: "Level 3.4",
     task: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Justo laoreet sit amet cursus sit amet dictum sit amet.",
     initialCode: c3_initialCode,
-    initialGraph: c3_initialGraph,
+    initialGraph: c3_expectedGraph,
     expectedOutput: "",
     expectedGraph: c3_expectedGraph,
   },

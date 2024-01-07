@@ -6,14 +6,14 @@ import CodeIDEMode from '../types/CodeIDEMode.ts';
 const { colors } = config.theme
 const { fontFamily } = config.theme
 
-const styles = {
+export const styles = {
   node: {
     width: 100,
     height: 35,
     gap: { x: 50, y: 5 },
     padding: 10,
     font: { size: "15px", family: fontFamily['th-mono'][0] },
-    color: { text: colors['th-black'][100], rect: colors['th-black'][10] }
+    color: { text: colors['th-black'][100], rect: colors['th-black'][10], rectActive: colors['th-black'][20] }
   },
   edge: {
     getColor: (type: string) => (type == "value" ? colors['th-value'][100] : colors['th-reference'][100])
@@ -25,6 +25,14 @@ export const addData = (codeGraph: CodeGraph, graph: dia.Graph, mode: CodeIDEMod
   const nodeRectMap = new Map<string, shapes.standard.Rectangle>();
   const maxWidthOfStackNodes = calculateMaxWidth(codeGraph.nodes, "stack");
   const maxWidthOfHeapNodes = calculateMaxWidth(codeGraph.nodes, "heap");
+
+  if (mode.has(CodeIDEMode.graphInput)) {
+    const maxCharsOfStackNodes = calculateMaxChars(codeGraph.nodes, "stack");
+    const maxCharsOfHeapNodes = calculateMaxChars(codeGraph.nodes, "heap");
+
+    console.log("Max characters in stack nodes:", maxCharsOfStackNodes);
+    console.log("Max characters in heap nodes:", maxCharsOfHeapNodes);
+  }
 
   positionNodes(codeGraph.nodes, maxWidthOfStackNodes);
   addNodesToGraph(codeGraph.nodes, graph, nodeRectMap, maxWidthOfStackNodes, maxWidthOfHeapNodes, mode);
@@ -62,6 +70,15 @@ const calculateMaxWidth = (nodes: Node[], type: string): number => {
     }, 0);
 };
 
+const calculateMaxChars = (nodes: Node[], type: string): number => {
+  return nodes
+    .filter(node => node.type.includes(type))
+    .reduce((maxChars, node) => {
+      const labelLength = node.label.length;
+      return Math.max(maxChars, labelLength);
+    }, 0);
+};
+
 const positionNodes = (nodes: Node[], maxWidthOfStackNodes: number): void => {
   const sortNodes = (nodes: Node[]): Node[] => {
     const valueNodes = nodes.filter(node => node.type.includes("value"));
@@ -92,16 +109,17 @@ const addNodesToGraph = (nodes: Node[], graph: dia.Graph, nodeRectMap: Map<strin
   nodes.forEach((node) => {
     const maxWidth = node.type.includes("stack") ? maxWidthOfStackNodes : maxWidthOfHeapNodes;
     const rect = createAndResizeRect(node.label, maxWidth, mode);
-    rect.position(node.position.x, node.position.y);
+    rect.position(mode.has(CodeIDEMode.graphInput) ? node.position.x + 1.5 : node.position.x, mode.has(CodeIDEMode.graphInput) ? node.position.y + 1.5 : node.position.y);
     rect.attr({
       body: {
-        fill: styles.node.color.rect,
-        stroke: "none",
+        fill: mode.has(CodeIDEMode.graphInput) ? "none" : styles.node.color.rect,
+        stroke: mode.has(CodeIDEMode.graphInput) ? styles.node.color.rect : "none",
+        strokeWidth: 3,
         rx: 5,
         ry: 5
       },
       label: {
-        text: node.label,
+        text: mode.has(CodeIDEMode.graphInput) ? "" : node.label,
         fontSize: styles.node.font.size,
         fontFamily: styles.node.font.family,
         fill: styles.node.color.text

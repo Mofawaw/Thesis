@@ -1,4 +1,5 @@
 import { compileGetGraph, compileGetOutput } from "../../code_ide/codeIDENetwork";
+import useCodeIDEStore from "../../code_ide/codeIDEStore";
 import CodeGraph from "../../code_ide/types/CodeGraph";
 import LevelNode, { CodeIDENodeData } from "../types/LevelNode";
 import ThLevel from "../types/ThLevel";
@@ -40,8 +41,10 @@ async function check(thLevel: ThLevel, nodes: LevelNode[]): Promise<boolean> {
         return await checkUserOutput(mainScopeId, thLevel.expectedOutput);
 
       case "c2":
-      case "c3":
         return await checkUserGraph(mainScopeId, thLevel.expectedGraph);
+
+      case "c3":
+        return await checkInputGraph(mainScopeId, thLevel.expectedGraph)
 
       default:
         console.error(`Unknown category: ${category.id}`);
@@ -66,10 +69,23 @@ async function checkUserOutput(scopeId: string, expectedOutput: string) {
   }
 }
 
-// Category 2 and 3
+// Category 2
 async function checkUserGraph(scopeId: string, expectedGraph: CodeGraph) {
   try {
     const codeIDEGraph = await compileGetGraph(scopeId);
+    console.log("Graph-CodeIDE:", codeIDEGraph);
+    console.log("Graph-Expected:", codeIDEGraph);
+    return isEqualGraph(codeIDEGraph, expectedGraph);
+  } catch (error) {
+    console.error('Error:', error);
+    return false;
+  }
+}
+
+// Category 3
+async function checkInputGraph(scopeId: string, expectedGraph: CodeGraph) {
+  try {
+    const codeIDEGraph = await useCodeIDEStore(scopeId).getState().graph;
     console.log("Graph-CodeIDE:", codeIDEGraph);
     console.log("Graph-Expected:", codeIDEGraph);
     return isEqualGraph(codeIDEGraph, expectedGraph);
