@@ -26,16 +26,15 @@ export const addData = (codeGraph: CodeGraph, graph: dia.Graph, mode: CodeIDEMod
   const maxWidthOfStackNodes = calculateMaxWidth(codeGraph.nodes, "stack");
   const maxWidthOfHeapNodes = calculateMaxWidth(codeGraph.nodes, "heap");
 
+  let maxCharsOfStackNodes = 0;
+  let maxCharsOfHeapNodes = 0;
   if (mode.has(CodeIDEMode.graphInput)) {
-    const maxCharsOfStackNodes = calculateMaxChars(codeGraph.nodes, "stack");
-    const maxCharsOfHeapNodes = calculateMaxChars(codeGraph.nodes, "heap");
-
-    console.log("Max characters in stack nodes:", maxCharsOfStackNodes);
-    console.log("Max characters in heap nodes:", maxCharsOfHeapNodes);
+    maxCharsOfStackNodes = calculateMaxChars(codeGraph.nodes, "stack");
+    maxCharsOfHeapNodes = calculateMaxChars(codeGraph.nodes, "heap");
   }
 
   positionNodes(codeGraph.nodes, maxWidthOfStackNodes);
-  addNodesToGraph(codeGraph.nodes, graph, nodeRectMap, maxWidthOfStackNodes, maxWidthOfHeapNodes, mode);
+  addNodesToGraph(codeGraph.nodes, graph, nodeRectMap, maxWidthOfStackNodes, maxWidthOfHeapNodes, maxCharsOfStackNodes, maxCharsOfHeapNodes, mode);
   addEdgesToGraph(codeGraph.edges, nodeRectMap, graph);
 };
 
@@ -105,9 +104,10 @@ const positionNodes = (nodes: Node[], maxWidthOfStackNodes: number): void => {
   setPosition(heapNodes, false);
 };
 
-const addNodesToGraph = (nodes: Node[], graph: dia.Graph, nodeRectMap: Map<string, shapes.standard.Rectangle>, maxWidthOfStackNodes: number, maxWidthOfHeapNodes: number, mode: CodeIDEMode): void => {
+const addNodesToGraph = (nodes: Node[], graph: dia.Graph, nodeRectMap: Map<string, shapes.standard.Rectangle>, maxWidthOfStackNodes: number, maxWidthOfHeapNodes: number, maxCharsOfStackNodes: number, maxCharsOfHeapNodes: number, mode: CodeIDEMode): void => {
   nodes.forEach((node) => {
     const maxWidth = node.type.includes("stack") ? maxWidthOfStackNodes : maxWidthOfHeapNodes;
+    const maxChars = node.type.includes("stack") ? maxCharsOfStackNodes : maxCharsOfHeapNodes;
     const rect = createAndResizeRect(node.label, maxWidth, mode);
     rect.position(mode.has(CodeIDEMode.graphInput) ? node.position.x + 1.5 : node.position.x, mode.has(CodeIDEMode.graphInput) ? node.position.y + 1.5 : node.position.y);
     rect.attr({
@@ -125,6 +125,7 @@ const addNodesToGraph = (nodes: Node[], graph: dia.Graph, nodeRectMap: Map<strin
         fill: styles.node.color.text
       }
     });
+    rect.prop('maxChars', maxChars);
 
     graph.addCell(rect);
     nodeRectMap.set(node.id, rect);

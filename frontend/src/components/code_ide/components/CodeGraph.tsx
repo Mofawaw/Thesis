@@ -97,9 +97,15 @@ export default function CodeGraph({ scopeId }: { scopeId: string }) {
   };
 
   useEffect(() => {
-    const handleInputChange = (e: any) => {
+    const handleInputChange = (e) => {
       if (selectedNode) {
-        selectedNode.attr('label/text', e.target.value);
+        const maxCharsAllowed = selectedNode.prop('maxChars');
+        const inputValue = e.target.value.slice(0, maxCharsAllowed);
+
+        selectedNode.attr('label/text', inputValue);
+        if (inputRef.current) {
+          inputRef.current.value = inputValue;
+        }
       }
     };
 
