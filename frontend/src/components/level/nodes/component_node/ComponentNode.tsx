@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { NodeResizer, ResizeDragEvent, ResizeParams } from 'reactflow';
 import styles from './componentNode.module.css';
-import { ComponentNodeData } from '../../types/LevelNode';
+import { CodeIDENodeData, ComponentNodeData } from '../../types/LevelNode';
 
 export default function ComponentNode({ data, onSizeChange = () => { }, children }: { data: ComponentNodeData, onSizeChange?: (size: { width: number; height: number }) => void, children: React.ReactNode }) {
   const [size, setSize] = useState({ width: data.initialSize.width, height: data.initialSize.height });
@@ -32,7 +32,7 @@ export default function ComponentNode({ data, onSizeChange = () => { }, children
           onResize={handleResize}
         />
         <div
-          className={`${data.isMain ? gradientBorder : 'border-th-black-10 border-th'} rounded-th`}
+          className={`${(data as CodeIDENodeData).props?.isMain ? gradientBorder : 'border-th-black-10 border-th'} rounded-th`}
           style={{ width: size.width, height: size.height }}
         >
           <div className="bg-th-white rounded-th-inner w-full h-full">

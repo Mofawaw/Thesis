@@ -6,4 +6,5 @@ export default interface ThStage {
   label: string;
   color: ThColorKeys;
   levels: ThLevel[];
+  // tutorials: ThTutorial[]; TODO
 }

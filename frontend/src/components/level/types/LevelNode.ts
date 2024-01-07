@@ -26,12 +26,12 @@ export type LevelNodeSizeType = typeof LevelNodeSize.small | typeof LevelNodeSiz
 export interface ComponentNodeData {
   title?: string;
   initialSize: LevelNodeSizeType,
-  isMain: boolean
 }
 
 export interface CodeIDENodeData extends ComponentNodeData {
   props: {
     scopeId: string,
+    isMain: boolean,
     mode: CodeIDEMode,
     initialCode: string,
     initialGraph: CodeGraph

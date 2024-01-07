@@ -1,34 +1,28 @@
-import CodeIDEMode from '../../code_ide/types/CodeIDEMode';
+import LevelNode from '../types/LevelNode';
 import ThLevel from '../types/ThLevel';
-import LevelNode, { LevelNodeSize } from '../types/LevelNode';
 
 export function generateLevelNodes(thLevel: ThLevel): LevelNode[] {
   const category = thLevel.category;
 
   let currentPositionX = 0;
   const levelNodes = category.nodes.map(node => {
-    const size = LevelNodeSize.fromString(node.size);
-
-    const nodeTypeParts = node.type.split('-');
-    const isMain = node.id.includes("main");
 
     const nodePositionX = currentPositionX;
-    currentPositionX += size.width + 20;
+    currentPositionX += node.size.width + 20;
 
-    if (nodeTypeParts[0] === "codeIDE") {
-      const modeString = nodeTypeParts.slice(1).join('-');
+    if (node.type === "codeIDE" && node.codeIDE) {
       return {
         id: node.id,
         type: "codeIDE",
         position: { x: nodePositionX, y: 0 },
         data: {
-          initialSize: size,
-          isMain: isMain,
+          initialSize: node.size,
           props: {
             scopeId: node.id,
-            mode: CodeIDEMode.fromString(modeString),
-            initialCode: thLevel.initialCode,
-            initialGraph: thLevel.initialGraph
+            isMain: node.codeIDE.isMain,
+            mode: node.codeIDE.mode,
+            initialCode: node.codeIDE.hasInitialCode ? thLevel.initialCode : "",
+            initialGraph: node.codeIDE.hasInitialGraph ? thLevel.initialGraph : { nodes: [], edges: [] }
           }
         }
       };
@@ -39,8 +33,7 @@ export function generateLevelNodes(thLevel: ThLevel): LevelNode[] {
         position: { x: nodePositionX, y: 0 },
         data: {
           title: "Aufgabe",
-          initialSize: size,
-          isMain: isMain,
+          initialSize: node.size,
           description: thLevel.task
         }
       };

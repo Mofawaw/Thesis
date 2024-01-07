@@ -26,7 +26,7 @@ export function checkAndReturnResults(thLevel: ThLevel, nodes: LevelNode[]): Pro
 // Check if user has correctly completed the level task
 async function check(thLevel: ThLevel, nodes: LevelNode[]): Promise<boolean> {
   const category = thLevel.category;
-  const mainNode = nodes.find(node => node.data.isMain);
+  const mainNode = nodes.find(node => (node.data as CodeIDENodeData).props.isMain);
   const mainScopeId = mainNode ? (mainNode.data as CodeIDENodeData).props.scopeId : null;
 
   if (!mainScopeId) {
