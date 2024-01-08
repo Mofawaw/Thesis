@@ -10,7 +10,7 @@ export function generateReactflowNodes(level: ThLevel): Node[] {
   let currentPositionX = 0;
 
   const reactflowNodes = levelNodes.map(levelNode => {
-    const node = convertThLevelNodeToReactflowNode(levelNode);
+    const node = convertToReactflowNode(levelNode);
     node.position = { x: currentPositionX, y: 0 };
     currentPositionX += node.data.width + 20;
     return node;
@@ -19,7 +19,7 @@ export function generateReactflowNodes(level: ThLevel): Node[] {
   return reactflowNodes;
 }
 
-export function convertThLevelNodeToReactflowNode(levelNode: ThLevelNode) {
+export function convertToReactflowNode(levelNode: ThLevelNode) {
   // Node Size
   const nodeSize = ThNodeSize.fromString(levelNode.node.data.size);
 

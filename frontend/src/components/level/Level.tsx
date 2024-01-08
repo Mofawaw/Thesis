@@ -5,7 +5,7 @@ import { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } fr
 import LevelOverlayTop from './LevelOverlayTop.tsx';
 import LevelOverlayBottom from './LevelOverlayBottom.tsx';
 import { ThLevel, ThLevelNode } from './types/ThTypes.ts';
-import { convertThLevelNodeToReactflowNode, generateReactflowNodes } from './logic/levelInitialization.ts';
+import { convertToReactflowNode, generateReactflowNodes } from './logic/levelInitialization.ts';
 
 export default function Level({ level }: { level: ThLevel }) {
   const [nodes, setNodes] = useState<Node[]>([]);
@@ -20,7 +20,7 @@ export default function Level({ level }: { level: ThLevel }) {
       }
     });
 
-    const reactflowNode: Node = convertThLevelNodeToReactflowNode(newLevelNode);
+    const reactflowNode: Node = convertToReactflowNode(newLevelNode);
     reactflowNode.id = (nodes.length + 1).toString();
     reactflowNode.position = { x: maxX + 20, y: 0 };
 
