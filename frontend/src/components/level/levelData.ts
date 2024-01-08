@@ -1,11 +1,6 @@
 import CodeGraph from '../code_ide/types/CodeGraph';
-import CodeIDEMode from '../code_ide/types/CodeIDEMode';
-import LevelNode, { LevelNodeSize } from './types/LevelNode';
-import ThCategory from './types/ThCategory';
-import ThLevel from './types/ThLevel';
-import ThStage from './types/ThStage';
+import { ThCategory, ThLevel, ThNode, ThStage } from './types/ThTypes';
 
-// TODO: Backend
 const c1_initialCode = [
   "apples = 4",
   "peaches = 6",
@@ -14,6 +9,8 @@ const c1_initialCode = [
   "print(\"Lily's fruits in total:\")",
   "# Todo 2"
 ].join('\n');
+
+const c1_initialGraph = { nodes: [], edges: [] };
 
 const c1_expectedOutput = [
   "Lily's fruits in total:",
@@ -217,19 +214,19 @@ const c3_expectedGraph: CodeGraph = {
 
 const stages: ThStage[] = [
   {
-    id: "s1",
+    id: "s-1",
     label: "Wertetypen",
     color: "th-value",
-    levels: []
+    levels: [],
   },
   {
-    id: "s2",
+    id: "s-2",
     label: "Referenztypen",
     color: "th-reference",
     levels: []
   },
   {
-    id: "s3",
+    id: "s-3",
     label: "Werte- & Referenztypen",
     color: "th-together",
     levels: []
@@ -238,77 +235,87 @@ const stages: ThStage[] = [
 
 const categories: ThCategory[] = [
   {
-    id: "c1",
+    id: "c-1",
     label: "Coding Challenge",
     nodes: [
-      { id: "c-ide-1", type: "codeIDE", size: LevelNodeSize.large, codeIDE: { isMain: true, mode: CodeIDEMode.programWriteGraphAuto, hasInitialCode: true, hasInitialGraph: true, hasExpectedOutput: true, hasExpectedGraph: false } },
-      { id: "c-task-1", type: "text", size: LevelNodeSize.small }
-    ]
+      { id: "c-ide-1", type: "codeIDE", data: { size: "large", codeIDE: { isMain: true, scopeId: "c-ide-1", config: { type: "program+graph", mode: "write", runnable: true } } } },
+      { id: "c-text-1", type: "text", data: { title: "Aufgabe", size: "small" } }
+    ],
+    expected: "output"
   },
   {
-    id: "c2",
+    id: "c-2",
     label: "Code The Memory",
     nodes: [
-      { id: "c-ide-1", type: "codeIDE", size: LevelNodeSize.small, codeIDE: { isMain: false, mode: CodeIDEMode.graphRead, hasInitialCode: false, hasInitialGraph: true, hasExpectedOutput: false, hasExpectedGraph: false } },
-      { id: "c-ide-2", type: "codeIDE", size: LevelNodeSize.medium, codeIDE: { isMain: true, mode: CodeIDEMode.programWrite, hasInitialCode: true, hasInitialGraph: false, hasExpectedOutput: false, hasExpectedGraph: true } },
-      { id: "c-task-1", type: "text", size: LevelNodeSize.small }
-    ]
+      { id: "c-ide-1", type: "codeIDE", data: { size: "small", codeIDE: { isMain: false, scopeId: "c-ide-1", config: { type: "graph", mode: "read", runnable: false } } } },
+      { id: "c-ide-2", type: "codeIDE", data: { size: "medium", codeIDE: { isMain: true, scopeId: "c-ide-2", config: { type: "program", mode: "write", runnable: true } } } },
+      { id: "c-text-1", type: "text", data: { title: "Aufgabe", size: "small" } }
+    ],
+    expected: "graph"
   },
   {
-    id: "c3",
+    id: "c-3",
     label: "Memory From Code",
     nodes: [
-      { id: "c-ide-1", type: "codeIDE", size: LevelNodeSize.small, codeIDE: { isMain: false, mode: CodeIDEMode.programRead, hasInitialCode: true, hasInitialGraph: false, hasExpectedOutput: false, hasExpectedGraph: false } },
-      { id: "c-ide-2", type: "codeIDE", size: LevelNodeSize.medium, codeIDE: { isMain: true, mode: CodeIDEMode.graphInput, hasInitialCode: false, hasInitialGraph: true, hasExpectedOutput: false, hasExpectedGraph: true } },
-      { id: "c-task-1", type: "text", size: LevelNodeSize.small }
-    ]
+      { id: "c-ide-1", type: "codeIDE", data: { size: "small", codeIDE: { isMain: false, scopeId: "c-ide-1", config: { type: "program", mode: "read", runnable: false } } } },
+      { id: "c-ide-2", type: "codeIDE", data: { size: "medium", codeIDE: { isMain: true, scopeId: "c-ide-2", config: { type: "graph", mode: "write", runnable: false } } } },
+      { id: "c-text-1", type: "text", data: { title: "Aufgabe", size: "small" } }
+    ],
+    expected: "graph"
   }
 ]
 
 export const levels: ThLevel[] = [
   {
-    id: "l1",
+    id: "s-1-l-1",
     stage: stages[0],
     category: categories[0],
     label: "Level 1.1",
-    task: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Justo laoreet sit amet cursus sit amet dictum sit amet.",
-    initialCode: c1_initialCode,
-    initialGraph: { nodes: [], edges: [] },
-    expectedOutput: c1_expectedOutput,
-    expectedGraph: { nodes: [], edges: [] },
+    taskNode: { node: categories[0].nodes[1], data: { text: { description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." } } },
+    codeIDENodes: [{ node: categories[0].nodes[0], data: { codeIDE: { initialCode: c1_initialCode, initialGraph: c1_initialGraph } } }],
+    tippsNodes: [],
+    expected: { output: c1_expectedOutput }
   },
   {
-    id: "l7",
+    id: "s-2-l-1",
     stage: stages[1],
     category: categories[1],
-    label: "Level 2.7",
-    task: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Justo laoreet sit amet cursus sit amet dictum sit amet.",
-    initialCode: c2_initialCode,
-    initialGraph: c2_expectedGraph,
-    expectedOutput: "",
-    expectedGraph: c2_expectedGraph,
+    label: "Level 2.1",
+    taskNode: { node: categories[1].nodes[2], data: { text: { description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." } } },
+    codeIDENodes: [
+      { node: categories[1].nodes[0], data: { codeIDE: { initialGraph: c2_expectedGraph } } },
+      { node: categories[1].nodes[1], data: { codeIDE: { initialCode: c2_initialCode } } }
+    ],
+    tippsNodes: [],
+    expected: { graph: c2_expectedGraph }
   },
   {
-    id: "l4",
+    id: "s-3-l-1",
     stage: stages[2],
     category: categories[2],
-    label: "Level 3.4",
-    task: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Justo laoreet sit amet cursus sit amet dictum sit amet.",
-    initialCode: c3_initialCode,
-    initialGraph: c3_expectedGraph,
-    expectedOutput: "",
-    expectedGraph: c3_expectedGraph,
+    label: "Level 3.1",
+    taskNode: { node: categories[2].nodes[2], data: { text: { description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." } } },
+    codeIDENodes: [
+      { node: categories[2].nodes[0], data: { codeIDE: { initialCode: c3_initialCode } } },
+      { node: categories[2].nodes[1], data: { codeIDE: { initialGraph: c3_expectedGraph } } }
+    ],
+    tippsNodes: [],
+    expected: { graph: c3_expectedGraph }
   },
 ]
 
-// TODO: Samples
-export const sampleLevelNode: LevelNode = {
-  id: "",
-  type: "text",
-  position: { x: 0, y: 0 },
+export const sampleLevelNode: ThLevelNode = {
+  node: {
+    id: "",
+    type: "text",
+    data: {
+      title: "Tipp 1",
+      size: "medium"
+    }
+  },
   data: {
-    title: "Tipp 1",
-    initialSize: LevelNodeSize.medium,
-    description: "This is a sample Tipp!"
+    text: {
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    }
   }
 }

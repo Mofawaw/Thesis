@@ -1,15 +1,15 @@
 import { create } from 'zustand';
 import CodeGraph from './types/CodeGraph.ts'
-import CodeIDEMode from './types/CodeIDEMode.ts';
+import CodeIDEConfig from './types/CodeIDEConfig.ts';
 
 export type CodeIDEStore = {
-  mode: CodeIDEMode;
+  config: CodeIDEConfig;
   code: string;
   output: string;
   graph: CodeGraph;
   inputGraph: CodeGraph;
 
-  setMode: (newMode: CodeIDEMode) => (void);
+  setConfig: (newConfig: CodeIDEConfig) => (void);
   setCode: (newCode: string) => (void);
   setOutput: (newOutput: string) => (void);
   setGraph: (newGraphJSON: CodeGraph) => (void);
@@ -18,13 +18,13 @@ export type CodeIDEStore = {
 
 const createCodeIDEStore = (scopeId: string) => create<CodeIDEStore>((set) => {
   return {
-    mode: CodeIDEMode.default,
+    config: { type: "program", mode: "write", runnable: true },
     code: '',
     output: '',
     graph: { nodes: [], edges: [] },
     inputGraph: { nodes: [], edges: [] },
 
-    setMode: (newMode) => set({ mode: newMode }),
+    setConfig: (newConfig) => set({ config: newConfig }),
     setCode: (newCode) => set({ code: newCode }),
     setOutput: (newOutput) => set({ output: newOutput }),
     setGraph: (newGraphJSON) => set({ graph: newGraphJSON }),

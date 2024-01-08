@@ -2,7 +2,6 @@ import CodeEditor from "./CodeEditor.tsx";
 import CodeOutput from "./CodeOutput.tsx"
 import { codeIDELayout } from "./codeProgramHeper.ts";
 import { compileGetOutput } from "../codeIDENetwork.ts";
-import CodeIDEMode from "../types/CodeIDEMode.ts";
 import ThIcon from '../../custom/ThIcon.tsx';
 import useCodeIDEStore from "../codeIDEStore.ts";
 
@@ -10,17 +9,17 @@ export default function CodeProgram({ height, scopeId }: { height: number, scope
   const store = useCodeIDEStore(scopeId).getState();
   let codeProgramComponent;
 
-  if (store.mode.has(CodeIDEMode.programRead)) {
+  if (store.config.mode === "read") {
     codeProgramComponent = (
       <div className="p-4 mb-2">
-        <CodeEditor height={codeIDELayout.getCodeEditorHeight(store.mode, height)} scopeId={scopeId} />
+        <CodeEditor height={codeIDELayout.getCodeEditorHeight(store.config, height)} scopeId={scopeId} />
       </div>
     )
-  } else if (store.mode.has(CodeIDEMode.programWrite)) {
+  } else if (store.config.mode === "write") {
     codeProgramComponent = (
       <div className="basis-3/5 flex-none flex flex-col gap-2 py-4 overflow-hidden" >
         <div className="px-4 mb-2">
-          <CodeEditor height={codeIDELayout.getCodeEditorHeight(store.mode, height)} scopeId={scopeId} />
+          <CodeEditor height={codeIDELayout.getCodeEditorHeight(store.config, height)} scopeId={scopeId} />
         </div>
 
         <div className="flex flex-col gap-2 justify-center">

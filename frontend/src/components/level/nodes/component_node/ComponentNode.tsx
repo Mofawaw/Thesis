@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 import { NodeResizer, ResizeDragEvent, ResizeParams } from 'reactflow';
 import styles from './componentNode.module.css';
-import { CodeIDENodeData, ComponentNodeData, TextNodeData } from '../../types/LevelNode';
+import { CodeIDENodeData, ComponentNodeData } from '../../types/ThTypes';
 
 export default function ComponentNode({ data, maxWidth, minHeight, onSizeChange = () => { }, children }: { data: ComponentNodeData, maxWidth?: number, minHeight?: number, onSizeChange?: (size: { width: number; height: number }) => void, children: React.ReactNode }) {
-  const [size, setSize] = useState({ width: data.initialSize.width, height: data.initialSize.height });
+  const initialWidth = data.width
+  const initialHeight = data.height
+
+  const [size, setSize] = useState({ width: initialWidth, height: initialHeight });
 
   const handleResize = (event: ResizeDragEvent, { width, height }: ResizeParams): void => {
     setSize({ width, height });
@@ -25,14 +28,14 @@ export default function ComponentNode({ data, maxWidth, minHeight, onSizeChange 
     >
       <div className={`${styles.resizerHandle}`}>
         <NodeResizer
-          minWidth={data.initialSize.width * 0.8}
-          minHeight={minHeight ?? data.initialSize.height * 0.8}
-          maxWidth={maxWidth ?? data.initialSize.width * 1.6}
-          maxHeight={data.initialSize.height * 1.6}
+          minWidth={initialWidth * 0.8}
+          minHeight={minHeight ?? initialHeight * 0.8}
+          maxWidth={maxWidth ?? initialWidth * 1.6}
+          maxHeight={initialHeight * 1.6}
           onResize={handleResize}
         />
         <div
-          className={`${(data as CodeIDENodeData).props?.isMain ? gradientBorder : 'border-th-black-10 border-th'} rounded-th`}
+          className={`${(data as CodeIDENodeData)?.codeIDE?.isMain ? gradientBorder : 'border-th-black-10 border-th'} rounded-th`}
           style={{ width: size.width, height: size.height }}
         >
           <div className="bg-th-white rounded-th-inner w-full h-full">

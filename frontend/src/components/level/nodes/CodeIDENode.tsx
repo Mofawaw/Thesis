@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import CodeIDE from '../../code_ide/CodeIDE';
-import CodeIDEMode from '../../code_ide/types/CodeIDEMode';
 import ComponentNode from './component_node/ComponentNode';
-import { CodeIDENodeData } from '../types/LevelNode';
+import { CodeIDENodeData } from '../types/ThTypes';
 
 export default function CodeIDENode({ data }: { data: CodeIDENodeData }) {
   // Layout
@@ -16,8 +15,8 @@ export default function CodeIDENode({ data }: { data: CodeIDENodeData }) {
   let nodeHeader;
   const headerHeight = 60;
 
-  switch (data.props.mode) {
-    case CodeIDEMode.programWriteGraphAuto:
+  switch (data.codeIDE.config.type) {
+    case "program+graph":
       nodeHeader = (
         <div className="flex flex-row overflow-hidden">
           <h3 className="basis-3/5 flex-none px-4 pt-8">Program</h3>
@@ -26,12 +25,12 @@ export default function CodeIDENode({ data }: { data: CodeIDENodeData }) {
         </div>
       );
       break;
-    case CodeIDEMode.programWrite: case CodeIDEMode.programRead:
+    case "program":
       nodeHeader = (
         <h3 className="px-4 pt-8">Program</h3>
       );
       break;
-    case CodeIDEMode.graphAuto: case CodeIDEMode.graphRead: case CodeIDEMode.graphInput:
+    case "graph":
       nodeHeader = (
         <h3 className="px-4 pt-8">Speicher</h3>
       );
@@ -43,7 +42,7 @@ export default function CodeIDENode({ data }: { data: CodeIDENodeData }) {
   return (
     <ComponentNode data={data} onSizeChange={handleSizeChange}>
       {nodeHeader}
-      <CodeIDE height={size.height - headerHeight} {...data.props} />
+      <CodeIDE height={size.height - headerHeight} {...data.codeIDE} />
     </ComponentNode>
   );
 }

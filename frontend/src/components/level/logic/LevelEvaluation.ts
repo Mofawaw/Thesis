@@ -1,11 +1,11 @@
+import { Node } from "reactflow";
 import { compileGetGraph, compileGetOutput } from "../../code_ide/codeIDENetwork";
 import useCodeIDEStore from "../../code_ide/codeIDEStore";
 import CodeGraph from "../../code_ide/types/CodeGraph";
-import LevelNode, { CodeIDENodeData } from "../types/LevelNode";
-import ThLevel from "../types/ThLevel";
+import { CodeIDENodeData, ThLevel } from "../types/ThTypes";
 
-export function checkAndReturnResults(thLevel: ThLevel, nodes: LevelNode[]): Promise<{ result: boolean, message: string }> {
-  return check(thLevel, nodes)
+export function checkAndReturnResults(level: ThLevel, nodes: Node[]): Promise<{ result: boolean, message: string }> {
+  return check(level, nodes)
     .then(result => {
       let message = "";
       if (result) {
@@ -25,10 +25,10 @@ export function checkAndReturnResults(thLevel: ThLevel, nodes: LevelNode[]): Pro
 }
 
 // Check if user has correctly completed the level task
-async function check(thLevel: ThLevel, nodes: LevelNode[]): Promise<boolean> {
-  const category = thLevel.category;
-  const mainNode = nodes.find(node => (node.data as CodeIDENodeData).props.isMain);
-  const mainScopeId = mainNode ? (mainNode.data as CodeIDENodeData).props.scopeId : null;
+async function check(level: ThLevel, nodes: Node[]): Promise<boolean> {
+  const category = level.category;
+  const mainNode = nodes.find(node => (node.data as CodeIDENodeData).codeIDE.isMain);
+  const mainScopeId = mainNode ? (mainNode.data as CodeIDENodeData).codeIDE.scopeId : null;
 
   if (!mainScopeId) {
     console.error('Main scope ID not found');
@@ -36,15 +36,22 @@ async function check(thLevel: ThLevel, nodes: LevelNode[]): Promise<boolean> {
   }
 
   try {
+    const expectedOutput = level.expected.output;
+    const expectedGraph = level.expected.graph;
+
     switch (category.id) {
-      case "c1":
-        return await checkUserOutput(mainScopeId, thLevel.expectedOutput);
-
-      case "c2":
-        return await checkUserGraph(mainScopeId, thLevel.expectedGraph);
-
-      case "c3":
-        return await checkInputGraph(mainScopeId, thLevel.expectedGraph)
+      case "c-1":
+        if (expectedOutput) {
+          return await checkUserOutput(mainScopeId, expectedOutput);
+        }
+      case "c-2":
+        if (expectedGraph) {
+          return await checkUserGraph(mainScopeId, expectedGraph);
+        }
+      case "c-3":
+        if (expectedGraph) {
+          return await checkUserInputGraph(mainScopeId, expectedGraph);
+        }
 
       default:
         console.error(`Unknown category: ${category.id}`);
@@ -83,7 +90,7 @@ async function checkUserGraph(scopeId: string, expectedGraph: CodeGraph) {
 }
 
 // Category 3
-async function checkInputGraph(scopeId: string, expectedGraph: CodeGraph) {
+async function checkUserInputGraph(scopeId: string, expectedGraph: CodeGraph) {
   try {
     const codeIDEGraph = await useCodeIDEStore(scopeId).getState().graph;
     console.log("Graph-CodeIDE:", codeIDEGraph);

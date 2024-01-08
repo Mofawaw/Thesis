@@ -10,7 +10,7 @@ export default function CodeGraphInput({ scopeId }: { scopeId: string }) {
   const graphRef = useRef<dia.Graph | null>(null);
   const [selectedNode, setSelectedNode] = useState<dia.Element | null>(null);
 
-  const mode = useCodeIDEStore(scopeId)((state: CodeIDEStore) => state.mode);
+  const config = useCodeIDEStore(scopeId)((state: CodeIDEStore) => state.config);
   const graph = useCodeIDEStore(scopeId)((state: CodeIDEStore) => state.graph);
 
   const resetAllNodeStyles = () => {
@@ -58,7 +58,7 @@ export default function CodeGraphInput({ scopeId }: { scopeId: string }) {
       cellViewNamespace: shapes,
     });
 
-    addData(graph, diaGraph, mode);
+    addData(graph, diaGraph, config);
     paper.unfreeze();
 
     paper.on('element:pointerdown', (cellView) => {
@@ -91,7 +91,7 @@ export default function CodeGraphInput({ scopeId }: { scopeId: string }) {
         canvasRef.current.innerHTML = '';
       }
     };
-  }, [graph, mode]);
+  }, [graph, config]);
 
   useEffect(() => {
     const handleInputChange = (event: any) => {

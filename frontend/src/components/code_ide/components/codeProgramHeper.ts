@@ -1,11 +1,11 @@
-import CodeIDEMode from "../types/CodeIDEMode";
+import CodeIDEConfig from "../types/CodeIDEConfig";
 
 export const codeIDELayout = {
   codeOutputHeight: 100,
-  getCodeEditorHeight: (mode: CodeIDEMode, totalHeight: number) => {
-    if (mode.has(CodeIDEMode.programRead)) {
+  getCodeEditorHeight: (config: CodeIDEConfig, totalHeight: number) => {
+    if (config.mode === "read") {
       return totalHeight - 60
-    } else if (mode.has(CodeIDEMode.programWrite)) {
+    } else if (config.mode === "write") {
       return totalHeight - codeIDELayout.codeOutputHeight - 130
     }
     return totalHeight

@@ -1,44 +1,59 @@
-import LevelNode from '../types/LevelNode';
-import ThLevel from '../types/ThLevel';
+import { Node } from "reactflow";
+import { CodeIDENodeData, ComponentNodeData, TextNodeData, ThLevel, ThLevelNode, ThNodeSize } from "../types/ThTypes";
 
-export function generateLevelNodes(thLevel: ThLevel): LevelNode[] {
-  const category = thLevel.category;
+export function generateReactflowNodes(level: ThLevel): Node[] {
+  const codeIDENodes = level.codeIDENodes;
+  const taskNode = level.taskNode;
+
+  const levelNodes = [...codeIDENodes, taskNode];
 
   let currentPositionX = 0;
-  const levelNodes = category.nodes.map(node => {
 
-    const nodePositionX = currentPositionX;
-    currentPositionX += node.size.width + 20;
-
-    if (node.type === "codeIDE" && node.codeIDE) {
-      return {
-        id: node.id,
-        type: "codeIDE",
-        position: { x: nodePositionX, y: 0 },
-        data: {
-          initialSize: node.size,
-          props: {
-            scopeId: node.id,
-            isMain: node.codeIDE.isMain,
-            mode: node.codeIDE.mode,
-            initialCode: node.codeIDE.hasInitialCode ? thLevel.initialCode : "",
-            initialGraph: node.codeIDE.hasInitialGraph ? thLevel.initialGraph : { nodes: [], edges: [] }
-          }
-        }
-      };
-    } else if (node.type === 'text') { // Assuming only Task has type text
-      return {
-        id: node.id,
-        type: node.type,
-        position: { x: nodePositionX, y: 0 },
-        data: {
-          title: "Aufgabe",
-          initialSize: node.size,
-          description: thLevel.task
-        }
-      };
-    }
+  const reactflowNodes = levelNodes.map(levelNode => {
+    const node = convertThLevelNodeToReactflowNode(levelNode);
+    node.position = { x: currentPositionX, y: 0 };
+    currentPositionX += node.data.width + 20;
+    return node;
   });
 
-  return levelNodes.filter(node => node !== undefined) as LevelNode[];
+  return reactflowNodes;
+}
+
+export function convertThLevelNodeToReactflowNode(levelNode: ThLevelNode) {
+  // Node Size
+  const nodeSize = ThNodeSize.fromString(levelNode.node.data.size);
+
+  // Merge ComponentNode Data
+  const componentNodeData: ComponentNodeData = {
+    title: levelNode.node.data.title ?? "",
+    width: nodeSize.width,
+    height: nodeSize.height
+  }
+
+  if (levelNode.node.type === "codeIDE" && levelNode.data.codeIDE && levelNode.node.data.codeIDE) {
+    // Merge CodeIDENode Data
+    const codeIDEData: CodeIDENodeData = {
+      ...componentNodeData,
+      codeIDE: {
+        isMain: levelNode.node.data.codeIDE.isMain,
+        scopeId: levelNode.node.data.codeIDE.scopeId,
+        config: levelNode.node.data.codeIDE.config,
+        initialCode: levelNode.data.codeIDE.initialCode ?? "",
+        initialGraph: levelNode.data.codeIDE.initialGraph ?? { nodes: [], edges: [] }
+      }
+    }
+    return { id: levelNode.node.id, type: levelNode.node.type, position: { x: 0, y: 0 }, data: codeIDEData };
+
+  } else if (levelNode.node.type === "text" && levelNode.data.text) {
+    // Merge TextNode Data
+    const textData: TextNodeData = {
+      ...componentNodeData,
+      text: {
+        description: levelNode.data.text.description
+      }
+    }
+    return { id: levelNode.node.id, type: levelNode.node.type, position: { x: 0, y: 0 }, data: textData };
+  }
+
+  return { id: levelNode.node.id, type: levelNode.node.type, position: { x: 0, y: 0 }, data: componentNodeData };
 }

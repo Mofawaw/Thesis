@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { dia, shapes } from 'jointjs';
 import useCodeIDEStore, { CodeIDEStore } from '../codeIDEStore.ts';
-import { addData, styles } from './codeGraphHelper';
+import { addData } from './codeGraphHelper';
 
 export default function CodeGraph({ scopeId }: { scopeId: string }) {
   const parentRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLDivElement>(null);
 
-  const mode = useCodeIDEStore(scopeId)((state: CodeIDEStore) => state.mode);
+  const config = useCodeIDEStore(scopeId)((state: CodeIDEStore) => state.config);
   const graph = useCodeIDEStore(scopeId)((state: CodeIDEStore) => state.graph);
 
   useEffect(() => {
@@ -26,7 +26,7 @@ export default function CodeGraph({ scopeId }: { scopeId: string }) {
       cellViewNamespace: shapes,
     });
 
-    addData(graph, diaGraph, mode);
+    addData(graph, diaGraph, config);
     paper.unfreeze();
 
     return () => {
@@ -35,7 +35,7 @@ export default function CodeGraph({ scopeId }: { scopeId: string }) {
         canvasRef.current.innerHTML = '';
       }
     };
-  }, [graph, mode]);
+  }, [graph, config]);
 
   useEffect(() => {
     const resizeObserver = new ResizeObserver(entries => {

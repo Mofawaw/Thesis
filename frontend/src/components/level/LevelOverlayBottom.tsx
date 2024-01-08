@@ -1,17 +1,16 @@
-import { useReactFlow } from "reactflow";
+import { Node, useReactFlow } from "reactflow";
 import ThIconButton from "../custom/ThIconButton";
 import ThIconTextButton from "../custom/ThIconTextButton";
 import ThDropdown from "../portals/ThDropdown";
 import ThMenuTextButton from "../custom/ThMenuTextButton";
-import LevelNode from "./types/LevelNode";
 import ThPopup from "../portals/ThPopup";
 import { useState } from "react";
-import ThLevel from "./types/ThLevel";
 import ThTextButton from "../custom/ThTextButton.tsx";
+import { ThLevel, ThLevelNode } from "./types/ThTypes.ts";
+import { checkAndReturnResults } from "./logic/LevelEvaluation.ts";
 import { sampleLevelNode } from "./levelData.ts";
-import { checkAndReturnResults } from "./logic/levelEvaluation.ts";
 
-export default function LevelOverlayBottom({ nodes, level, onAddNode }: { nodes: LevelNode[], level: ThLevel, onAddNode: (node: LevelNode) => (void) }) {
+export default function LevelOverlayBottom({ nodes, level, onAddNode }: { nodes: Node[], level: ThLevel, onAddNode: (node: ThLevelNode) => (void) }) {
   const { zoomIn, zoomOut, fitView } = useReactFlow();
   const [openTippsDropdown, setOpenTippsDropdown] = useState<boolean>(false);
   const [openTutorialDropdown, setOpenTutorialDropdown] = useState<boolean>(false);

@@ -1,17 +1,16 @@
-import ReactFlow, { ReactFlowProvider, NodeChange, applyNodeChanges, useReactFlow, ReactFlowInstance } from 'reactflow';
+import ReactFlow, { ReactFlowProvider, NodeChange, applyNodeChanges, useReactFlow, ReactFlowInstance, Node } from 'reactflow';
 import 'reactflow/dist/style.css';
 import { nodeTypes } from './nodes/LevelNodeTypes';
 import { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
-import LevelNode from './types/LevelNode.ts';
 import LevelOverlayTop from './LevelOverlayTop.tsx';
 import LevelOverlayBottom from './LevelOverlayBottom.tsx';
-import ThLevel from './types/ThLevel.ts';
-import { generateLevelNodes } from './logic/LevelInitialization.ts';
+import { ThLevel, ThLevelNode } from './types/ThTypes.ts';
+import { convertThLevelNodeToReactflowNode, generateReactflowNodes } from './logic/levelInitialization.ts';
 
 export default function Level({ level }: { level: ThLevel }) {
-  const [nodes, setNodes] = useState<LevelNode[]>([]);
+  const [nodes, setNodes] = useState<Node[]>([]);
 
-  const addNode = (newNode: LevelNode) => {
+  const addNode = (newLevelNode: ThLevelNode) => { // TODO!!
     let maxX = -Infinity;
     nodes.forEach((node) => {
       const nodeWidth = node.width || 0
@@ -20,15 +19,17 @@ export default function Level({ level }: { level: ThLevel }) {
         maxX = nodeRightEdge;
       }
     });
-    newNode.id = (nodes.length + 1).toString();
-    newNode.position = { x: maxX + 20, y: 0 };
 
-    setNodes((nodes) => nodes.concat(newNode));
+    const reactflowNode: Node = convertThLevelNodeToReactflowNode(newLevelNode);
+    reactflowNode.id = (nodes.length + 1).toString();
+    reactflowNode.position = { x: maxX + 20, y: 0 };
+
+    setNodes((nodes) => nodes.concat(reactflowNode));
   };
 
   // Initialize Nodes for Level
   useEffect(() => {
-    const initialNodes = generateLevelNodes(level);
+    const initialNodes = generateReactflowNodes(level);
     setNodes(initialNodes)
     console.log(initialNodes);
   }, []);
@@ -46,7 +47,7 @@ export default function Level({ level }: { level: ThLevel }) {
   );
 }
 
-function LevelReactFlow({ nodes, setNodes }: { nodes: LevelNode[], setNodes: Dispatch<SetStateAction<LevelNode[]>> }) {
+function LevelReactFlow({ nodes, setNodes }: { nodes: Node[], setNodes: Dispatch<SetStateAction<Node[]>> }) {
   const reactFlowInstance = useReactFlow();
   const prevNodesLength = useRef(nodes.length);
 
