@@ -109,23 +109,44 @@ const addNodesToGraph = (nodes: Node[], graph: dia.Graph, nodeRectMap: Map<strin
     const maxWidth = node.type.includes("stack") ? maxWidthOfStackNodes : maxWidthOfHeapNodes;
     const maxChars = node.type.includes("stack") ? maxCharsOfStackNodes : maxCharsOfHeapNodes;
     const rect = createAndResizeRect(node.label, maxWidth, mode);
-    rect.position(mode.has(CodeIDEMode.graphInput) ? node.position.x + 1.5 : node.position.x, mode.has(CodeIDEMode.graphInput) ? node.position.y + 1.5 : node.position.y);
-    rect.attr({
-      body: {
-        fill: mode.has(CodeIDEMode.graphInput) ? "none" : styles.node.color.rect,
-        stroke: mode.has(CodeIDEMode.graphInput) ? styles.node.color.rect : "none",
-        strokeWidth: 3,
-        rx: 5,
-        ry: 5
-      },
-      label: {
-        text: mode.has(CodeIDEMode.graphInput) ? "" : node.label,
-        fontSize: styles.node.font.size,
-        fontFamily: styles.node.font.family,
-        fill: styles.node.color.text
-      }
-    });
-    rect.prop('maxChars', maxChars);
+    const position = { x: node.position?.x ?? 0, y: node.position?.y ?? 0 }
+
+    if (!mode.has(CodeIDEMode.graphInput)) {
+      rect.position(position.x, position.y);
+      rect.attr({
+        body: {
+          fill: styles.node.color.rect,
+          stroke: "none",
+          strokeWidth: 3,
+          rx: 5,
+          ry: 5
+        },
+        label: {
+          text: node.label,
+          fontSize: styles.node.font.size,
+          fontFamily: styles.node.font.family,
+          fill: styles.node.color.text
+        }
+      });
+    } else {
+      rect.position(position.x + 1.5, position.y + 1.5);
+      rect.attr({
+        body: {
+          fill: "none",
+          stroke: styles.node.color.rect,
+          strokeWidth: 3,
+          rx: 5,
+          ry: 5
+        },
+        label: {
+          text: "",
+          fontSize: styles.node.font.size,
+          fontFamily: styles.node.font.family,
+          fill: styles.node.color.text
+        }
+      });
+      rect.prop('maxChars', maxChars);
+    }
 
     graph.addCell(rect);
     nodeRectMap.set(node.id, rect);

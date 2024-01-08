@@ -4,6 +4,7 @@ import CodeProgram from "./components/CodeProgram.tsx";
 import CodeIDEMode from "./types/CodeIDEMode.ts";
 import useCodeIDEStore from "./codeIDEStore.ts";
 import CodeGraphType from "./types/CodeGraph.ts";
+import CodeGraphInput from "./components/CodeGraphInput.tsx";
 
 export default function CodeIDE({ height, scopeId, mode, initialCode, initialGraph }: { height: number, scopeId: string, mode: CodeIDEMode, initialCode: string, initialGraph: CodeGraphType }) {
   const store = useCodeIDEStore(scopeId).getState();
@@ -29,7 +30,7 @@ export default function CodeIDE({ height, scopeId, mode, initialCode, initialGra
       codeIDEComponent = <CodeGraph scopeId={scopeId} />;
       break;
     case CodeIDEMode.graphInput:
-      codeIDEComponent = <CodeGraph scopeId={scopeId} />;
+      codeIDEComponent = <CodeGraphInput scopeId={scopeId} />;
       break;
     default:
       codeIDEComponent = <div>No CodeIDEMode found.</div>
