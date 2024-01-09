@@ -11,7 +11,7 @@ export type CodeIDEStore = {
   setConfig: (newConfig: CodeIDEConfig) => (void);
   setCode: (newCode: string) => (void);
   setOutput: (newOutput: string) => (void);
-  setGraph: (newGraphJSON: CodeGraph) => (void);
+  setGraph: (newGraph: CodeGraph) => (void);
 };
 
 const createCodeIDEStore = (scopeId: string) => create<CodeIDEStore>((set) => {
@@ -24,7 +24,7 @@ const createCodeIDEStore = (scopeId: string) => create<CodeIDEStore>((set) => {
     setConfig: (newConfig) => set({ config: newConfig }),
     setCode: (newCode) => set({ code: newCode }),
     setOutput: (newOutput) => set({ output: newOutput }),
-    setGraph: (newGraphJSON) => set({ graph: newGraphJSON }),
+    setGraph: (newGraph) => set({ graph: newGraph }),
   };
 });
 

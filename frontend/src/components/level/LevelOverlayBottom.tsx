@@ -7,7 +7,7 @@ import ThPopup from "../portals/ThPopup";
 import { useState } from "react";
 import ThTextButton from "../custom/ThTextButton.tsx";
 import { ThLevel, ThLevelNode } from "./types/thTypes.ts";
-import { checkAndReturnResults } from "./logic/levelEvaluation.ts";
+import { evaluateLevelCompletion } from "./logic/levelEvaluation.ts";
 import { sampleLevelNode } from "./levelData.ts";
 
 export default function LevelOverlayBottom({ nodes, level, onAddNode }: { nodes: Node[], level: ThLevel, onAddNode: (node: ThLevelNode) => (void) }) {
@@ -20,7 +20,7 @@ export default function LevelOverlayBottom({ nodes, level, onAddNode }: { nodes:
   function handleCheckButtonOnClick() {
     setOnChecking(true);
 
-    checkAndReturnResults(level, nodes)
+    evaluateLevelCompletion(level, nodes)
       .then(result => {
         if (result.result) {
           setOpenCheckResultsPopup({ success: true, message: result.message });

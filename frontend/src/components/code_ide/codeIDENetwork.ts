@@ -1,5 +1,12 @@
 import useCodeIDEStore from "./codeIDEStore";
-import CodeGraph from "./code_memory/codeGraph";
+import CodeGraph from "./code_memory/codeGraph.ts";
+
+export interface CodeIDENetworkResultType {
+  success: boolean;
+  output?: string;
+  graph?: CodeGraph;
+  error?: string;
+}
 
 export function compileGetOutput(scopeId: string) {
   const { code, setOutput } = useCodeIDEStore(scopeId).getState();
@@ -7,7 +14,7 @@ export function compileGetOutput(scopeId: string) {
   console.log("Request: compile_get_output")
   console.log('Code', code)
 
-  return new Promise<string>((resolve, reject) => {
+  return new Promise<CodeIDENetworkResultType>((resolve, reject) => {
     fetch('http://127.0.0.1:5000/compile_get_output', {
       method: 'POST',
       headers: {
@@ -25,16 +32,16 @@ export function compileGetOutput(scopeId: string) {
         if (data.error) {
           console.log('Error:', data.error);
           setOutput(data.error);
-          reject(data.error);
+          resolve({ success: false, error: data.error });
         } else {
           console.log('Output:', data.output);
           setOutput(data.output);
-          resolve(data.output);
+          resolve({ success: true, output: data.output });
         }
       })
       .catch((error) => {
         console.error('Error:', error);
-        reject(error);
+        resolve({ success: false, error: error });
       });
   });
 }
@@ -45,7 +52,7 @@ export function compileGetGraph(scopeId: string) {
   console.log("Request: compile_get_graph")
   console.log('Code', code)
 
-  return new Promise<CodeGraph>((resolve, reject) => {
+  return new Promise<CodeIDENetworkResultType>((resolve, reject) => {
     fetch('http://127.0.0.1:5000/compile_get_graph', {
       method: 'POST',
       headers: {
@@ -62,17 +69,17 @@ export function compileGetGraph(scopeId: string) {
       .then(data => {
         if (data.success) {
           console.log('Graph:', data.graph);
-          const jsonData = JSON.parse(data.graph);
-          setGraph(jsonData);
-          resolve(jsonData);
+          const graphData = JSON.parse(data.graph) as CodeGraph;
+          setGraph(graphData);
+          resolve({ success: true, graph: graphData });
         } else {
-          console.log('Error generating Graph')
-          reject('Error generating Graph');
+          console.log('Error generating Graph');
+          resolve({ success: false, error: 'Error generating Graph' });
         }
       })
       .catch((error) => {
         console.error('Error:', error);
-        reject(error);
+        resolve({ success: false, error: error });
       })
   });
 }
