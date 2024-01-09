@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { dia, shapes } from 'jointjs';
 import useCodeIDEStore, { CodeIDEStore } from '../codeIDEStore.ts';
-import { addData, styles } from './codeGraphHelper';
 import { CodeGraphNode } from './codeGraph.ts';
+import { addDataToGraphInput, stylesGraphInput } from './codeGraphInputHelper.ts';
 
 export default function CodeGraphInput({ height, scopeId }: { height: number, scopeId: string }) {
   const canvasRef = useRef<HTMLDivElement>(null);
@@ -20,9 +20,9 @@ export default function CodeGraphInput({ height, scopeId }: { height: number, sc
     graphRef.current?.getElements().forEach(node => {
       if (node.prop('preset')) { return }
       if (!node.attr('label/text')) {
-        node.attr({ body: { stroke: styles.node.color.rect, fill: "none" } });
+        node.attr({ body: { stroke: stylesGraphInput.node.color.rect, fill: "none" } });
       } else {
-        node.attr({ body: { stroke: styles.node.color.rect } });
+        node.attr({ body: { stroke: stylesGraphInput.node.color.rect } });
       }
     });
     // Save to store
@@ -59,7 +59,7 @@ export default function CodeGraphInput({ height, scopeId }: { height: number, sc
       cellViewNamespace: shapes,
     });
 
-    addData(graph, diaGraph, config, presetGraph);
+    addDataToGraphInput(graph, presetGraph, diaGraph);
     paper.unfreeze();
 
     // Select node
@@ -69,7 +69,7 @@ export default function CodeGraphInput({ height, scopeId }: { height: number, sc
         saveSelectedNode();
         setSelectedNode(node);
         selectedNodeRef.current = node;
-        node.attr({ body: { stroke: styles.node.color.rectActive, fill: styles.node.color.rect } });
+        node.attr({ body: { stroke: stylesGraphInput.node.color.rectActive, fill: stylesGraphInput.node.color.rect } });
         node.toFront();
 
         // Trigger input
@@ -88,7 +88,7 @@ export default function CodeGraphInput({ height, scopeId }: { height: number, sc
     const resizePaper = () => {
       const bbox = diaGraph.getBBox();
       if (bbox) {
-        paper.setDimensions(bbox.width + styles.node.strokeWidth, bbox.height + styles.node.strokeWidth);
+        paper.setDimensions(bbox.width + stylesGraphInput.node.strokeWidth, bbox.height + stylesGraphInput.node.strokeWidth);
       }
     };
 

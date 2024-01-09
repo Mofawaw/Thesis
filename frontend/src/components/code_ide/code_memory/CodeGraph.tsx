@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { dia, shapes } from 'jointjs';
 import useCodeIDEStore, { CodeIDEStore } from '../codeIDEStore.ts';
-import { addData } from './codeGraphHelper';
+import { addDataToGraph } from './codeGraphHelper';
 
 export default function CodeGraph({ height, scopeId }: { height: number, scopeId: string }) {
   const canvasRef = useRef<HTMLDivElement>(null);
@@ -25,7 +25,7 @@ export default function CodeGraph({ height, scopeId }: { height: number, scopeId
     });
     paperRef.current = paper;
 
-    addData(graph, diaGraph, config);
+    addDataToGraph(graph, diaGraph);
     paper.unfreeze();
 
     // Update paper size based on graph content

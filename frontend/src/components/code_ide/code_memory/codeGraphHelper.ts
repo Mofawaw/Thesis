@@ -1,12 +1,11 @@
 import config from '../../../../tailwind.config.ts'
 import { dia, shapes } from 'jointjs';
 import CodeGraph, { CodeGraphNode, CodeGraphEdge } from './codeGraph.ts'
-import CodeIDEConfig from '../codeIDEConfig.ts';
 
 const { colors } = config.theme
 const { fontFamily } = config.theme
 
-export const styles = {
+export const stylesGraph = {
   node: {
     width: 100,
     height: 35,
@@ -16,8 +15,6 @@ export const styles = {
     color: {
       text: colors['th-black'][100],
       rect: colors['th-black'][10],
-      rectActive: colors['th-black'][20],
-      getRectPreset: (type: string) => (type.includes("value") ? colors['th-value'][20] : colors['th-reference'][20])
     },
     strokeWidth: 3
   },
@@ -27,37 +24,28 @@ export const styles = {
   referenceOffset: 20,
 }
 
-export const addData = (graph: CodeGraph, diaGraph: dia.Graph, config: CodeIDEConfig, presetGraph?: CodeGraph) => {
+export function addDataToGraph(graph: CodeGraph, diaGraph: dia.Graph) {
   const nodeRectMap = new Map<string, shapes.standard.Rectangle>();
   let maxWidthOfStackNodes = calculateMaxWidth(graph.nodes, "stack");
-  let maxWidthOfHeapNodes = calculateMaxWidth(graph.nodes, "heap");
-
-  if (config.mode === "write") {
-    maxWidthOfStackNodes = Math.max(maxWidthOfStackNodes, maxWidthOfHeapNodes);
-  }
 
   positionNodes(graph.nodes, maxWidthOfStackNodes);
-  addNodesToGraph(graph.nodes, graph.inputMaxChars ?? 0, diaGraph, nodeRectMap, maxWidthOfStackNodes, maxWidthOfHeapNodes, config, presetGraph?.nodes);
+  addNodesToGraph(graph.nodes, nodeRectMap, diaGraph);
   addEdgesToGraph(graph.edges, nodeRectMap, diaGraph);
 };
 
-const createAndResizeRect = (labelText: string, maxWidth: number, mode: "write" | "read"): shapes.standard.Rectangle => {
+const createAndResizeRect = (labelText: string): shapes.standard.Rectangle => {
   const rect = new shapes.standard.Rectangle();
-  rect.resize(styles.node.width, styles.node.height);
+  rect.resize(stylesGraph.node.width, stylesGraph.node.height);
 
-  if (mode === "write") {
-    rect.resize(maxWidth, styles.node.height);
+  const canvas = document.createElement("canvas");
+  const context = canvas.getContext("2d");
+
+  if (context) {
+    context.font = `${stylesGraph.node.font.size} ${stylesGraph.node.font.family}`;
+    const textWidth = context.measureText(labelText).width;
+    rect.resize(textWidth + (stylesGraph.node.padding * 2), stylesGraph.node.height);
   } else {
-    const canvas = document.createElement("canvas");
-    const context = canvas.getContext("2d");
-
-    if (context) {
-      context.font = `${styles.node.font.size} ${styles.node.font.family}`;
-      const textWidth = context.measureText(labelText).width;
-      rect.resize(textWidth + (styles.node.padding * 2), styles.node.height);
-    } else {
-      console.error("Canvas context not available");
-    }
+    console.error("Canvas context not available");
   }
 
   return rect;
@@ -67,7 +55,7 @@ const calculateMaxWidth = (nodes: CodeGraphNode[], type: string): number => {
   return nodes
     .filter(node => node.type.includes(type))
     .reduce((maxWidth, node) => {
-      const rect = createAndResizeRect(node.label, 0, "read");
+      const rect = createAndResizeRect(node.label);
       return Math.max(maxWidth, rect.size().width);
     }, 0);
 };
@@ -80,12 +68,12 @@ const positionNodes = (nodes: CodeGraphNode[], maxWidthOfStackNodes: number): vo
   };
 
   const setPosition = (nodes: CodeGraphNode[], isStack: boolean): void => {
-    const yGap = styles.node.height + styles.node.gap.y;
-    const yReferenceOffset = styles.referenceOffset;
+    const yGap = stylesGraph.node.height + stylesGraph.node.gap.y;
+    const yReferenceOffset = stylesGraph.referenceOffset;
 
     nodes.forEach((node, i) => {
       let xOffset = 0;
-      xOffset = isStack ? 0 : maxWidthOfStackNodes + styles.node.gap.x;
+      xOffset = isStack ? 0 : maxWidthOfStackNodes + stylesGraph.node.gap.x;
       const yOffset = node.type.startsWith('reference') ? yReferenceOffset : 0;
       node.position = { x: xOffset, y: yOffset + i * yGap };
     });
@@ -98,51 +86,28 @@ const positionNodes = (nodes: CodeGraphNode[], maxWidthOfStackNodes: number): vo
   setPosition(heapNodes, false);
 };
 
-const addNodesToGraph = (nodes: CodeGraphNode[], inputMaxChars: number, diaGraph: dia.Graph, nodeRectMap: Map<string, shapes.standard.Rectangle>, maxWidthOfStackNodes: number, maxWidthOfHeapNodes: number, config: CodeIDEConfig, presetNodes?: CodeGraphNode[]): void => {
+const addNodesToGraph = (nodes: CodeGraphNode[], nodeRectMap: Map<string, shapes.standard.Rectangle>, diaGraph: dia.Graph): void => {
   nodes.forEach((node) => {
-    const maxWidth = node.type.includes("stack") ? maxWidthOfStackNodes : maxWidthOfHeapNodes;
-    const rect = createAndResizeRect(node.label, maxWidth, config.mode);
+    const rect = createAndResizeRect(node.label);
     const position = { x: node.position?.x ?? 0, y: node.position?.y ?? 0 }
-    const presetNode = presetNodes?.find((presetNode: CodeGraphNode) => presetNode.id === node.id);
 
-    if (config.mode === "write") {
-      rect.position(position.x + styles.node.strokeWidth / 2, position.y + styles.node.strokeWidth / 2);
-      rect.attr({
-        body: {
-          fill: presetNode?.label === "" ? (node?.label === "" ? "none" : styles.node.color.rect) : styles.node.color.getRectPreset(node.type),
-          stroke: presetNode?.label === "" ? styles.node.color.rect : styles.node.color.getRectPreset(node.type),
-          strokeWidth: 3,
-          rx: 5,
-          ry: 5
-        },
-        label: {
-          text: node.label,
-          fontSize: styles.node.font.size,
-          fontFamily: styles.node.font.family,
-          fill: styles.node.color.text
-        }
-      });
-      rect.prop('nodeId', node.id);
-      rect.prop('maxChars', inputMaxChars);
-      rect.prop('preset', presetNode?.label !== "");
-    } else {
-      rect.position(position.x, position.y);
-      rect.attr({
-        body: {
-          fill: styles.node.color.rect,
-          stroke: "none",
-          strokeWidth: styles.node.strokeWidth,
-          rx: 5,
-          ry: 5
-        },
-        label: {
-          text: node.label,
-          fontSize: styles.node.font.size,
-          fontFamily: styles.node.font.family,
-          fill: styles.node.color.text
-        }
-      });
-    }
+    rect.position(position.x, position.y);
+    rect.attr({
+      body: {
+        fill: stylesGraph.node.color.rect,
+        stroke: "none",
+        strokeWidth: stylesGraph.node.strokeWidth,
+        rx: 5,
+        ry: 5
+      },
+      label: {
+        text: node.label,
+        fontSize: stylesGraph.node.font.size,
+        fontFamily: stylesGraph.node.font.family,
+        fill: stylesGraph.node.color.text
+      }
+    });
+
     diaGraph.addCell(rect);
     nodeRectMap.set(node.id, rect);
   });
@@ -174,7 +139,7 @@ const addEdgesToGraph = (edges: CodeGraphEdge[], nodeRectMap: Map<string, shapes
       target: targetPoint,
       attrs: {
         line: {
-          stroke: styles.edge.getColor(edge.type),
+          stroke: stylesGraph.edge.getColor(edge.type),
           strokeWidth: 2,
           targetMarker: {
             'type': 'path',
