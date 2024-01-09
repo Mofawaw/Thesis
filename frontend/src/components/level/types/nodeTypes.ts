@@ -45,3 +45,5 @@ export interface CodeIDENodeData extends ComponentNodeData {
     initialGraph: CodeGraph;
   }
 }
+
+export type LevelNodeData = TextNodeData | CodeIDENodeData;

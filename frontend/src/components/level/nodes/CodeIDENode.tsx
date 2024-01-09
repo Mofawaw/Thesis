@@ -27,12 +27,12 @@ export default function CodeIDENode({ data }: { data: CodeIDENodeData }) {
       break;
     case "program":
       nodeHeader = (
-        <h3 className="px-4 pt-8">Program</h3>
+        <h3 className="px-4 pt-8">{data.title ? data.title : "Program"}</h3>
       );
       break;
     case "graph":
       nodeHeader = (
-        <h3 className="px-4 pt-8">Speicher</h3>
+        <h3 className="px-4 pt-8">{data.title ? data.title : "Speicher"}</h3>
       );
       break;
     default:

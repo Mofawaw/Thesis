@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { NodeResizer, ResizeDragEvent, ResizeParams } from 'reactflow';
 import styles from './componentNode.module.css';
-import { CodeIDENodeData, ComponentNodeData } from '../../types/nodeTypes';
+import { CodeIDENodeData, ComponentNodeData, LevelNodeData } from '../../types/nodeTypes';
 
 export default function ComponentNode({ data, maxWidth, minHeight, onSizeChange = () => { }, children }: { data: ComponentNodeData, maxWidth?: number, minHeight?: number, onSizeChange?: (size: { width: number; height: number }) => void, children: React.ReactNode }) {
   const initialWidth = data.width
@@ -21,6 +21,15 @@ export default function ComponentNode({ data, maxWidth, minHeight, onSizeChange 
 
   const gradientBorder = 'th-bg-gradient p-[5px]';
 
+  let border;
+  if ((data as CodeIDENodeData)?.codeIDE?.isMain) {
+    border = gradientBorder;
+    // } else if ((data as LevelNodeData)?.isManditory) {
+    // border = 'border-th-black-20 border-th';
+  } else {
+    border = 'border-th-black-10 border-th';
+  }
+
   return (
     <div
       className="opacity-0 animate-th-fade-in animation-delay-500"
@@ -35,7 +44,7 @@ export default function ComponentNode({ data, maxWidth, minHeight, onSizeChange 
           onResize={handleResize}
         />
         <div
-          className={`${(data as CodeIDENodeData)?.codeIDE?.isMain ? gradientBorder : 'border-th-black-10 border-th'} rounded-th`}
+          className={`${border} rounded-th`}
           style={{ width: size.width, height: size.height }}
         >
           <div className="bg-th-white rounded-th-inner w-full h-full">

@@ -346,7 +346,7 @@ const categories: ThCategory[] = [
     label: "Memory From Code",
     nodes: [
       { id: "c-ide-1", type: "codeIDE", data: { size: "small", codeIDE: { isMain: false, scopeId: "c-ide-1", config: { type: "program", mode: "read", runnable: false } } } },
-      { id: "c-ide-2", type: "codeIDE", data: { size: "medium", codeIDE: { isMain: true, scopeId: "c-ide-2", config: { type: "graph", mode: "write", runnable: true } } } },
+      { id: "c-ide-2", type: "codeIDE", data: { size: "medium", codeIDE: { isMain: true, scopeId: "c-ide-2", config: { type: "graph", mode: "write", runnable: false } } } },
       { id: "c-text-1", type: "text", data: { title: "Aufgabe", size: "small" } }
     ],
     expected: "graph"
