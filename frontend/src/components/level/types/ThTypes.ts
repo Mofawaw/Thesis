@@ -63,9 +63,8 @@ export interface ThLevel {
   stage: ThStage;
   category: ThCategory;
   label: string;
-  taskNode: ThLevelNode;
-  codeIDENodes: ThLevelNode[];
-  tippsNodes: ThLevelNode[];
+  nodes: ThLevelNode[];
+  tippNodes: ThLevelNode[];
   expected: { output?: string, graph?: CodeGraph };
 }
 

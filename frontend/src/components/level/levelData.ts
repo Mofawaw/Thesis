@@ -1,5 +1,5 @@
 import CodeGraph from '../code_ide/types/CodeGraph';
-import { ThCategory, ThLevel, ThLevelNode, ThNode, ThStage } from './types/ThTypes';
+import { ThCategory, ThLevel, ThLevelNode, ThStage } from './types/ThTypes';
 
 const c1_initialCode = [
   "apples = 4",
@@ -271,9 +271,11 @@ export const levels: ThLevel[] = [
     stage: stages[0],
     category: categories[0],
     label: "Level 1.1",
-    taskNode: { node: categories[0].nodes[1], data: { text: { description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." } } },
-    codeIDENodes: [{ node: categories[0].nodes[0], data: { codeIDE: { initialCode: c1_initialCode, initialGraph: c1_initialGraph } } }],
-    tippsNodes: [],
+    nodes: [
+      { node: categories[0].nodes[0], data: { codeIDE: { initialCode: c1_initialCode, initialGraph: c1_initialGraph } } },
+      { node: categories[0].nodes[1], data: { text: { description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." } } }
+    ],
+    tippNodes: [],
     expected: { output: c1_expectedOutput }
   },
   {
@@ -281,12 +283,12 @@ export const levels: ThLevel[] = [
     stage: stages[1],
     category: categories[1],
     label: "Level 2.1",
-    taskNode: { node: categories[1].nodes[2], data: { text: { description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." } } },
-    codeIDENodes: [
+    nodes: [
       { node: categories[1].nodes[0], data: { codeIDE: { initialGraph: c2_expectedGraph } } },
-      { node: categories[1].nodes[1], data: { codeIDE: { initialCode: c2_initialCode } } }
+      { node: categories[1].nodes[1], data: { codeIDE: { initialCode: c2_initialCode } } },
+      { node: categories[1].nodes[2], data: { text: { description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." } } }
     ],
-    tippsNodes: [],
+    tippNodes: [],
     expected: { graph: c2_expectedGraph }
   },
   {
@@ -294,12 +296,12 @@ export const levels: ThLevel[] = [
     stage: stages[2],
     category: categories[2],
     label: "Level 3.1",
-    taskNode: { node: categories[2].nodes[2], data: { text: { description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." } } },
-    codeIDENodes: [
+    nodes: [
       { node: categories[2].nodes[0], data: { codeIDE: { initialCode: c3_initialCode } } },
-      { node: categories[2].nodes[1], data: { codeIDE: { initialGraph: c3_expectedGraph } } }
+      { node: categories[2].nodes[1], data: { codeIDE: { initialGraph: c3_expectedGraph } } },
+      { node: categories[2].nodes[2], data: { text: { description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." } } }
     ],
-    tippsNodes: [],
+    tippNodes: [],
     expected: { graph: c3_expectedGraph }
   },
 ]

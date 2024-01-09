@@ -2,17 +2,14 @@ import { Node } from "reactflow";
 import { CodeIDENodeData, ComponentNodeData, TextNodeData, ThLevel, ThLevelNode, ThNodeSize } from "../types/ThTypes";
 
 export function generateReactflowNodes(level: ThLevel): Node[] {
-  const codeIDENodes = level.codeIDENodes;
-  const taskNode = level.taskNode;
-
-  const levelNodes = [...codeIDENodes, taskNode];
-
   let currentPositionX = 0;
 
-  const reactflowNodes = levelNodes.map(levelNode => {
+  const reactflowNodes = level.nodes.map(levelNode => {
     const node = convertToReactflowNode(levelNode);
+
     node.position = { x: currentPositionX, y: 0 };
     currentPositionX += node.data.width + 20;
+
     return node;
   });
 
