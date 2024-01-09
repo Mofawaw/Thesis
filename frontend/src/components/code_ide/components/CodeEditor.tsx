@@ -34,6 +34,13 @@ export default function CodeEditor({ height, scopeId }: { height: number, scopeI
     }]);
 
     useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            config.runnable ? compileGetGraph(scopeId) : {};
+        }, 1000);
+        return () => clearTimeout(timeoutId);
+    }, []);
+
+    useEffect(() => {
         if (!editorRef.current) return;
 
         const startState = EditorState.create({
@@ -52,7 +59,7 @@ export default function CodeEditor({ height, scopeId }: { height: number, scopeI
                 EditorView.updateListener.of(update => {
                     if (update.docChanged) {
                         setCode(update.state.doc.toString());
-                        config.isRunnable() ? debouncedCompileGetGraph() : {}
+                        config.runnable ? debouncedCompileGetGraph() : {}
                     }
                     if (update.focusChanged) {
                         if (update.view.hasFocus) {

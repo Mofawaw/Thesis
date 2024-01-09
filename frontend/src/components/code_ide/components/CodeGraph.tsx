@@ -1,11 +1,12 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { dia, shapes } from 'jointjs';
 import useCodeIDEStore, { CodeIDEStore } from '../codeIDEStore.ts';
 import { addData } from './codeGraphHelper';
 
-export default function CodeGraph({ scopeId }: { scopeId: string }) {
+export default function CodeGraph({ height, scopeId }: { height: number, scopeId: string }) {
   const parentRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLDivElement>(null);
+  const paperRef = useRef<dia.Paper | null>(null);
 
   const config = useCodeIDEStore(scopeId)((state: CodeIDEStore) => state.config);
   const graph = useCodeIDEStore(scopeId)((state: CodeIDEStore) => state.graph);
@@ -17,51 +18,46 @@ export default function CodeGraph({ scopeId }: { scopeId: string }) {
     const paper = new dia.Paper({
       model: diaGraph,
       el: canvasRef.current,
-      width: '100%',
-      height: '100%',
       frozen: true,
       async: true,
       interactive: { linkMove: false, elementMove: false },
       sorting: dia.Paper.sorting.APPROX,
       cellViewNamespace: shapes,
     });
+    paperRef.current = paper;
 
     addData(graph, diaGraph, config);
     paper.unfreeze();
 
+    // Update paper size based on graph content
+    const resizePaper = () => {
+      const bbox = diaGraph.getBBox();
+      if (bbox) {
+        paper.setDimensions(bbox.width, bbox.height);
+      }
+    };
+
+    resizePaper();
+    (diaGraph as any).on('change', resizePaper);
+
     return () => {
       diaGraph.clear();
+
+      (diaGraph as any).off('change', resizePaper);
+
       if (canvasRef.current) {
         canvasRef.current.innerHTML = '';
       }
     };
   }, [graph, config]);
 
-  useEffect(() => {
-    const resizeObserver = new ResizeObserver(entries => {
-      for (let entry of entries) {
-        if (canvasRef.current) {
-          const { width, height } = entry.contentRect;
-          canvasRef.current.style.width = `${width}px`;
-          canvasRef.current.style.height = `${height}px`;
-        }
-      }
-    });
-
-    if (parentRef.current) {
-      resizeObserver.observe(parentRef.current);
-    }
-
-    return () => {
-      if (parentRef.current) {
-        resizeObserver.unobserve(parentRef.current);
-      }
-    };
-  }, []);
-
   return (
-    <div ref={parentRef} className="w-full h-full basis-2/5 flex-none p-4 nowheel nodrag overflow-hidden">
-      <div ref={canvasRef} className="w-full h-full overflow-auto" />
+    <div
+      ref={parentRef}
+      style={{ height: `${height}px`, overflow: 'auto' }}
+      className="basis-2/5 flex-none nowheel nodrag"
+    >
+      <div ref={canvasRef} />
     </div>
   );
 }

@@ -1,9 +1,9 @@
 import CodeEditor from "./CodeEditor.tsx";
 import CodeOutput from "./CodeOutput.tsx"
-import { codeIDELayout } from "./codeProgramHeper.ts";
 import { compileGetOutput } from "../codeIDENetwork.ts";
 import ThIcon from '../../custom/ThIcon.tsx';
 import useCodeIDEStore from "../codeIDEStore.ts";
+import { codeIDELayout } from "../types/CodeIDEConfig.ts";
 
 export default function CodeProgram({ height, scopeId }: { height: number, scopeId: string }) {
   const store = useCodeIDEStore(scopeId).getState();
