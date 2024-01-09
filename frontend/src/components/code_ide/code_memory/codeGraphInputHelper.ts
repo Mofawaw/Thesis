@@ -38,22 +38,38 @@ export function addDataToGraphInput(graph: CodeGraph, presetGraph: CodeGraph, di
   addEdgesToGraph(graph.edges, nodeRectMap, diaGraph);
 };
 
-const createAndResizeRect = (maxWidthOfNodes: number): shapes.standard.Rectangle => {
+const createAndResizeRect = (labelText: string, maxWidth: number, mode: "write" | "read"): shapes.standard.Rectangle => {
   const rect = new shapes.standard.Rectangle();
-  rect.resize(maxWidthOfNodes, stylesGraphInput.node.height);
+  rect.resize(stylesGraphInput.node.width, stylesGraphInput.node.height);
+
+  if (mode === "write") {
+    rect.resize(maxWidth, stylesGraphInput.node.height);
+  } else {
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+
+    if (context) {
+      context.font = `${stylesGraphInput.node.font.size} ${stylesGraphInput.node.font.family}`;
+      const textWidth = context.measureText(labelText).width;
+      rect.resize(textWidth + (stylesGraphInput.node.padding * 2), stylesGraphInput.node.height);
+    } else {
+      console.error("Canvas context not available");
+    }
+  }
+
   return rect;
 };
 
 const calculateMaxWidth = (nodes: CodeGraphNode[], type: string): number => {
   return nodes
     .filter(node => node.type.includes(type))
-    .reduce((maxWidth) => {
-      const rect = createAndResizeRect(0);
+    .reduce((maxWidth, node) => {
+      const rect = createAndResizeRect(node.label, 0, "read");
       return Math.max(maxWidth, rect.size().width);
     }, 0);
 };
 
-const positionNodes = (nodes: CodeGraphNode[], maxWidthOfStackNodes: number): void => {
+const positionNodes = (nodes: CodeGraphNode[], maxWidthOfNodes: number): void => {
   const sortNodes = (nodes: CodeGraphNode[]): CodeGraphNode[] => {
     const valueNodes = nodes.filter(node => node.type.includes("value"));
     const referenceNodes = nodes.filter(node => node.type.includes("reference"));
@@ -66,7 +82,7 @@ const positionNodes = (nodes: CodeGraphNode[], maxWidthOfStackNodes: number): vo
 
     nodes.forEach((node, i) => {
       let xOffset = 0;
-      xOffset = isStack ? 0 : maxWidthOfStackNodes + stylesGraphInput.node.gap.x;
+      xOffset = isStack ? 0 : maxWidthOfNodes + stylesGraphInput.node.gap.x;
       const yOffset = node.type.startsWith('reference') ? yReferenceOffset : 0;
       node.position = { x: xOffset, y: yOffset + i * yGap };
     });
@@ -81,7 +97,7 @@ const positionNodes = (nodes: CodeGraphNode[], maxWidthOfStackNodes: number): vo
 
 const addNodesToGraph = (nodes: CodeGraphNode[], nodeRectMap: Map<string, shapes.standard.Rectangle>, diaGraph: dia.Graph, presetNodes: CodeGraphNode[], inputMaxChars: number, maxWidthOfNodes: number): void => {
   nodes.forEach((node) => {
-    const rect = createAndResizeRect(maxWidthOfNodes);
+    const rect = createAndResizeRect(node.label, maxWidthOfNodes, "write");
     const position = { x: node.position?.x ?? 0, y: node.position?.y ?? 0 }
     const presetNode = presetNodes.find((presetNode: CodeGraphNode) => presetNode.id === node.id);
 
