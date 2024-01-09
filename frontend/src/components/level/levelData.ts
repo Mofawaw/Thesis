@@ -1,5 +1,5 @@
 import CodeGraph from '../code_ide/types/CodeGraph';
-import { ThCategory, ThLevel, ThNode, ThStage } from './types/ThTypes';
+import { ThCategory, ThLevel, ThLevelNode, ThNode, ThStage } from './types/ThTypes';
 
 const c1_initialCode = [
   "apples = 4",

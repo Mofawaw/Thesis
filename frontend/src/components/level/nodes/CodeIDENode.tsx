@@ -2,6 +2,7 @@ import { useState } from 'react';
 import CodeIDE from '../../code_ide/CodeIDE';
 import ComponentNode from './component_node/ComponentNode';
 import { CodeIDENodeData } from '../types/ThTypes';
+import { componentNodeLayout } from './component_node/componentNodeLayout';
 
 export default function CodeIDENode({ data }: { data: CodeIDENodeData }) {
   // Layout
@@ -13,7 +14,6 @@ export default function CodeIDENode({ data }: { data: CodeIDENodeData }) {
 
   // Node Header
   let nodeHeader;
-  const headerHeight = 60;
 
   switch (data.codeIDE.config.type) {
     case "program+graph":
@@ -42,7 +42,7 @@ export default function CodeIDENode({ data }: { data: CodeIDENodeData }) {
   return (
     <ComponentNode data={data} onSizeChange={handleSizeChange}>
       {nodeHeader}
-      <CodeIDE height={size.height - headerHeight} {...data.codeIDE} />
+      <CodeIDE height={componentNodeLayout.getContentHeight(size.height)} {...data.codeIDE} />
     </ComponentNode>
   );
 }

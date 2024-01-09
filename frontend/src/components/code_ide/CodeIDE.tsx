@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import CodeGraph from "./components/CodeGraph.tsx";
 import CodeProgram from "./components/CodeProgram.tsx";
-import CodeIDEConfig, { codeIDELayout } from "./types/CodeIDEConfig.ts";
+import CodeIDEConfig from "./types/CodeIDEConfig.ts";
 import useCodeIDEStore from "./codeIDEStore.ts";
 import CodeGraphType from "./types/CodeGraph.ts";
 import CodeGraphInput from "./components/CodeGraphInput.tsx";
@@ -17,7 +17,7 @@ export default function CodeIDE({ height, scopeId, config, initialCode, initialG
           <CodeProgram height={height} scopeId={scopeId} />
           <div className="th-yline" />
           <div className="h-full w-full overflow-hidden p-4">
-            <CodeGraph height={codeIDELayout.getCodeGraphHeight(height)} scopeId={scopeId} />
+            <CodeGraph height={height} scopeId={scopeId} />
           </div>
         </div>
       );
@@ -29,13 +29,13 @@ export default function CodeIDE({ height, scopeId, config, initialCode, initialG
       if (config.mode === "read") {
         codeIDEComponent = (
           <div className="h-full w-full overflow-hidden p-4">
-            <CodeGraph height={codeIDELayout.getCodeGraphHeight(height)} scopeId={scopeId} />
+            <CodeGraph height={height} scopeId={scopeId} />
           </div>
         );
       } else {
         codeIDEComponent = (
           <div className="h-full w-full overflow-hidden p-4">
-            <CodeGraphInput height={codeIDELayout.getCodeGraphHeight(height)} scopeId={scopeId} />
+            <CodeGraphInput height={height} scopeId={scopeId} />
           </div>
         );
       }
