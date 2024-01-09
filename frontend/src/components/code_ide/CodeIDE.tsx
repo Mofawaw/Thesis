@@ -1,10 +1,9 @@
 import { useEffect } from "react";
-import CodeGraph from "./code_memory/CodeGraph.tsx";
 import CodeProgram from "./code_program/CodeProgram.tsx";
 import CodeIDEConfig from "./codeIDEConfig.ts";
 import useCodeIDEStore from "./codeIDEStore.ts";
 import CodeGraphType from "./code_memory/codeGraph.ts";
-import CodeGraphInput from "./code_memory/CodeGraphInput.tsx";
+import CodeMemory from "./code_memory/CodeMemory.tsx";
 
 export default function CodeIDE({ height, scopeId, config, initialCode, initialGraph }: { height: number, scopeId: string, config: CodeIDEConfig, initialCode: string, initialGraph: CodeGraphType }) {
   const store = useCodeIDEStore(scopeId).getState();
@@ -14,10 +13,12 @@ export default function CodeIDE({ height, scopeId, config, initialCode, initialG
     case "program+graph":
       codeIDEComponent = (
         <div className="flex flex-row overflow-hidden">
-          <CodeProgram height={height} scopeId={scopeId} />
+          <div className="basis-3/5 flex-none overflow-hidden">
+            <CodeProgram height={height} scopeId={scopeId} />
+          </div>
           <div className="th-yline" />
-          <div className="h-full w-full overflow-hidden p-4">
-            <CodeGraph height={height} scopeId={scopeId} />
+          <div className="basis-2/5 flex-none overflow-hidden">
+            <CodeMemory height={height} scopeId={scopeId} />
           </div>
         </div>
       );
@@ -27,17 +28,9 @@ export default function CodeIDE({ height, scopeId, config, initialCode, initialG
       break;
     case "graph":
       if (config.mode === "read") {
-        codeIDEComponent = (
-          <div className="h-full w-full overflow-hidden p-4">
-            <CodeGraph height={height} scopeId={scopeId} />
-          </div>
-        );
+        codeIDEComponent = <CodeMemory height={height} scopeId={scopeId} />;
       } else {
-        codeIDEComponent = (
-          <div className="h-full w-full overflow-hidden p-4">
-            <CodeGraphInput height={height} scopeId={scopeId} />
-          </div>
-        );
+        codeIDEComponent = <CodeMemory height={height} scopeId={scopeId} />;
       }
       break;
     default:

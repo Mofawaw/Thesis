@@ -7,13 +7,11 @@ export type CodeIDEStore = {
   code: string;
   output: string;
   graph: CodeGraph;
-  inputGraph: CodeGraph;
 
   setConfig: (newConfig: CodeIDEConfig) => (void);
   setCode: (newCode: string) => (void);
   setOutput: (newOutput: string) => (void);
   setGraph: (newGraphJSON: CodeGraph) => (void);
-  setInputGraph: (newInputGraph: CodeGraph) => (void);
 };
 
 const createCodeIDEStore = (scopeId: string) => create<CodeIDEStore>((set) => {
@@ -21,14 +19,12 @@ const createCodeIDEStore = (scopeId: string) => create<CodeIDEStore>((set) => {
     config: { type: "program", mode: "write", runnable: true },
     code: '',
     output: '',
-    graph: { nodes: [], edges: [] },
-    inputGraph: { nodes: [], edges: [] },
+    graph: { nodes: [], edges: [], nodesLabelMaxChars: 0 },
 
     setConfig: (newConfig) => set({ config: newConfig }),
     setCode: (newCode) => set({ code: newCode }),
     setOutput: (newOutput) => set({ output: newOutput }),
     setGraph: (newGraphJSON) => set({ graph: newGraphJSON }),
-    setInputGraph: (newInputGraph: CodeGraph) => set({ inputGraph: newInputGraph })
   };
 });
 

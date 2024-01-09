@@ -24,18 +24,15 @@ export const styles = {
 
 export const addData = (codeGraph: CodeGraph, graph: dia.Graph, config: CodeIDEConfig) => {
   const nodeRectMap = new Map<string, shapes.standard.Rectangle>();
-  const maxWidthOfStackNodes = calculateMaxWidth(codeGraph.nodes, "stack");
-  const maxWidthOfHeapNodes = calculateMaxWidth(codeGraph.nodes, "heap");
+  let maxWidthOfStackNodes = calculateMaxWidth(codeGraph.nodes, "stack");
+  let maxWidthOfHeapNodes = calculateMaxWidth(codeGraph.nodes, "heap");
 
-  let maxCharsOfStackNodes = 0;
-  let maxCharsOfHeapNodes = 0;
   if (config.mode === "write") {
-    maxCharsOfStackNodes = calculateMaxChars(codeGraph.nodes, "stack");
-    maxCharsOfHeapNodes = calculateMaxChars(codeGraph.nodes, "heap");
+    maxWidthOfStackNodes = Math.max(maxWidthOfStackNodes, maxWidthOfHeapNodes);
   }
 
   positionNodes(codeGraph.nodes, maxWidthOfStackNodes);
-  addNodesToGraph(codeGraph.nodes, graph, nodeRectMap, maxWidthOfStackNodes, maxWidthOfHeapNodes, maxCharsOfStackNodes, maxCharsOfHeapNodes, config);
+  addNodesToGraph(codeGraph.nodes, codeGraph.nodesLabelMaxChars, graph, nodeRectMap, maxWidthOfStackNodes, maxWidthOfHeapNodes, config);
   addEdgesToGraph(codeGraph.edges, nodeRectMap, graph);
 };
 
@@ -70,15 +67,6 @@ const calculateMaxWidth = (nodes: Node[], type: string): number => {
     }, 0);
 };
 
-const calculateMaxChars = (nodes: Node[], type: string): number => {
-  return nodes
-    .filter(node => node.type.includes(type))
-    .reduce((maxChars, node) => {
-      const labelLength = node.label.length;
-      return Math.max(maxChars, labelLength);
-    }, 0);
-};
-
 const positionNodes = (nodes: Node[], maxWidthOfStackNodes: number): void => {
   const sortNodes = (nodes: Node[]): Node[] => {
     const valueNodes = nodes.filter(node => node.type.includes("value"));
@@ -105,10 +93,9 @@ const positionNodes = (nodes: Node[], maxWidthOfStackNodes: number): void => {
   setPosition(heapNodes, false);
 };
 
-const addNodesToGraph = (nodes: Node[], graph: dia.Graph, nodeRectMap: Map<string, shapes.standard.Rectangle>, maxWidthOfStackNodes: number, maxWidthOfHeapNodes: number, maxCharsOfStackNodes: number, maxCharsOfHeapNodes: number, config: CodeIDEConfig): void => {
+const addNodesToGraph = (nodes: Node[], nodesLabelMaxChars: number, graph: dia.Graph, nodeRectMap: Map<string, shapes.standard.Rectangle>, maxWidthOfStackNodes: number, maxWidthOfHeapNodes: number, config: CodeIDEConfig): void => {
   nodes.forEach((node) => {
     const maxWidth = node.type.includes("stack") ? maxWidthOfStackNodes : maxWidthOfHeapNodes;
-    const maxChars = node.type.includes("stack") ? maxCharsOfStackNodes : maxCharsOfHeapNodes;
     const rect = createAndResizeRect(node.label, maxWidth, config.mode);
     const position = { x: node.position?.x ?? 0, y: node.position?.y ?? 0 }
 
@@ -146,7 +133,7 @@ const addNodesToGraph = (nodes: Node[], graph: dia.Graph, nodeRectMap: Map<strin
           fill: styles.node.color.text
         }
       });
-      rect.prop('maxChars', maxChars);
+      rect.prop('maxChars', nodesLabelMaxChars);
     }
 
     graph.addCell(rect);

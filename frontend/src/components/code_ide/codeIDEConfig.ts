@@ -14,4 +14,12 @@ export const codeIDELayout = {
     }
     return totalHeight
   },
+  getCodeGraphHeight: (config: CodeIDEConfig, totalHeight: number) => {
+    if (config.mode === "read" || config.type === "program+graph") {
+      return totalHeight
+    } else if (config.mode === "write") {
+      return totalHeight - 50
+    }
+    return totalHeight
+  }
 };

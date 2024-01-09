@@ -37,7 +37,7 @@ export function convertToReactflowNode(levelNode: ThLevelNode) {
         scopeId: levelNode.node.data.codeIDE.scopeId,
         config: levelNode.node.data.codeIDE.config,
         initialCode: levelNode.data.codeIDE.initialCode ?? "",
-        initialGraph: levelNode.data.codeIDE.initialGraph ?? { nodes: [], edges: [] }
+        initialGraph: levelNode.data.codeIDE.initialGraph ?? { nodes: [], edges: [], nodesLabelMaxChars: 0 }
       }
     }
     return { id: levelNode.node.id, type: levelNode.node.type, position: { x: 0, y: 0 }, data: codeIDEData };

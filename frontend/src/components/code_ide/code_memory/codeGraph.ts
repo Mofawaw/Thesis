@@ -14,5 +14,6 @@ export interface Edge {
 
 export default interface CodeGraph {
   nodes: Node[],
-  edges: Edge[]
+  edges: Edge[],
+  nodesLabelMaxChars: number;
 }

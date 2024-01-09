@@ -8,18 +8,19 @@ import { codeIDELayout } from "../codeIDEConfig.ts";
 export default function CodeProgram({ height, scopeId }: { height: number, scopeId: string }) {
   const store = useCodeIDEStore(scopeId).getState();
   let codeProgramComponent;
+  let codeEditorHeight = codeIDELayout.getCodeEditorHeight(store.config, height)
 
-  if (store.config.mode === "read") {
+  if (!store.config.runnable) {
     codeProgramComponent = (
       <div className="p-4 mb-2">
-        <CodeEditor height={codeIDELayout.getCodeEditorHeight(store.config, height)} scopeId={scopeId} />
+        <CodeEditor height={codeEditorHeight} scopeId={scopeId} />
       </div>
     )
-  } else if (store.config.mode === "write") {
+  } else if (store.config.runnable) {
     codeProgramComponent = (
-      <div className="basis-3/5 flex-none flex flex-col gap-2 py-4 overflow-hidden" >
+      <div className="flex flex-col gap-2 py-4 overflow-hidden" >
         <div className="px-4 mb-2">
-          <CodeEditor height={codeIDELayout.getCodeEditorHeight(store.config, height)} scopeId={scopeId} />
+          <CodeEditor height={codeEditorHeight} scopeId={scopeId} />
         </div>
 
         <div className="flex flex-col gap-2 justify-center">
@@ -38,7 +39,7 @@ export default function CodeProgram({ height, scopeId }: { height: number, scope
       </div>
     )
   } else {
-    codeProgramComponent = <div>No ProgramMode found.</div>
+    codeProgramComponent = <div>No program mode found.</div>
   }
 
   return (

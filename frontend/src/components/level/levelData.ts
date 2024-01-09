@@ -10,7 +10,7 @@ const c1_initialCode = [
   "# Todo 2"
 ].join('\n');
 
-const c1_initialGraph = { nodes: [], edges: [] };
+const c1_initialGraph = { nodes: [], edges: [], nodesLabelMaxChars: 0 };
 
 const c1_expectedOutput = [
   "Lily's fruits in total:",
@@ -105,7 +105,8 @@ const c2_expectedGraph: CodeGraph = {
       "source": "n-rs-1",
       "target": "n-rh-1"
     }
-  ]
+  ],
+  "nodesLabelMaxChars": 15
 }
 
 const c3_initialCode = [
@@ -124,6 +125,94 @@ const c3_initialCode = [
   "c = 10",
   "print(c)",
 ].join('\n');
+
+const c3_initialGraph: CodeGraph = {
+  "nodes": [
+    {
+      "id": "n-vs-0",
+      "type": "value-stack",
+      "label": ""
+    },
+    {
+      "id": "n-vh-0",
+      "type": "value-heap",
+      "label": "2"
+    },
+    {
+      "id": "n-vs-1",
+      "type": "value-stack",
+      "label": ""
+    },
+    {
+      "id": "n-vh-1",
+      "type": "value-heap",
+      "label": ""
+    },
+    {
+      "id": "n-rs-0",
+      "type": "reference-stack",
+      "label": "tier_1"
+    },
+    {
+      "id": "n-rs-1",
+      "type": "reference-stack",
+      "label": ""
+    },
+    {
+      "id": "n-vs-2",
+      "type": "value-stack",
+      "label": "c"
+    },
+    {
+      "id": "n-vh-2",
+      "type": "value-heap",
+      "label": ""
+    },
+    {
+      "id": "n-rhd-0",
+      "type": "reference-heap-deallocated",
+      "label": ""
+    },
+    {
+      "id": "n-rh-1",
+      "type": "reference-heap",
+      "label": "Tier('Kuh', 12)"
+    }
+  ],
+  "edges": [
+    {
+      "id": "e-v-0",
+      "type": "value",
+      "source": "n-vs-0",
+      "target": "n-vh-0"
+    },
+    {
+      "id": "e-v-1",
+      "type": "value",
+      "source": "n-vs-1",
+      "target": "n-vh-1"
+    },
+    {
+      "id": "e-v-2",
+      "type": "value",
+      "source": "n-vs-2",
+      "target": "n-vh-2"
+    },
+    {
+      "id": "e-r-0",
+      "type": "reference",
+      "source": "n-rs-0",
+      "target": "n-rh-1"
+    },
+    {
+      "id": "e-r-1",
+      "type": "reference",
+      "source": "n-rs-1",
+      "target": "n-rh-1"
+    }
+  ],
+  "nodesLabelMaxChars": 15
+}
 
 const c3_expectedGraph: CodeGraph = {
   "nodes": [
@@ -209,7 +298,8 @@ const c3_expectedGraph: CodeGraph = {
       "source": "n-rs-1",
       "target": "n-rh-1"
     }
-  ]
+  ],
+  "nodesLabelMaxChars": 15
 }
 
 const stages: ThStage[] = [
@@ -258,7 +348,7 @@ const categories: ThCategory[] = [
     label: "Memory From Code",
     nodes: [
       { id: "c-ide-1", type: "codeIDE", data: { size: "small", codeIDE: { isMain: false, scopeId: "c-ide-1", config: { type: "program", mode: "read", runnable: false } } } },
-      { id: "c-ide-2", type: "codeIDE", data: { size: "medium", codeIDE: { isMain: true, scopeId: "c-ide-2", config: { type: "graph", mode: "write", runnable: false } } } },
+      { id: "c-ide-2", type: "codeIDE", data: { size: "medium", codeIDE: { isMain: true, scopeId: "c-ide-2", config: { type: "graph", mode: "write", runnable: true } } } },
       { id: "c-text-1", type: "text", data: { title: "Aufgabe", size: "small" } }
     ],
     expected: "graph"
@@ -298,7 +388,7 @@ export const levels: ThLevel[] = [
     label: "Level 3.1",
     nodes: [
       { node: categories[2].nodes[0], data: { codeIDE: { initialCode: c3_initialCode } } },
-      { node: categories[2].nodes[1], data: { codeIDE: { initialGraph: c3_expectedGraph } } },
+      { node: categories[2].nodes[1], data: { codeIDE: { initialGraph: c3_initialGraph } } },
       { node: categories[2].nodes[2], data: { text: { description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." } } }
     ],
     tippNodes: [],

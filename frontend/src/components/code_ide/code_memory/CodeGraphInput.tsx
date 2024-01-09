@@ -145,7 +145,7 @@ export default function CodeGraphInput({ height, scopeId }: { height: number, sc
   }, [selectedNode]);
 
   return (
-    <div className="basis-2/5 flex-none nowheel nodrag" style={{ height: `${height}px`, overflow: 'auto' }} >
+    <div className="nowheel nodrag" style={{ height: `${height}px`, overflow: 'auto' }} >
       <input ref={inputRef} type="text" style={{ position: 'absolute', opacity: 0, pointerEvents: 'none' }} />
       <div ref={canvasRef} />
     </div>
