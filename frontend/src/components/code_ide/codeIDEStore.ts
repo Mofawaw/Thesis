@@ -1,6 +1,6 @@
 import { create } from 'zustand';
-import CodeGraph from './types/CodeGraph.ts'
-import CodeIDEConfig from './types/CodeIDEConfig.ts';
+import CodeGraph from './code_memory/codeGraph.ts'
+import CodeIDEConfig from './codeIDEConfig.ts';
 
 export type CodeIDEStore = {
   config: CodeIDEConfig;

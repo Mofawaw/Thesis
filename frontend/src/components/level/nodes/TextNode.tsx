@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { TextNodeData } from '../types/ThTypes';
+import { TextNodeData } from '../types/nodeTypes';
 import ComponentNode from './component_node/ComponentNode';
 import { componentNodeLayout } from './component_node/componentNodeLayout';
 

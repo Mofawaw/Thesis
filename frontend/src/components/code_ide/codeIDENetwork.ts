@@ -1,5 +1,5 @@
 import useCodeIDEStore from "./codeIDEStore";
-import CodeGraph from "./types/CodeGraph";
+import CodeGraph from "./code_memory/codeGraph";
 
 export function compileGetOutput(scopeId: string) {
   const { code, setOutput } = useCodeIDEStore(scopeId).getState();

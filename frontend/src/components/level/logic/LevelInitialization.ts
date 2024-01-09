@@ -1,5 +1,6 @@
 import { Node } from "reactflow";
-import { CodeIDENodeData, ComponentNodeData, TextNodeData, ThLevel, ThLevelNode, ThNodeSize } from "../types/ThTypes";
+import { ThLevel, ThLevelNode } from "../types/thTypes";
+import { CodeIDENodeData, ComponentNodeData, TextNodeData, ThNodeSize } from "../types/nodeTypes"
 
 export function generateReactflowNodes(level: ThLevel): Node[] {
   let currentPositionX = 0;

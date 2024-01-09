@@ -3,7 +3,7 @@ import CodeOutput from "./CodeOutput.tsx"
 import { compileGetOutput } from "../codeIDENetwork.ts";
 import ThIcon from '../../custom/ThIcon.tsx';
 import useCodeIDEStore from "../codeIDEStore.ts";
-import { codeIDELayout } from "../types/CodeIDEConfig.ts";
+import { codeIDELayout } from "../codeIDEConfig.ts";
 
 export default function CodeProgram({ height, scopeId }: { height: number, scopeId: string }) {
   const store = useCodeIDEStore(scopeId).getState();

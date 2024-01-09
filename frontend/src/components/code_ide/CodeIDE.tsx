@@ -1,10 +1,10 @@
 import { useEffect } from "react";
-import CodeGraph from "./components/CodeGraph.tsx";
-import CodeProgram from "./components/CodeProgram.tsx";
-import CodeIDEConfig from "./types/CodeIDEConfig.ts";
+import CodeGraph from "./code_memory/CodeGraph.tsx";
+import CodeProgram from "./code_program/CodeProgram.tsx";
+import CodeIDEConfig from "./codeIDEConfig.ts";
 import useCodeIDEStore from "./codeIDEStore.ts";
-import CodeGraphType from "./types/CodeGraph.ts";
-import CodeGraphInput from "./components/CodeGraphInput.tsx";
+import CodeGraphType from "./code_memory/codeGraph.ts";
+import CodeGraphInput from "./code_memory/CodeGraphInput.tsx";
 
 export default function CodeIDE({ height, scopeId, config, initialCode, initialGraph }: { height: number, scopeId: string, config: CodeIDEConfig, initialCode: string, initialGraph: CodeGraphType }) {
   const store = useCodeIDEStore(scopeId).getState();

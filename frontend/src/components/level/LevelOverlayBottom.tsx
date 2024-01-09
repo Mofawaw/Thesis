@@ -6,8 +6,8 @@ import ThMenuTextButton from "../custom/ThMenuTextButton";
 import ThPopup from "../portals/ThPopup";
 import { useState } from "react";
 import ThTextButton from "../custom/ThTextButton.tsx";
-import { ThLevel, ThLevelNode } from "./types/ThTypes.ts";
-import { checkAndReturnResults } from "./logic/LevelEvaluation.ts";
+import { ThLevel, ThLevelNode } from "./types/thTypes.ts";
+import { checkAndReturnResults } from "./logic/levelEvaluation.ts";
 import { sampleLevelNode } from "./levelData.ts";
 
 export default function LevelOverlayBottom({ nodes, level, onAddNode }: { nodes: Node[], level: ThLevel, onAddNode: (node: ThLevelNode) => (void) }) {

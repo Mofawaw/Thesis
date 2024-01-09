@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { NodeResizer, ResizeDragEvent, ResizeParams } from 'reactflow';
 import styles from './componentNode.module.css';
-import { CodeIDENodeData, ComponentNodeData } from '../../types/ThTypes';
+import { CodeIDENodeData, ComponentNodeData } from '../../types/nodeTypes';
 
 export default function ComponentNode({ data, maxWidth, minHeight, onSizeChange = () => { }, children }: { data: ComponentNodeData, maxWidth?: number, minHeight?: number, onSizeChange?: (size: { width: number; height: number }) => void, children: React.ReactNode }) {
   const initialWidth = data.width

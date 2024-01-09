@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import CodeIDE from '../../code_ide/CodeIDE';
 import ComponentNode from './component_node/ComponentNode';
-import { CodeIDENodeData } from '../types/ThTypes';
+import { CodeIDENodeData } from '../types/nodeTypes';
 import { componentNodeLayout } from './component_node/componentNodeLayout';
 
 export default function CodeIDENode({ data }: { data: CodeIDENodeData }) {

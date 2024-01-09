@@ -1,7 +1,7 @@
 import config from '../../../../tailwind.config.ts'
 import { dia, shapes } from 'jointjs';
-import CodeGraph, { Node, Edge } from '../types/CodeGraph.ts'
-import CodeIDEConfig from '../types/CodeIDEConfig.ts';
+import CodeGraph, { Node, Edge } from './codeGraph.ts'
+import CodeIDEConfig from '../codeIDEConfig.ts';
 
 const { colors } = config.theme
 const { fontFamily } = config.theme

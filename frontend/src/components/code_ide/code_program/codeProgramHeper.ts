@@ -1,4 +1,4 @@
-import CodeIDEConfig from "../types/CodeIDEConfig";
+import CodeIDEConfig from "../codeIDEConfig";
 
 export const codeIDELayout = {
   codeOutputHeight: 100,

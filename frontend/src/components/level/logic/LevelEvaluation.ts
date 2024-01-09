@@ -1,8 +1,9 @@
 import { Node } from "reactflow";
 import { compileGetGraph, compileGetOutput } from "../../code_ide/codeIDENetwork";
 import useCodeIDEStore from "../../code_ide/codeIDEStore";
-import CodeGraph from "../../code_ide/types/CodeGraph";
-import { CodeIDENodeData, ThLevel } from "../types/ThTypes";
+import CodeGraph from "../../code_ide/code_memory/codeGraph";
+import { ThLevel } from "../types/thTypes";
+import { CodeIDENodeData } from "../types/nodeTypes";
 
 export function checkAndReturnResults(level: ThLevel, nodes: Node[]): Promise<{ result: boolean, message: string }> {
   return check(level, nodes)

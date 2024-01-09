@@ -1,10 +1,10 @@
 import ReactFlow, { ReactFlowProvider, NodeChange, applyNodeChanges, useReactFlow, ReactFlowInstance, Node } from 'reactflow';
 import 'reactflow/dist/style.css';
-import { nodeTypes } from './nodes/LevelNodeTypes';
+import { nodeTypes } from './types/nodeTypes.ts';
 import { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
 import LevelOverlayTop from './LevelOverlayTop.tsx';
 import LevelOverlayBottom from './LevelOverlayBottom.tsx';
-import { ThLevel, ThLevelNode } from './types/ThTypes.ts';
+import { ThLevel, ThLevelNode } from './types/thTypes.ts';
 import { convertToReactflowNode, generateReactflowNodes } from './logic/levelInitialization.ts';
 
 export default function Level({ level }: { level: ThLevel }) {
