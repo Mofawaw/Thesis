@@ -1,41 +1,51 @@
 import config from '../../../../tailwind.config.ts'
 import { dia, shapes } from 'jointjs';
-import CodeGraph, { Node, Edge } from '../types/CodeGraph.ts'
-import CodeIDEMode from '../types/CodeIDEMode.ts';
+import CodeGraph, { CodeGraphNode, CodeGraphEdge } from './codeGraph.ts'
+import CodeIDEConfig from '../codeIDEConfig.ts';
 
 const { colors } = config.theme
 const { fontFamily } = config.theme
 
-const styles = {
+export const styles = {
   node: {
     width: 100,
     height: 35,
     gap: { x: 50, y: 5 },
     padding: 10,
     font: { size: "15px", family: fontFamily['th-mono'][0] },
-    color: { text: colors['th-black'][100], rect: colors['th-black'][10] }
+    color: {
+      text: colors['th-black'][100],
+      rect: colors['th-black'][10],
+      rectActive: colors['th-black'][20],
+      getRectPreset: (type: string) => (type.includes("value") ? colors['th-value'][20] : colors['th-reference'][20])
+    },
+    strokeWidth: 3
   },
   edge: {
-    getColor: (type: string) => (type == "value" ? colors['th-value'][100] : colors['th-reference'][100])
+    getColor: (type: string) => (type === "value" ? colors['th-value'][100] : colors['th-reference'][100])
   },
   referenceOffset: 20,
 }
 
-export const addData = (codeGraph: CodeGraph, graph: dia.Graph, mode: CodeIDEMode) => {
+export const addData = (codeGraph: CodeGraph, graph: dia.Graph, config: CodeIDEConfig) => {
   const nodeRectMap = new Map<string, shapes.standard.Rectangle>();
-  const maxWidthOfStackNodes = calculateMaxWidth(codeGraph.nodes, "stack");
-  const maxWidthOfHeapNodes = calculateMaxWidth(codeGraph.nodes, "heap");
+  let maxWidthOfStackNodes = calculateMaxWidth(codeGraph.nodes, "stack");
+  let maxWidthOfHeapNodes = calculateMaxWidth(codeGraph.nodes, "heap");
+
+  if (config.mode === "write") {
+    maxWidthOfStackNodes = Math.max(maxWidthOfStackNodes, maxWidthOfHeapNodes);
+  }
 
   positionNodes(codeGraph.nodes, maxWidthOfStackNodes);
-  addNodesToGraph(codeGraph.nodes, graph, nodeRectMap, maxWidthOfStackNodes, maxWidthOfHeapNodes, mode);
+  addNodesToGraph(codeGraph.nodes, codeGraph.inputMaxChars ?? 0, graph, nodeRectMap, maxWidthOfStackNodes, maxWidthOfHeapNodes, config);
   addEdgesToGraph(codeGraph.edges, nodeRectMap, graph);
 };
 
-const createAndResizeRect = (labelText: string, maxWidth: number, mode: CodeIDEMode): shapes.standard.Rectangle => {
+const createAndResizeRect = (labelText: string, maxWidth: number, mode: "write" | "read"): shapes.standard.Rectangle => {
   const rect = new shapes.standard.Rectangle();
   rect.resize(styles.node.width, styles.node.height);
 
-  if (mode.has(CodeIDEMode.graphInput)) {
+  if (mode === "write") {
     rect.resize(maxWidth, styles.node.height);
   } else {
     const canvas = document.createElement("canvas");
@@ -53,23 +63,23 @@ const createAndResizeRect = (labelText: string, maxWidth: number, mode: CodeIDEM
   return rect;
 };
 
-const calculateMaxWidth = (nodes: Node[], type: string): number => {
+const calculateMaxWidth = (nodes: CodeGraphNode[], type: string): number => {
   return nodes
     .filter(node => node.type.includes(type))
     .reduce((maxWidth, node) => {
-      const rect = createAndResizeRect(node.label, 0, CodeIDEMode.graphRead);
+      const rect = createAndResizeRect(node.label, 0, "read");
       return Math.max(maxWidth, rect.size().width);
     }, 0);
 };
 
-const positionNodes = (nodes: Node[], maxWidthOfStackNodes: number): void => {
-  const sortNodes = (nodes: Node[]): Node[] => {
+const positionNodes = (nodes: CodeGraphNode[], maxWidthOfStackNodes: number): void => {
+  const sortNodes = (nodes: CodeGraphNode[]): CodeGraphNode[] => {
     const valueNodes = nodes.filter(node => node.type.includes("value"));
     const referenceNodes = nodes.filter(node => node.type.includes("reference"));
     return [...valueNodes, ...referenceNodes];
   };
 
-  const setPosition = (nodes: Node[], isStack: boolean): void => {
+  const setPosition = (nodes: CodeGraphNode[], isStack: boolean): void => {
     const yGap = styles.node.height + styles.node.gap.y;
     const yReferenceOffset = styles.referenceOffset;
 
@@ -88,32 +98,56 @@ const positionNodes = (nodes: Node[], maxWidthOfStackNodes: number): void => {
   setPosition(heapNodes, false);
 };
 
-const addNodesToGraph = (nodes: Node[], graph: dia.Graph, nodeRectMap: Map<string, shapes.standard.Rectangle>, maxWidthOfStackNodes: number, maxWidthOfHeapNodes: number, mode: CodeIDEMode): void => {
+const addNodesToGraph = (nodes: CodeGraphNode[], inputMaxChars: number, graph: dia.Graph, nodeRectMap: Map<string, shapes.standard.Rectangle>, maxWidthOfStackNodes: number, maxWidthOfHeapNodes: number, config: CodeIDEConfig): void => {
   nodes.forEach((node) => {
     const maxWidth = node.type.includes("stack") ? maxWidthOfStackNodes : maxWidthOfHeapNodes;
-    const rect = createAndResizeRect(node.label, maxWidth, mode);
-    rect.position(node.position.x, node.position.y);
-    rect.attr({
-      body: {
-        fill: styles.node.color.rect,
-        stroke: "none",
-        rx: 5,
-        ry: 5
-      },
-      label: {
-        text: node.label,
-        fontSize: styles.node.font.size,
-        fontFamily: styles.node.font.family,
-        fill: styles.node.color.text
-      }
-    });
+    const rect = createAndResizeRect(node.label, maxWidth, config.mode);
+    const position = { x: node.position?.x ?? 0, y: node.position?.y ?? 0 }
+
+    if (config.mode === "read" || config.type === "program+graph") {
+      rect.position(position.x, position.y);
+      rect.attr({
+        body: {
+          fill: styles.node.color.rect,
+          stroke: "none",
+          strokeWidth: styles.node.strokeWidth,
+          rx: 5,
+          ry: 5
+        },
+        label: {
+          text: node.label,
+          fontSize: styles.node.font.size,
+          fontFamily: styles.node.font.family,
+          fill: styles.node.color.text
+        }
+      });
+    } else {
+      rect.position(position.x + styles.node.strokeWidth / 2, position.y + styles.node.strokeWidth / 2);
+      rect.attr({
+        body: {
+          fill: node.label === "" ? "none" : styles.node.color.getRectPreset(node.type),
+          stroke: node.label === "" ? styles.node.color.rect : styles.node.color.getRectPreset(node.type),
+          strokeWidth: 3,
+          rx: 5,
+          ry: 5
+        },
+        label: {
+          text: node.label,
+          fontSize: styles.node.font.size,
+          fontFamily: styles.node.font.family,
+          fill: styles.node.color.text
+        }
+      });
+      rect.prop('maxChars', inputMaxChars);
+      rect.prop('preset', node.label !== "");
+    }
 
     graph.addCell(rect);
     nodeRectMap.set(node.id, rect);
   });
 };
 
-const addEdgesToGraph = (edges: Edge[], nodeRectMap: Map<string, shapes.standard.Rectangle>, graph: dia.Graph): void => {
+const addEdgesToGraph = (edges: CodeGraphEdge[], nodeRectMap: Map<string, shapes.standard.Rectangle>, graph: dia.Graph): void => {
   edges.forEach((edge) => {
     const sourceNodeRect = nodeRectMap.get(edge.source);
     const targetNodeRect = nodeRectMap.get(edge.target);

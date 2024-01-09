@@ -1,9 +1,13 @@
 import Level from "./components/level/Level.tsx"
+import { levels } from "./components/level/levelData.ts";
+import { ThLevel } from "./components/level/types/thTypes.ts";
 
 function App() {
+  const level: ThLevel = levels[0]; // TODO
+
   return (
     <>
-      <Level />
+      <Level level={level} />
     </>
   )
 }

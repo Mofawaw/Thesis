@@ -1,68 +1,51 @@
 import { useEffect } from "react";
-import CodeGraph from "./components/CodeGraph.tsx";
-import CodeProgram from "./components/CodeProgram.tsx";
-import CodeIDEMode from "./types/CodeIDEMode.ts";
+import CodeProgram from "./code_program/CodeProgram.tsx";
+import CodeIDEConfig from "./codeIDEConfig.ts";
 import useCodeIDEStore from "./codeIDEStore.ts";
+import CodeGraphType from "./code_memory/codeGraph.ts";
+import CodeMemory from "./code_memory/CodeMemory.tsx";
 
-export default function CodeIDE({ height, codeIDEMode, scopeId }: { height: number, codeIDEMode: CodeIDEMode, scopeId: number }) {
+export default function CodeIDE({ height, scopeId, config, initialCode, initialGraph }: { height: number, scopeId: string, config: CodeIDEConfig, initialCode: string, initialGraph: CodeGraphType }) {
   const store = useCodeIDEStore(scopeId).getState();
   let codeIDEComponent;
 
-  switch (codeIDEMode) {
-    case CodeIDEMode.programWriteGraphAuto:
+  switch (config.type) {
+    case "program+graph":
       codeIDEComponent = (
         <div className="flex flex-row overflow-hidden">
-          <CodeProgram height={height} scopeId={scopeId} />
+          <div className="basis-3/5 flex-none overflow-hidden">
+            <CodeProgram height={height} scopeId={scopeId} />
+          </div>
           <div className="th-yline" />
-          <CodeGraph scopeId={scopeId} />
+          <div className="basis-2/5 flex-none overflow-hidden">
+            <CodeMemory height={height} scopeId={scopeId} />
+          </div>
         </div>
       );
       break;
-    case CodeIDEMode.programWrite:
+    case "program":
       codeIDEComponent = <CodeProgram height={height} scopeId={scopeId} />;
       break;
-    case CodeIDEMode.programRead:
-      codeIDEComponent = <CodeProgram height={height} scopeId={scopeId} />;
-      break;
-    case CodeIDEMode.graphRead:
-      codeIDEComponent = <CodeGraph scopeId={scopeId} />;
-      break;
-    case CodeIDEMode.graphInput:
-      codeIDEComponent = <CodeGraph scopeId={scopeId} />;
+    case "graph":
+      if (config.mode === "read") {
+        codeIDEComponent = <CodeMemory height={height} scopeId={scopeId} />;
+      } else {
+        codeIDEComponent = <CodeMemory height={height} scopeId={scopeId} />;
+      }
       break;
     default:
       codeIDEComponent = <div>No CodeIDEMode found.</div>
   }
 
+  // "Initialize" CodeIDEStore 
   useEffect(() => {
-    const initialCode = [
-      "a = 1",
-      "b = 2",
-      "a = b",
-      "print(a)",
-      "print(b)"
-    ].join('\n');
-
-    const initialGraph = {
-      nodes: [
-        { id: "n-vs-0", type: "value-stack", label: "a" },
-        { id: "n-vh-0", type: "value-heap", label: 2 },
-        { id: "n-vs-1", type: "value-stack", label: "b" },
-        { id: "n-vh-1", type: "value-heap", label: 2 }
-      ],
-      edges: [
-        { id: "e-v-0", type: "value", source: "n-vs-0", target: "n-vh-0" },
-        { id: "e-v-1", type: "value", source: "n-vs-1", target: "n-vh-1" }
-      ]
-    };
-
-    store.setMode(codeIDEMode);
+    store.setConfig(config);
     store.setCode(initialCode);
     store.setGraph(initialGraph);
   }, []);
 
   return (
-    <div className="h-full w-full overflow-hidden">
+    <div>
       {codeIDEComponent}
     </div>
   )

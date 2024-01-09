@@ -1,88 +1,86 @@
-import ReactFlow, { Controls, useNodesState } from 'reactflow';
+import ReactFlow, { ReactFlowProvider, NodeChange, applyNodeChanges, useReactFlow, ReactFlowInstance, Node } from 'reactflow';
 import 'reactflow/dist/style.css';
-import ComponentNode from './components/ComponentNode.tsx';
-import CodeIDE from '../code_ide/CodeIDE.tsx';
-import CodeIDEMode from '../code_ide/types/CodeIDEMode.ts';
+import { nodeTypes } from './types/nodeTypes.ts';
+import { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
+import LevelOverlayTop from './LevelOverlayTop.tsx';
+import LevelOverlayBottom from './LevelOverlayBottom.tsx';
+import { ThLevel, ThLevelNode } from './types/thTypes.ts';
+import { convertToReactflowNode, generateReactflowNodes } from './logic/levelInitialization.ts';
 
-const mode1Nodes = [
-  {
-    id: '1',
-    type: 'component',
-    position: { x: 100, y: 200 },
-    data: {
-      component: CodeIDE,
-      componentProps: { codeIDEMode: CodeIDEMode.programWriteGraphAuto, scopeId: 1 },
-      minWidth: 900,
-      minHeight: 600
-    }
-  },
-];
+export default function Level({ level }: { level: ThLevel }) {
+  const [nodes, setNodes] = useState<Node[]>([]);
 
-const mode2Nodes = [
-  {
-    id: '2',
-    type: 'component',
-    position: { x: 100, y: 200 },
-    data: {
-      component: CodeIDE,
-      componentProps: { codeIDEMode: CodeIDEMode.programWrite, scopeId: 2 },
-      minWidth: 600,
-      minHeight: 600
-    }
-  },
-  {
-    id: '3',
-    type: 'component',
-    position: { x: 850, y: 200 },
-    data: {
-      component: CodeIDE,
-      componentProps: { codeIDEMode: CodeIDEMode.graphRead, scopeId: 3 },
-      minWidth: 400,
-      minHeight: 600
-    }
-  },
-];
+  const addNode = (newLevelNode: ThLevelNode) => { // TODO!!
+    let maxX = -Infinity;
+    nodes.forEach((node) => {
+      const nodeWidth = node.width || 0
+      const nodeRightEdge = node.position.x + nodeWidth;
+      if (nodeRightEdge > maxX) {
+        maxX = nodeRightEdge;
+      }
+    });
 
-const mode3Nodes = [
-  {
-    id: '4',
-    type: 'component',
-    position: { x: 100, y: 200 },
-    data: {
-      component: CodeIDE,
-      componentProps: { codeIDEMode: CodeIDEMode.graphInput, scopeId: 4 },
-      minWidth: 600,
-      minHeight: 600
-    }
-  },
-  {
-    id: '5',
-    type: 'component',
-    position: { x: 850, y: 200 },
-    data: {
-      component: CodeIDE,
-      componentProps: { codeIDEMode: CodeIDEMode.programRead, scopeId: 5 },
-      minWidth: 400,
-      minHeight: 600
-    }
-  },
-];
+    const reactflowNode: Node = convertToReactflowNode(newLevelNode);
+    reactflowNode.id = (nodes.length + 1).toString();
+    reactflowNode.position = { x: maxX + 20, y: 0 };
 
-const nodeTypes = { component: ComponentNode };
+    setNodes((nodes) => nodes.concat(reactflowNode));
+  };
 
-export default function App() {
-  const [nodes, setNodes, onNodesChange] = useNodesState(mode1Nodes.concat(mode2Nodes).concat(mode3Nodes));
+  // Initialize Nodes for Level
+  useEffect(() => {
+    const initialNodes = generateReactflowNodes(level);
+    setNodes(initialNodes)
+    console.log(initialNodes);
+  }, []);
 
   return (
     <div className="w-screen h-screen">
-      <ReactFlow
-        nodes={nodes}
-        onNodesChange={onNodesChange}
-        nodeTypes={nodeTypes}
-        className="bg-th-background"
-      >
-        <Controls />
-      </ReactFlow>
+      <ReactFlowProvider>
+        <div className="w-screen h-screen">
+          <LevelOverlayTop />
+          <LevelReactFlow nodes={nodes} setNodes={setNodes} />
+          <LevelOverlayBottom level={level} nodes={nodes} onAddNode={(node) => addNode(node)} />
+        </div>
+      </ReactFlowProvider>
     </div>
+  );
+}
+
+function LevelReactFlow({ nodes, setNodes }: { nodes: Node[], setNodes: Dispatch<SetStateAction<Node[]>> }) {
+  const reactFlowInstance = useReactFlow();
+  const prevNodesLength = useRef(nodes.length);
+
+  const onInit = (instance: ReactFlowInstance) => {
+    const timeoutId = setTimeout(() => {
+      instance.fitView({ padding: 0.1, includeHiddenNodes: true, duration: 300 });
+    }, 200);
+    return () => clearTimeout(timeoutId);
+  };
+
+  const onNodesChange = useCallback((changes: NodeChange[]) => {
+    const filteredChanges = changes.filter(change => {
+      if (change.type === 'remove' && change.id.includes("c-")) {
+        return false;
+      }
+      return true;
+    });
+    setNodes(nodes => applyNodeChanges(filteredChanges, nodes));
+
+    if (reactFlowInstance && nodes.length > prevNodesLength.current) {
+      reactFlowInstance.fitView({ padding: 0.1, includeHiddenNodes: true, duration: 300 });
+    }
+    prevNodesLength.current = nodes.length;
+  }, [reactFlowInstance, nodes]);
+
+  return (
+    <ReactFlow
+      nodes={nodes}
+      nodeTypes={nodeTypes}
+      onInit={onInit}
+      onNodesChange={onNodesChange}
+      className="bg-th-background"
+      proOptions={{ hideAttribution: true }}
+    />
   );
 }
