@@ -10,23 +10,17 @@ export default function CodeMemory({ height, scopeId }: { height: number, scopeI
   let codeGraphHeight = codeIDELayout.getCodeGraphHeight(store.config, height)
 
   if (store.config.mode === "read" || store.config.type === "program+graph") {
-    codeMemoryComponent = (
-      <div className="p-4 mb-2">
-        <CodeGraph height={codeGraphHeight} scopeId={scopeId} />
-      </div>
-    )
-  } else if (store.config.mode === "write") {
     if (!store.config.runnable) {
       codeMemoryComponent = (
         <div className="p-4 mb-2">
-          <CodeGraphInput height={codeGraphHeight} scopeId={scopeId} />
+          <CodeGraph height={codeGraphHeight} scopeId={scopeId} />
         </div>
       )
     } else {
       codeMemoryComponent = (
         <div className="flex flex-col gap-2 py-4 overflow-hidden" >
-          <div className="px-4 mb-2">
-            <CodeGraphInput height={codeGraphHeight} scopeId={scopeId} />
+          <div className="p-4 mb-2">
+            <CodeGraph height={codeGraphHeight} scopeId={scopeId} />
           </div>
 
           <div className="flex flex-col gap-2 justify-center">
@@ -39,6 +33,12 @@ export default function CodeMemory({ height, scopeId }: { height: number, scopeI
         </div>
       )
     }
+  } else if (store.config.mode === "write") {
+    codeMemoryComponent = (
+      <div className="p-4 mb-2">
+        <CodeGraphInput height={codeGraphHeight} scopeId={scopeId} />
+      </div>
+    )
   } else {
     codeMemoryComponent = <div>No graph mode found.</div>
   }

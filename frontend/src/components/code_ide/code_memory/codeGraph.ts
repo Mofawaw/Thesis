@@ -1,11 +1,11 @@
-export interface Node {
+export interface CodeGraphNode {
   id: string;
   type: string;
   label: string;
   position?: { x: number, y: number };
 }
 
-export interface Edge {
+export interface CodeGraphEdge {
   id: string;
   type: string;
   source: string;
@@ -13,7 +13,7 @@ export interface Edge {
 }
 
 export default interface CodeGraph {
-  nodes: Node[],
-  edges: Edge[],
+  nodes: CodeGraphNode[],
+  edges: CodeGraphEdge[],
   inputMaxChars?: number;
 }

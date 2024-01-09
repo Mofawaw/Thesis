@@ -14,6 +14,7 @@ export default function CodeGraphInput({ height, scopeId }: { height: number, sc
 
   const resetAllNodeStyles = () => {
     graphRef.current?.getElements().forEach(node => {
+      if (node.prop('preset')) { return }
       if (!node.attr('label/text')) {
         node.attr({
           body: {
@@ -62,7 +63,7 @@ export default function CodeGraphInput({ height, scopeId }: { height: number, sc
 
     paper.on('element:pointerdown', (cellView) => {
       const model = (cellView as any).model;
-      if (model instanceof dia.Element) {
+      if (model instanceof dia.Element && !model.prop('preset')) {
         resetAllNodeStyles();
         setSelectedNode(model);
         model.attr({
@@ -108,7 +109,7 @@ export default function CodeGraphInput({ height, scopeId }: { height: number, sc
 
   useEffect(() => {
     const handleInputChange = (event: any) => {
-      if (selectedNode) {
+      if (selectedNode && !selectedNode.prop('preset')) {
         const maxCharsAllowed = selectedNode.prop('maxChars');
         const inputValue = event.target.value.slice(0, maxCharsAllowed);
 
