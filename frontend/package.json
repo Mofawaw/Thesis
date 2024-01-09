@@ -23,7 +23,6 @@
     "zustand": "^4.4.7"
   },
   "devDependencies": {
-    "@types/jointjs": "^2.0.0",
     "@types/node": "^20.10.6",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",

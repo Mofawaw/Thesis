@@ -27,18 +27,18 @@ export const styles = {
   referenceOffset: 20,
 }
 
-export const addData = (codeGraph: CodeGraph, graph: dia.Graph, config: CodeIDEConfig) => {
+export const addData = (graph: CodeGraph, diaGraph: dia.Graph, config: CodeIDEConfig, presetGraph?: CodeGraph) => {
   const nodeRectMap = new Map<string, shapes.standard.Rectangle>();
-  let maxWidthOfStackNodes = calculateMaxWidth(codeGraph.nodes, "stack");
-  let maxWidthOfHeapNodes = calculateMaxWidth(codeGraph.nodes, "heap");
+  let maxWidthOfStackNodes = calculateMaxWidth(graph.nodes, "stack");
+  let maxWidthOfHeapNodes = calculateMaxWidth(graph.nodes, "heap");
 
   if (config.mode === "write") {
     maxWidthOfStackNodes = Math.max(maxWidthOfStackNodes, maxWidthOfHeapNodes);
   }
 
-  positionNodes(codeGraph.nodes, maxWidthOfStackNodes);
-  addNodesToGraph(codeGraph.nodes, codeGraph.inputMaxChars ?? 0, graph, nodeRectMap, maxWidthOfStackNodes, maxWidthOfHeapNodes, config);
-  addEdgesToGraph(codeGraph.edges, nodeRectMap, graph);
+  positionNodes(graph.nodes, maxWidthOfStackNodes);
+  addNodesToGraph(graph.nodes, graph.inputMaxChars ?? 0, diaGraph, nodeRectMap, maxWidthOfStackNodes, maxWidthOfHeapNodes, config, presetGraph?.nodes);
+  addEdgesToGraph(graph.edges, nodeRectMap, diaGraph);
 };
 
 const createAndResizeRect = (labelText: string, maxWidth: number, mode: "write" | "read"): shapes.standard.Rectangle => {
@@ -98,13 +98,34 @@ const positionNodes = (nodes: CodeGraphNode[], maxWidthOfStackNodes: number): vo
   setPosition(heapNodes, false);
 };
 
-const addNodesToGraph = (nodes: CodeGraphNode[], inputMaxChars: number, graph: dia.Graph, nodeRectMap: Map<string, shapes.standard.Rectangle>, maxWidthOfStackNodes: number, maxWidthOfHeapNodes: number, config: CodeIDEConfig): void => {
+const addNodesToGraph = (nodes: CodeGraphNode[], inputMaxChars: number, diaGraph: dia.Graph, nodeRectMap: Map<string, shapes.standard.Rectangle>, maxWidthOfStackNodes: number, maxWidthOfHeapNodes: number, config: CodeIDEConfig, presetNodes?: CodeGraphNode[]): void => {
   nodes.forEach((node) => {
     const maxWidth = node.type.includes("stack") ? maxWidthOfStackNodes : maxWidthOfHeapNodes;
     const rect = createAndResizeRect(node.label, maxWidth, config.mode);
     const position = { x: node.position?.x ?? 0, y: node.position?.y ?? 0 }
+    const presetNode = presetNodes?.find((presetNode: CodeGraphNode) => presetNode.id === node.id);
 
-    if (config.mode === "read" || config.type === "program+graph") {
+    if (config.mode === "write") {
+      rect.position(position.x + styles.node.strokeWidth / 2, position.y + styles.node.strokeWidth / 2);
+      rect.attr({
+        body: {
+          fill: presetNode?.label === "" ? (node?.label === "" ? "none" : styles.node.color.rect) : styles.node.color.getRectPreset(node.type),
+          stroke: presetNode?.label === "" ? styles.node.color.rect : styles.node.color.getRectPreset(node.type),
+          strokeWidth: 3,
+          rx: 5,
+          ry: 5
+        },
+        label: {
+          text: node.label,
+          fontSize: styles.node.font.size,
+          fontFamily: styles.node.font.family,
+          fill: styles.node.color.text
+        }
+      });
+      rect.prop('nodeId', node.id);
+      rect.prop('maxChars', inputMaxChars);
+      rect.prop('preset', presetNode?.label !== "");
+    } else {
       rect.position(position.x, position.y);
       rect.attr({
         body: {
@@ -121,33 +142,13 @@ const addNodesToGraph = (nodes: CodeGraphNode[], inputMaxChars: number, graph: d
           fill: styles.node.color.text
         }
       });
-    } else {
-      rect.position(position.x + styles.node.strokeWidth / 2, position.y + styles.node.strokeWidth / 2);
-      rect.attr({
-        body: {
-          fill: node.label === "" ? "none" : styles.node.color.getRectPreset(node.type),
-          stroke: node.label === "" ? styles.node.color.rect : styles.node.color.getRectPreset(node.type),
-          strokeWidth: 3,
-          rx: 5,
-          ry: 5
-        },
-        label: {
-          text: node.label,
-          fontSize: styles.node.font.size,
-          fontFamily: styles.node.font.family,
-          fill: styles.node.color.text
-        }
-      });
-      rect.prop('maxChars', inputMaxChars);
-      rect.prop('preset', node.label !== "");
     }
-
-    graph.addCell(rect);
+    diaGraph.addCell(rect);
     nodeRectMap.set(node.id, rect);
   });
 };
 
-const addEdgesToGraph = (edges: CodeGraphEdge[], nodeRectMap: Map<string, shapes.standard.Rectangle>, graph: dia.Graph): void => {
+const addEdgesToGraph = (edges: CodeGraphEdge[], nodeRectMap: Map<string, shapes.standard.Rectangle>, diaGraph: dia.Graph): void => {
   edges.forEach((edge) => {
     const sourceNodeRect = nodeRectMap.get(edge.source);
     const targetNodeRect = nodeRectMap.get(edge.target);
@@ -183,6 +184,6 @@ const addEdgesToGraph = (edges: CodeGraphEdge[], nodeRectMap: Map<string, shapes
       }
     });
 
-    graph.addCell(link);
+    diaGraph.addCell(link);
   });
 };

@@ -2,41 +2,42 @@ import { useEffect, useRef, useState } from 'react';
 import { dia, shapes } from 'jointjs';
 import useCodeIDEStore, { CodeIDEStore } from '../codeIDEStore.ts';
 import { addData, styles } from './codeGraphHelper';
+import { CodeGraphNode } from './codeGraph.ts';
 
 export default function CodeGraphInput({ height, scopeId }: { height: number, scopeId: string }) {
   const canvasRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const graphRef = useRef<dia.Graph | null>(null);
   const [selectedNode, setSelectedNode] = useState<dia.Element | null>(null);
+  const selectedNodeRef = useRef<dia.Element | null>(null);
 
   const config = useCodeIDEStore(scopeId)((state: CodeIDEStore) => state.config);
   const graph = useCodeIDEStore(scopeId)((state: CodeIDEStore) => state.graph);
+  const presetGraph = useCodeIDEStore(scopeId)((state: CodeIDEStore) => state.presetGraph);
 
-  const resetAllNodeStyles = () => {
+  const saveSelectedNode = () => {
+    // Reset styles
     graphRef.current?.getElements().forEach(node => {
       if (node.prop('preset')) { return }
       if (!node.attr('label/text')) {
-        node.attr({
-          body: {
-            stroke: styles.node.color.rect,
-            fill: "none"
-          }
-        });
+        node.attr({ body: { stroke: styles.node.color.rect, fill: "none" } });
       } else {
-        node.attr({
-          body: {
-            stroke: styles.node.color.rect
-          }
-        });
+        node.attr({ body: { stroke: styles.node.color.rect } });
       }
     });
-  };
-
-  const finalizeTextUpdate = () => {
-    if (selectedNode && inputRef.current) {
-      selectedNode.attr('label/text', inputRef.current.value);
-      resetAllNodeStyles();
-      setSelectedNode(null);
+    // Save to store
+    if (selectedNodeRef.current) {
+      const store = useCodeIDEStore(scopeId).getState();
+      const newNodes = store.graph.nodes.map((node: CodeGraphNode) => {
+        if (node.id === selectedNodeRef.current?.prop('nodeId') && inputRef.current) {
+          return { ...node, label: inputRef.current.value };
+        } else {
+          return node;
+        }
+      });
+      const newGraph = { ...store.graph, nodes: newNodes };
+      store.setGraph(newGraph);
+      console.log("newGraph", newGraph);
     }
   };
 
@@ -58,31 +59,29 @@ export default function CodeGraphInput({ height, scopeId }: { height: number, sc
       cellViewNamespace: shapes,
     });
 
-    addData(graph, diaGraph, config);
+    addData(graph, diaGraph, config, presetGraph);
     paper.unfreeze();
 
+    // Select node
     paper.on('element:pointerdown', (cellView) => {
-      const model = (cellView as any).model;
-      if (model instanceof dia.Element && !model.prop('preset')) {
-        resetAllNodeStyles();
-        setSelectedNode(model);
-        model.attr({
-          body: {
-            stroke: styles.node.color.rectActive,
-            fill: styles.node.color.rect
-          }
-        });
-        model.toFront();
+      const node = (cellView as any).model;
+      if (node instanceof dia.Element && !node.prop('preset')) {
+        saveSelectedNode();
+        setSelectedNode(node);
+        selectedNodeRef.current = node;
+        node.attr({ body: { stroke: styles.node.color.rectActive, fill: styles.node.color.rect } });
+        node.toFront();
 
+        // Trigger input
         if (inputRef.current) {
-          inputRef.current.value = model.attr('label/text') || '';
+          inputRef.current.value = node.attr('label/text') || '';
           inputRef.current.focus();
         }
       }
     });
 
     paper.on('blank:pointerdown', () => {
-      finalizeTextUpdate();
+      saveSelectedNode();
     });
 
     // Update paper size based on graph content
@@ -105,8 +104,9 @@ export default function CodeGraphInput({ height, scopeId }: { height: number, sc
         canvasRef.current.innerHTML = '';
       }
     };
-  }, [graph, config]);
+  }, [presetGraph, config]);
 
+  // SelectedNode input
   useEffect(() => {
     const handleInputChange = (event: any) => {
       if (selectedNode && !selectedNode.prop('preset')) {
@@ -122,24 +122,24 @@ export default function CodeGraphInput({ height, scopeId }: { height: number, sc
 
     const handleKeyDown = (event: any) => {
       if (event.key === 'Enter' || event.key === 'Escape') {
-        finalizeTextUpdate();
+        saveSelectedNode();
       }
     };
 
     if (inputRef.current) {
       inputRef.current.removeEventListener('input', handleInputChange);
-      inputRef.current.removeEventListener('blur', finalizeTextUpdate);
+      inputRef.current.removeEventListener('blur', saveSelectedNode);
       inputRef.current.removeEventListener('keydown', handleKeyDown);
 
       inputRef.current.addEventListener('input', handleInputChange);
-      inputRef.current.addEventListener('blur', finalizeTextUpdate);
+      inputRef.current.addEventListener('blur', saveSelectedNode);
       inputRef.current.addEventListener('keydown', handleKeyDown);
     }
 
     return () => {
       if (inputRef.current) {
         inputRef.current.removeEventListener('input', handleInputChange);
-        inputRef.current.removeEventListener('blur', finalizeTextUpdate);
+        inputRef.current.removeEventListener('blur', saveSelectedNode);
         inputRef.current.removeEventListener('keydown', handleKeyDown);
       }
     };

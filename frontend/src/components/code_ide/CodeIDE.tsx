@@ -42,6 +42,7 @@ export default function CodeIDE({ height, scopeId, config, initialCode, initialG
     store.setConfig(config);
     store.setCode(initialCode);
     store.setGraph(initialGraph);
+    store.setPresetGraph(initialGraph);
   }, []);
 
   return (
