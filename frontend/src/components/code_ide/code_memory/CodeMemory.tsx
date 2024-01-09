@@ -9,7 +9,13 @@ export default function CodeMemory({ height, scopeId }: { height: number, scopeI
   let codeMemoryComponent;
   let codeGraphHeight = codeIDELayout.getCodeGraphHeight(store.config, height)
 
-  if (store.config.mode === "read" || store.config.type === "program+graph") {
+  if (store.config.type === "program+graph") {
+    codeMemoryComponent = (
+      <div className="p-4 mb-2">
+        <CodeGraph height={codeGraphHeight} scopeId={scopeId} />
+      </div>
+    )
+  } else if (store.config.mode === "read") {
     if (!store.config.runnable) {
       codeMemoryComponent = (
         <div className="p-4 mb-2">

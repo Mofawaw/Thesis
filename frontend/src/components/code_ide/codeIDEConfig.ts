@@ -10,6 +10,6 @@ export const codeIDELayout = {
     return config.runnable ? totalHeight - codeIDELayout.codeOutputHeight - 75 : totalHeight;
   },
   getCodeGraphHeight: (config: CodeIDEConfig, totalHeight: number) => {
-    return config.runnable ? totalHeight - 50 : totalHeight;
+    return !config.runnable || config.type === "program+graph" ? totalHeight : totalHeight - 50;
   }
 };
