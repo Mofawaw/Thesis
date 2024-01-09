@@ -10,7 +10,7 @@ const c1_initialCode = [
   "# Todo 2"
 ].join('\n');
 
-const c1_initialGraph = { nodes: [], edges: [], nodesLabelMaxChars: 0 };
+const c1_initialGraph = { nodes: [], edges: [] };
 
 const c1_expectedOutput = [
   "Lily's fruits in total:",
@@ -105,8 +105,7 @@ const c2_expectedGraph: CodeGraph = {
       "source": "n-rs-1",
       "target": "n-rh-1"
     }
-  ],
-  "nodesLabelMaxChars": 15
+  ]
 }
 
 const c3_initialCode = [
@@ -211,7 +210,7 @@ const c3_initialGraph: CodeGraph = {
       "target": "n-rh-1"
     }
   ],
-  "nodesLabelMaxChars": 15
+  "inputMaxChars": 15
 }
 
 const c3_expectedGraph: CodeGraph = {
@@ -298,8 +297,7 @@ const c3_expectedGraph: CodeGraph = {
       "source": "n-rs-1",
       "target": "n-rh-1"
     }
-  ],
-  "nodesLabelMaxChars": 15
+  ]
 }
 
 const stages: ThStage[] = [

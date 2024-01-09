@@ -19,7 +19,7 @@ const createCodeIDEStore = (scopeId: string) => create<CodeIDEStore>((set) => {
     config: { type: "program", mode: "write", runnable: true },
     code: '',
     output: '',
-    graph: { nodes: [], edges: [], nodesLabelMaxChars: 0 },
+    graph: { nodes: [], edges: [] },
 
     setConfig: (newConfig) => set({ config: newConfig }),
     setCode: (newCode) => set({ code: newCode }),
