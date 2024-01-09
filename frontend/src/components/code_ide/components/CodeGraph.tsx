@@ -4,7 +4,6 @@ import useCodeIDEStore, { CodeIDEStore } from '../codeIDEStore.ts';
 import { addData } from './codeGraphHelper';
 
 export default function CodeGraph({ height, scopeId }: { height: number, scopeId: string }) {
-  const parentRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLDivElement>(null);
   const paperRef = useRef<dia.Paper | null>(null);
 
@@ -52,11 +51,7 @@ export default function CodeGraph({ height, scopeId }: { height: number, scopeId
   }, [graph, config]);
 
   return (
-    <div
-      ref={parentRef}
-      style={{ height: `${height}px`, overflow: 'auto' }}
-      className="basis-2/5 flex-none nowheel nodrag"
-    >
+    <div className="basis-2/5 flex-none nowheel nodrag" style={{ height: `${height}px`, overflow: 'auto' }} >
       <div ref={canvasRef} />
     </div>
   );

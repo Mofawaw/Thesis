@@ -27,9 +27,17 @@ export default function CodeIDE({ height, scopeId, config, initialCode, initialG
       break;
     case "graph":
       if (config.mode === "read") {
-        codeIDEComponent = <CodeGraph height={codeIDELayout.getCodeGraphHeight(height)} scopeId={scopeId} />;
+        codeIDEComponent = (
+          <div className="h-full w-full overflow-hidden p-4">
+            <CodeGraph height={codeIDELayout.getCodeGraphHeight(height)} scopeId={scopeId} />
+          </div>
+        );
       } else {
-        codeIDEComponent = <CodeGraphInput scopeId={scopeId} />;
+        codeIDEComponent = (
+          <div className="h-full w-full overflow-hidden p-4">
+            <CodeGraphInput height={codeIDELayout.getCodeGraphHeight(height)} scopeId={scopeId} />
+          </div>
+        );
       }
       break;
     default:

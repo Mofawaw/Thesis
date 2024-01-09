@@ -1,5 +1,5 @@
 export default function debounce(func: (...args: any[]) => void, wait: number): (...args: any[]) => void {
-  let timeout: number | null = null;
+  let timeout: NodeJS.Timeout | null = null;
 
   return function executedFunction(...args: any[]) {
     const later = () => {

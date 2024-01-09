@@ -3,8 +3,7 @@ import { dia, shapes } from 'jointjs';
 import useCodeIDEStore, { CodeIDEStore } from '../codeIDEStore.ts';
 import { addData, styles } from './codeGraphHelper';
 
-export default function CodeGraphInput({ scopeId }: { scopeId: string }) {
-  const parentRef = useRef<HTMLDivElement>(null);
+export default function CodeGraphInput({ height, scopeId }: { height: number, scopeId: string }) {
   const canvasRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const graphRef = useRef<dia.Graph | null>(null);
@@ -85,8 +84,22 @@ export default function CodeGraphInput({ scopeId }: { scopeId: string }) {
       finalizeTextUpdate();
     });
 
+    // Update paper size based on graph content
+    const resizePaper = () => {
+      const bbox = diaGraph.getBBox();
+      if (bbox) {
+        paper.setDimensions(bbox.width + styles.node.strokeWidth, bbox.height + styles.node.strokeWidth);
+      }
+    };
+
+    resizePaper();
+    (diaGraph as any).on('change', resizePaper);
+
     return () => {
       diaGraph.clear();
+
+      (diaGraph as any).off('change', resizePaper);
+
       if (canvasRef.current) {
         canvasRef.current.innerHTML = '';
       }
@@ -131,32 +144,10 @@ export default function CodeGraphInput({ scopeId }: { scopeId: string }) {
     };
   }, [selectedNode]);
 
-  useEffect(() => {
-    const resizeObserver = new ResizeObserver(entries => {
-      for (let entry of entries) {
-        if (canvasRef.current) {
-          const { width, height } = entry.contentRect;
-          canvasRef.current.style.width = `${width}px`;
-          canvasRef.current.style.height = `${height}px`;
-        }
-      }
-    });
-
-    if (parentRef.current) {
-      resizeObserver.observe(parentRef.current);
-    }
-
-    return () => {
-      if (parentRef.current) {
-        resizeObserver.unobserve(parentRef.current);
-      }
-    };
-  }, []);
-
   return (
-    <div ref={parentRef} className="w-full h-full basis-2/5 flex-none p-4 nowheel nodrag overflow-hidden">
+    <div className="basis-2/5 flex-none nowheel nodrag" style={{ height: `${height}px`, overflow: 'auto' }} >
       <input ref={inputRef} type="text" style={{ position: 'absolute', opacity: 0, pointerEvents: 'none' }} />
-      <div ref={canvasRef} className="w-full h-full overflow-auto" />
+      <div ref={canvasRef} />
     </div>
   );
 }

@@ -13,7 +13,8 @@ export const styles = {
     gap: { x: 50, y: 5 },
     padding: 10,
     font: { size: "15px", family: fontFamily['th-mono'][0] },
-    color: { text: colors['th-black'][100], rect: colors['th-black'][10], rectActive: colors['th-black'][20] }
+    color: { text: colors['th-black'][100], rect: colors['th-black'][10], rectActive: colors['th-black'][20] },
+    strokeWidth: 3
   },
   edge: {
     getColor: (type: string) => (type == "value" ? colors['th-value'][100] : colors['th-reference'][100])
@@ -117,7 +118,7 @@ const addNodesToGraph = (nodes: Node[], graph: dia.Graph, nodeRectMap: Map<strin
         body: {
           fill: styles.node.color.rect,
           stroke: "none",
-          strokeWidth: 3,
+          strokeWidth: styles.node.strokeWidth,
           rx: 5,
           ry: 5
         },
@@ -129,7 +130,7 @@ const addNodesToGraph = (nodes: Node[], graph: dia.Graph, nodeRectMap: Map<strin
         }
       });
     } else {
-      rect.position(position.x + 1.5, position.y + 1.5);
+      rect.position(position.x + styles.node.strokeWidth / 2, position.y + styles.node.strokeWidth / 2);
       rect.attr({
         body: {
           fill: "none",
