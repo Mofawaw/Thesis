@@ -28,6 +28,7 @@ export interface ComponentNodeData {
   title: string;
   width: number;
   height: number;
+  isDefault: boolean;
 }
 
 export interface TextNodeData extends ComponentNodeData {

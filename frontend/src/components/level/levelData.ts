@@ -326,8 +326,8 @@ const categories: ThCategory[] = [
     id: "c-1",
     label: "Coding Challenge",
     nodes: [
-      { id: "c-ide-1", type: "codeIDE", data: { size: "large", codeIDE: { isMain: true, scopeId: "c-ide-1", config: { type: "program+graph", mode: "write", runnable: true } } } },
-      { id: "c-text-1", type: "text", data: { title: "Aufgabe", size: "small" } }
+      { id: "c-ide-1", type: "codeIDE", data: { size: "large", isDefault: true, codeIDE: { isMain: true, scopeId: "c-ide-1", config: { type: "program+graph", mode: "write", runnable: true } } } },
+      { id: "c-text-1", type: "text", data: { title: "Aufgabe", size: "small", isDefault: true } }
     ],
     expected: "output"
   },
@@ -335,9 +335,9 @@ const categories: ThCategory[] = [
     id: "c-2",
     label: "Code The Memory",
     nodes: [
-      { id: "c-ide-1", type: "codeIDE", data: { size: "small", codeIDE: { isMain: false, scopeId: "c-ide-1", config: { type: "graph", mode: "read", runnable: false } } } },
-      { id: "c-ide-2", type: "codeIDE", data: { size: "medium", codeIDE: { isMain: true, scopeId: "c-ide-2", config: { type: "program", mode: "write", runnable: true } } } },
-      { id: "c-text-1", type: "text", data: { title: "Aufgabe", size: "small" } }
+      { id: "c-ide-1", type: "codeIDE", data: { size: "small", isDefault: true, codeIDE: { isMain: false, scopeId: "c-ide-1", config: { type: "graph", mode: "read", runnable: false } } } },
+      { id: "c-ide-2", type: "codeIDE", data: { size: "medium", isDefault: true, codeIDE: { isMain: true, scopeId: "c-ide-2", config: { type: "program", mode: "write", runnable: true } } } },
+      { id: "c-text-1", type: "text", data: { title: "Aufgabe", size: "small", isDefault: true } }
     ],
     expected: "graph"
   },
@@ -345,9 +345,9 @@ const categories: ThCategory[] = [
     id: "c-3",
     label: "Memory From Code",
     nodes: [
-      { id: "c-ide-1", type: "codeIDE", data: { size: "small", codeIDE: { isMain: false, scopeId: "c-ide-1", config: { type: "program", mode: "read", runnable: false } } } },
-      { id: "c-ide-2", type: "codeIDE", data: { size: "medium", codeIDE: { isMain: true, scopeId: "c-ide-2", config: { type: "graph", mode: "write", runnable: false } } } },
-      { id: "c-text-1", type: "text", data: { title: "Aufgabe", size: "small" } }
+      { id: "c-ide-1", type: "codeIDE", data: { size: "small", isDefault: true, codeIDE: { isMain: false, scopeId: "c-ide-1", config: { type: "program", mode: "read", runnable: false } } } },
+      { id: "c-ide-2", type: "codeIDE", data: { size: "medium", isDefault: true, codeIDE: { isMain: true, scopeId: "c-ide-2", config: { type: "graph", mode: "write", runnable: false } } } },
+      { id: "c-text-1", type: "text", data: { title: "Aufgabe", size: "small", isDefault: true } }
     ],
     expected: "graph"
   }
@@ -400,7 +400,8 @@ export const sampleLevelNode: ThLevelNode = {
     type: "text",
     data: {
       title: "Tipp 1",
-      size: "medium"
+      size: "medium",
+      isDefault: false
     }
   },
   data: {
@@ -409,3 +410,36 @@ export const sampleLevelNode: ThLevelNode = {
     }
   }
 }
+
+// export const tutorialNodes: ThLevelNode[] = [
+//   {
+//     node: {
+//       id: "",
+//       type: "tutorial",
+//       data: {
+//         title: "Tipp 1",
+//         size: "medium"
+//       }
+//     },
+//     data: {
+//       text: {
+//         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+//       }
+//     }
+//   },
+//   {
+//     node: {
+//       id: "",
+//       type: "tutorial",
+//       data: {
+//         title: "Tipp 1",
+//         size: "medium"
+//       }
+//     },
+//     data: {
+//       text: {
+//         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+//       }
+//     }
+//   }
+// ]

@@ -19,7 +19,7 @@ export default function CodeIDENode({ data }: { data: CodeIDENodeData }) {
     case "program+graph":
       nodeHeader = (
         <div className="flex flex-row overflow-hidden">
-          <h3 className="basis-3/5 flex-none px-4 pt-8">Program</h3>
+          <h3 className="basis-3/5 flex-none px-4 pt-8">Programm</h3>
           <div className="th-yline" />
           <h3 className="basis-2/5 flex-none px-4 pt-8">Speicher</h3>
         </div>
@@ -27,7 +27,7 @@ export default function CodeIDENode({ data }: { data: CodeIDENodeData }) {
       break;
     case "program":
       nodeHeader = (
-        <h3 className="px-4 pt-8">{data.title ? data.title : "Program"}</h3>
+        <h3 className="px-4 pt-8">{data.title ? data.title : "Programm"}</h3>
       );
       break;
     case "graph":

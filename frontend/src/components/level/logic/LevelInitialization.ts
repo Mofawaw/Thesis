@@ -25,7 +25,8 @@ export function convertToReactflowNode(levelNode: ThLevelNode) {
   const componentNodeData: ComponentNodeData = {
     title: levelNode.node.data.title ?? "",
     width: nodeSize.width,
-    height: nodeSize.height
+    height: nodeSize.height,
+    isDefault: levelNode.node.data.isDefault
   }
 
   if (levelNode.node.type === "codeIDE" && levelNode.data.codeIDE && levelNode.node.data.codeIDE) {

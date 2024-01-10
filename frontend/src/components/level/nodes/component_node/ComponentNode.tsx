@@ -24,8 +24,8 @@ export default function ComponentNode({ data, maxWidth, minHeight, onSizeChange 
   let border;
   if ((data as CodeIDENodeData)?.codeIDE?.isMain) {
     border = gradientBorder;
-    // } else if ((data as LevelNodeData)?.isManditory) {
-    // border = 'border-th-black-20 border-th';
+  } else if (data.isDefault) {
+    border = 'border-th-black-20 border-th';
   } else {
     border = 'border-th-black-10 border-th';
   }

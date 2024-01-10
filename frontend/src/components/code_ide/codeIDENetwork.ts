@@ -14,7 +14,7 @@ export function compileGetOutput(scopeId: string) {
   console.log("Request: compile_get_output")
   console.log('Code', code)
 
-  return new Promise<CodeIDENetworkResultType>((resolve, reject) => {
+  return new Promise<CodeIDENetworkResultType>((resolve) => {
     fetch('http://127.0.0.1:5000/compile_get_output', {
       method: 'POST',
       headers: {
@@ -52,7 +52,7 @@ export function compileGetGraph(scopeId: string) {
   console.log("Request: compile_get_graph")
   console.log('Code', code)
 
-  return new Promise<CodeIDENetworkResultType>((resolve, reject) => {
+  return new Promise<CodeIDENetworkResultType>((resolve) => {
     fetch('http://127.0.0.1:5000/compile_get_graph', {
       method: 'POST',
       headers: {

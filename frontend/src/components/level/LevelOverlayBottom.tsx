@@ -82,6 +82,7 @@ export default function LevelOverlayBottom({ nodes, level, onAddNode }: { nodes:
             onClose={() => setOpenTutorialDropdown(false)}
           >
             <ul className="flex flex-col items-center gap-1 p-3">
+              { }
               <li><ThMenuTextButton width={180} thColor={level.stage.color} text="Referenztypen" /></li>
               <li>
                 <ThMenuTextButton width={180} thColor={level.stage.color} text="Wertetypen"

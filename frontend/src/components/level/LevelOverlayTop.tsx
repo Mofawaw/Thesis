@@ -8,7 +8,7 @@ export default function LevelOverlayTop({ level }: { level: ThLevel }) {
         <div className="flex justify-between">
           {/* <ThButton width={120} height={150} thColor={level.stage.color} /> */}
           <div className="w-[100px]" />
-          <ThTextButton width={300} thColor={level.stage.color} text="Coding Challenge" />
+          <ThTextButton width={300} thColor={level.stage.color} text={level.category.label} />
           <div className="w-[100px]" />
         </div>
       </div>
