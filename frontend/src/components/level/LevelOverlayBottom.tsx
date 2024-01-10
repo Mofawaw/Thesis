@@ -14,7 +14,7 @@ export default function LevelOverlayBottom({ nodes, level, onAddNode }: { nodes:
   const { zoomIn, zoomOut, fitView } = useReactFlow();
   const [openTippsDropdown, setOpenTippsDropdown] = useState<boolean>(false);
   const [openTutorialDropdown, setOpenTutorialDropdown] = useState<boolean>(false);
-  const [openCheckResultsPopup, setOpenCheckResultsPopup] = useState<{ success?: boolean, fail?: boolean, message: string }>();
+  const [openCheckResultsPopup, setOpenCheckResultsPopup] = useState<{ success?: boolean, fail?: boolean, title: string, message: string }>();
   const [onChecking, setOnChecking] = useState<boolean>(false);
 
   function handleCheckButtonOnClick() {
@@ -23,9 +23,9 @@ export default function LevelOverlayBottom({ nodes, level, onAddNode }: { nodes:
     evaluateLevelCompletion(level, nodes)
       .then(result => {
         if (result.result) {
-          setOpenCheckResultsPopup({ success: true, message: result.message });
+          setOpenCheckResultsPopup({ success: true, title: result.title, message: result.message });
         } else {
-          setOpenCheckResultsPopup({ fail: true, message: result.message });
+          setOpenCheckResultsPopup({ fail: true, title: result.title, message: result.message });
         }
       })
       .finally(() => {
@@ -34,7 +34,7 @@ export default function LevelOverlayBottom({ nodes, level, onAddNode }: { nodes:
   }
 
   function handleCheckButtonOnClose() {
-    setOpenCheckResultsPopup({ success: false, fail: false, message: "" });
+    setOpenCheckResultsPopup({ success: false, fail: false, title: "", message: "" });
     // Todo: Logic to handle going to stage, ...
   }
 
@@ -110,14 +110,18 @@ export default function LevelOverlayBottom({ nodes, level, onAddNode }: { nodes:
             {openCheckResultsPopup?.success &&
               <div className="h-full flex flex-col items-center justify-between p-12">
                 <h2 className="th-text-gradient">Erfolg!</h2>
-                <h3 className="text-center whitespace-pre-line">{openCheckResultsPopup.message}</h3>
+                <h3 className="text-center">{openCheckResultsPopup.title}</h3>
+                <p className="text-center whitespace-pre-line mt-4">{openCheckResultsPopup.message}</p>
                 <ThTextButton width={150} thColor="th-tint" text="Weiter" onClick={handleCheckButtonOnClose} />
               </div>
             }
             {openCheckResultsPopup?.fail &&
               <div className="h-full flex flex-col items-center justify-between p-12">
-                <h3>Leider falsch.</h3>
-                <p className="text-center whitespace-pre-line mt-4">{openCheckResultsPopup.message}</p>
+                <h3>Falsch!</h3>
+                <div>
+                  <h4 className="text-center mb-10">{openCheckResultsPopup.title}</h4>
+                  <p className="text-center whitespace-pre-line mt-4">{openCheckResultsPopup.message}</p>
+                </div>
                 <ThMenuTextButton width={150} thColor="th-black" text="Weiter" onClick={handleCheckButtonOnClose} />
               </div>
             }

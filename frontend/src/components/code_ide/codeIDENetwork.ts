@@ -41,7 +41,7 @@ export function compileGetOutput(scopeId: string) {
       })
       .catch((error) => {
         console.error('Error:', error);
-        resolve({ success: false, error: error });
+        resolve({ success: false, error: error.message });
       });
   });
 }
@@ -73,8 +73,8 @@ export function compileGetGraph(scopeId: string) {
           setGraph(graphData);
           resolve({ success: true, graph: graphData });
         } else {
-          console.log('Error generating Graph');
-          resolve({ success: false, error: 'Error generating Graph' });
+          console.log('Error generating Graph.');
+          resolve({ success: false, error: 'Error generating Graph. Runne den Code um mehr herauszufinden.' });
         }
       })
       .catch((error) => {
