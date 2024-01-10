@@ -1,7 +1,7 @@
 import { Node } from "reactflow";
 import { CodeIDENetworkResultType, compileGetGraph, compileGetOutput } from "../../code_ide/codeIDENetwork";
 import useCodeIDEStore from "../../code_ide/codeIDEStore";
-import CodeGraph, { CodeGraphEdge } from "../../code_ide/code_memory/codeGraph";
+import CodeGraph from "../../code_ide/code_memory/codeGraph";
 import { ThLevel } from "../types/thTypes";
 import { CodeIDENodeData } from "../types/nodeTypes";
 
