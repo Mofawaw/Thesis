@@ -302,28 +302,31 @@ const c3_expectedGraph: CodeGraph = {
 
 const stages: ThStage[] = [
   {
-    id: "s-1",
+    id: "s1",
     label: "Wertetypen",
     color: "th-value",
+    logo: "castle-value",
     levels: [],
   },
   {
-    id: "s-2",
+    id: "s2",
     label: "Referenztypen",
     color: "th-reference",
+    logo: "castle-reference",
     levels: []
   },
   {
-    id: "s-3",
+    id: "s3",
     label: "Werte- & Referenztypen",
     color: "th-together",
+    logo: "castle-together",
     levels: []
   },
 ]
 
 const categories: ThCategory[] = [
   {
-    id: "c-1",
+    id: "c1",
     label: "Coding Challenge",
     nodes: [
       { id: "c-ide-1", type: "codeIDE", data: { size: "large", isDefault: true, codeIDE: { isMain: true, scopeId: "c-ide-1", config: { type: "program+graph", mode: "write", runnable: true } } } },
@@ -332,7 +335,7 @@ const categories: ThCategory[] = [
     expected: "output"
   },
   {
-    id: "c-2",
+    id: "c2",
     label: "Code The Memory",
     nodes: [
       { id: "c-ide-1", type: "codeIDE", data: { size: "small", isDefault: true, codeIDE: { isMain: false, scopeId: "c-ide-1", config: { type: "graph", mode: "read", runnable: false } } } },
@@ -342,7 +345,7 @@ const categories: ThCategory[] = [
     expected: "graph"
   },
   {
-    id: "c-3",
+    id: "c3",
     label: "Memory From Code",
     nodes: [
       { id: "c-ide-1", type: "codeIDE", data: { size: "small", isDefault: true, codeIDE: { isMain: false, scopeId: "c-ide-1", config: { type: "program", mode: "read", runnable: false } } } },
@@ -364,6 +367,7 @@ export const levels: ThLevel[] = [
       { node: categories[0].nodes[1], data: { text: { description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." } } }
     ],
     tippNodes: [],
+    tutorialNodes: [],
     expected: { output: c1_expectedOutput }
   },
   {
@@ -377,6 +381,7 @@ export const levels: ThLevel[] = [
       { node: categories[1].nodes[2], data: { text: { description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." } } }
     ],
     tippNodes: [],
+    tutorialNodes: [],
     expected: { graph: c2_expectedGraph }
   },
   {
@@ -390,6 +395,9 @@ export const levels: ThLevel[] = [
       { node: categories[2].nodes[2], data: { text: { description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." } } }
     ],
     tippNodes: [],
+    tutorialNodes: [
+      { node: { id: "t-1", type: "tutorial", data: { title: "Tutorial Wertetypen", size: "medium", isDefault: false } }, data: { tutorial: { color: "th-value", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." } } },
+    ],
     expected: { graph: c3_expectedGraph }
   },
 ]
@@ -410,36 +418,3 @@ export const sampleLevelNode: ThLevelNode = {
     }
   }
 }
-
-// export const tutorialNodes: ThLevelNode[] = [
-//   {
-//     node: {
-//       id: "",
-//       type: "tutorial",
-//       data: {
-//         title: "Tipp 1",
-//         size: "medium"
-//       }
-//     },
-//     data: {
-//       text: {
-//         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-//       }
-//     }
-//   },
-//   {
-//     node: {
-//       id: "",
-//       type: "tutorial",
-//       data: {
-//         title: "Tipp 1",
-//         size: "medium"
-//       }
-//     },
-//     data: {
-//       text: {
-//         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-//       }
-//     }
-//   }
-// ]

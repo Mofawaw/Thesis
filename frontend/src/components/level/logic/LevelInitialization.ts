@@ -1,6 +1,6 @@
 import { Node } from "reactflow";
 import { ThLevel, ThLevelNode } from "../types/thTypes";
-import { CodeIDENodeData, ComponentNodeData, TextNodeData, ThNodeSize } from "../types/nodeTypes"
+import { CodeIDENodeData, ComponentNodeData, TextNodeData, ThNodeSize, TutorialNodeData } from "../types/nodeTypes"
 
 export function generateReactflowNodes(level: ThLevel): Node[] {
   let currentPositionX = 0;
@@ -52,6 +52,16 @@ export function convertToReactflowNode(levelNode: ThLevelNode) {
       }
     }
     return { id: levelNode.node.id, type: levelNode.node.type, position: { x: 0, y: 0 }, data: textData };
+  } else if (levelNode.node.type === "tutorial" && levelNode.data.tutorial) {
+    // Merge TutorialNode Data
+    const tutorialData: TutorialNodeData = {
+      ...componentNodeData,
+      tutorial: {
+        color: levelNode.data.tutorial.color,
+        description: levelNode.data.tutorial.description
+      }
+    }
+    return { id: levelNode.node.id, type: levelNode.node.type, position: { x: 0, y: 0 }, data: tutorialData };
   }
 
   return { id: levelNode.node.id, type: levelNode.node.type, position: { x: 0, y: 0 }, data: componentNodeData };

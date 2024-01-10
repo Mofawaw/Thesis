@@ -3,15 +3,16 @@ import CodeGraph from "../../code_ide/code_memory/codeGraph";
 import CodeIDEConfig from "../../code_ide/codeIDEConfig";
 
 export interface ThStage {
-  id: string;
+  id: "s1" | "s2" | "s3";
   label: string;
   color: ThColorKeys;
+  logo: string;
   levels: ThLevel[];
   // tutorial: ThLevel;
 }
 
 export interface ThCategory {
-  id: string;
+  id: "c1" | "c2" | "c3";
   label: string;
   nodes: ThNode[];
   expected: "output" | "graph";
@@ -24,12 +25,13 @@ export interface ThLevel {
   label: string;
   nodes: ThLevelNode[];
   tippNodes: ThLevelNode[];
+  tutorialNodes: ThLevelNode[];
   expected: { output?: string, graph?: CodeGraph };
 }
 
 export interface ThNode {
   id: string;
-  type: string;
+  type: "codeIDE" | "text" | "tutorial";
   data: {
     title?: string,
     size: "small" | "medium" | "large",
@@ -43,5 +45,6 @@ export interface ThLevelNode {
   data: {
     codeIDE?: { initialCode?: string; initialGraph?: CodeGraph }
     text?: { description: string }
+    tutorial?: { color: ThColorKeys, description: string }
   }
 }

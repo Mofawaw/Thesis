@@ -33,6 +33,13 @@
 
   h4
   {
+    @apply text-xl;
+    @apply font-th-magic;
+    @apply text-th-black-100;
+  }
+
+  h5
+  {
     @apply text-base;
     @apply font-th-magic;
     @apply text-th-black-100;

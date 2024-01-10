@@ -8,7 +8,6 @@ import { useState } from "react";
 import ThTextButton from "../custom/ThTextButton.tsx";
 import { ThLevel, ThLevelNode } from "./types/thTypes.ts";
 import { evaluateLevelCompletion } from "./logic/levelEvaluation.ts";
-import { sampleLevelNode } from "./levelData.ts";
 
 export default function LevelOverlayBottom({ nodes, level, onAddNode }: { nodes: Node[], level: ThLevel, onAddNode: (node: ThLevelNode) => (void) }) {
   const { zoomIn, zoomOut, fitView } = useReactFlow();
@@ -55,43 +54,32 @@ export default function LevelOverlayBottom({ nodes, level, onAddNode }: { nodes:
           {/*Tipps*/}
           <ThDropdown
             width={140}
-            height={145}
+            height={25 + 40 * level.tippNodes.length}
             thColor={level.stage.color}
-            button={
-              <ThIconTextButton thColor={level.stage.color} icon="Tipps" text="Tipps" onClick={() => setOpenTippsDropdown(true)} />
-            }
+            button={<ThIconTextButton thColor={level.stage.color} icon="Tipps" text="Tipps" onClick={() => setOpenTippsDropdown(true)} />}
             isOpen={openTippsDropdown}
             onClose={() => setOpenTippsDropdown(false)}
           >
             <ul className="flex flex-col items-center gap-1 p-3">
-              <li><ThMenuTextButton width={120} thColor={level.stage.color} text="Lösung" /></li>
-              <li><ThMenuTextButton width={120} thColor={level.stage.color} text="Tipp 2" /></li>
-              <li><ThMenuTextButton width={120} thColor={level.stage.color} text="Tipp 1" /></li>
+              {level.tippNodes.map((tippNode) => (
+                <li key={tippNode.node.id}><ThMenuTextButton width={120} thColor={level.stage.color} text={tippNode.node.data.title ?? "Error"} onClick={onAddNode(tippNode)} /></li>
+              ))}
             </ul>
           </ThDropdown>
 
           {/*Tutorial*/}
           <ThDropdown
             width={200}
-            height={105}
+            height={25 + 40 * level.tutorialNodes.length}
             thColor={level.stage.color}
-            button={
-              <ThIconTextButton thColor={level.stage.color} icon="Tutorial" text="Tutorial" onClick={() => setOpenTutorialDropdown(!openTutorialDropdown)} />
-            }
+            button={<ThIconTextButton thColor={level.stage.color} icon="Tutorial" text="Tutorial" onClick={() => setOpenTutorialDropdown(!openTutorialDropdown)} />}
             isOpen={openTutorialDropdown}
             onClose={() => setOpenTutorialDropdown(false)}
           >
             <ul className="flex flex-col items-center gap-1 p-3">
-              { }
-              <li><ThMenuTextButton width={180} thColor={level.stage.color} text="Referenztypen" /></li>
-              <li>
-                <ThMenuTextButton width={180} thColor={level.stage.color} text="Wertetypen"
-                  onClick={() => {
-                    onAddNode(sampleLevelNode); // Todo
-                    setOpenTutorialDropdown(false);
-                  }}
-                />
-              </li>
+              {level.tutorialNodes.map((tutorialNode) => (
+                <li key={tutorialNode.node.id}><ThMenuTextButton width={120} thColor={level.stage.color} text={tutorialNode.node.data.title ?? "Error"} onClick={onAddNode(tutorialNode)} /></li>
+              ))}
             </ul>
           </ThDropdown>
 
@@ -101,9 +89,7 @@ export default function LevelOverlayBottom({ nodes, level, onAddNode }: { nodes:
             height={openCheckResultsPopup?.success ? 600 : 800}
             thColor={openCheckResultsPopup?.success ? "th-tint" : "th-black"}
             backgroundClass={openCheckResultsPopup?.success ? "th-bg-gradient" : "bg-none"}
-            button={
-              <ThIconTextButton thColor={level.stage.color} icon="Check" text={"Check"} isLoading={onChecking} onClick={handleCheckButtonOnClick} />
-            }
+            button={<ThIconTextButton thColor={level.stage.color} icon="Check" text={"Check"} isLoading={onChecking} onClick={handleCheckButtonOnClick} />}
             isOpen={(openCheckResultsPopup?.success || openCheckResultsPopup?.fail) ?? false}
             onClose={handleCheckButtonOnClose}
           >

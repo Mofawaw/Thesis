@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { NodeResizer, ResizeDragEvent, ResizeParams } from 'reactflow';
 import styles from './componentNode.module.css';
-import { CodeIDENodeData, ComponentNodeData, LevelNodeData } from '../../types/nodeTypes';
+import { CodeIDENodeData, ComponentNodeData, TutorialNodeData } from '../../types/nodeTypes';
 
 export default function ComponentNode({ data, maxWidth, minHeight, onSizeChange = () => { }, children }: { data: ComponentNodeData, maxWidth?: number, minHeight?: number, onSizeChange?: (size: { width: number; height: number }) => void, children: React.ReactNode }) {
   const initialWidth = data.width
@@ -19,15 +19,20 @@ export default function ComponentNode({ data, maxWidth, minHeight, onSizeChange 
     }
   }, [size, onSizeChange]);
 
-  const gradientBorder = 'th-bg-gradient p-[5px]';
-
   let border;
   if ((data as CodeIDENodeData)?.codeIDE?.isMain) {
-    border = gradientBorder;
+    border = 'th-bg-gradient p-[5px]';
   } else if (data.isDefault) {
-    border = 'border-th-black-20 border-th';
+    border = 'border-th-black-10 border-th';
   } else {
     border = 'border-th-black-10 border-th';
+  }
+
+  let background;
+  if ((data as TutorialNodeData)?.tutorial?.color) {
+    background = `bg-${(data as TutorialNodeData).tutorial.color}-20`;
+  } else {
+    background = 'bg-th-white';
   }
 
   return (
@@ -47,7 +52,7 @@ export default function ComponentNode({ data, maxWidth, minHeight, onSizeChange 
           className={`${border} rounded-th`}
           style={{ width: size.width, height: size.height }}
         >
-          <div className="bg-th-white rounded-th-inner w-full h-full">
+          <div className={`${background} rounded-th-inner w-full h-full`}>
             {children ? children : <p>Error: No content provided.</p>}
           </div>
         </div>

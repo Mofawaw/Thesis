@@ -1,9 +1,11 @@
+import { ThColorKeys } from "../../../../tailwind.config";
 import CodeIDEConfig from "../../code_ide/codeIDEConfig";
 import CodeGraph from "../../code_ide/code_memory/codeGraph";
 import CodeIDENode from "../nodes/CodeIDENode";
 import TextNode from "../nodes/TextNode";
+import TutorialNode from "../nodes/TutorialNode";
 
-export const nodeTypes = { codeIDE: CodeIDENode, text: TextNode };
+export const nodeTypes = { codeIDE: CodeIDENode, text: TextNode, tutorial: TutorialNode };
 
 export class ThNodeSize {
   static small = { width: 400, height: 600 };
@@ -37,6 +39,13 @@ export interface TextNodeData extends ComponentNodeData {
   }
 }
 
+export interface TutorialNodeData extends ComponentNodeData {
+  tutorial: {
+    color: ThColorKeys;
+    description: string;
+  }
+}
+
 export interface CodeIDENodeData extends ComponentNodeData {
   codeIDE: {
     isMain: boolean;
@@ -47,4 +56,4 @@ export interface CodeIDENodeData extends ComponentNodeData {
   }
 }
 
-export type LevelNodeData = TextNodeData | CodeIDENodeData;
+export type LevelNodeData = CodeIDENodeData | TextNodeData | TutorialNodeData;

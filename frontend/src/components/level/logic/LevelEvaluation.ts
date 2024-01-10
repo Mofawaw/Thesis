@@ -13,7 +13,7 @@ export function evaluateLevelCompletion(level: ThLevel, nodes: Node[]): Promise<
       if (result) {
         title = "Super!\nDu hast das Level erfolgreich abgeschlossen."
       } else {
-        title = "Schade. Es hat noch nicht ganz geklappt."
+        title = "Schade. Es hat nicht geklappt."
       }
       return { result, title, message };
     });
@@ -32,7 +32,7 @@ async function verifyLevelCriteria(level: ThLevel, nodes: Node[]): Promise<{ res
   let networkResult: CodeIDENetworkResultType;
 
   switch (category.id) {
-    case "c-1":
+    case "c1":
       networkResult = await compileGetOutput(mainScopeId);
       if (!networkResult.success) {
         return { result: false, message: networkResult.error || "Error." };
@@ -47,7 +47,7 @@ async function verifyLevelCriteria(level: ThLevel, nodes: Node[]): Promise<{ res
       }
       break;
 
-    case "c-2":
+    case "c2":
       networkResult = await compileGetGraph(mainScopeId);
       if (!networkResult.success) {
         return { result: false, message: networkResult.error || "Error." };
@@ -62,7 +62,7 @@ async function verifyLevelCriteria(level: ThLevel, nodes: Node[]): Promise<{ res
       }
       break;
 
-    case "c-3":
+    case "c3":
       const userGraphInput = useCodeIDEStore(mainScopeId).getState().graph;
       console.log("Graph-User:", userGraphInput);
       console.log("Graph-Expected:", level.expected.graph);
@@ -90,7 +90,7 @@ function isEqualOutput(userOutput: string, expectedOutput: string): { result: bo
 
   // Test 1: No error in output (assuming error messages are part of the output)
   const noErrorTestPassed = true; // always true if isEqualOutput called
-  feedback += `Kein Fehler in der Ausgabe: ${noErrorTestPassed ? 'bestanden' : 'nicht bestanden'}\n`;
+  feedback += `Kein Error in der Ausgabe: ${noErrorTestPassed ? 'bestanden' : 'nicht bestanden'}\n`;
   if (noErrorTestPassed) passedTests++;
 
   // Test 1: Non-empty output
