@@ -1,13 +1,14 @@
 import Level from "./components/level/Level.tsx"
-import { levels, tutorialNodes } from "./components/level/levelData.ts";
 import { ThLevel } from "./components/level/types/thTypes.ts";
+import useTestingStore from "./testing-1/testingStore.ts";
+import { tutorialNodes } from "./testing-1/tutorialNodes.ts";
 
 function App() {
-  const level: ThLevel = levels[2]; // TODO
+  const store = useTestingStore.getState()
 
   return (
     <>
-      <Level level={level} tutorialNodes={level.stage.id === "s1" ? [tutorialNodes[0]] : tutorialNodes} />
+      <Level level={store.currentLevel} tutorialNodes={store.currentLevel.stage.id === "s1" ? [tutorialNodes[0]] : tutorialNodes} />
     </>
   )
 }

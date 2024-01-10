@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import ThButton from "../custom/ThButton";
 import ThTextButton from "../custom/ThTextButton";
 import { ThLevel } from "./types/thTypes";
+import useTestingStore from "../../testing-1/testingStore";
 
 export default function LevelOverlayTop({ level }: { level: ThLevel }) {
   const [imageSrc, setImageSrc] = useState<string>('');
+  const store = useTestingStore.getState();
 
   useEffect(() => {
     import(`../../assets/images/${level.stage.logo}.svg`)
@@ -20,7 +22,7 @@ export default function LevelOverlayTop({ level }: { level: ThLevel }) {
     <div className="relative">
       <div className="absolute top-3 right-3 left-3">
         <div className="flex justify-between">
-          <ThButton width={120} height={150} thColor={level.stage.color}>
+          <ThButton width={120} height={150} thColor={level.stage.color} onClick={() => store.nextLevel(store.currentLevel.id)}>
             <div className="flex flex-col items-center p-2 gap-2">
               {imageSrc && <img src={imageSrc} className="w-20" alt={level.stage.logo} />}
               <h4 className={`text-${level.stage.color}-100`}>{level.label}</h4>
