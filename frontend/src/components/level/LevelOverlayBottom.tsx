@@ -56,17 +56,17 @@ export default function LevelOverlayBottom({ nodes, level, onAddNode }: { nodes:
           <ThDropdown
             width={140}
             height={145}
-            thColor="th-reference"
+            thColor={level.stage.color}
             button={
-              <ThIconTextButton thColor="th-reference" icon="Tipps" text="Tipps" onClick={() => setOpenTippsDropdown(true)} />
+              <ThIconTextButton thColor={level.stage.color} icon="Tipps" text="Tipps" onClick={() => setOpenTippsDropdown(true)} />
             }
             isOpen={openTippsDropdown}
             onClose={() => setOpenTippsDropdown(false)}
           >
             <ul className="flex flex-col items-center gap-1 p-3">
-              <li><ThMenuTextButton width={120} thColor="th-reference" text="Lösung" /></li>
-              <li><ThMenuTextButton width={120} thColor="th-reference" text="Tipp 2" /></li>
-              <li><ThMenuTextButton width={120} thColor="th-reference" text="Tipp 1" /></li>
+              <li><ThMenuTextButton width={120} thColor={level.stage.color} text="Lösung" /></li>
+              <li><ThMenuTextButton width={120} thColor={level.stage.color} text="Tipp 2" /></li>
+              <li><ThMenuTextButton width={120} thColor={level.stage.color} text="Tipp 1" /></li>
             </ul>
           </ThDropdown>
 
@@ -74,17 +74,17 @@ export default function LevelOverlayBottom({ nodes, level, onAddNode }: { nodes:
           <ThDropdown
             width={200}
             height={105}
-            thColor="th-reference"
+            thColor={level.stage.color}
             button={
-              <ThIconTextButton thColor="th-reference" icon="Tutorial" text="Tutorial" onClick={() => setOpenTutorialDropdown(!openTutorialDropdown)} />
+              <ThIconTextButton thColor={level.stage.color} icon="Tutorial" text="Tutorial" onClick={() => setOpenTutorialDropdown(!openTutorialDropdown)} />
             }
             isOpen={openTutorialDropdown}
             onClose={() => setOpenTutorialDropdown(false)}
           >
             <ul className="flex flex-col items-center gap-1 p-3">
-              <li><ThMenuTextButton width={180} thColor="th-reference" text="Referenztypen" /></li>
+              <li><ThMenuTextButton width={180} thColor={level.stage.color} text="Referenztypen" /></li>
               <li>
-                <ThMenuTextButton width={180} thColor="th-reference" text="Wertetypen"
+                <ThMenuTextButton width={180} thColor={level.stage.color} text="Wertetypen"
                   onClick={() => {
                     onAddNode(sampleLevelNode); // Todo
                     setOpenTutorialDropdown(false);
@@ -101,7 +101,7 @@ export default function LevelOverlayBottom({ nodes, level, onAddNode }: { nodes:
             thColor={openCheckResultsPopup?.success ? "th-tint" : "th-black"}
             backgroundClass={openCheckResultsPopup?.success ? "th-bg-gradient" : "bg-none"}
             button={
-              <ThIconTextButton thColor="th-reference" icon="Check" text={"Check"} isLoading={onChecking} onClick={handleCheckButtonOnClick} />
+              <ThIconTextButton thColor={level.stage.color} icon="Check" text={"Check"} isLoading={onChecking} onClick={handleCheckButtonOnClick} />
             }
             isOpen={(openCheckResultsPopup?.success || openCheckResultsPopup?.fail) ?? false}
             onClose={handleCheckButtonOnClose}

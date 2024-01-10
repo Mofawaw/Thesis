@@ -45,6 +45,7 @@ async function verifyLevelCriteria(level: ThLevel, nodes: Node[]): Promise<{ res
         const comparisonResult = isEqualOutput(userOutput, level.expected.output);
         return { result: comparisonResult.result, message: comparisonResult.feedback };
       }
+      break;
 
     case "c-2":
       networkResult = await compileGetGraph(mainScopeId);

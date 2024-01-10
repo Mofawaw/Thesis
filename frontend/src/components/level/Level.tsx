@@ -38,7 +38,7 @@ export default function Level({ level }: { level: ThLevel }) {
     <div className="w-screen h-screen">
       <ReactFlowProvider>
         <div className="w-screen h-screen">
-          <LevelOverlayTop />
+          <LevelOverlayTop level={level} />
           <LevelReactFlow nodes={nodes} setNodes={setNodes} />
           <LevelOverlayBottom level={level} nodes={nodes} onAddNode={(node) => addNode(node)} />
         </div>

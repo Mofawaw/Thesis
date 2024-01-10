@@ -96,8 +96,8 @@ export default {
     colors: colors,
     extend: {
       backgroundImage: {
-        'th-gradient-100': "linear-gradient(to right, #1836CB, #9B9B9B, #18B5CB)",
-        'th-gradient-40': "linear-gradient(to right, #A3AFEA, #EBEBEB, #A3E1EA)"
+        'th-gradient-100': "linear-gradient(to right, #18B5CB, #1836CB, #CB188E)",
+        'th-gradient-40': "linear-gradient(to bottom right, #A3E1EA, #EBEBEB, #A3E1EA, #A3AFEA, #EAA3D2, #EBEBEB, #EAA3D2)"
       },
       backgroundSize: {
         '400%': '400% 400%'
@@ -132,7 +132,7 @@ export default {
       },
       animation: {
         'th-fade-in': 'fadeIn 0.3s ease-out',
-        'th-gradient': 'background 15s ease infinite',
+        'th-gradient': 'background 6s ease infinite',
         'th-gradient-fast': 'background 3s ease infinite',
         'th-zoom-in-from-bottom': 'zoomInFromBottom 0.15s ease-out',
         'th-spin': 'spin 0.75s linear infinite',
