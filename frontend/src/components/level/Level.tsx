@@ -7,10 +7,10 @@ import LevelOverlayBottom from './LevelOverlayBottom.tsx';
 import { ThLevel, ThLevelNode } from './types/thTypes.ts';
 import { convertToReactflowNode, generateReactflowNodes } from './logic/levelInitialization.ts';
 
-export default function Level({ level }: { level: ThLevel }) {
+export default function Level({ level, tutorialNodes }: { level: ThLevel, tutorialNodes: ThLevelNode[] }) {
   const [nodes, setNodes] = useState<Node[]>([]);
 
-  const addNode = (newLevelNode: ThLevelNode) => { // TODO!!
+  const addNode = (newLevelNode: ThLevelNode) => {
     let maxX = -Infinity;
     nodes.forEach((node) => {
       const nodeWidth = node.width || 0
@@ -40,7 +40,7 @@ export default function Level({ level }: { level: ThLevel }) {
         <div className="w-screen h-screen">
           <LevelOverlayTop level={level} />
           <LevelReactFlow nodes={nodes} setNodes={setNodes} />
-          <LevelOverlayBottom level={level} nodes={nodes} onAddNode={(node) => addNode(node)} />
+          <LevelOverlayBottom level={level} nodes={nodes} tutorialNodes={tutorialNodes} onAddNode={(node) => addNode(node)} />
         </div>
       </ReactFlowProvider>
     </div>

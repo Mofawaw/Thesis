@@ -22,6 +22,8 @@ export default function ComponentNode({ data, maxWidth, minHeight, onSizeChange 
   let border;
   if ((data as CodeIDENodeData)?.codeIDE?.isMain) {
     border = 'th-bg-gradient p-[5px]';
+  } else if ((data as TutorialNodeData)?.tutorial?.color) {
+    border = `border-${(data as TutorialNodeData).tutorial.color}-20 border-th`;
   } else if (data.isDefault) {
     border = 'border-th-black-10 border-th';
   } else {
@@ -30,7 +32,7 @@ export default function ComponentNode({ data, maxWidth, minHeight, onSizeChange 
 
   let background;
   if ((data as TutorialNodeData)?.tutorial?.color) {
-    background = `bg-${(data as TutorialNodeData).tutorial.color}-20`;
+    background = `bg-${(data as TutorialNodeData).tutorial.color}-10`;
   } else {
     background = 'bg-th-white';
   }

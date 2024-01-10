@@ -9,7 +9,7 @@ import ThTextButton from "../custom/ThTextButton.tsx";
 import { ThLevel, ThLevelNode } from "./types/thTypes.ts";
 import { evaluateLevelCompletion } from "./logic/levelEvaluation.ts";
 
-export default function LevelOverlayBottom({ nodes, level, onAddNode }: { nodes: Node[], level: ThLevel, onAddNode: (node: ThLevelNode) => (void) }) {
+export default function LevelOverlayBottom({ level, nodes, tutorialNodes, onAddNode }: { level: ThLevel, nodes: Node[], tutorialNodes: ThLevelNode[], onAddNode: (node: ThLevelNode) => (void) }) {
   const { zoomIn, zoomOut, fitView } = useReactFlow();
   const [openTippsDropdown, setOpenTippsDropdown] = useState<boolean>(false);
   const [openTutorialDropdown, setOpenTutorialDropdown] = useState<boolean>(false);
@@ -62,7 +62,7 @@ export default function LevelOverlayBottom({ nodes, level, onAddNode }: { nodes:
           >
             <ul className="flex flex-col items-center gap-1 p-3">
               {level.tippNodes.map((tippNode) => (
-                <li key={tippNode.node.id}><ThMenuTextButton width={120} thColor={level.stage.color} text={tippNode.node.data.title ?? "Error"} onClick={onAddNode(tippNode)} /></li>
+                <li key={tippNode.node.id}><ThMenuTextButton width={120} thColor={level.stage.color} text={tippNode.node.data.title ?? "Error"} /></li>
               ))}
             </ul>
           </ThDropdown>
@@ -70,15 +70,15 @@ export default function LevelOverlayBottom({ nodes, level, onAddNode }: { nodes:
           {/*Tutorial*/}
           <ThDropdown
             width={200}
-            height={25 + 40 * level.tutorialNodes.length}
+            height={25 + 40 * tutorialNodes.length}
             thColor={level.stage.color}
             button={<ThIconTextButton thColor={level.stage.color} icon="Tutorial" text="Tutorial" onClick={() => setOpenTutorialDropdown(!openTutorialDropdown)} />}
             isOpen={openTutorialDropdown}
             onClose={() => setOpenTutorialDropdown(false)}
           >
             <ul className="flex flex-col items-center gap-1 p-3">
-              {level.tutorialNodes.map((tutorialNode) => (
-                <li key={tutorialNode.node.id}><ThMenuTextButton width={120} thColor={level.stage.color} text={tutorialNode.node.data.title ?? "Error"} onClick={onAddNode(tutorialNode)} /></li>
+              {tutorialNodes.map((tutorialNode) => (
+                <li key={tutorialNode.node.id}><ThMenuTextButton width={165} thColor={level.stage.color} text={tutorialNode.node.data.title ?? "Error"} onClick={() => onAddNode(tutorialNode)} /></li>
               ))}
             </ul>
           </ThDropdown>

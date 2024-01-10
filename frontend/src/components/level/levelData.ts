@@ -1,6 +1,9 @@
 import CodeGraph from '../code_ide/code_memory/codeGraph';
 import { ThCategory, ThLevel, ThLevelNode, ThStage } from './types/thTypes';
 
+// TODO: Backend
+// -----------------------------------------------------------------------------
+
 const c1_initialCode = [
   "apples = 4",
   "peaches = 6",
@@ -367,7 +370,6 @@ export const levels: ThLevel[] = [
       { node: categories[0].nodes[1], data: { text: { description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." } } }
     ],
     tippNodes: [],
-    tutorialNodes: [],
     expected: { output: c1_expectedOutput }
   },
   {
@@ -381,7 +383,6 @@ export const levels: ThLevel[] = [
       { node: categories[1].nodes[2], data: { text: { description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." } } }
     ],
     tippNodes: [],
-    tutorialNodes: [],
     expected: { graph: c2_expectedGraph }
   },
   {
@@ -395,26 +396,43 @@ export const levels: ThLevel[] = [
       { node: categories[2].nodes[2], data: { text: { description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." } } }
     ],
     tippNodes: [],
-    tutorialNodes: [
-      { node: { id: "t-1", type: "tutorial", data: { title: "Tutorial Wertetypen", size: "medium", isDefault: false } }, data: { tutorial: { color: "th-value", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." } } },
-    ],
     expected: { graph: c3_expectedGraph }
   },
 ]
 
-export const sampleLevelNode: ThLevelNode = {
-  node: {
-    id: "",
-    type: "text",
+export const tutorialNodes: ThLevelNode[] = [
+  {
+    node: {
+      id: "t1",
+      type: "tutorial",
+      data: {
+        title: "Wertetypen",
+        size: "medium",
+        isDefault: false
+      }
+    },
     data: {
-      title: "Tipp 1",
-      size: "medium",
-      isDefault: false
+      tutorial: {
+        color: "th-value",
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+      }
     }
   },
-  data: {
-    text: {
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+  {
+    node: {
+      id: "t2",
+      type: "tutorial",
+      data: {
+        title: "Referenztypen",
+        size: "medium",
+        isDefault: false
+      }
+    },
+    data: {
+      tutorial: {
+        color: "th-reference",
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+      }
     }
   }
-}
+]

@@ -39,7 +39,7 @@ const colors: ThColor = {
     40: '#FCE19F',
     30: '#FDE9B7',
     20: '#FEF0CF',
-    10: '#FFFFFF' // TODO
+    10: '#FEF8E7'
   },
   'th-value': {
     100: '#18B5CB',
@@ -47,7 +47,7 @@ const colors: ThColor = {
     40: '#A3E1EA',
     30: '#BAE9EF',
     20: '#D1F0F5',
-    10: '#FFFFFF' // TODO
+    10: '#E8F8FA' // TODO
   },
   'th-reference': {
     100: '#1836CB',
@@ -55,7 +55,7 @@ const colors: ThColor = {
     40: '#A3AFEA',
     30: '#BAC3EF',
     20: '#D1D7F5',
-    10: '#FFFFFF' // TODO
+    10: '#E8EBFA' // TODO
   },
   'th-together': {
     100: '#CB188E',
@@ -63,7 +63,7 @@ const colors: ThColor = {
     40: '#EAA3D2',
     30: '#EFBADD',
     20: '#F5D1E9',
-    10: '#FFFFFF' // TODO
+    10: '#FAE8F4' // TODO
   },
 };
 

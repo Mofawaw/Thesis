@@ -8,7 +8,6 @@ export interface ThStage {
   color: ThColorKeys;
   logo: string;
   levels: ThLevel[];
-  // tutorial: ThLevel;
 }
 
 export interface ThCategory {
@@ -25,7 +24,6 @@ export interface ThLevel {
   label: string;
   nodes: ThLevelNode[];
   tippNodes: ThLevelNode[];
-  tutorialNodes: ThLevelNode[];
   expected: { output?: string, graph?: CodeGraph };
 }
 
