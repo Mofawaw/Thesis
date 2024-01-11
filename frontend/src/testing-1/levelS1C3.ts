@@ -94,17 +94,3 @@ const levelS1C3: ThLevel = {
 }
 
 export default levelS1C3;
-
-const exampleSolution =
-  `# Vor vier Jahren
-h = 10
-b = 3
-k = 5
-summe = h + b + k
-
-# TODO: - Schreibe hier
-h = 10 * 2
-k = 5 - 1
-e = 48
-summe = h + b + k + e
-`

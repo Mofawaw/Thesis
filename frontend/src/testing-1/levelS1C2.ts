@@ -39,7 +39,7 @@ const taskDescription =
   `Nun sind vier Jahre vergangen und es hat sich einiges verändert. Die Hamster haben sich verdoppelt, eine Katze ist abgehauen und es sind gleich 48 Esel dazu gekommen. 
 <br/>
 <br/>
-Der entsprechende Speicher-Zustand beschreibt die neue Situation.
+Der entsprechende Speicher-Zustand beschreibt die neue Situation. Beachte, dass der jeweilige Wert der Variable im Speicher überschrieben wurde.
 <br/>
 <br/>
 <b>Schreibe ein Programm welches diesen Speicher ausgibt.</b>

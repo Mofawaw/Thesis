@@ -4,11 +4,13 @@ import { ThLevel } from '../components/level/types/thTypes';
 import levelS1C1 from './levelS1C1';
 import levelS1C2 from './levelS1C2';
 import levelS1C3 from './levelS1C3';
+import levelS2C1 from './levelS2C1';
 
 export const levels = [
   levelS1C1,
   levelS1C2,
-  levelS1C3
+  levelS1C3,
+  levelS2C1
 ]
 
 let navigate: any;
@@ -31,13 +33,7 @@ const useTestingStore = create<TestingStore>((set) => ({
       switch (state.currentLevel.id) {
         case "l-s1c1": nextLevel = levelS1C2; break;
         case "l-s1c2": nextLevel = levelS1C3; break;
-        // case "l-s1c3": return { currentLevel: levelS2C1 };
-        // case "l-s2c1": return { currentLevel: levelS2C2 };
-        // case "l-s2c2": return { currentLevel: levelS2C3 };
-        // case "l-s2c3": return { currentLevel: levelS3C1 };
-        // case "l-s3c1": return { currentLevel: levelS3C2 };
-        // case "l-s3c2": return { currentLevel: levelS3C3 };
-        // case "l-s3c3": return { currentLevel: levelS1C1 };
+        case "l-s1c3": nextLevel = levelS2C1; break;
         default: nextLevel = levelS1C1;
       }
 

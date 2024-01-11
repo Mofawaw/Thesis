@@ -17,6 +17,8 @@ export default function CodeGraph({ height, scopeId }: { height: number, scopeId
     const paper = new dia.Paper({
       model: diaGraph,
       el: canvasRef.current,
+      width: '100%',
+      height: '100%',
       frozen: true,
       async: true,
       interactive: { linkMove: false, elementMove: false },
@@ -51,7 +53,7 @@ export default function CodeGraph({ height, scopeId }: { height: number, scopeId
   }, [graph, config]);
 
   return (
-    <div className="nowheel nodrag" style={{ height: `${height}px`, overflow: 'auto' }} >
+    <div className="nowheel nodrag bg-th-tint-20" style={{ height: `${height}px`, overflow: 'auto' }} >
       <div ref={canvasRef} />
     </div>
   );

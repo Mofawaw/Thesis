@@ -68,8 +68,9 @@ const positionNodes = (nodes: CodeGraphNode[], maxWidthOfStackNodes: number): vo
   };
 
   const setPosition = (nodes: CodeGraphNode[], isStack: boolean): void => {
+    const isEmptyValueNodes = nodes.filter(node => node.type.includes("value")).length === 0;
     const yGap = stylesGraph.node.height + stylesGraph.node.gap.y;
-    const yReferenceOffset = stylesGraph.referenceOffset;
+    const yReferenceOffset = isEmptyValueNodes ? 0 : stylesGraph.referenceOffset;
 
     nodes.forEach((node, i) => {
       let xOffset = 0;
