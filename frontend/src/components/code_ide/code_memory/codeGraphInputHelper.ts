@@ -29,8 +29,8 @@ export const stylesGraphInput = {
 export function addDataToGraphInput(graph: CodeGraph, presetGraph: CodeGraph, diaGraph: dia.Graph) {
   const nodeRectMap = new Map<string, shapes.standard.Rectangle>();
 
-  let maxWidthOfStackNodes = calculateMaxWidth(graph.nodes, "stack");
-  let maxWidthOfHeapNodes = calculateMaxWidth(graph.nodes, "heap");
+  let maxWidthOfStackNodes = calculateMaxWidth(graph.nodes, "stack", graph.inputMaxChars ?? 0);
+  let maxWidthOfHeapNodes = calculateMaxWidth(graph.nodes, "heap", graph.inputMaxChars ?? 0);
   const maxWidthOfNodes = Math.max(maxWidthOfStackNodes, maxWidthOfHeapNodes);
 
   positionNodes(graph.nodes, maxWidthOfNodes);
@@ -38,33 +38,28 @@ export function addDataToGraphInput(graph: CodeGraph, presetGraph: CodeGraph, di
   addEdgesToGraph(graph.edges, nodeRectMap, diaGraph);
 };
 
-const createAndResizeRect = (labelText: string, maxWidth: number, mode: "write" | "read"): shapes.standard.Rectangle => {
+const createAndResizeRect = (inputMaxChars: number): shapes.standard.Rectangle => {
   const rect = new shapes.standard.Rectangle();
-  rect.resize(stylesGraphInput.node.width, stylesGraphInput.node.height);
+  const canvas = document.createElement("canvas");
+  const context = canvas.getContext("2d");
+  const maxCharLabel = "x".repeat(inputMaxChars);
 
-  if (mode === "write") {
-    rect.resize(maxWidth, stylesGraphInput.node.height);
+  if (context) {
+    context.font = `${stylesGraphInput.node.font.size} ${stylesGraphInput.node.font.family}`;
+    const textWidth = context.measureText(maxCharLabel).width;
+    rect.resize(textWidth + (stylesGraphInput.node.padding * 2), stylesGraphInput.node.height);
   } else {
-    const canvas = document.createElement("canvas");
-    const context = canvas.getContext("2d");
-
-    if (context) {
-      context.font = `${stylesGraphInput.node.font.size} ${stylesGraphInput.node.font.family}`;
-      const textWidth = context.measureText(labelText).width;
-      rect.resize(textWidth + (stylesGraphInput.node.padding * 2), stylesGraphInput.node.height);
-    } else {
-      console.error("Canvas context not available");
-    }
+    console.error("Canvas context not available");
   }
 
   return rect;
 };
 
-const calculateMaxWidth = (nodes: CodeGraphNode[], type: string): number => {
+const calculateMaxWidth = (nodes: CodeGraphNode[], type: string, inputMaxChars: number): number => {
   return nodes
     .filter(node => node.type.includes(type))
     .reduce((maxWidth, node) => {
-      const rect = createAndResizeRect(node.label, 0, "read");
+      const rect = createAndResizeRect(inputMaxChars);
       return Math.max(maxWidth, rect.size().width);
     }, 0);
 };
@@ -97,7 +92,7 @@ const positionNodes = (nodes: CodeGraphNode[], maxWidthOfNodes: number): void =>
 
 const addNodesToGraph = (nodes: CodeGraphNode[], nodeRectMap: Map<string, shapes.standard.Rectangle>, diaGraph: dia.Graph, presetNodes: CodeGraphNode[], inputMaxChars: number, maxWidthOfNodes: number): void => {
   nodes.forEach((node) => {
-    const rect = createAndResizeRect(node.label, maxWidthOfNodes, "write");
+    const rect = createAndResizeRect(inputMaxChars);
     const position = { x: node.position?.x ?? 0, y: node.position?.y ?? 0 }
     const presetNode = presetNodes.find((presetNode: CodeGraphNode) => presetNode.id === node.id);
 

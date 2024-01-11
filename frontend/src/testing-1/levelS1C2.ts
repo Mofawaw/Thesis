@@ -1,6 +1,7 @@
 import stages from "./stages";
 import categories from "./categories";
 import { ThLevel } from "../components/level/types/thTypes";
+import CodeGraph from "../components/code_ide/code_memory/codeGraph";
 
 const initialCode =
   `# Vor vier Jahren
@@ -12,7 +13,7 @@ summe = h + b + k
 # TODO: - Schreibe hier
 `;
 
-const expectedGraph = {
+const expectedGraph: CodeGraph = {
   "nodes": [
     { "id": "n-vs-0", "type": "value-stack", "label": "h" },
     { "id": "n-vh-0", "type": "value-heap", "label": "20" },

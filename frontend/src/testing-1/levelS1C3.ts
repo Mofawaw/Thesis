@@ -1,6 +1,7 @@
 import stages from "./stages";
 import categories from "./categories";
 import { ThLevel } from "../components/level/types/thTypes";
+import CodeGraph from "../components/code_ide/code_memory/codeGraph";
 
 const expectedGraphProgram =
   `x = 5
@@ -17,7 +18,7 @@ str2 = "Welt"
 str3 = str + " " + str2
 `;
 
-const initialGraph = {
+const initialGraph: CodeGraph = {
   "nodes": [
     { "id": "n-vs-0", "type": "value-stack", "label": "x" },
     { "id": "n-vh-0", "type": "value-heap", "label": "" },
@@ -39,10 +40,11 @@ const initialGraph = {
     { "id": "e-v-3", "type": "value", "source": "n-vs-3", "target": "n-vh-3" },
     { "id": "e-v-4", "type": "value", "source": "n-vs-4", "target": "n-vh-4" },
     { "id": "e-v-5", "type": "value", "source": "n-vs-5", "target": "n-vh-5" }
-  ]
+  ],
+  "inputMaxChars": 10
 }
 
-const expectedGraph = {
+const expectedGraph: CodeGraph = {
   "nodes": [
     { "id": "n-vs-0", "type": "value-stack", "label": "x" },
     { "id": "n-vh-0", "type": "value-heap", "label": "13" },
@@ -55,7 +57,7 @@ const expectedGraph = {
     { "id": "n-vs-4", "type": "value-stack", "label": "str2" },
     { "id": "n-vh-4", "type": "value-heap", "label": "Welt" },
     { "id": "n-vs-5", "type": "value-stack", "label": "str3" },
-    { "id": "n-vh-5", "type": "value-heap", "label": "HalloWelt" }
+    { "id": "n-vh-5", "type": "value-heap", "label": "Hallo Welt" }
   ],
   "edges": [
     { "id": "e-v-0", "type": "value", "source": "n-vs-0", "target": "n-vh-0" },
