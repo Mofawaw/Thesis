@@ -35,7 +35,10 @@ const expectedGraph = {
 }
 
 const taskDescription =
-  `Nun sind vier Jahre vergangen und es hat sich einiges verändert. Die Hamster haben sich verdoppelt, eine Katze ist von uns gegangen und es sind gleich 48 Esel dazu gekommen. Der entsprechende Speicher-Zustand beschreibt die neue Situation.
+  `Nun sind vier Jahre vergangen und es hat sich einiges verändert. Die Hamster haben sich verdoppelt, eine Katze ist abgehauen und es sind gleich 48 Esel dazu gekommen. 
+<br/>
+<br/>
+Der entsprechende Speicher-Zustand beschreibt die neue Situation.
 <br/>
 <br/>
 <b>Schreibe ein Programm welches diesen Speicher ausgibt.</b>
@@ -43,13 +46,13 @@ const taskDescription =
 
 const levelS1C2: ThLevel = {
   id: "l-s1c2",
-  stage: stages[1],
+  stage: stages[0],
   category: categories[1],
   label: "Test 1-2",
   nodes: [
     { node: categories[1].nodes[0], data: { codeIDE: { initialGraph: expectedGraph } } },
     { node: categories[1].nodes[1], data: { codeIDE: { initialCode: initialCode } } },
-    { node: categories[1].nodes[2], data: { text: { description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." } } }
+    { node: categories[1].nodes[2], data: { text: { description: taskDescription } } }
   ],
   tippNodes: [],
   expected: { graph: expectedGraph }

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import ThButton from "../custom/ThButton";
 import ThTextButton from "../custom/ThTextButton";
 import { ThLevel } from "./types/thTypes";
-import useTestingStore from "../../testing-1/testingStore";
+import useTestingStore from "../../testing-1/testingStore"; // MARK: Testing
 import ThStarIconButton from "../custom/ThStarIconButton";
 
 export default function LevelOverlayTop({ level }: { level: ThLevel }) {
@@ -24,7 +24,7 @@ export default function LevelOverlayTop({ level }: { level: ThLevel }) {
       <div className="absolute top-3 right-3 left-3">
         <div className="flex justify-between">
           <div style={{ width: 240 }}>
-            <ThButton width={140} height={200} thColor={level.stage.color} onClick={store.nextLevel}>
+            <ThButton width={140} height={200} thColor={level.stage.color} onClick={store.nextLevel}> {/* MARK: Testing */}
               <div className="flex flex-col items-center p-2 gap-4">
                 {imageSrc && <img src={imageSrc} alt={level.stage.logo} />}
                 <h3 className={`text-${level.stage.color}-100`}>{level.label}</h3>
