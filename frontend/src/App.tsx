@@ -1,3 +1,4 @@
+import ThStar from "./components/custom/ThStar.tsx";
 import Level from "./components/level/Level.tsx"
 import { ThLevel } from "./components/level/types/thTypes.ts";
 import useTestingStore from "./testing-1/testingStore.ts";

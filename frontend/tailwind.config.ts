@@ -91,7 +91,7 @@ export default {
   theme: {
     fontFamily: {
       'th-magic': ['SuperCell Magic'],
-      'th-mono': ['Monaco'],
+      'th-mono': ['monospace'],
     },
     colors: colors,
     extend: {
@@ -136,6 +136,7 @@ export default {
         'th-gradient-fast': 'background 3s ease infinite',
         'th-zoom-in-from-bottom': 'zoomInFromBottom 0.15s ease-out',
         'th-spin': 'spin 0.75s linear infinite',
+        'th-spin-slow': 'spin 6s linear infinite',
       },
     },
   },

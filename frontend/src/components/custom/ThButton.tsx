@@ -1,4 +1,3 @@
-import { useEffect, useRef, useState } from 'react';
 import { ThColorKeys } from '../../../tailwind.config.ts'
 
 export default function ThButton({ children = <></>, width, height, thColor, ...props }: { children?: React.ReactNode, width: number, height: number, thColor: ThColorKeys, [key: string]: any }) {
