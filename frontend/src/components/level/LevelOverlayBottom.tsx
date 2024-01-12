@@ -62,7 +62,7 @@ export default function LevelOverlayBottom({ level, nodes, tutorialNodes, onAddN
           >
             <ul className="flex flex-col items-center gap-1 p-3">
               {level.tippNodes.map((tippNode) => (
-                <li key={tippNode.node.id}><ThMenuTextButton width={120} thColor={level.stage.color} text={tippNode.node.data.title ?? "Error"} /></li>
+                <li key={tippNode.node.id}><ThMenuTextButton width={120} thColor={level.stage.color} text={tippNode.node.data.title ?? "Error"} onClick={() => onAddNode(tippNode)} /></li>
               ))}
             </ul>
           </ThDropdown>

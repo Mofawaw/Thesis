@@ -53,7 +53,7 @@ export default function CodeGraph({ height, scopeId }: { height: number, scopeId
   }, [graph, config]);
 
   return (
-    <div className="nowheel nodrag bg-th-tint-20" style={{ height: `${height}px`, overflow: 'auto' }} >
+    <div className="nowheel nodrag" style={{ height: `${height}px`, overflow: 'auto' }} >
       <div ref={canvasRef} />
     </div>
   );

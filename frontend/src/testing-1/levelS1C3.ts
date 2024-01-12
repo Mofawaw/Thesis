@@ -2,6 +2,7 @@ import stages from "./stages";
 import categories from "./categories";
 import { ThLevel } from "../components/level/types/thTypes";
 import CodeGraph from "../components/code_ide/code_memory/codeGraph";
+import { tippNodesC3 } from "./tippNodes";
 
 const expectedGraphProgram =
   `x = 5
@@ -70,10 +71,7 @@ const expectedGraph: CodeGraph = {
 }
 
 const taskDescription =
-  `Vergessen wir jetzt den Bauernhof.
-<br/>
-<br/>
-Gegeben ist ein Programm mit dem dazugehörigen, aber unvollständigen, Speicher-Graphen.
+  `Gegeben ist ein Programm mit dem dazugehörigen, aber unvollständigen, Speicher-Graphen.
 <br/>
 <br/>
 <b>Fülle die Lücken des Speicher-Graphen aus.</b>
@@ -89,7 +87,7 @@ const levelS1C3: ThLevel = {
     { node: categories[2].nodes[1], data: { codeIDE: { initialGraph: initialGraph } } },
     { node: categories[2].nodes[2], data: { text: { description: taskDescription } } }
   ],
-  tippNodes: [],
+  tippNodes: tippNodesC3,
   expected: { graph: expectedGraph }
 }
 

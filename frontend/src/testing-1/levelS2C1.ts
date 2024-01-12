@@ -1,6 +1,7 @@
 import stages from "./stages";
 import categories from "./categories";
 import { ThLevel } from "../components/level/types/thTypes";
+import { tippNodesC1 } from "./tippNodes";
 
 const initialCode =
   `class Tier:
@@ -11,28 +12,35 @@ const initialCode =
   def __repr__(self):
       return f"{self.name}, {self.alter} Jahre alt"
 
-# TODO: - Bearbeite hier
 hamster = Tier("Max", 2)
 biber = Tier("Bert", 3)
 katze = Tier("Luisa", 5)
 
 boss = hamster
 print("Der aktuelle Boss ist:", boss)
+
+# TODO: - Bearbeite hier
 `;
 
 const expectedOutput =
   `
+Der aktuelle Boss ist: Max, 2 Jahre alt
+Die neue Bossin ist: Luisa, 5 Jahre alt
 `
 
 const taskDescription =
-  `Schauen wir genauer ins Bauernhof: Die Tiere haben einen Bosss, das ist aktuell der Hamster namens Max. Jedoch hat sich die Katze Kitty als klüger und weiser erwiesen und soll die neue Bossin werden.
+  `Im Bauernhof sind die Tiere organisiert: Sie haben einen Boss - aktuell, der Hamster Max. Jedoch hat sich die Katze Luisa als weiser erwiesen und soll die neue Bossin werden.
 <br/>
 <br/>
-Dafür gibt es die Klasse Tier, die ein Tier mit Namen und Alter beschreibt. Die Variable 'boss' ist eine Referenz auf das Objekt 'hamster'.
+Dafür gibt es die Klasse 'Tier' mit den Parametern 'name' und 'alter'. Die Variable 'boss' ist eine Referenz auf das Objekt 'hamster'.
 <br/>
 <br/>
-<b>Deine Aufgabe ist es, den Boss auf dem Bauernhof zu ändern. Weise die Variable 'boss' der Katze zu und beobachte, was passiert. Beachte, wie die Referenz auf das Objekt 'katze' übertragen wird.</b>
-
+<b>Weise die Variable 'boss' der Katze zu und beobachte, was passiert. Gebe danach die folgende Ausgabe aus:</b>
+<br/>
+<br/>
+Der aktuelle Boss ist: Max, 2 Jahre alt
+<br/>
+Die neue Bossin ist: Luisa, 5 Jahre alt
 `
 
 const levelS2C1: ThLevel = {
@@ -44,7 +52,7 @@ const levelS2C1: ThLevel = {
     { node: categories[0].nodes[0], data: { codeIDE: { initialCode: initialCode } } },
     { node: categories[0].nodes[1], data: { text: { description: taskDescription } } }
   ],
-  tippNodes: [],
+  tippNodes: tippNodesC1,
   expected: { output: expectedOutput }
 }
 
@@ -59,15 +67,15 @@ const exampleSolution =
   def __repr__(self):
       return f"{self.name}, {self.alter} Jahre alt"
 
+hamster = Tier("Max", 2)
+biber = Tier("Bert", 3)
+katze = Tier("Luisa", 5)
+
+boss = hamster
+print("Der aktuelle Boss ist:", boss)
+
 # TODO: - Bearbeite hier
-hamster = Tier("Henry", 2)
-biber = Tier("Benny", 3)
-katze = Tier("Kitty", 5)
 
-leittier = hamster
-print("Das aktuelle Leittier ist:", leittier)
-
-# Leittier ändern
-leittier = katze
-print("Das neue Leittier ist:", leittier)
+boss = katze
+print("Die neue Bossin ist:", boss)
 `

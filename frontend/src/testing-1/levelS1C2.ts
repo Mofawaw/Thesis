@@ -2,6 +2,7 @@ import stages from "./stages";
 import categories from "./categories";
 import { ThLevel } from "../components/level/types/thTypes";
 import CodeGraph from "../components/code_ide/code_memory/codeGraph";
+import { tippNodesC2 } from "./tippNodes";
 
 const initialCode =
   `# Vor vier Jahren
@@ -55,7 +56,7 @@ const levelS1C2: ThLevel = {
     { node: categories[1].nodes[1], data: { codeIDE: { initialCode: initialCode } } },
     { node: categories[1].nodes[2], data: { text: { description: taskDescription } } }
   ],
-  tippNodes: [],
+  tippNodes: tippNodesC2,
   expected: { graph: expectedGraph }
 }
 

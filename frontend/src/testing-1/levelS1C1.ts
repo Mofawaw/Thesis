@@ -1,6 +1,7 @@
 import stages from "./stages";
 import categories from "./categories";
 import { ThLevel } from "../components/level/types/thTypes";
+import { tippNodesC1 } from "./tippNodes";
 
 const initialCode =
   `# TODO: - Bearbeite hier
@@ -32,7 +33,7 @@ const levelS1C1: ThLevel = {
     { node: categories[0].nodes[0], data: { codeIDE: { initialCode: initialCode } } },
     { node: categories[0].nodes[1], data: { text: { description: taskDescription } } }
   ],
-  tippNodes: [],
+  tippNodes: tippNodesC1,
   expected: { output: expectedOutput }
 }
 
