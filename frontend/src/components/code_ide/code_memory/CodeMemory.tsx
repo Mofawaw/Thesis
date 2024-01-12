@@ -11,7 +11,7 @@ export default function CodeMemory({ height, scopeId }: { height: number, scopeI
 
   if (store.config.type === "program+graph") {
     codeMemoryComponent = (
-      <div className="p-4 mb-2">
+      <div className="p-4 mb-2  overflow-hidden">
         <CodeGraph height={codeGraphHeight} scopeId={scopeId} />
       </div>
     )
@@ -24,7 +24,7 @@ export default function CodeMemory({ height, scopeId }: { height: number, scopeI
       )
     } else {
       codeMemoryComponent = (
-        <div className="flex flex-col gap-2 py-4 overflow-hidden" >
+        <div className="flex flex-col gap-2 py-4" >
           <div className="p-4 mb-2">
             <CodeGraph height={codeGraphHeight} scopeId={scopeId} />
           </div>

@@ -16,7 +16,7 @@ export default function TextNode({ data }: { data: TextNodeData }) {
       <h3 className="px-4 pt-8">{data.title ?? ""}</h3>
       <div className="overflow-hidden p-4">
         <div className="nowheel" style={{ height: `${componentNodeLayout.getContentHeight(size.height)}px`, overflow: 'auto' }} >
-          <p>{data.text.description}</p>
+          <div dangerouslySetInnerHTML={{ __html: data.text.description }}></div>
         </div>
       </div>
     </ComponentNode>
