@@ -10,6 +10,7 @@ import levelS2C3 from './levelS2C3';
 import levelS3C1 from './levelS3C1';
 import levelS3C2 from './levelS3C2';
 import levelS3C3 from './levelS3C3';
+import { resetStoreMap } from '../components/code_ide/codeIDEStore';
 
 export const levels = [
   levelS1C1,
@@ -82,6 +83,7 @@ const useTestingStore = create<TestingStore>((set) => ({
       }
 
       if (nextLevel) {
+        resetStoreMap();
         navigate(`/level/${nextLevel.id}`);
       }
 

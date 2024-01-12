@@ -45,7 +45,7 @@ const initialGraph: CodeGraph = {
     { "id": "e-r-2", "type": "reference", "source": "n-rs-2", "target": "n-rh-4" },
     { "id": "e-r-3", "type": "reference", "source": "n-rs-3", "target": "n-rh-4" }
   ],
-  inputMaxChars: 16
+  inputMaxChars: 17
 }
 
 const expectedGraph: CodeGraph = {
