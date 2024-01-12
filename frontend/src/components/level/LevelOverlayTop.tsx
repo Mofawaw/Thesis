@@ -23,7 +23,7 @@ export default function LevelOverlayTop({ level }: { level: ThLevel }) {
     <div className="relative">
       <div className="absolute top-3 right-3 left-3">
         <div className="flex justify-between">
-          <div style={{ width: 240 }}>
+          <div style={{ width: 200 }}>
             <ThButton width={140} height={200} thColor={level.stage.color} onClick={() => store.nextLevel(false, true)}> {/* MARK: Testing */}
               <div className="flex flex-col items-center p-2 gap-4">
                 {imageSrc && <img src={imageSrc} alt={level.stage.logo} />}
@@ -34,7 +34,7 @@ export default function LevelOverlayTop({ level }: { level: ThLevel }) {
 
           <ThTextButton width={700} thColor={level.stage.color} text={level.stage.label + " - " + level.category.label} onClick={() => store.nextLevel(true, false)} /> {/* MARK: Testing */}
 
-          <ThStarIconButton width={240} height={240} />
+          <ThStarIconButton width={200} height={200} />
         </div>
       </div>
     </div>
