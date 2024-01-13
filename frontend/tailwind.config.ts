@@ -67,7 +67,7 @@ const colors: ThColor = {
   },
 };
 
-let colorSafeList = [];
+let colorSafeList: string[] = [];
 
 for (const colorName in colors) {
   const pallette = colors[colorName as ThColorKeys];
