@@ -8,9 +8,9 @@ import TutorialNode from "../nodes/TutorialNode";
 export const nodeTypes = { codeIDE: CodeIDENode, text: TextNode, tutorial: TutorialNode };
 
 export class ThNodeSize {
-  static small = { width: 400, height: 600 };
-  static medium = { width: 600, height: 600 };
-  static large = { width: 900, height: 600 };
+  static small = { width: 450, height: 700 };
+  static medium = { width: 700, height: 700 };
+  static large = { width: 1000, height: 700 };
 
   static fromString(sizeType: string) {
     switch (sizeType) {

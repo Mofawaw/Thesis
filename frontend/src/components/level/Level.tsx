@@ -53,7 +53,7 @@ function LevelReactFlow({ nodes, setNodes }: { nodes: Node[], setNodes: Dispatch
 
   const onInit = (instance: ReactFlowInstance) => {
     const timeoutId = setTimeout(() => {
-      instance.fitView({ padding: 0.1, includeHiddenNodes: true, duration: 300 });
+      instance.fitView({ padding: 0.25, includeHiddenNodes: true, duration: 300 });
     }, 200);
     return () => clearTimeout(timeoutId);
   };
@@ -68,7 +68,7 @@ function LevelReactFlow({ nodes, setNodes }: { nodes: Node[], setNodes: Dispatch
     setNodes(nodes => applyNodeChanges(filteredChanges, nodes));
 
     if (reactFlowInstance && nodes.length > prevNodesLength.current) {
-      reactFlowInstance.fitView({ padding: 0.1, includeHiddenNodes: true, duration: 300 });
+      reactFlowInstance.fitView({ padding: 0.25, includeHiddenNodes: true, duration: 300 });
     }
     prevNodesLength.current = nodes.length;
   }, [reactFlowInstance, nodes]);

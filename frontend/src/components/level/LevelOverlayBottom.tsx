@@ -43,7 +43,7 @@ export default function LevelOverlayBottom({ level, nodes, tutorialNodes, onAddN
         <div className="flex flex-col gap-3">
           <ThIconButton thColor="th-tint" icon="Plus" onClick={() => zoomIn({ duration: 300 })} />
           <div className="flex flex-row gap-3">
-            <ThIconButton thColor="th-tint" icon="Fit" onClick={() => fitView({ padding: 0.1, includeHiddenNodes: true, duration: 300 })} />
+            <ThIconButton thColor="th-tint" icon="Fit" onClick={() => fitView({ padding: 0.25, includeHiddenNodes: true, duration: 300 })} />
             <ThIconButton thColor="th-tint" icon="Minus" onClick={() => zoomOut({ duration: 300 })} />
           </div>
         </div>
