@@ -1,4 +1,4 @@
-import { ThCategory } from '../components/level/types/thTypes';
+import { ThCategory } from '../app/level/types/th-types';
 
 const categories: ThCategory[] = [
   {

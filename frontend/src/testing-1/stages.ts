@@ -1,4 +1,4 @@
-import { ThStage } from '../components/level/types/thTypes';
+import { ThStage } from '../app/level/types/th-types';
 
 const stages: ThStage[] = [
   {

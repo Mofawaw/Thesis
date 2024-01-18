@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import Level from "./components/level/Level";
-import { levels, initializeNavigation } from "./testing-1/testingStore";
-import { tutorialNodes } from "./testing-1/tutorialNodes";
+import Level from "./app/level/level.tsx";
+import { levels, initializeNavigation } from "./testing-1/testing-store.ts";
+import { tutorialNodes } from "./testing-1/tutorials.ts";
 
 const InitializeRoutes = () => {
   const navigate = useNavigate();
