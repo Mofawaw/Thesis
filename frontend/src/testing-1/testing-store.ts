@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { ThLevel } from '../app/level/types/th-types';
+import { ThLevel } from '@/types/th-types.ts';
 
 import levelS1C1 from './level-s1-c1';
 import levelS1C2 from './level-s1-c2';

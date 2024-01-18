@@ -1,7 +1,7 @@
 import stages from "./stages";
 import categories from "./categories";
-import { ThLevel } from "../app/level/types/th-types";
-import CodeGraph from "../app/code-ide/code-memory/code-memory-types";
+import { ThLevel } from "@/types/th-types";
+import CodeGraph from "@/app/code-ide/code-memory/code-memory-types";
 import { tippNodesC2 } from "./tipps";
 
 const initialCode =

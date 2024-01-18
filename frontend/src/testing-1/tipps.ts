@@ -1,4 +1,4 @@
-import { ThLevelNode } from "../app/level/types/th-types";
+import { ThLevelNode } from "@/types/th-types.ts";
 
 export const tippNodesC1: ThLevelNode[] = [
   {

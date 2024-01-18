@@ -1,9 +1,9 @@
 import { Node } from "reactflow";
-import { CodeIDENetworkResultType, compileGetGraph, compileGetOutput } from "@/app/code-ide/code-ide-network";
-import useCodeIDEStore from "@/app/code-ide/code-ide-store";
-import CodeGraph from "@/app/code-ide/code-memory/code-memory-types";
-import { ThLevel, ThStage } from "../types/th-types";
-import { CodeIDENodeData } from "../types/node-types";
+import { CodeIDENetworkResultType, compileGetGraph, compileGetOutput } from "@/app/code-ide/code-ide-network.ts";
+import useCodeIDEStore from "@/app/code-ide/code-ide-store.ts";
+import CodeGraph from "@/app/code-ide/code-memory/code-memory-types.ts";
+import { ThLevel, ThStage } from "@/types/th-types.ts";
+import { CodeIDENodeData } from "./nodes/types/node-types.ts";
 
 export function evaluateLevelCompletion(level: ThLevel, nodes: Node[]): Promise<{ result: boolean, title: string, message: string }> {
   let title;

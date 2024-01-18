@@ -1,6 +1,6 @@
-import { ThColorKey } from "@/utilities/th-color.js";
-import { ThIcon, ThIconKey } from "@/utilities/th-icon.js"
-import ThButton from "./th-button.js"
+import { ThColorKey } from "@/utilities/th-color.ts";
+import { ThIcon, ThIconKey } from "@/utilities/th-icon.tsx"
+import ThButton from "./th-button.tsx"
 
 interface ThIconTextButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   thColor: ThColorKey;

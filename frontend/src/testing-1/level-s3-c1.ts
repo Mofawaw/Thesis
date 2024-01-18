@@ -1,7 +1,7 @@
-import stages from "./stages";
-import categories from "./categories";
-import { ThLevel } from "../app/level/types/th-types";
-import { tippNodesC1 } from "./tipps";
+import stages from "./stages.ts";
+import categories from "./categories.ts";
+import { ThLevel } from "@/types/th-types.ts";
+import { tippNodesC1 } from "./tipps.ts";
 
 const initialCode =
   `class Punkt:

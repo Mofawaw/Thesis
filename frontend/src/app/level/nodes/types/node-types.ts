@@ -1,8 +1,8 @@
 import CodeIDEConfig from "@/app/code-ide/code-ide-config";
 import CodeGraph from "@/app/code-ide/code-memory/code-memory-types";
-import CodeIDENode from "../nodes/code-ide-node";
-import TextNode from "../nodes/text-node";
-import TutorialNode from "../nodes/tutorial-node";
+import CodeIDENode from "../code-ide-node";
+import TextNode from "../text-node";
+import TutorialNode from "../tutorial-node";
 import { ThColorKey } from "@/utilities/th-color";
 
 export const nodeTypes = { codeIDE: CodeIDENode, text: TextNode, tutorial: TutorialNode };

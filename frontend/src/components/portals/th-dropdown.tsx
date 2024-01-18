@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
-import { ThColorKey } from "@/utilities/th-color.js";
+import { ThColorKey } from "@/utilities/th-color.ts";
 
 interface ThDropdownPortalProps {
   width: number;

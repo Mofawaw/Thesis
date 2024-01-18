@@ -1,6 +1,6 @@
 import stages from "./stages";
 import categories from "./categories";
-import { ThLevel } from "../app/level/types/th-types";
+import { ThLevel } from "@/types/th-types";
 import { tippNodesC1 } from "./tipps";
 
 const initialCode =

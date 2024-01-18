@@ -1,5 +1,5 @@
-import { ThColorKey } from "@/utilities/th-color.js";
-import ThButton from "./th-button"
+import { ThColorKey } from "@/utilities/th-color.ts";
+import ThButton from "./th-button.tsx"
 
 interface ThMenuTextButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   width: number;

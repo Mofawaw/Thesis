@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { TutorialNodeData } from '../types/node-types';
+import { TutorialNodeData } from './types/node-types';
 import ComponentNode from './component-node/component-node';
 import { componentNodeLayout } from './component-node/component-node-helper';
 

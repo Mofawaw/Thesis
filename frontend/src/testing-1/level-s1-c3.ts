@@ -1,8 +1,8 @@
-import stages from "./stages";
-import categories from "./categories";
-import { ThLevel } from "../app/level/types/th-types";
-import CodeGraph from "../app/code-ide/code-memory/code-memory-types";
-import { tippNodesC3 } from "./tipps";
+import stages from "./stages.ts";
+import categories from "./categories.ts";
+import { ThLevel } from "@/types/th-types.ts";
+import CodeGraph from "@/app/code-ide/code-memory/code-memory-types.ts";
+import { tippNodesC3 } from "./tipps.ts";
 
 const expectedGraphProgram =
   `x = 5

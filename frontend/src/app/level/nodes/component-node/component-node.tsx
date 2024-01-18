@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { NodeResizer, ResizeDragEvent, ResizeParams } from 'reactflow';
 import styles from './component-node.module.css';
-import { CodeIDENodeData, ComponentNodeData, TutorialNodeData } from '../../types/node-types';
+import { CodeIDENodeData, ComponentNodeData, TutorialNodeData } from '../types/node-types';
 
 interface ComponentNodeProps {
   data: ComponentNodeData;

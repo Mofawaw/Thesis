@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import ThButton from "@/components/buttons/th-button";
-import ThTextButton from "@/components/buttons/th-text-button";
-import ThStarUser from "@/components/user/th-star-user";
-import useTestingStore from "@/testing-1/testing-store"; // MARK: Testing
-import { ThLevel } from "./types/th-types";
+import ThButton from "@/components/buttons/th-button.tsx";
+import ThTextButton from "@/components/buttons/th-text-button.tsx";
+import ThStarUser from "@/components/user/th-star-user.tsx";
+import useTestingStore from "@/testing-1/testing-store.ts"; // MARK: Testing
+import { ThLevel } from "@/types/th-types.ts";
 
 interface LevelOverlayTopProps {
   level: ThLevel;
@@ -16,7 +16,7 @@ const LevelOverlayTop: React.FC<LevelOverlayTopProps> = ({
   const store = useTestingStore.getState();
 
   useEffect(() => {
-    import(`../../assets/images/${level.stage.logo}.svg`)
+    import(`../../../assets/images/${level.stage.logo}.svg`)
       .then(image => {
         setImageSrc(image.default);
       })

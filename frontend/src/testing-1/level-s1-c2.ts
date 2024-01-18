@@ -1,8 +1,8 @@
-import stages from "./stages";
-import categories from "./categories";
-import { ThLevel } from "../app/level/types/th-types";
-import CodeGraph from "../app/code-ide/code-memory/code-memory-types";
-import { tippNodesC2 } from "./tipps";
+import stages from "./stages.ts";
+import categories from "./categories.ts";
+import { ThLevel } from "@/types/th-types.ts";
+import CodeGraph from "@/app/code-ide/code-memory/code-memory-types.ts";
+import { tippNodesC2 } from "./tipps.ts";
 
 const initialCode =
   `# Vor vier Jahren

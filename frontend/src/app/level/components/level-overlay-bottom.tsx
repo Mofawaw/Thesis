@@ -6,8 +6,8 @@ import ThDropdown from "@/components/portals/th-dropdown.tsx";
 import ThMenuTextButton from "@/components/buttons/th-menu-text-button.tsx";
 import ThPopup from "@/components/portals/th-popup.tsx";
 import ThTextButton from "@/components/buttons/th-text-button.tsx";
-import { ThLevel, ThLevelNode } from "./types/th-types.ts";
-import { evaluateLevelCompletion } from "./logic/level-evaluation.ts";
+import { ThLevel, ThLevelNode } from "@/types/th-types.ts";
+import { evaluateLevelCompletion } from "../level-evaluation.ts";
 
 interface LevelOverlayBottomProps {
   level: ThLevel;

@@ -1,4 +1,4 @@
-import { ThColorKey } from "@/utilities/th-color";
+import { ThColorKey } from "@/utilities/th-color.ts";
 
 interface ThButtonProps extends React.HTMLProps<HTMLButtonElement> {
   children?: React.ReactNode;

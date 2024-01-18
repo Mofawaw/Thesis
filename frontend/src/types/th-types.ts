@@ -1,6 +1,6 @@
-import CodeGraph from "@/app/code-ide/code-memory/code-memory-types";
-import CodeIDEConfig from "@/app/code-ide/code-ide-config";
-import { ThColorKey } from "@/utilities/th-color";
+import CodeGraph from "@/app/code-ide/code-memory/code-memory-types.ts";
+import CodeIDEConfig from "@/app/code-ide/code-ide-config.ts";
+import { ThColorKey } from "@/utilities/th-color.ts";
 
 export interface ThStage {
   id: "s1" | "s2" | "s3";
