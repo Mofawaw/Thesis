@@ -3,7 +3,21 @@ import { NodeResizer, ResizeDragEvent, ResizeParams } from 'reactflow';
 import styles from './componentNode.module.css';
 import { CodeIDENodeData, ComponentNodeData, TutorialNodeData } from '../../types/nodeTypes';
 
-export default function ComponentNode({ data, maxWidth, minHeight, onSizeChange = () => { }, children }: { data: ComponentNodeData, maxWidth?: number, minHeight?: number, onSizeChange?: (size: { width: number; height: number }) => void, children: React.ReactNode }) {
+interface ComponentNodeProps {
+  data: ComponentNodeData;
+  maxWidth?: number;
+  minHeight?: number;
+  onSizeChange?: (size: { width: number; height: number }) => void;
+  children: React.ReactNode;
+}
+
+const ComponentNode: React.FC<ComponentNodeProps> = ({
+  data,
+  maxWidth,
+  minHeight,
+  onSizeChange,
+  children,
+}) => {
   const initialWidth = data.width
   const initialHeight = data.height
 
@@ -62,3 +76,5 @@ export default function ComponentNode({ data, maxWidth, minHeight, onSizeChange 
     </div>
   );
 }
+
+export default ComponentNode;

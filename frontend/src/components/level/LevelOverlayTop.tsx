@@ -5,7 +5,13 @@ import { ThLevel } from "./types/thTypes";
 import useTestingStore from "../../testing-1/testingStore"; // MARK: Testing
 import ThStarIconButton from "../custom/ThStarIconButton";
 
-export default function LevelOverlayTop({ level }: { level: ThLevel }) {
+interface LevelOverlayTopProps {
+  level: ThLevel;
+}
+
+const LevelOverlayTop: React.FC<LevelOverlayTopProps> = ({
+  level,
+}) => {
   const [imageSrc, setImageSrc] = useState<string>('');
   const store = useTestingStore.getState();
 
@@ -40,3 +46,5 @@ export default function LevelOverlayTop({ level }: { level: ThLevel }) {
     </div>
   );
 };
+
+export default LevelOverlayTop;

@@ -3,7 +3,13 @@ import { TutorialNodeData } from '../types/nodeTypes';
 import ComponentNode from './component_node/ComponentNode';
 import { componentNodeLayout } from './component_node/componentNodeLayout';
 
-export default function TutorialNode({ data }: { data: TutorialNodeData }) {
+interface TutorialNodeProps {
+  data: TutorialNodeData;
+}
+
+const TutorialNode: React.FC<TutorialNodeProps> = ({
+  data,
+}) => {
   // Layout
   const [size, setSize] = useState({ width: 0, height: 0 });
 
@@ -22,3 +28,5 @@ export default function TutorialNode({ data }: { data: TutorialNodeData }) {
     </ComponentNode>
   );
 }
+
+export default TutorialNode;

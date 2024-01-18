@@ -4,7 +4,15 @@ import useCodeIDEStore from "../codeIDEStore.ts";
 import CodeGraph from "./CodeGraph.tsx";
 import CodeGraphInput from "./CodeGraphInput.tsx";
 
-export default function CodeMemory({ height, scopeId }: { height: number, scopeId: string }) {
+interface CodeMemoryProps {
+  height: number;
+  scopeId: string;
+}
+
+const CodeMemory: React.FC<CodeMemoryProps> = ({
+  height,
+  scopeId,
+}) => {
   const store = useCodeIDEStore(scopeId).getState();
   let codeMemoryComponent;
   let codeGraphHeight = codeIDELayout.getCodeGraphHeight(store.config, height)
@@ -33,7 +41,7 @@ export default function CodeMemory({ height, scopeId }: { height: number, scopeI
             <div className="th-xline px-[-1rem]" />
 
             <div className="flex flex-row justify-between px-4">
-              <button onClick={() => { }}><ThIcon icon="Play" className="h-6 w-6 text-th-black-100" /></button>
+              <button onClick={() => { }}><ThIcon icon="play" className="h-6 w-6 text-th-black-100" /></button>
             </div>
           </div>
         </div>
@@ -53,5 +61,7 @@ export default function CodeMemory({ height, scopeId }: { height: number, scopeI
     <>
       {codeMemoryComponent}
     </>
-  )
+  );
 }
+
+export default CodeMemory;

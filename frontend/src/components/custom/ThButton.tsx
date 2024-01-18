@@ -1,11 +1,24 @@
 import { ThColorKeys } from '../../../tailwind.config.ts'
 
-export default function ThButton({ children = <></>, width, height, thColor, ...props }: { children?: React.ReactNode, width: number, height: number, thColor: ThColorKeys, [key: string]: any }) {
+interface ThButtonProps extends React.HTMLProps<HTMLButtonElement> {
+  children?: React.ReactNode;
+  width: number;
+  height: number;
+  thColor: ThColorKeys;
+}
+
+const ThButton: React.FC<ThButtonProps> = ({
+  children = <></>,
+  width,
+  height,
+  thColor,
+  ...props
+}) => {
   return (
     <button
       style={{ width: `${width}px`, height: `${height}px` }}
       className={`relative inline-block p-0 border-0 bg-transparent mb-[6px]`}
-      {...props}
+      {...props as React.ButtonHTMLAttributes<HTMLButtonElement>}
     >
       <span
         className={`
@@ -20,5 +33,7 @@ export default function ThButton({ children = <></>, width, height, thColor, ...
         className={`block bg-${thColor}-30 rounded-th absolute bottom-[-6px] left-[5px] z-10`}>
       </span>
     </button>
-  )
+  );
 }
+
+export default ThButton;

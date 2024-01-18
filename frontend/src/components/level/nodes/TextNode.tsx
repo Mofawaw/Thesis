@@ -3,7 +3,13 @@ import { TextNodeData } from '../types/nodeTypes';
 import ComponentNode from './component_node/ComponentNode';
 import { componentNodeLayout } from './component_node/componentNodeLayout';
 
-export default function TextNode({ data }: { data: TextNodeData }) {
+interface TextNodeProps {
+  data: TextNodeData;
+}
+
+const TextNode: React.FC<TextNodeProps> = ({
+  data,
+}) => {
   // Layout
   const [size, setSize] = useState({ width: 0, height: 0 });
 
@@ -22,3 +28,5 @@ export default function TextNode({ data }: { data: TextNodeData }) {
     </ComponentNode>
   );
 }
+
+export default TextNode;

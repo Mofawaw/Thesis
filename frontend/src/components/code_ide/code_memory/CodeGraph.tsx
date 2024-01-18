@@ -3,7 +3,15 @@ import { dia, shapes } from 'jointjs';
 import useCodeIDEStore, { CodeIDEStore } from '../codeIDEStore.ts';
 import { addDataToGraph } from './codeGraphHelper';
 
-export default function CodeGraph({ height, scopeId }: { height: number, scopeId: string }) {
+interface CodeGraphProps {
+  height: number;
+  scopeId: string;
+}
+
+const CodeGraph: React.FC<CodeGraphProps> = ({
+  height,
+  scopeId,
+}) => {
   const canvasRef = useRef<HTMLDivElement>(null);
   const paperRef = useRef<dia.Paper | null>(null);
 
@@ -58,3 +66,5 @@ export default function CodeGraph({ height, scopeId }: { height: number, scopeId
     </div>
   );
 }
+
+export default CodeGraph;

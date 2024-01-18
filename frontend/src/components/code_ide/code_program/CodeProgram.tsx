@@ -5,7 +5,15 @@ import ThIcon from '../../custom/ThIcon.tsx';
 import useCodeIDEStore from "../codeIDEStore.ts";
 import { codeIDELayout } from "../codeIDEConfig.ts";
 
-export default function CodeProgram({ height, scopeId }: { height: number, scopeId: string }) {
+interface CodeProgramProps {
+  height: number;
+  scopeId: string;
+}
+
+const CodeProgram: React.FC<CodeProgramProps> = ({
+  height,
+  scopeId,
+}) => {
   const store = useCodeIDEStore(scopeId).getState();
   let codeProgramComponent;
   let codeEditorHeight = codeIDELayout.getCodeEditorHeight(store.config, height)
@@ -27,7 +35,7 @@ export default function CodeProgram({ height, scopeId }: { height: number, scope
           <div className="th-xline px-[-1rem]" />
 
           <div className="flex flex-row justify-between px-4">
-            <button onClick={() => compileGetOutput(scopeId)}><ThIcon icon="Play" className="h-6 w-6 text-th-black-100" /></button>
+            <button onClick={() => compileGetOutput(scopeId)}><ThIcon icon="play" className="h-6 w-6 text-th-black-100" /></button>
           </div>
 
           <div className="th-xline" />
@@ -46,5 +54,7 @@ export default function CodeProgram({ height, scopeId }: { height: number, scope
     <>
       {codeProgramComponent}
     </>
-  )
+  );
 }
+
+export default CodeProgram;

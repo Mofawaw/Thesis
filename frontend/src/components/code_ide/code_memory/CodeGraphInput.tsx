@@ -4,7 +4,15 @@ import useCodeIDEStore, { CodeIDEStore } from '../codeIDEStore.ts';
 import { CodeGraphNode } from './codeGraph.ts';
 import { addDataToGraphInput, stylesGraphInput } from './codeGraphInputHelper.ts';
 
-export default function CodeGraphInput({ height, scopeId }: { height: number, scopeId: string }) {
+interface CodeGraphInputProps {
+  height: number;
+  scopeId: string;
+}
+
+const CodeGraphInput: React.FC<CodeGraphInputProps> = ({
+  height,
+  scopeId,
+}) => {
   const canvasRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const graphRef = useRef<dia.Graph | null>(null);
@@ -152,3 +160,5 @@ export default function CodeGraphInput({ height, scopeId }: { height: number, sc
     </div>
   );
 }
+
+export default CodeGraphInput;

@@ -9,7 +9,19 @@ import ThTextButton from "../custom/ThTextButton.tsx";
 import { ThLevel, ThLevelNode } from "./types/thTypes.ts";
 import { evaluateLevelCompletion } from "./logic/levelEvaluation.ts";
 
-export default function LevelOverlayBottom({ level, nodes, tutorialNodes, onAddNode }: { level: ThLevel, nodes: Node[], tutorialNodes: ThLevelNode[], onAddNode: (node: ThLevelNode) => (void) }) {
+interface LevelOverlayBottomProps {
+  level: ThLevel;
+  nodes: Node[];
+  tutorialNodes: ThLevelNode[];
+  onAddNode: (node: ThLevelNode) => (void);
+}
+
+const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
+  level,
+  nodes,
+  tutorialNodes,
+  onAddNode,
+}) => {
   const { zoomIn, zoomOut, fitView } = useReactFlow();
   const [openTippsDropdown, setOpenTippsDropdown] = useState<boolean>(false);
   const [openTutorialDropdown, setOpenTutorialDropdown] = useState<boolean>(false);
@@ -41,10 +53,10 @@ export default function LevelOverlayBottom({ level, nodes, tutorialNodes, onAddN
     <div className="relative">
       <div className="absolute left-3 bottom-3">
         <div className="flex flex-col gap-3">
-          <ThIconButton thColor="th-tint" icon="Plus" onClick={() => zoomIn({ duration: 300 })} />
+          <ThIconButton thColor="th-tint" icon="plus" onClick={() => zoomIn({ duration: 300 })} />
           <div className="flex flex-row gap-3">
-            <ThIconButton thColor="th-tint" icon="Fit" onClick={() => fitView({ padding: 0.25, includeHiddenNodes: true, duration: 300 })} />
-            <ThIconButton thColor="th-tint" icon="Minus" onClick={() => zoomOut({ duration: 300 })} />
+            <ThIconButton thColor="th-tint" icon="fit" onClick={() => fitView({ padding: 0.25, includeHiddenNodes: true, duration: 300 })} />
+            <ThIconButton thColor="th-tint" icon="minus" onClick={() => zoomOut({ duration: 300 })} />
           </div>
         </div>
       </div>
@@ -56,7 +68,7 @@ export default function LevelOverlayBottom({ level, nodes, tutorialNodes, onAddN
             width={140}
             height={25 + 40 * level.tippNodes.length}
             thColor={level.stage.color}
-            button={<ThIconTextButton thColor={level.stage.color} icon="Tipps" text="Tipps" onClick={() => setOpenTippsDropdown(true)} />}
+            button={<ThIconTextButton thColor={level.stage.color} icon="tipps" text="Tipps" onClick={() => setOpenTippsDropdown(true)} />}
             isOpen={openTippsDropdown}
             onClose={() => setOpenTippsDropdown(false)}
           >
@@ -72,7 +84,7 @@ export default function LevelOverlayBottom({ level, nodes, tutorialNodes, onAddN
             width={200}
             height={25 + 40 * tutorialNodes.length}
             thColor={level.stage.color}
-            button={<ThIconTextButton thColor={level.stage.color} icon="Tutorial" text="Tutorial" onClick={() => setOpenTutorialDropdown(!openTutorialDropdown)} />}
+            button={<ThIconTextButton thColor={level.stage.color} icon="tutorial" text="Tutorial" onClick={() => setOpenTutorialDropdown(!openTutorialDropdown)} />}
             isOpen={openTutorialDropdown}
             onClose={() => setOpenTutorialDropdown(false)}
           >
@@ -89,7 +101,7 @@ export default function LevelOverlayBottom({ level, nodes, tutorialNodes, onAddN
             height={openCheckResultsPopup?.success ? 600 : 800}
             thColor={openCheckResultsPopup?.success ? "th-tint" : "th-black"}
             backgroundClass={openCheckResultsPopup?.success ? "th-bg-gradient" : "bg-none"}
-            button={<ThIconTextButton thColor={level.stage.color} icon="Check" text={"Check"} isLoading={onChecking} onClick={handleCheckButtonOnClick} />}
+            button={<ThIconTextButton thColor={level.stage.color} icon="check" text={"Check"} isLoading={onChecking} onClick={handleCheckButtonOnClick} />}
             isOpen={(openCheckResultsPopup?.success || openCheckResultsPopup?.fail) ?? false}
             onClose={handleCheckButtonOnClose}
           >
@@ -118,3 +130,5 @@ export default function LevelOverlayBottom({ level, nodes, tutorialNodes, onAddN
     </div>
   );
 };
+
+export default LevelOverlayBottom;

@@ -4,7 +4,13 @@ import ComponentNode from './component_node/ComponentNode';
 import { CodeIDENodeData } from '../types/nodeTypes';
 import { componentNodeLayout } from './component_node/componentNodeLayout';
 
-export default function CodeIDENode({ data }: { data: CodeIDENodeData }) {
+interface CodeIDENodeProps {
+  data: CodeIDENodeData;
+}
+
+const CodeIDENode: React.FC<CodeIDENodeProps> = ({
+  data,
+}) => {
   // Layout
   const [size, setSize] = useState({ width: 0, height: 0 });
 
@@ -46,3 +52,5 @@ export default function CodeIDENode({ data }: { data: CodeIDENodeData }) {
     </ComponentNode>
   );
 }
+
+export default CodeIDENode;

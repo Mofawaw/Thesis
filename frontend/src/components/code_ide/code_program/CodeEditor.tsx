@@ -8,7 +8,15 @@ import useCodeIDEStore from '../codeIDEStore.ts'
 import { compileGetGraph, compileGetOutput } from '../codeIDENetwork.ts';
 import debounce from '../../../helper/debounce.ts';
 
-export default function CodeEditor({ height, scopeId }: { height: number, scopeId: string }) {
+interface CodeEditorProps {
+    height: number;
+    scopeId: string;
+}
+
+const CodeEditor: React.FC<CodeEditorProps> = ({
+    height,
+    scopeId,
+}) => {
     const editorRef = useRef<HTMLDivElement>(null);
     const { config, code, setCode } = useCodeIDEStore(scopeId).getState();
 
@@ -99,3 +107,4 @@ export default function CodeEditor({ height, scopeId }: { height: number, scopeI
     );
 }
 
+export default CodeEditor;

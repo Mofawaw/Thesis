@@ -6,7 +6,13 @@ import { codeOutputStyles, percentLineNumbers } from './codeOutputHelper.ts';
 import useCodeIDEStore, { CodeIDEStore } from '../codeIDEStore.ts'
 import { codeIDELayout } from '../codeIDEConfig.ts';
 
-export default function CodeOutput({ scopeId }: { scopeId: string }) {
+interface CodeOutputProps {
+  scopeId: string;
+}
+
+const CodeOutput: React.FC<CodeOutputProps> = ({
+  scopeId,
+}) => {
   const editorRef = useRef<HTMLDivElement>(null);
   const [editorView, setEditorView] = useState<EditorView>();
   const output = useCodeIDEStore(scopeId)((state: CodeIDEStore) => state.output)
@@ -73,3 +79,5 @@ export default function CodeOutput({ scopeId }: { scopeId: string }) {
     </div>
   );
 }
+
+export default CodeOutput;

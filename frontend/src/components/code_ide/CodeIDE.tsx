@@ -5,7 +5,21 @@ import useCodeIDEStore from "./codeIDEStore.ts";
 import CodeGraphType from "./code_memory/codeGraph.ts";
 import CodeMemory from "./code_memory/CodeMemory.tsx";
 
-export default function CodeIDE({ height, scopeId, config, initialCode, initialGraph }: { height: number, scopeId: string, config: CodeIDEConfig, initialCode: string, initialGraph: CodeGraphType }) {
+interface CodeIDEProps {
+  height: number;
+  scopeId: string;
+  config: CodeIDEConfig;
+  initialCode: string;
+  initialGraph: CodeGraphType;
+}
+
+const CodeIDE: React.FC<CodeIDEProps> = ({
+  height,
+  scopeId,
+  config,
+  initialCode,
+  initialGraph,
+}) => {
   const store = useCodeIDEStore(scopeId).getState();
   let codeIDEComponent;
 
@@ -49,5 +63,7 @@ export default function CodeIDE({ height, scopeId, config, initialCode, initialG
     <div>
       {codeIDEComponent}
     </div>
-  )
+  );
 }
+
+export default CodeIDE;
