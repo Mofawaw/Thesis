@@ -1,11 +1,12 @@
-import { ThColorKeys } from "../../../../tailwind.config";
+
 import CodeGraph from "../../code-ide/code-memory/code-memory-types";
 import CodeIDEConfig from "../../code-ide/code-ide-config";
+import { ThColorKey } from "@/utilities/th-color";
 
 export interface ThStage {
   id: "s1" | "s2" | "s3";
   label: string;
-  color: ThColorKeys;
+  color: ThColorKey;
   logo: string;
   levels: ThLevel[];
 }
@@ -43,6 +44,6 @@ export interface ThLevelNode {
   data: {
     codeIDE?: { initialCode?: string; initialGraph?: CodeGraph }
     text?: { description: string }
-    tutorial?: { color: ThColorKeys, description: string }
+    tutorial?: { color: ThColorKey, description: string }
   }
 }

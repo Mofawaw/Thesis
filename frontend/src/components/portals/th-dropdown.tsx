@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
-import { ThColorKeys } from '../../../tailwind.config';
+import { ThColorKey } from "@/utilities/th-color.js";
 
 interface ThDropdownPortalProps {
   width: number;
   height: number;
-  thColor: ThColorKeys;
+  thColor: ThColorKey;
   children: React.ReactNode;
   buttonRef: React.RefObject<HTMLElement>;
   onClose: () => (void);
@@ -60,7 +60,7 @@ const ThDropdownPortal: React.FC<ThDropdownPortalProps> = ({
 interface ThDropdownProps {
   width: number;
   height: number;
-  thColor: ThColorKeys;
+  thColor: ThColorKey;
   button: React.ReactNode;
   children: React.ReactNode;
   isOpen: boolean;

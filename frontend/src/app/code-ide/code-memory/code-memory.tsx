@@ -1,4 +1,4 @@
-import ThIcon from "../../../components/utilities/th-icon.tsx";
+import { ThIcon } from "@/utilities/th-icon.js"
 import { codeIDELayout } from "../code-ide-config.ts";
 import useCodeIDEStore from "../code-ide-store.ts";
 import CodeGraph from "./components/code-graph.tsx";

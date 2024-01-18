@@ -1,5 +1,4 @@
 import {
-  ThIconKey,
   PlayIcon,
   PlusIcon,
   MinusIcon,
@@ -7,13 +6,15 @@ import {
   TutorialIcon,
   TippsIcon,
   CheckIcon,
-} from "../../assets/icons/icons";
+} from "../assets/icons/icons";
+
+export type ThIconKey = 'play' | 'plus' | 'minus' | 'fit' | 'tutorial' | 'tipps' | 'check';
 
 interface ThIconProps extends React.SVGProps<SVGSVGElement> {
   icon: ThIconKey;
 }
 
-const ThIcon: React.FC<ThIconProps> = ({
+export const ThIcon: React.FC<ThIconProps> = ({
   icon,
   ...props
 }) => {
@@ -47,5 +48,3 @@ const ThIcon: React.FC<ThIconProps> = ({
 
   return <IconComponent {...props} />;
 };
-
-export default ThIcon;

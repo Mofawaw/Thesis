@@ -1,10 +1,9 @@
-import { ThColorKeys } from "../../../tailwind.config.js"
-import { ThIconKey } from "../../assets/icons/icons.js"
+import { ThColorKey } from "@/utilities/th-color.js";
+import { ThIcon, ThIconKey } from "@/utilities/th-icon.js"
 import ThButton from "./th-button.js"
-import ThIcon from "../utilities/th-icon.js"
 
 interface ThIconTextButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  thColor: ThColorKeys;
+  thColor: ThColorKey;
   icon: ThIconKey;
   text: string;
   isLoading?: boolean;

@@ -21,7 +21,13 @@
     "noUnusedLocals": true, // debug
     "noUnusedParameters": true, // debug
     "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": true // debug
+    "noImplicitAny": true, // debug
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    }
   },
   "include": [
     "src"

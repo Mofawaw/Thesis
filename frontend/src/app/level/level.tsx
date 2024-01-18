@@ -7,7 +7,15 @@ import LevelOverlayBottom from './level-overlay-bottom.tsx';
 import { ThLevel, ThLevelNode } from './types/th-types.ts';
 import { convertToReactflowNode, generateReactflowNodes } from './logic/level-initialization.ts';
 
-export default function Level({ level, tutorialNodes }: { level: ThLevel, tutorialNodes: ThLevelNode[] }) {
+interface LevelProps {
+  level: ThLevel;
+  tutorialNodes: ThLevelNode[];
+}
+
+const Level: React.FC<LevelProps> = ({
+  level,
+  tutorialNodes,
+}) => {
   const [nodes, setNodes] = useState<Node[]>([]);
 
   const addNode = (newLevelNode: ThLevelNode) => {
@@ -84,3 +92,5 @@ function LevelReactFlow({ nodes, setNodes }: { nodes: Node[], setNodes: Dispatch
     />
   );
 }
+
+export default Level;

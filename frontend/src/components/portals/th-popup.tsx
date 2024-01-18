@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import { ThColorKeys } from '../../../tailwind.config';
+import { ThColorKey } from "@/utilities/th-color.js";
 
 interface ThPopupPortalProps {
   width: number;
   height: number;
-  thColor: ThColorKeys;
+  thColor: ThColorKey;
   backgroundClass: string;
   children: React.ReactNode;
   onClose: () => (void);
@@ -48,7 +48,7 @@ const ThPopupPortal: React.FC<ThPopupPortalProps> = ({
 interface ThPopupProps {
   width: number;
   height: number;
-  thColor: ThColorKeys;
+  thColor: ThColorKey;
   backgroundClass: string;
   button: React.ReactNode;
   children: React.ReactNode;

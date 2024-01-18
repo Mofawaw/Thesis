@@ -1,7 +1,7 @@
 import CodeEditor from "./components/code-editor.tsx";
 import CodeOutput from "./components/code-output.tsx"
 import { compileGetOutput } from "../code-ide-network.ts";
-import ThIcon from '../../../components/utilities/th-icon.tsx';
+import { ThIcon } from "@/utilities/th-icon.js"
 import useCodeIDEStore from "../code-ide-store.ts";
 import { codeIDELayout } from "../code-ide-config.ts";
 

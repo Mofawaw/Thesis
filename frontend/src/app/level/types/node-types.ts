@@ -1,4 +1,5 @@
-import { ThColorKeys } from "../../../../tailwind.config";
+
+import { ThColorKey } from "@/utilities/th-color";
 import CodeIDEConfig from "../../code-ide/code-ide-config";
 import CodeGraph from "../../code-ide/code-memory/code-memory-types";
 import CodeIDENode from "../nodes/code-ide-node";
@@ -41,7 +42,7 @@ export interface TextNodeData extends ComponentNodeData {
 
 export interface TutorialNodeData extends ComponentNodeData {
   tutorial: {
-    color: ThColorKeys;
+    color: ThColorKey;
     description: string;
   }
 }

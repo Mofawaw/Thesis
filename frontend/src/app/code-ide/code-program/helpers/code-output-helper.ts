@@ -1,19 +1,17 @@
 import { EditorView, gutter, GutterMarker } from '@codemirror/view';
-import config from '../../../../../tailwind.config.ts'
+import { thFont } from '@/utilities/th-font.ts';
+import { thColors } from '@/utilities/th-color.ts';
 
-const { colors } = config.theme
-const { fontFamily } = config.theme
-
-const keywordColor = colors['th-black'][100];
-const backgroundColor = colors['th-white'];
-const textColor = colors['th-black'][40];
+const keywordColor = thColors['th-black'][100];
+const backgroundColor = thColors['th-white'];
+const textColor = thColors['th-black'][40];
 
 // Theme
 const codeOutputTheme = EditorView.theme({
   "&": {
     color: keywordColor,
     backgroundColor: backgroundColor,
-    fontFamily: fontFamily['th-mono'][0],
+    fontFamily: thFont['th-mono'][0],
     fontSize: "1rem",
     lineHeight: "1.5rem"
   },

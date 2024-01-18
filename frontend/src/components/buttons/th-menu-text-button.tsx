@@ -1,9 +1,9 @@
-import { ThColorKeys } from "../../../tailwind.config"
+import { ThColorKey } from "@/utilities/th-color.js";
 import ThButton from "./th-button"
 
 interface ThMenuTextButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   width: number;
-  thColor: ThColorKeys;
+  thColor: ThColorKey;
   text: string;
 }
 

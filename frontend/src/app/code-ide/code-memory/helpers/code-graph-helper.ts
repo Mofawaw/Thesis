@@ -1,9 +1,7 @@
-import config from '../../../../../tailwind.config.ts'
 import { dia, shapes } from 'jointjs';
 import CodeGraph, { CodeGraphNode, CodeGraphEdge } from '../code-memory-types.ts'
-
-const { colors } = config.theme
-const { fontFamily } = config.theme
+import { thColors } from '@/utilities/th-color.ts';
+import { thFont } from '@/utilities/th-font.ts';
 
 export const stylesGraph = {
   node: {
@@ -11,15 +9,15 @@ export const stylesGraph = {
     height: 35,
     gap: { x: 50, y: 5 },
     padding: 10,
-    font: { size: "15px", family: fontFamily['th-mono'][0] },
+    font: { size: "15px", family: thFont['th-mono'][0] },
     color: {
-      text: colors['th-black'][100],
-      rect: colors['th-black'][10],
+      text: thColors['th-black'][100],
+      rect: thColors['th-black'][10],
     },
     strokeWidth: 3
   },
   edge: {
-    getColor: (type: string) => (type === "value" ? colors['th-value'][100] : colors['th-reference'][100])
+    getColor: (type: string) => (type === "value" ? thColors['th-value'][100] : thColors['th-reference'][100])
   },
   referenceOffset: 20,
 }

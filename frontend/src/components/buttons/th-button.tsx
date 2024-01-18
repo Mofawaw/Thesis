@@ -1,10 +1,11 @@
-import { ThColorKeys } from '../../../tailwind.config.ts'
+import { ThColorKey } from "@/utilities/th-color";
+
 
 interface ThButtonProps extends React.HTMLProps<HTMLButtonElement> {
   children?: React.ReactNode;
   width: number;
   height: number;
-  thColor: ThColorKeys;
+  thColor: ThColorKey;
 }
 
 const ThButton: React.FC<ThButtonProps> = ({

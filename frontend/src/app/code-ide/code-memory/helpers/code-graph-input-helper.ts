@@ -1,9 +1,7 @@
-import config from '../../../../../tailwind.config.ts'
 import { dia, shapes } from 'jointjs';
 import CodeGraph, { CodeGraphNode, CodeGraphEdge } from '../code-memory-types.ts'
-
-const { colors } = config.theme
-const { fontFamily } = config.theme
+import { thFont } from '@/utilities/th-font.ts';
+import { thColors } from '@/utilities/th-color.ts';
 
 export const stylesGraphInput = {
   node: {
@@ -11,17 +9,17 @@ export const stylesGraphInput = {
     height: 35,
     gap: { x: 50, y: 5 },
     padding: 10,
-    font: { size: "15px", family: fontFamily['th-mono'][0] },
+    font: { size: "15px", family: thFont['th-mono'][0] },
     color: {
-      text: colors['th-black'][100],
-      rect: colors['th-black'][10],
-      rectActive: colors['th-black'][20],
-      getRectPreset: (type: string) => (type.includes("value") ? colors['th-value'][20] : colors['th-reference'][20])
+      text: thColors['th-black'][100],
+      rect: thColors['th-black'][10],
+      rectActive: thColors['th-black'][20],
+      getRectPreset: (type: string) => (type.includes("value") ? thColors['th-value'][20] : thColors['th-reference'][20])
     },
     strokeWidth: 3
   },
   edge: {
-    getColor: (type: string) => (type === "value" ? colors['th-value'][100] : colors['th-reference'][100])
+    getColor: (type: string) => (type === "value" ? thColors['th-value'][100] : thColors['th-reference'][100])
   },
   referenceOffset: 20,
 }
