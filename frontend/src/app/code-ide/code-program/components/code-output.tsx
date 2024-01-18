@@ -4,14 +4,16 @@ import { EditorView } from '@codemirror/view';
 import { python } from '@codemirror/lang-python';
 import { codeOutputStyles, percentLineNumbers } from '../helpers/code-output-helper.ts';
 import useCodeIDEStore, { CodeIDEStore } from '../../code-ide-store.ts'
-import { codeIDELayout } from '../../code-ide-config.ts';
+import CodeIDEConfig, { codeIDELayout } from '../../code-ide-config.ts';
 
 interface CodeOutputProps {
   scopeId: string;
+  config: CodeIDEConfig;
 }
 
 const CodeOutput: React.FC<CodeOutputProps> = ({
   scopeId,
+  config,
 }) => {
   const editorRef = useRef<HTMLDivElement>(null);
   const [editorView, setEditorView] = useState<EditorView>();

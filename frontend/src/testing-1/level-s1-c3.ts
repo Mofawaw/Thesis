@@ -2,7 +2,7 @@ import stages from "./stages.ts";
 import categories from "./categories.ts";
 import { ThLevel } from "@/types/th-types.ts";
 import CodeGraph from "@/app/code-ide/code-memory/code-memory-types.ts";
-import { tippNodesC3 } from "./tipps.ts";
+
 
 const expectedGraphProgram =
   `x = 5
@@ -87,7 +87,11 @@ const levelS1C3: ThLevel = {
     { node: categories[2].nodes[1], data: { codeIDE: { initialGraph: initialGraph } } },
     { node: categories[2].nodes[2], data: { text: { description: taskDescription } } }
   ],
-  tippNodes: tippNodesC3,
+  tippNodes: [
+    { node: { id: "ti1", type: "codeIDE", data: { title: "Tipp 1", size: "small", isDefault: false, codeIDE: { isMain: false, scopeId: "c-ide-1", config: { type: "program", mode: "write", runnable: true } } } }, data: { codeIDE: { initialCode: expectedGraphProgram } } },
+    { node: { id: "ti2", type: "codeIDE", data: { title: "Tipp 2", size: "small", isDefault: false, codeIDE: { isMain: false, scopeId: "c-ide-2", config: { type: "graph", mode: "read", runnable: true } } } }, data: { codeIDE: {} } },
+    { node: { id: "ti3", type: "text", data: { title: "Lösung", size: "medium", isDefault: false } }, data: { text: { description: "Platzhalter für eine weitere IDE [Speicher] mit dem Lösungsgraphen." } } },
+  ],
   expected: { graph: expectedGraph }
 }
 

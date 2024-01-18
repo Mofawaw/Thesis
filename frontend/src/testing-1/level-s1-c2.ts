@@ -2,7 +2,6 @@ import stages from "./stages.ts";
 import categories from "./categories.ts";
 import { ThLevel } from "@/types/th-types.ts";
 import CodeGraph from "@/app/code-ide/code-memory/code-memory-types.ts";
-import { tippNodesC2 } from "./tipps.ts";
 
 const initialCode =
   `# Vor vier Jahren
@@ -56,7 +55,11 @@ const levelS1C2: ThLevel = {
     { node: categories[1].nodes[1], data: { codeIDE: { initialCode: initialCode } } },
     { node: categories[1].nodes[2], data: { text: { description: taskDescription } } }
   ],
-  tippNodes: tippNodesC2,
+  tippNodes: [
+    { node: { id: "ti1", type: "text", data: { title: "Tipp 1", size: "small", isDefault: false } }, data: { text: { description: "Platzhalter für eine weitere IDE [Programm], Duplikat des ursprünglichen Programms, aber mit z.B. Kommentaren, Guide, ..." } } },
+    { node: { id: "ti2", type: "text", data: { title: "Tipp 2", size: "small", isDefault: false } }, data: { text: { description: "Platzhalter für eine weitere IDE [Speicher], der dazugehörige Speicher zum eigenen Programm, real-time wie bei der Coding-Challenge." } } },
+    { node: { id: "ti3", type: "text", data: { title: "Lösung", size: "medium", isDefault: false } }, data: { text: { description: "Platzhalter für eine weitere IDE [Programm] mit dem Lösungsprogramm." } } },
+  ],
   expected: { graph: expectedGraph }
 }
 

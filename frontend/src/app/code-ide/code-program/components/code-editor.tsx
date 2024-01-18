@@ -7,18 +7,21 @@ import { codeEditorStyles } from '../helpers/code-editor-helper.ts';
 import useCodeIDEStore from '../../code-ide-store.ts'
 import { compileGetGraph, compileGetOutput } from '../../code-ide-network.ts';
 import debounce from '@/helpers/debounce.ts';
+import CodeIDEConfig from '../../code-ide-config.ts';
 
 interface CodeEditorProps {
   height: number;
   scopeId: string;
+  config: CodeIDEConfig
 }
 
 const CodeEditor: React.FC<CodeEditorProps> = ({
   height,
   scopeId,
+  config,
 }) => {
   const editorRef = useRef<HTMLDivElement>(null);
-  const { config, code, setCode } = useCodeIDEStore(scopeId).getState();
+  const { code, setCode } = useCodeIDEStore(scopeId).getState();
 
   const debouncedCompileGetGraph = debounce(() => {
     config.runnable ? compileGetGraph(scopeId) : {};
@@ -81,7 +84,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
         }),
         // Disable edit when mode is read
         EditorState.transactionFilter.of((tr) => {
-          if (!config.runnable) {
+          if (config.mode === "read") {
             const isProgrammatic = tr.annotation(Transaction.userEvent) === 'programmatic';
             if (tr.docChanged && !isProgrammatic) {
               return [];

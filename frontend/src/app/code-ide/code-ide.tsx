@@ -28,23 +28,23 @@ const CodeIDE: React.FC<CodeIDEProps> = ({
       codeIDEComponent = (
         <div className="flex flex-row overflow-hidden">
           <div className="basis-3/5 flex-none overflow-hidden">
-            <CodeProgram height={height} scopeId={scopeId} />
+            <CodeProgram height={height} scopeId={scopeId} config={config} />
           </div>
           <div className="th-yline" />
           <div className="basis-2/5 flex-none overflow-hidden">
-            <CodeMemory height={height} scopeId={scopeId} />
+            <CodeMemory height={height} scopeId={scopeId} config={config} />
           </div>
         </div>
       );
       break;
     case "program":
-      codeIDEComponent = <CodeProgram height={height} scopeId={scopeId} />;
+      codeIDEComponent = <CodeProgram height={height} scopeId={scopeId} config={config} />;
       break;
     case "graph":
       if (config.mode === "read") {
-        codeIDEComponent = <CodeMemory height={height} scopeId={scopeId} />;
+        codeIDEComponent = <CodeMemory height={height} scopeId={scopeId} config={config} />;
       } else {
-        codeIDEComponent = <CodeMemory height={height} scopeId={scopeId} />;
+        codeIDEComponent = <CodeMemory height={height} scopeId={scopeId} config={config} />;
       }
       break;
     default:
@@ -53,11 +53,14 @@ const CodeIDE: React.FC<CodeIDEProps> = ({
 
   // "Initialize" CodeIDEStore 
   useEffect(() => {
-    store.setConfig(config);
-    store.setCode(initialCode);
-    store.setGraph(initialGraph);
-    store.setPresetGraph(initialGraph);
-  }, []);
+    if (initialCode !== "") {
+      store.setCode(initialCode);
+    }
+    if (initialGraph.nodes.length !== 0) {
+      store.setGraph(initialGraph);
+      store.setInitialGraph(initialGraph);
+    }
+  }, [])
 
   return (
     <div>

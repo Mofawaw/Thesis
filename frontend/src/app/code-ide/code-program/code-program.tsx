@@ -3,32 +3,34 @@ import CodeOutput from "./components/code-output.tsx"
 import { compileGetOutput } from "../code-ide-network.ts";
 import { ThIcon } from "@/utilities/th-icon.js"
 import useCodeIDEStore from "../code-ide-store.ts";
-import { codeIDELayout } from "../code-ide-config.ts";
+import CodeIDEConfig, { codeIDELayout } from "../code-ide-config.ts";
 
 interface CodeProgramProps {
   height: number;
   scopeId: string;
+  config: CodeIDEConfig;
 }
 
 const CodeProgram: React.FC<CodeProgramProps> = ({
   height,
   scopeId,
+  config,
 }) => {
   const store = useCodeIDEStore(scopeId).getState();
   let codeProgramComponent;
-  let codeEditorHeight = codeIDELayout.getCodeEditorHeight(store.config, height)
+  let codeEditorHeight = codeIDELayout.getCodeEditorHeight(config, height)
 
-  if (!store.config.runnable) {
+  if (!config.runnable) {
     codeProgramComponent = (
       <div className="p-4 mb-2">
-        <CodeEditor height={codeEditorHeight} scopeId={scopeId} />
+        <CodeEditor height={codeEditorHeight} scopeId={scopeId} config={config} />
       </div>
     )
-  } else if (store.config.runnable) {
+  } else if (config.runnable) {
     codeProgramComponent = (
       <div className="flex flex-col gap-2 py-4 overflow-hidden" >
         <div className="px-4 mb-2">
-          <CodeEditor height={codeEditorHeight} scopeId={scopeId} />
+          <CodeEditor height={codeEditorHeight} scopeId={scopeId} config={config} />
         </div>
 
         <div className="flex flex-col gap-2 justify-center">
@@ -42,7 +44,7 @@ const CodeProgram: React.FC<CodeProgramProps> = ({
         </div>
 
         <div className="px-4 my-2 overflow-hidden">
-          <CodeOutput scopeId={scopeId} />
+          <CodeOutput scopeId={scopeId} config={config} />
         </div>
       </div>
     )

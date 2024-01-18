@@ -3,15 +3,18 @@ import { dia, shapes } from 'jointjs';
 import useCodeIDEStore, { CodeIDEStore } from '../../code-ide-store.ts';
 import { addDataToGraphInput, stylesGraphInput } from '../helpers/code-graph-input-helper.ts';
 import { CodeGraphNode } from '../code-memory-types.ts';
+import CodeIDEConfig from '../../code-ide-config.ts';
 
 interface CodeGraphInputProps {
   height: number;
   scopeId: string;
+  config: CodeIDEConfig
 }
 
 const CodeGraphInput: React.FC<CodeGraphInputProps> = ({
   height,
   scopeId,
+  config,
 }) => {
   const canvasRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -19,9 +22,8 @@ const CodeGraphInput: React.FC<CodeGraphInputProps> = ({
   const [selectedNode, setSelectedNode] = useState<dia.Element | null>(null);
   const selectedNodeRef = useRef<dia.Element | null>(null);
 
-  const config = useCodeIDEStore(scopeId)((state: CodeIDEStore) => state.config);
   const graph = useCodeIDEStore(scopeId)((state: CodeIDEStore) => state.graph);
-  const presetGraph = useCodeIDEStore(scopeId)((state: CodeIDEStore) => state.presetGraph);
+  const initialGraph = useCodeIDEStore(scopeId)((state: CodeIDEStore) => state.initialGraph);
 
   const saveSelectedNode = () => {
     // Reset styles
@@ -67,7 +69,7 @@ const CodeGraphInput: React.FC<CodeGraphInputProps> = ({
       cellViewNamespace: shapes,
     });
 
-    addDataToGraphInput(graph, presetGraph, diaGraph);
+    addDataToGraphInput(graph, initialGraph, diaGraph);
     paper.unfreeze();
 
     // Select node
@@ -112,7 +114,7 @@ const CodeGraphInput: React.FC<CodeGraphInputProps> = ({
         canvasRef.current.innerHTML = '';
       }
     };
-  }, [presetGraph, config]);
+  }, [initialGraph, config]);
 
   // SelectedNode input
   useEffect(() => {

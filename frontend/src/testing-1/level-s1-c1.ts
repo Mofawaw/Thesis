@@ -1,7 +1,6 @@
 import stages from "./stages.ts";
 import categories from "./categories.ts";
 import { ThLevel } from "@/types/th-types.ts";
-import { tippNodesC1 } from "./tipps.ts";
 
 const initialCode =
   `# TODO: - Bearbeite hier
@@ -33,7 +32,11 @@ const levelS1C1: ThLevel = {
     { node: categories[0].nodes[0], data: { codeIDE: { initialCode: initialCode } } },
     { node: categories[0].nodes[1], data: { text: { description: taskDescription } } }
   ],
-  tippNodes: tippNodesC1,
+  tippNodes: [
+    { node: { id: "ti1", type: "text", data: { title: "Tipp 1", size: "small", isDefault: false } }, data: { text: { description: "Dieser Tipp enthält z.B. ein paar hilfreiche Hinweise zur Aufgabe und ergänzt die Aufgabenstellung zusätzlich." } } },
+    { node: { id: "ti2", type: "text", data: { title: "Tipp 2", size: "small", isDefault: false } }, data: { text: { description: "Platzhalter für eine weitere IDE [Programm], Duplikat des ursprünglichen Programms, aber mit z.B. Kommentaren, Guide, ..." } } },
+    { node: { id: "ti3", type: "text", data: { title: "Lösung", size: "large", isDefault: false } }, data: { text: { description: "Platzhalter für eine weitere IDE [Programm | Speicher] mit dem Lösungsprogramm und dem Lösungsgraphen." } } }
+  ],
   expected: { output: expectedOutput }
 }
 
