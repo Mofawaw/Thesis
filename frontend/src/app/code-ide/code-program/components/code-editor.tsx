@@ -6,7 +6,7 @@ import { defaultKeymap, indentWithTab, history, redo } from '@codemirror/command
 import { codeEditorStyles } from '../helpers/code-editor-helper.ts';
 import useCodeIDEStore from '../../code-ide-store.ts'
 import { compileGetGraph, compileGetOutput } from '../../code-ide-network.ts';
-import debounce from '../../../../helper/debounce.ts';
+import debounce from '@/helpers/debounce.ts';
 
 interface CodeEditorProps {
     height: number;

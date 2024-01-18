@@ -6,7 +6,7 @@ import {
   TutorialIcon,
   TippsIcon,
   CheckIcon,
-} from "../assets/icons/icons";
+} from "@/assets/icons/icons";
 
 export type ThIconKey = 'play' | 'plus' | 'minus' | 'fit' | 'tutorial' | 'tipps' | 'check';
 

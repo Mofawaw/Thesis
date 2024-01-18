@@ -1,6 +1,5 @@
 import { ThColorKey } from "@/utilities/th-color";
 
-
 interface ThButtonProps extends React.HTMLProps<HTMLButtonElement> {
   children?: React.ReactNode;
   width: number;

@@ -1,8 +1,8 @@
-import { ThIcon } from "@/utilities/th-icon.js"
 import { codeIDELayout } from "../code-ide-config.ts";
 import useCodeIDEStore from "../code-ide-store.ts";
 import CodeGraph from "./components/code-graph.tsx";
 import CodeGraphInput from "./components/code-graph-input.tsx";
+import { ThIcon } from "@/utilities/th-icon.js"
 
 interface CodeMemoryProps {
   height: number;

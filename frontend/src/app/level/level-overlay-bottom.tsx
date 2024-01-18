@@ -1,11 +1,11 @@
-import { Node, useReactFlow } from "reactflow";
-import ThIconButton from "../../components/buttons/th-icon-button.tsx";
-import ThIconTextButton from "../../components/buttons/th-icon-text-button.tsx";
-import ThDropdown from "../../components/portals/th-dropdown.tsx";
-import ThMenuTextButton from "../../components/buttons/th-menu-text-button.tsx";
-import ThPopup from "../../components/portals/th-popup.tsx";
 import { useState } from "react";
-import ThTextButton from "../../components/buttons/th-text-button.tsx";
+import { Node, useReactFlow } from "reactflow";
+import ThIconButton from "@/components/buttons/th-icon-button.tsx";
+import ThIconTextButton from "@/components/buttons/th-icon-text-button.tsx";
+import ThDropdown from "@/components/portals/th-dropdown.tsx";
+import ThMenuTextButton from "@/components/buttons/th-menu-text-button.tsx";
+import ThPopup from "@/components/portals/th-popup.tsx";
+import ThTextButton from "@/components/buttons/th-text-button.tsx";
 import { ThLevel, ThLevelNode } from "./types/th-types.ts";
 import { evaluateLevelCompletion } from "./logic/level-evaluation.ts";
 
