@@ -26,7 +26,6 @@ export function convertToReactflowNode(levelNode: ThLevelNode) {
     title: levelNode.node.data.title ?? "",
     width: nodeSize.width,
     height: nodeSize.height,
-    isDefault: levelNode.node.data.isDefault
   }
 
   if (levelNode.node.type === "codeIDE" && levelNode.data.codeIDE && levelNode.node.data.codeIDE) {
@@ -34,7 +33,7 @@ export function convertToReactflowNode(levelNode: ThLevelNode) {
     const codeIDEData: CodeIDENodeData = {
       ...componentNodeData,
       codeIDE: {
-        isMain: levelNode.node.data.codeIDE.isMain,
+        main: levelNode.node.data.codeIDE.main,
         scopeId: levelNode.node.data.codeIDE.scopeId,
         config: levelNode.node.data.codeIDE.config,
         initialCode: levelNode.data.codeIDE.initialCode ?? "",

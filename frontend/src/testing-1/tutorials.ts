@@ -8,7 +8,6 @@ export const tutorialNodes: ThLevelNode[] = [
       data: {
         title: "Wertetypen",
         size: "medium",
-        isDefault: false
       }
     },
     data: {
@@ -25,7 +24,6 @@ export const tutorialNodes: ThLevelNode[] = [
       data: {
         title: "Referenztypen",
         size: "medium",
-        isDefault: false
       }
     },
     data: {

@@ -30,7 +30,6 @@ export interface ComponentNodeData {
   title: string;
   width: number;
   height: number;
-  isDefault: boolean;
 }
 
 export interface TextNodeData extends ComponentNodeData {
@@ -48,7 +47,7 @@ export interface TutorialNodeData extends ComponentNodeData {
 
 export interface CodeIDENodeData extends ComponentNodeData {
   codeIDE: {
-    isMain: boolean;
+    main: boolean;
     scopeId: string;
     config: CodeIDEConfig;
     initialCode: string;

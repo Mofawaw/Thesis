@@ -22,7 +22,7 @@ export function evaluateLevelCompletion(level: ThLevel, nodes: Node[]): Promise<
 async function verifyLevelCriteria(level: ThLevel, nodes: Node[]): Promise<{ result: boolean, message: string }> {
   const stage = level.stage
   const category = level.category;
-  const mainNode = nodes.find(node => (node.data as CodeIDENodeData).codeIDE.isMain);
+  const mainNode = nodes.find(node => (node.data as CodeIDENodeData).codeIDE.main);
   const mainScopeId = mainNode ? (mainNode.data as CodeIDENodeData).codeIDE.scopeId : null;
 
   if (!mainScopeId) {

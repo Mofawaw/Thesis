@@ -33,8 +33,7 @@ export interface ThNode {
   data: {
     title?: string,
     size: "small" | "medium" | "large",
-    isDefault: boolean,
-    codeIDE?: { isMain: boolean, scopeId: string, config: CodeIDEConfig }
+    codeIDE?: { main: boolean, scopeId: string, config: CodeIDEConfig }
   }
 }
 

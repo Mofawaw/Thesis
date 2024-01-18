@@ -8,7 +8,6 @@ export const tippNodesC1: ThLevelNode[] = [
       data: {
         title: "Tipp 1",
         size: "small",
-        isDefault: false
       }
     },
     data: {
@@ -24,7 +23,6 @@ export const tippNodesC1: ThLevelNode[] = [
       data: {
         title: "Tipp 2",
         size: "small",
-        isDefault: false
       }
     },
     data: {
@@ -40,7 +38,6 @@ export const tippNodesC1: ThLevelNode[] = [
       data: {
         title: "Lösung",
         size: "large",
-        isDefault: false
       }
     },
     data: {
@@ -59,7 +56,6 @@ export const tippNodesC2: ThLevelNode[] = [
       data: {
         title: "Tipp 1",
         size: "small",
-        isDefault: false
       }
     },
     data: {
@@ -75,7 +71,6 @@ export const tippNodesC2: ThLevelNode[] = [
       data: {
         title: "Tipp 2",
         size: "small",
-        isDefault: false
       }
     },
     data: {
@@ -91,7 +86,6 @@ export const tippNodesC2: ThLevelNode[] = [
       data: {
         title: "Lösung",
         size: "medium",
-        isDefault: false
       }
     },
     data: {
@@ -110,7 +104,6 @@ export const tippNodesC3: ThLevelNode[] = [
       data: {
         title: "Tipp 1",
         size: "small",
-        isDefault: false
       }
     },
     data: {
@@ -126,7 +119,6 @@ export const tippNodesC3: ThLevelNode[] = [
       data: {
         title: "Tipp 2",
         size: "small",
-        isDefault: false
       }
     },
     data: {
@@ -142,7 +134,6 @@ export const tippNodesC3: ThLevelNode[] = [
       data: {
         title: "Lösung",
         size: "medium",
-        isDefault: false
       }
     },
     data: {

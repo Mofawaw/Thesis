@@ -56,9 +56,9 @@ const levelS1C2: ThLevel = {
     { node: categories[1].nodes[2], data: { text: { description: taskDescription } } }
   ],
   tippNodes: [
-    { node: { id: "ti1", type: "text", data: { title: "Tipp 1", size: "small", isDefault: false } }, data: { text: { description: "Platzhalter für eine weitere IDE [Programm], Duplikat des ursprünglichen Programms, aber mit z.B. Kommentaren, Guide, ..." } } },
-    { node: { id: "ti2", type: "text", data: { title: "Tipp 2", size: "small", isDefault: false } }, data: { text: { description: "Platzhalter für eine weitere IDE [Speicher], der dazugehörige Speicher zum eigenen Programm, real-time wie bei der Coding-Challenge." } } },
-    { node: { id: "ti3", type: "text", data: { title: "Lösung", size: "medium", isDefault: false } }, data: { text: { description: "Platzhalter für eine weitere IDE [Programm] mit dem Lösungsprogramm." } } },
+    { node: { id: "ti1", type: "text", data: { title: "Tipp 1", size: "small" } }, data: { text: { description: "Platzhalter für eine weitere IDE [Programm], Duplikat des ursprünglichen Programms, aber mit z.B. Kommentaren, Guide, ..." } } },
+    { node: { id: "ti2", type: "text", data: { title: "Tipp 2", size: "small" } }, data: { text: { description: "Platzhalter für eine weitere IDE [Speicher], der dazugehörige Speicher zum eigenen Programm, real-time wie bei der Coding-Challenge." } } },
+    { node: { id: "ti3", type: "text", data: { title: "Lösung", size: "medium" } }, data: { text: { description: "Platzhalter für eine weitere IDE [Programm] mit dem Lösungsprogramm." } } },
   ],
   expected: { graph: expectedGraph }
 }
