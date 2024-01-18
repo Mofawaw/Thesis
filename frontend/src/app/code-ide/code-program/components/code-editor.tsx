@@ -9,102 +9,102 @@ import { compileGetGraph, compileGetOutput } from '../../code-ide-network.ts';
 import debounce from '@/helpers/debounce.ts';
 
 interface CodeEditorProps {
-    height: number;
-    scopeId: string;
+  height: number;
+  scopeId: string;
 }
 
 const CodeEditor: React.FC<CodeEditorProps> = ({
-    height,
-    scopeId,
+  height,
+  scopeId,
 }) => {
-    const editorRef = useRef<HTMLDivElement>(null);
-    const { config, code, setCode } = useCodeIDEStore(scopeId).getState();
+  const editorRef = useRef<HTMLDivElement>(null);
+  const { config, code, setCode } = useCodeIDEStore(scopeId).getState();
 
-    const debouncedCompileGetGraph = debounce(() => {
-        config.runnable ? compileGetGraph(scopeId) : {};
+  const debouncedCompileGetGraph = debounce(() => {
+    config.runnable ? compileGetGraph(scopeId) : {};
+  }, 1000);
+
+  const redoKeymap = keymap.of([{
+    key: "Mod-Shift-z",
+    run: redo
+  }]);
+
+  const saveKeymap = keymap.of([{
+    key: "Mod-s",
+    run: () => { config.runnable ? compileGetGraph(scopeId) : {}; return true; },
+    preventDefault: true
+  }]);
+
+  const runKeymap = keymap.of([{
+    key: "Mod-r",
+    run: () => { config.runnable ? compileGetOutput(scopeId) : {}; return true; },
+    preventDefault: true
+  }]);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      config.runnable ? compileGetGraph(scopeId) : {};
     }, 1000);
+    return () => clearTimeout(timeoutId);
+  }, []);
 
-    const redoKeymap = keymap.of([{
-        key: "Mod-Shift-z",
-        run: redo
-    }]);
+  useEffect(() => {
+    if (!editorRef.current) return;
 
-    const saveKeymap = keymap.of([{
-        key: "Mod-s",
-        run: () => { config.runnable ? compileGetGraph(scopeId) : {}; return true; },
-        preventDefault: true
-    }]);
+    const startState = EditorState.create({
+      doc: code,
+      extensions: [
+        python(),
+        keymap.of([indentWithTab, ...defaultKeymap]),
+        redoKeymap,
+        saveKeymap,
+        runKeymap,
+        history(),
+        codeEditorStyles,
+        lineNumbers(),
+        highlightActiveLine(),
+        highlightActiveLineGutter(),
+        EditorView.updateListener.of(update => {
+          if (update.docChanged) {
+            setCode(update.state.doc.toString());
+            config.runnable ? debouncedCompileGetGraph() : {}
+          }
+          if (update.focusChanged) {
+            if (update.view.hasFocus) {
+              editorRef.current?.classList.add("nodrag");
+              editorRef.current?.classList.add("nowheel");
+            } else {
+              editorRef.current?.classList.remove("nodrag");
+              editorRef.current?.classList.remove("nowheel");
+            }
+          }
+        }),
+        // Disable edit when mode is read
+        EditorState.transactionFilter.of((tr) => {
+          if (!config.runnable) {
+            const isProgrammatic = tr.annotation(Transaction.userEvent) === 'programmatic';
+            if (tr.docChanged && !isProgrammatic) {
+              return [];
+            }
+          }
+          return tr;
+        })
+      ]
+    });
 
-    const runKeymap = keymap.of([{
-        key: "Mod-r",
-        run: () => { config.runnable ? compileGetOutput(scopeId) : {}; return true; },
-        preventDefault: true
-    }]);
+    const view = new EditorView({
+      state: startState,
+      parent: editorRef.current
+    });
 
-    useEffect(() => {
-        const timeoutId = setTimeout(() => {
-            config.runnable ? compileGetGraph(scopeId) : {};
-        }, 1000);
-        return () => clearTimeout(timeoutId);
-    }, []);
+    return () => {
+      view.destroy();
+    };
+  }, [code]);
 
-    useEffect(() => {
-        if (!editorRef.current) return;
-
-        const startState = EditorState.create({
-            doc: code,
-            extensions: [
-                python(),
-                keymap.of([indentWithTab, ...defaultKeymap]),
-                redoKeymap,
-                saveKeymap,
-                runKeymap,
-                history(),
-                codeEditorStyles,
-                lineNumbers(),
-                highlightActiveLine(),
-                highlightActiveLineGutter(),
-                EditorView.updateListener.of(update => {
-                    if (update.docChanged) {
-                        setCode(update.state.doc.toString());
-                        config.runnable ? debouncedCompileGetGraph() : {}
-                    }
-                    if (update.focusChanged) {
-                        if (update.view.hasFocus) {
-                            editorRef.current?.classList.add("nodrag");
-                            editorRef.current?.classList.add("nowheel");
-                        } else {
-                            editorRef.current?.classList.remove("nodrag");
-                            editorRef.current?.classList.remove("nowheel");
-                        }
-                    }
-                }),
-                // Disable edit when mode is read
-                EditorState.transactionFilter.of((tr) => {
-                    if (!config.runnable) {
-                        const isProgrammatic = tr.annotation(Transaction.userEvent) === 'programmatic';
-                        if (tr.docChanged && !isProgrammatic) {
-                            return [];
-                        }
-                    }
-                    return tr;
-                })
-            ]
-        });
-
-        const view = new EditorView({
-            state: startState,
-            parent: editorRef.current
-        });
-
-        return () => {
-            view.destroy();
-        };
-    }, [code]);
-
-    return (
-        <div ref={editorRef} className="editor" style={{ height: `${height}px`, overflow: 'auto' }} />
-    );
+  return (
+    <div ref={editorRef} className="editor" style={{ height: `${height}px`, overflow: 'auto' }} />
+  );
 }
 
 export default CodeEditor;
