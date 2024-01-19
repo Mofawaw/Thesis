@@ -45,26 +45,6 @@ Der entsprechende Speicher-Zustand beschreibt die neue Situation. Beachte, dass 
 <b>Schreibe ein Programm welches diesen Speicher ausgibt.</b>
 `
 
-const levelS1C2: ThLevel = {
-  id: "l-s1c2",
-  stage: stages[0],
-  category: categories[1],
-  label: "Test 1-2",
-  nodes: [
-    { baseNode: categories[1].baseNodes[0], data: { codeIDE: { initialGraph: expectedGraph } } },
-    { baseNode: categories[1].baseNodes[1], data: { codeIDE: { initialCode: initialCode } } },
-    { baseNode: categories[1].baseNodes[2], data: { text: { description: taskDescription } } }
-  ],
-  tippNodes: [
-    { baseNode: { id: "ti1", type: "text", data: { title: "Tipp 1", size: "small" } }, data: { text: { description: "Platzhalter für eine weitere IDE [Programm], Duplikat des ursprünglichen Programms, aber mit z.B. Kommentaren, Guide, ..." } } },
-    { baseNode: { id: "ti2", type: "text", data: { title: "Tipp 2", size: "small" } }, data: { text: { description: "Platzhalter für eine weitere IDE [Speicher], der dazugehörige Speicher zum eigenen Programm, real-time wie bei der Coding-Challenge." } } },
-    { baseNode: { id: "ti3", type: "text", data: { title: "Lösung", size: "medium" } }, data: { text: { description: "Platzhalter für eine weitere IDE [Programm] mit dem Lösungsprogramm." } } },
-  ],
-  expected: { graph: expectedGraph }
-}
-
-export default levelS1C2;
-
 const exampleSolution =
   `# Vor vier Jahren
 h = 10
@@ -78,3 +58,23 @@ k = 5 - 1
 e = 48
 summe = h + b + k + e
 `
+
+const levelS1C2: ThLevel = {
+  id: "l-s1c2",
+  stage: stages[0],
+  category: categories[1],
+  label: "Test 1-2",
+  nodes: [
+    { baseNode: categories[1].baseNodes[0], data: { codeIDE: { initialGraph: expectedGraph } } },
+    { baseNode: categories[1].baseNodes[1], data: { codeIDE: { initialCode: initialCode } } },
+    { baseNode: categories[1].baseNodes[2], data: { text: { description: taskDescription } } }
+  ],
+  tippNodes: [
+    { baseNode: categories[1].baseTippNodes[0], data: { codeIDE: { initialCode: initialCode } } },
+    { baseNode: categories[1].baseTippNodes[1], data: { codeIDE: {} } },
+    { baseNode: categories[1].baseTippNodes[2], data: { codeIDE: { initialCode: exampleSolution } } },
+  ],
+  expected: { graph: expectedGraph }
+}
+
+export default levelS1C2;

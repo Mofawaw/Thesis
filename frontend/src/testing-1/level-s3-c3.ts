@@ -2,7 +2,6 @@ import stages from "./stages.ts";
 import categories from "./categories.ts";
 import { ThLevel } from "@/types/th-types.ts";
 import CodeGraph from "@/app/code-ide/code-memory/code-memory-types.ts";
-import { tippNodesC3 } from "./tipps.ts";
 
 const expectedGraphProgram =
   `class Kreis:
@@ -96,7 +95,11 @@ const levelS3C3: ThLevel = {
     { baseNode: categories[2].baseNodes[1], data: { codeIDE: { initialGraph: initialGraph } } },
     { baseNode: categories[2].baseNodes[2], data: { text: { description: taskDescription } } }
   ],
-  tippNodes: tippNodesC3,
+  tippNodes: [
+    { baseNode: categories[1].baseTippNodes[0], data: { codeIDE: { initialCode: expectedGraphProgram } } },
+    { baseNode: categories[1].baseTippNodes[1], data: { codeIDE: {} } },
+    { baseNode: categories[1].baseTippNodes[2], data: { codeIDE: { initialGraph: expectedGraph } } },
+  ],
   expected: { graph: expectedGraph }
 }
 

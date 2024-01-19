@@ -1,7 +1,6 @@
 import stages from "./stages.ts";
 import categories from "./categories.ts";
 import { ThLevel } from "@/types/th-types.ts";
-import { tippNodesC1 } from "./tipps.ts";
 
 const initialCode =
   `class Tier:
@@ -52,7 +51,11 @@ const levelS2C1: ThLevel = {
     { baseNode: categories[0].baseNodes[0], data: { codeIDE: { initialCode: initialCode } } },
     { baseNode: categories[0].baseNodes[1], data: { text: { description: taskDescription } } }
   ],
-  tippNodes: tippNodesC1,
+  tippNodes: [
+    { baseNode: categories[0].baseTippNodes[0], data: { text: { description: "Tipp Text" } } },
+    { baseNode: categories[0].baseTippNodes[1], data: { codeIDE: { initialCode: initialCode } } },
+    { baseNode: categories[0].baseTippNodes[2], data: { codeIDE: {} } },
+  ],
   expected: { output: expectedOutput }
 }
 

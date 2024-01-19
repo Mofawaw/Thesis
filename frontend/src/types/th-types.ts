@@ -14,6 +14,7 @@ export interface ThCategory {
   id: "c1" | "c2" | "c3";
   label: string;
   baseNodes: ThBaseNode[];
+  baseTippNodes: ThBaseNode[];
   expected: "output" | "graph";
 }
 

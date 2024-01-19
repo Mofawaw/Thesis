@@ -2,7 +2,6 @@ import stages from "./stages.ts";
 import categories from "./categories.ts";
 import { ThLevel } from "@/types/th-types.ts";
 import CodeGraph from "@/app/code-ide/code-memory/code-memory-types.ts";
-import { tippNodesC2 } from "./tipps.ts";
 
 const initialCode =
   `class Tier:
@@ -57,7 +56,11 @@ const levelS2C2: ThLevel = {
     { baseNode: categories[1].baseNodes[1], data: { codeIDE: { initialCode: initialCode } } },
     { baseNode: categories[1].baseNodes[2], data: { text: { description: taskDescription } } }
   ],
-  tippNodes: tippNodesC2,
+  tippNodes: [
+    { baseNode: categories[1].baseTippNodes[0], data: { codeIDE: { initialCode: initialCode } } },
+    { baseNode: categories[1].baseTippNodes[1], data: { codeIDE: {} } },
+    { baseNode: categories[1].baseTippNodes[2], data: { codeIDE: {} } },
+  ],
   expected: { graph: expectedGraph }
 }
 
