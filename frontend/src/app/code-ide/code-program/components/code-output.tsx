@@ -17,7 +17,7 @@ const CodeOutput: React.FC<CodeOutputProps> = ({
 }) => {
   const editorRef = useRef<HTMLDivElement>(null);
   const [editorView, setEditorView] = useState<EditorView>();
-  const output = useCodeIDEStore(scopeId)((state: CodeIDEStore) => state.output)
+  const codeOutput = useCodeIDEStore(scopeId)((state: CodeIDEStore) => state.codeOutput)
 
   useEffect(() => {
     if (!editorRef.current) return;
@@ -68,12 +68,12 @@ const CodeOutput: React.FC<CodeOutputProps> = ({
   useEffect(() => {
     if (editorView) {
       const transaction = editorView.state.update({
-        changes: { from: 0, to: editorView.state.doc.length, insert: output },
+        changes: { from: 0, to: editorView.state.doc.length, insert: codeOutput },
         annotations: Transaction.userEvent.of('programmatic')
       });
       editorView.dispatch(transaction);
     }
-  }, [output, editorView]);
+  }, [codeOutput, editorView]);
 
   return (
     <div className="flex flex-col overflow-auto">

@@ -8,8 +8,8 @@ export interface CodeIDENetworkResultType {
   error?: string;
 }
 
-export function compileGetOutput(scopeId: string) {
-  const { code, setOutput } = useCodeIDEStore(scopeId).getState();
+export function compileGetCodeOutput(scopeId: string) {
+  const { code, setCodeOutput } = useCodeIDEStore(scopeId).getState();
 
   console.log("Request: compile_get_output")
   console.log('Code', code)
@@ -31,11 +31,11 @@ export function compileGetOutput(scopeId: string) {
       .then(data => {
         if (data.error) {
           console.log('Error:', data.error);
-          setOutput(data.error);
+          setCodeOutput(data.error);
           resolve({ success: false, error: data.error });
         } else {
           console.log('Output:', data.output);
-          setOutput(data.output);
+          setCodeOutput(data.output);
           resolve({ success: true, output: data.output });
         }
       })

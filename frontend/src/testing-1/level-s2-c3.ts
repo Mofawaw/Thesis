@@ -88,9 +88,9 @@ const levelS2C3: ThLevel = {
     { baseNode: categories[2].baseNodes[2], data: { text: { description: taskDescription } } }
   ],
   tippNodes: [
-    { baseNode: categories[1].baseTippNodes[0], data: { codeIDE: { initialCode: expectedGraphProgram } } },
-    { baseNode: categories[1].baseTippNodes[1], data: { codeIDE: {} } },
-    { baseNode: categories[1].baseTippNodes[2], data: { codeIDE: { initialGraph: expectedGraph } } },
+    { baseNode: categories[2].baseTippNodes[0], data: { codeIDE: { initialCode: expectedGraphProgram } } },
+    { baseNode: categories[2].baseTippNodes[1], data: { codeIDE: {} } },
+    { baseNode: categories[2].baseTippNodes[2], data: { codeIDE: { initialGraph: expectedGraph } } },
   ],
   expected: { graph: expectedGraph }
 }

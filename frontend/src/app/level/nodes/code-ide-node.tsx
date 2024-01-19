@@ -25,20 +25,20 @@ const CodeIDENode: React.FC<CodeIDENodeProps> = ({
     case "program+graph":
       nodeHeader = (
         <div className="flex flex-row overflow-hidden">
-          <h3 className="basis-3/5 flex-none px-4 pt-8">{`Programm (${data.title ?? data.title})`}</h3>
+          <h3 className="basis-3/5 flex-none px-4 pt-8">{`Programm ${data.title ?? data.title}`}</h3>
           <div className="th-yline" />
-          <h3 className="basis-2/5 flex-none px-4 pt-8">{`Speicher (${data.title ?? data.title})`}</h3>
+          <h3 className="basis-2/5 flex-none px-4 pt-8">{`Speicher ${data.title ?? data.title}`}</h3>
         </div>
       );
       break;
     case "program":
       nodeHeader = (
-        <h3 className="px-4 pt-8">{`Programm (${data.title ?? data.title})`}</h3>
+        <h3 className="px-4 pt-8">{`Programm ${data.title ?? data.title}`}</h3>
       );
       break;
     case "graph":
       nodeHeader = (
-        <h3 className="px-4 pt-8">{`Speicher (${data.title ?? data.title})`}</h3>
+        <h3 className="px-4 pt-8">{`Speicher ${data.title ?? data.title}`}</h3>
       );
       break;
     default:

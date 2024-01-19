@@ -55,6 +55,7 @@ const CodeIDE: React.FC<CodeIDEProps> = ({
   useEffect(() => {
     if (initialCode !== "") {
       store.setCode(initialCode);
+      store.setInitialCode(initialCode);
     }
     if (initialGraph.nodes.length !== 0) {
       store.setGraph(initialGraph);

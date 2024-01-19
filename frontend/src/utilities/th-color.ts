@@ -18,6 +18,7 @@ interface ThColor {
 }
 
 export type ThColorKey = keyof ThColor;
+export type ThColorShadeKey = keyof ThColorShade;
 
 export const thColors: ThColor = {
   'th-white': '#FFFFFF',

@@ -27,7 +27,7 @@ const ThStarUser: React.FC<ThStarUserProps> = ({
       className={
         `relative w-56 h-56 z-50 drop-shadow-xl transition duration-150 ease-in-out
         hover:scale-110
-        active:scale-95 active:translate-y-1 active:duration-100`
+        active:scale-95 active:duration-100`
       }
       onClick={handleClick}
       {...props}

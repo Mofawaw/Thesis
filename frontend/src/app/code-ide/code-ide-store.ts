@@ -3,35 +3,39 @@ import CodeGraph from "./code-memory/code-memory-types.ts";
 
 export type CodeIDEStore = {
   code: string;
-  output: string;
-  graph: CodeGraph;
+  codeOutput: string;
+  initialCode: string;
 
-  initialGraph: CodeGraph;
+  graph: CodeGraph;
   graphOutput: { nodeIds: Set<string>, edgeIds: Set<string> }
+  initialGraph: CodeGraph;
 
   setCode: (newCode: string) => (void);
-  setOutput: (newOutput: string) => (void);
-  setGraph: (newGraph: CodeGraph) => (void);
+  setCodeOutput: (newCodeOutput: string) => (void);
+  setInitialCode: (newInitialCode: string) => (void);
 
-  setInitialGraph: (newGraph: CodeGraph) => (void);
+  setGraph: (newGraph: CodeGraph) => (void);
   setGraphOutput: (newGraphOutput: { nodeIds: Set<string>, edgeIds: Set<string> }) => (void);
+  setInitialGraph: (newInitialGraph: CodeGraph) => (void);
 };
 
 const createCodeIDEStore = (scopeId: string) => create<CodeIDEStore>((set) => {
   return {
     code: '',
-    output: '',
-    graph: { nodes: [], edges: [] },
+    codeOutput: '',
+    initialCode: '',
 
-    initialGraph: { nodes: [], edges: [] },
+    graph: { nodes: [], edges: [] },
     graphOutput: { nodeIds: new Set(), edgeIds: new Set() },
+    initialGraph: { nodes: [], edges: [] },
 
     setCode: (newCode) => set({ code: newCode }),
-    setOutput: (newOutput) => set({ output: newOutput }),
-    setGraph: (newGraph) => set({ graph: newGraph }),
+    setCodeOutput: (newCodeOutput) => set({ codeOutput: newCodeOutput }),
+    setInitialCode: (newInitialCode) => set({ initialCode: newInitialCode }),
 
-    setInitialGraph: (newGraph) => set({ initialGraph: newGraph }),
+    setGraph: (newGraph) => set({ graph: newGraph }),
     setGraphOutput: (newGraphOutput) => set({ graphOutput: newGraphOutput }),
+    setInitialGraph: (newGraph) => set({ initialGraph: newGraph }),
   };
 });
 

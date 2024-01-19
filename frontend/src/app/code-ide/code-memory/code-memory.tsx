@@ -1,8 +1,8 @@
+import ThIDEButton from "@/components/buttons/th-ide-button.tsx";
 import CodeIDEConfig, { codeIDELayout } from "../code-ide-config.ts";
-import useCodeIDEStore, { CodeIDEStore } from "../code-ide-store.ts";
+import useCodeIDEStore from "../code-ide-store.ts";
 import CodeGraph from "./components/code-graph.tsx";
 import CodeGraphInput from "./components/code-graph-input.tsx";
-import { ThIcon } from "@/utilities/th-icon.js"
 import { calculateAndSetGraphOutput } from "./helpers/code-memory-helper.ts";
 import CodeGraphOutput from "./components/code-graph-output.tsx";
 
@@ -46,7 +46,7 @@ const CodeMemory: React.FC<CodeMemoryProps> = ({
             <div className="th-xline px-[-1rem]" />
 
             <div className="flex flex-row justify-between px-4">
-              <button onClick={() => { calculateAndSetGraphOutput(scopeId) }}><ThIcon icon="play" className="h-6 w-6 text-th-black-100" /></button>
+              <ThIDEButton thColor="th-black" thColorShade={100} icon="run" onClick={() => calculateAndSetGraphOutput(scopeId)} />
             </div>
           </div>
         </div>

@@ -1,11 +1,11 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { EditorState, Transaction } from '@codemirror/state';
 import { EditorView, keymap, lineNumbers, highlightActiveLine, highlightActiveLineGutter } from '@codemirror/view';
 import { python } from '@codemirror/lang-python';
 import { defaultKeymap, indentWithTab, history, redo } from '@codemirror/commands';
 import { codeEditorStyles } from '../helpers/code-editor-helper.ts';
-import useCodeIDEStore from '../../code-ide-store.ts'
-import { compileGetGraph, compileGetOutput } from '../../code-ide-network.ts';
+import useCodeIDEStore, { CodeIDEStore } from '../../code-ide-store.ts'
+import { compileGetGraph, compileGetCodeOutput } from '../../code-ide-network.ts';
 import debounce from '@/helpers/debounce.ts';
 import CodeIDEConfig from '../../code-ide-config.ts';
 
@@ -21,7 +21,10 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
   config,
 }) => {
   const editorRef = useRef<HTMLDivElement>(null);
-  const { code, setCode } = useCodeIDEStore(scopeId).getState();
+  const [editorView, setEditorView] = useState<EditorView>();
+  const updateFromEditorRef = useRef(false);
+  const code = useCodeIDEStore(scopeId)((state: CodeIDEStore) => state.code)
+  const setCode = useCodeIDEStore(scopeId)((state: CodeIDEStore) => state.setCode)
 
   const debouncedCompileGetGraph = debounce(() => {
     config.runnable ? compileGetGraph(scopeId) : {};
@@ -40,7 +43,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
 
   const runKeymap = keymap.of([{
     key: "Mod-r",
-    run: () => { config.runnable ? compileGetOutput(scopeId) : {}; return true; },
+    run: () => { config.runnable ? compileGetCodeOutput(scopeId) : {}; return true; },
     preventDefault: true
   }]);
 
@@ -69,6 +72,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
         highlightActiveLineGutter(),
         EditorView.updateListener.of(update => {
           if (update.docChanged) {
+            updateFromEditorRef.current = true;
             setCode(update.state.doc.toString());
             config.runnable ? debouncedCompileGetGraph() : {}
           }
@@ -100,10 +104,30 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
       parent: editorRef.current
     });
 
+    setEditorView(view);
+
     return () => {
       view.destroy();
     };
-  }, [code]);
+  }, []);
+
+  useEffect(() => {
+    if (updateFromEditorRef.current) {
+      updateFromEditorRef.current = false;
+      return;
+    }
+
+    if (editorView) {
+      const currentContent = editorView.state.doc.toString();
+      if (currentContent !== code) {
+        const transaction = editorView.state.update({
+          changes: { from: 0, to: currentContent.length, insert: code },
+          annotations: Transaction.userEvent.of('programmatic')
+        });
+        editorView.dispatch(transaction);
+      }
+    }
+  }, [code, editorView]);
 
   return (
     <div ref={editorRef} className="editor" style={{ height: `${height}px`, overflow: 'auto' }} />

@@ -1,5 +1,5 @@
 import { Node } from "reactflow";
-import { CodeIDENetworkResultType, compileGetGraph, compileGetOutput } from "@/app/code-ide/code-ide-network.ts";
+import { CodeIDENetworkResultType, compileGetGraph, compileGetCodeOutput } from "@/app/code-ide/code-ide-network.ts";
 import useCodeIDEStore from "@/app/code-ide/code-ide-store.ts";
 import CodeGraph from "@/app/code-ide/code-memory/code-memory-types.ts";
 import { ThLevel, ThStage } from "@/types/th-types.ts";
@@ -34,7 +34,7 @@ async function verifyLevelCriteria(level: ThLevel, nodes: Node[]): Promise<{ res
 
   switch (category.id) {
     case "c1":
-      networkResult = await compileGetOutput(mainScopeId);
+      networkResult = await compileGetCodeOutput(mainScopeId);
       if (!networkResult.success) {
         return { result: false, message: networkResult.error || "Error." };
       }

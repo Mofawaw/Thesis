@@ -1,14 +1,16 @@
 import {
-  PlayIcon,
   PlusIcon,
   MinusIcon,
   FitIcon,
   TutorialIcon,
   TippsIcon,
   CheckIcon,
+  RunIcon,
+  ResetIcon,
+  GenerateIcon,
 } from "@/assets/icons/icons.tsx";
 
-export type ThIconKey = 'play' | 'plus' | 'minus' | 'fit' | 'tutorial' | 'tipps' | 'check';
+export type ThIconKey = 'plus' | 'minus' | 'fit' | 'tutorial' | 'tipps' | 'check' | 'run' | 'reset' | 'generate';
 
 interface ThIconProps extends React.SVGProps<SVGSVGElement> {
   icon: ThIconKey;
@@ -21,9 +23,6 @@ export const ThIcon: React.FC<ThIconProps> = ({
   let IconComponent: React.FC<React.SVGProps<SVGSVGElement>> | null = null;
 
   switch (icon) {
-    case 'play':
-      IconComponent = PlayIcon;
-      break;
     case 'plus':
       IconComponent = PlusIcon;
       break;
@@ -41,6 +40,15 @@ export const ThIcon: React.FC<ThIconProps> = ({
       break;
     case 'check':
       IconComponent = CheckIcon;
+      break;
+    case 'run':
+      IconComponent = RunIcon;
+      break;
+    case 'reset':
+      IconComponent = ResetIcon;
+      break;
+    case 'generate':
+      IconComponent = GenerateIcon;
       break;
     default:
       return null;

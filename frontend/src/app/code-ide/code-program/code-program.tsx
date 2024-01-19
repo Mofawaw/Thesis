@@ -1,7 +1,7 @@
+import ThIDEButton from "@/components/buttons/th-ide-button.tsx";
 import CodeEditor from "./components/code-editor.tsx";
 import CodeOutput from "./components/code-output.tsx"
-import { compileGetOutput } from "../code-ide-network.ts";
-import { ThIcon } from "@/utilities/th-icon.js"
+import { compileGetCodeOutput, compileGetGraph } from "../code-ide-network.ts";
 import useCodeIDEStore from "../code-ide-store.ts";
 import CodeIDEConfig, { codeIDELayout } from "../code-ide-config.ts";
 
@@ -37,7 +37,11 @@ const CodeProgram: React.FC<CodeProgramProps> = ({
           <div className="th-xline px-[-1rem]" />
 
           <div className="flex flex-row justify-between px-4">
-            <button onClick={() => compileGetOutput(scopeId)}><ThIcon icon="play" className="h-6 w-6 text-th-black-100" /></button>
+            <ThIDEButton thColor="th-black" thColorShade={100} icon="run" onClick={() => compileGetCodeOutput(scopeId)} />
+            <div className="flex flex-row justify-left gap-2">
+              {config.type === "program+graph" && <ThIDEButton thColor="th-black" thColorShade={30} icon="generate" onClick={() => { compileGetGraph(scopeId) }} />}
+              {config.mode === "write" && <ThIDEButton thColor="th-black" thColorShade={30} icon="reset" onClick={() => { store.setCode(store.initialCode) }} />}
+            </div>
           </div>
 
           <div className="th-xline" />
