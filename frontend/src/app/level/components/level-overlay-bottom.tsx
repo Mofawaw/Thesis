@@ -6,14 +6,14 @@ import ThDropdown from "@/components/portals/th-dropdown.tsx";
 import ThMenuTextButton from "@/components/buttons/th-menu-text-button.tsx";
 import ThPopup from "@/components/portals/th-popup.tsx";
 import ThTextButton from "@/components/buttons/th-text-button.tsx";
-import { ThLevel, ThLevelNode } from "@/types/th-types.ts";
+import { ThLevel, ThNode } from "@/types/th-types.ts";
 import { evaluateLevelCompletion } from "../level-evaluation.ts";
 
 interface LevelOverlayBottomProps {
   level: ThLevel;
   nodes: Node[];
-  tutorialNodes: ThLevelNode[];
-  onAddNode: (node: ThLevelNode) => (void);
+  tutorialNodes: ThNode[];
+  onAddNode: (node: ThNode) => (void);
 }
 
 const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
@@ -74,7 +74,7 @@ const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
           >
             <ul className="flex flex-col items-center gap-1 p-3">
               {level.tippNodes.map((tippNode) => (
-                <li key={tippNode.node.id}><ThMenuTextButton width={120} thColor={level.stage.color} text={tippNode.node.data.title ?? "Error"} onClick={() => onAddNode(tippNode)} /></li>
+                <li key={tippNode.baseNode.id}><ThMenuTextButton width={120} thColor={level.stage.color} text={tippNode.baseNode.data.title ?? "Error"} onClick={() => onAddNode(tippNode)} /></li>
               ))}
             </ul>
           </ThDropdown>
@@ -90,7 +90,7 @@ const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
           >
             <ul className="flex flex-col items-center gap-1 p-3">
               {tutorialNodes.map((tutorialNode) => (
-                <li key={tutorialNode.node.id}><ThMenuTextButton width={165} thColor={level.stage.color} text={tutorialNode.node.data.title ?? "Error"} onClick={() => onAddNode(tutorialNode)} /></li>
+                <li key={tutorialNode.baseNode.id}><ThMenuTextButton width={165} thColor={level.stage.color} text={tutorialNode.baseNode.data.title ?? "Error"} onClick={() => onAddNode(tutorialNode)} /></li>
               ))}
             </ul>
           </ThDropdown>

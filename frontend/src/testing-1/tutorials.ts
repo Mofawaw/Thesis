@@ -1,8 +1,8 @@
-import { ThLevelNode } from "@/types/th-types.ts";
+import { ThNode } from "@/types/th-types.ts";
 
-export const tutorialNodes: ThLevelNode[] = [
+export const tutorialNodes: ThNode[] = [
   {
-    node: {
+    baseNode: {
       id: "t1",
       type: "tutorial",
       data: {
@@ -18,7 +18,7 @@ export const tutorialNodes: ThLevelNode[] = [
     }
   },
   {
-    node: {
+    baseNode: {
       id: "t2",
       type: "tutorial",
       data: {

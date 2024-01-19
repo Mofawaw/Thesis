@@ -29,13 +29,13 @@ const levelS1C1: ThLevel = {
   category: categories[0],
   label: "Test 1-1",
   nodes: [
-    { node: categories[0].nodes[0], data: { codeIDE: { initialCode: initialCode } } },
-    { node: categories[0].nodes[1], data: { text: { description: taskDescription } } }
+    { baseNode: categories[0].baseNodes[0], data: { codeIDE: { initialCode: initialCode } } },
+    { baseNode: categories[0].baseNodes[1], data: { text: { description: taskDescription } } }
   ],
   tippNodes: [
-    { node: { id: "ti1", type: "text", data: { title: "Tipp 1", size: "small" } }, data: { text: { description: "Dieser Tipp enthält z.B. ein paar hilfreiche Hinweise zur Aufgabe und ergänzt die Aufgabenstellung zusätzlich." } } },
-    { node: { id: "ti2", type: "text", data: { title: "Tipp 2", size: "small" } }, data: { text: { description: "Platzhalter für eine weitere IDE [Programm], Duplikat des ursprünglichen Programms, aber mit z.B. Kommentaren, Guide, ..." } } },
-    { node: { id: "ti3", type: "text", data: { title: "Lösung", size: "large" } }, data: { text: { description: "Platzhalter für eine weitere IDE [Programm | Speicher] mit dem Lösungsprogramm und dem Lösungsgraphen." } } }
+    { baseNode: { id: "ti1", type: "text", data: { title: "Tipp 1", size: "small" } }, data: { text: { description: "Dieser Tipp enthält z.B. ein paar hilfreiche Hinweise zur Aufgabe und ergänzt die Aufgabenstellung zusätzlich." } } },
+    { baseNode: { id: "ti2", type: "text", data: { title: "Tipp 2", size: "small" } }, data: { text: { description: "Platzhalter für eine weitere IDE [Programm], Duplikat des ursprünglichen Programms, aber mit z.B. Kommentaren, Guide, ..." } } },
+    { baseNode: { id: "ti3", type: "text", data: { title: "Lösung", size: "large" } }, data: { text: { description: "Platzhalter für eine weitere IDE [Programm | Speicher] mit dem Lösungsprogramm und dem Lösungsgraphen." } } }
   ],
   expected: { output: expectedOutput }
 }

@@ -13,7 +13,7 @@ export interface ThStage {
 export interface ThCategory {
   id: "c1" | "c2" | "c3";
   label: string;
-  nodes: ThNode[];
+  baseNodes: ThBaseNode[];
   expected: "output" | "graph";
 }
 
@@ -22,12 +22,12 @@ export interface ThLevel {
   stage: ThStage;
   category: ThCategory;
   label: string;
-  nodes: ThLevelNode[];
-  tippNodes: ThLevelNode[];
+  nodes: ThNode[];
+  tippNodes: ThNode[];
   expected: { output?: string, graph?: CodeGraph };
 }
 
-export interface ThNode {
+export interface ThBaseNode {
   id: string;
   type: "codeIDE" | "text" | "tutorial";
   data: {
@@ -37,8 +37,8 @@ export interface ThNode {
   }
 }
 
-export interface ThLevelNode {
-  node: ThNode;
+export interface ThNode {
+  baseNode: ThBaseNode;
   data: {
     codeIDE?: { initialCode?: string; initialGraph?: CodeGraph }
     text?: { description: string }

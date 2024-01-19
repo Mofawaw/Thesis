@@ -55,8 +55,8 @@ const levelS3C1: ThLevel = {
   category: categories[0],
   label: "Test 3-1",
   nodes: [
-    { node: categories[0].nodes[0], data: { codeIDE: { initialCode: initialCode } } },
-    { node: categories[0].nodes[1], data: { text: { description: taskDescription } } }
+    { baseNode: categories[0].baseNodes[0], data: { codeIDE: { initialCode: initialCode } } },
+    { baseNode: categories[0].baseNodes[1], data: { text: { description: taskDescription } } }
   ],
   tippNodes: tippNodesC1,
   expected: { output: expectedOutput }

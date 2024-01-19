@@ -83,14 +83,14 @@ const levelS1C3: ThLevel = {
   category: categories[2],
   label: "Test 1-3",
   nodes: [
-    { node: categories[2].nodes[0], data: { codeIDE: { initialCode: expectedGraphProgram } } },
-    { node: categories[2].nodes[1], data: { codeIDE: { initialGraph: initialGraph } } },
-    { node: categories[2].nodes[2], data: { text: { description: taskDescription } } }
+    { baseNode: categories[2].baseNodes[0], data: { codeIDE: { initialCode: expectedGraphProgram } } },
+    { baseNode: categories[2].baseNodes[1], data: { codeIDE: { initialGraph: initialGraph } } },
+    { baseNode: categories[2].baseNodes[2], data: { text: { description: taskDescription } } }
   ],
   tippNodes: [
-    { node: { id: "ti1", type: "codeIDE", data: { title: "Tipp 1", size: "small", codeIDE: { main: false, scopeId: "c-ide-1", config: { type: "program", mode: "write", runnable: true } } } }, data: { codeIDE: { initialCode: expectedGraphProgram } } },
-    { node: { id: "ti2", type: "codeIDE", data: { title: "Tipp 2", size: "small", codeIDE: { main: false, scopeId: "c-ide-2", config: { type: "graph", mode: "read", runnable: true } } } }, data: { codeIDE: {} } },
-    { node: { id: "ti3", type: "text", data: { title: "Lösung", size: "medium" } }, data: { text: { description: "Platzhalter für eine weitere IDE [Speicher] mit dem Lösungsgraphen." } } },
+    { baseNode: { id: "ti1", type: "codeIDE", data: { title: "Tipp 1", size: "small", codeIDE: { main: false, scopeId: "c-ide-1", config: { type: "program", mode: "write", runnable: true } } } }, data: { codeIDE: { initialCode: expectedGraphProgram } } },
+    { baseNode: { id: "ti2", type: "codeIDE", data: { title: "Tipp 2", size: "small", codeIDE: { main: false, scopeId: "c-ide-2", config: { type: "graph", mode: "read", runnable: true } } } }, data: { codeIDE: {} } },
+    { baseNode: { id: "ti3", type: "text", data: { title: "Lösung", size: "medium" } }, data: { text: { description: "Platzhalter für eine weitere IDE [Speicher] mit dem Lösungsgraphen." } } },
   ],
   expected: { graph: expectedGraph }
 }

@@ -1,8 +1,8 @@
-import { ThLevelNode } from "@/types/th-types.ts";
+import { ThNode } from "@/types/th-types.ts";
 
-export const tippNodesC1: ThLevelNode[] = [
+export const tippNodesC1: ThNode[] = [
   {
-    node: {
+    baseNode: {
       id: "ti1",
       type: "text",
       data: {
@@ -17,7 +17,7 @@ export const tippNodesC1: ThLevelNode[] = [
     }
   },
   {
-    node: {
+    baseNode: {
       id: "ti2",
       type: "text",
       data: {
@@ -32,7 +32,7 @@ export const tippNodesC1: ThLevelNode[] = [
     }
   },
   {
-    node: {
+    baseNode: {
       id: "ti3",
       type: "text",
       data: {
@@ -48,9 +48,9 @@ export const tippNodesC1: ThLevelNode[] = [
   }
 ]
 
-export const tippNodesC2: ThLevelNode[] = [
+export const tippNodesC2: ThNode[] = [
   {
-    node: {
+    baseNode: {
       id: "ti1",
       type: "text",
       data: {
@@ -65,7 +65,7 @@ export const tippNodesC2: ThLevelNode[] = [
     }
   },
   {
-    node: {
+    baseNode: {
       id: "ti2",
       type: "text",
       data: {
@@ -80,7 +80,7 @@ export const tippNodesC2: ThLevelNode[] = [
     }
   },
   {
-    node: {
+    baseNode: {
       id: "ti3",
       type: "text",
       data: {
@@ -96,9 +96,9 @@ export const tippNodesC2: ThLevelNode[] = [
   },
 ]
 
-export const tippNodesC3: ThLevelNode[] = [
+export const tippNodesC3: ThNode[] = [
   {
-    node: {
+    baseNode: {
       id: "ti1",
       type: "text",
       data: {
@@ -113,7 +113,7 @@ export const tippNodesC3: ThLevelNode[] = [
     }
   },
   {
-    node: {
+    baseNode: {
       id: "ti2",
       type: "text",
       data: {
@@ -128,7 +128,7 @@ export const tippNodesC3: ThLevelNode[] = [
     }
   },
   {
-    node: {
+    baseNode: {
       id: "ti3",
       type: "text",
       data: {

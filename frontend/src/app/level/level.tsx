@@ -4,12 +4,12 @@ import 'reactflow/dist/style.css';
 import { nodeTypes } from './nodes/types/node-types.ts';
 import LevelOverlayTop from './components/level-overlay-top.tsx';
 import LevelOverlayBottom from './components/level-overlay-bottom.tsx';
-import { ThLevel, ThLevelNode } from '@/types/th-types.ts';
-import { convertToReactflowNode, generateReactflowNodes } from './level-initialization.ts';
+import { ThLevel, ThNode } from '@/types/th-types.ts';
+import { convertToReactFlowNode, generateReactFlowNodes } from './level-initialization.ts';
 
 interface LevelProps {
   level: ThLevel;
-  tutorialNodes: ThLevelNode[];
+  tutorialNodes: ThNode[];
 }
 
 const Level: React.FC<LevelProps> = ({
@@ -18,7 +18,7 @@ const Level: React.FC<LevelProps> = ({
 }) => {
   const [nodes, setNodes] = useState<Node[]>([]);
 
-  const addNode = (newLevelNode: ThLevelNode) => {
+  const addNode = (newLevelNode: ThNode) => {
     let maxX = -Infinity;
     nodes.forEach((node) => {
       const nodeWidth = node.width || 0
@@ -28,7 +28,7 @@ const Level: React.FC<LevelProps> = ({
       }
     });
 
-    const reactflowNode: Node = convertToReactflowNode(newLevelNode);
+    const reactflowNode: Node = convertToReactFlowNode(newLevelNode);
     reactflowNode.id = (nodes.length + 1).toString();
     reactflowNode.position = { x: maxX + 20, y: 0 };
 
@@ -37,7 +37,7 @@ const Level: React.FC<LevelProps> = ({
 
   // Initialize Nodes for Level
   useEffect(() => {
-    const initialNodes = generateReactflowNodes(level);
+    const initialNodes = generateReactFlowNodes(level);
     setNodes(initialNodes)
     console.log(initialNodes);
   }, []);

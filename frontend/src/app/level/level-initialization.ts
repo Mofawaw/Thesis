@@ -1,67 +1,67 @@
 import { Node } from "reactflow";
-import { ThLevel, ThLevelNode } from "@/types/th-types.ts";
+import { ThLevel, ThNode } from "@/types/th-types.ts";
 import { CodeIDENodeData, ComponentNodeData, TextNodeData, ThNodeSize, TutorialNodeData } from "./nodes/types/node-types.ts"
 
-export function generateReactflowNodes(level: ThLevel): Node[] {
+export function generateReactFlowNodes(level: ThLevel): Node[] {
   let currentPositionX = 0;
 
-  const reactflowNodes = level.nodes.map(levelNode => {
-    const node = convertToReactflowNode(levelNode);
+  const reactFlowNodes = level.nodes.map(node => {
+    const reactFlowNode = convertToReactFlowNode(node);
 
-    node.position = { x: currentPositionX, y: 0 };
-    currentPositionX += node.data.width + 20;
+    reactFlowNode.position = { x: currentPositionX, y: 0 };
+    currentPositionX += reactFlowNode.data.width + 20;
 
-    return node;
+    return reactFlowNode;
   });
 
-  return reactflowNodes;
+  return reactFlowNodes;
 }
 
-export function convertToReactflowNode(levelNode: ThLevelNode) {
+export function convertToReactFlowNode(node: ThNode) {
   // Node Size
-  const nodeSize = ThNodeSize.fromString(levelNode.node.data.size);
+  const nodeSize = ThNodeSize.fromString(node.baseNode.data.size);
 
   // Merge ComponentNode Data
   const componentNodeData: ComponentNodeData = {
-    title: levelNode.node.data.title ?? "",
+    title: node.baseNode.data.title ?? "",
     width: nodeSize.width,
     height: nodeSize.height,
   }
 
-  if (levelNode.node.type === "codeIDE" && levelNode.data.codeIDE && levelNode.node.data.codeIDE) {
+  if (node.baseNode.type === "codeIDE" && node.data.codeIDE && node.baseNode.data.codeIDE) {
     // Merge CodeIDENode Data
     const codeIDEData: CodeIDENodeData = {
       ...componentNodeData,
       codeIDE: {
-        main: levelNode.node.data.codeIDE.main,
-        scopeId: levelNode.node.data.codeIDE.scopeId,
-        config: levelNode.node.data.codeIDE.config,
-        initialCode: levelNode.data.codeIDE.initialCode ?? "",
-        initialGraph: levelNode.data.codeIDE.initialGraph ?? { nodes: [], edges: [] }
+        main: node.baseNode.data.codeIDE.main,
+        scopeId: node.baseNode.data.codeIDE.scopeId,
+        config: node.baseNode.data.codeIDE.config,
+        initialCode: node.data.codeIDE.initialCode ?? "",
+        initialGraph: node.data.codeIDE.initialGraph ?? { nodes: [], edges: [] }
       }
     }
-    return { id: levelNode.node.id, type: levelNode.node.type, position: { x: 0, y: 0 }, data: codeIDEData };
+    return { id: node.baseNode.id, type: node.baseNode.type, position: { x: 0, y: 0 }, data: codeIDEData };
 
-  } else if (levelNode.node.type === "text" && levelNode.data.text) {
+  } else if (node.baseNode.type === "text" && node.data.text) {
     // Merge TextNode Data
     const textData: TextNodeData = {
       ...componentNodeData,
       text: {
-        description: levelNode.data.text.description
+        description: node.data.text.description
       }
     }
-    return { id: levelNode.node.id, type: levelNode.node.type, position: { x: 0, y: 0 }, data: textData };
-  } else if (levelNode.node.type === "tutorial" && levelNode.data.tutorial) {
+    return { id: node.baseNode.id, type: node.baseNode.type, position: { x: 0, y: 0 }, data: textData };
+  } else if (node.baseNode.type === "tutorial" && node.data.tutorial) {
     // Merge TutorialNode Data
     const tutorialData: TutorialNodeData = {
       ...componentNodeData,
       tutorial: {
-        color: levelNode.data.tutorial.color,
-        description: levelNode.data.tutorial.description
+        color: node.data.tutorial.color,
+        description: node.data.tutorial.description
       }
     }
-    return { id: levelNode.node.id, type: levelNode.node.type, position: { x: 0, y: 0 }, data: tutorialData };
+    return { id: node.baseNode.id, type: node.baseNode.type, position: { x: 0, y: 0 }, data: tutorialData };
   }
 
-  return { id: levelNode.node.id, type: levelNode.node.type, position: { x: 0, y: 0 }, data: componentNodeData };
+  return { id: node.baseNode.id, type: node.baseNode.type, position: { x: 0, y: 0 }, data: componentNodeData };
 }
