@@ -1,13 +1,13 @@
 import { useState } from "react";
-import ThStar, { ThStarProps } from "./th-star.tsx";
+import ThStar, { ThStarProps } from "../custom/th-star.tsx";
 import animal from "@/assets/images/animal-1.png";
 
-interface ThStarUserProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface ThStarUserButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   width: number;
   height: number;
 }
 
-const ThStarUser: React.FC<ThStarUserProps> = ({
+const ThStarUserButton: React.FC<ThStarUserButtonProps> = ({
   width,
   height,
   ...props
@@ -40,4 +40,4 @@ const ThStarUser: React.FC<ThStarUserProps> = ({
   )
 }
 
-export default ThStarUser;
+export default ThStarUserButton;

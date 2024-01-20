@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import stages from '@/testing-1/stages.ts';
+import stages from '@/th-data (todo-post: backend)/stages.ts';
 import Stage from './stage/stage.tsx';
 
 function Stages() {

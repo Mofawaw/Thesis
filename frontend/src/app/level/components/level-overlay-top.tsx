@@ -1,7 +1,7 @@
 import ThButton from "@/components/buttons/th-button.tsx";
 import ThTextButton from "@/components/buttons/th-text-button.tsx";
-import ThStarUser from "@/components/user/th-star-user.tsx";
-import useTestingStore from "@/testing-1/testing-store.ts"; // MARK: Testing
+import ThStarUserButton from "@/components/buttons/th-star-user-button";
+import useTestingStore from "@/th-data (todo-post: backend)/testing-store"; // MARK: Testing
 import { ThLevel } from "@/types/th-types.ts";
 import { ThCastle } from "@/utilities/th-castle";
 
@@ -29,7 +29,7 @@ const LevelOverlayTop: React.FC<LevelOverlayTopProps> = ({
 
           <ThTextButton width={700} thColor={level.stage.color} text={level.stage.label + " - " + level.category.label} onClick={() => store.nextLevel(true, false)} /> {/* MARK: Testing */}
 
-          <ThStarUser width={200} height={200} />
+          <ThStarUserButton width={200} height={200} />
         </div>
       </div>
     </div>

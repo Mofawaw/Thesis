@@ -1,3 +1,4 @@
+import stages from '@/th-data (todo-post: backend)/stages';
 import { ThLevel, ThStage } from '@/types/th-types';
 import { create } from 'zustand';
 
@@ -5,7 +6,7 @@ export type ThStore = {
   activeStage: ThStage | null;
   activeLevel: ThLevel | null;
 
-  setActiveStage: (newStage: ThStage) => (void);
+  setActiveStage: (newStageId: "s1" | "s2" | "s3") => (void);
   setActiveLevel: (newLevel: ThLevel) => (void);
 };
 
@@ -14,7 +15,12 @@ const useThStore = create<ThStore>((set) => {
     activeStage: null,
     activeLevel: null,
 
-    setActiveStage: (newStage) => set({ activeStage: newStage }),
+    setActiveStage: (newStageId: "s1" | "s2" | "s3") => {
+      set(state => {
+        const newStage = stages.find(stage => stage.id === newStageId);
+        return { ...state, activeStage: newStage || null };
+      });
+    },
     setActiveLevel: (newLevel) => set({ activeLevel: newLevel }),
   };
 });
