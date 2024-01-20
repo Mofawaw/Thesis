@@ -84,4 +84,9 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
+
+  .th-bg-gradient-angular
+  {
+    @apply animate-th-spin-super-slow bg-th-gradient-angular w-[200vw] h-[200vh];
+  }
 }

@@ -84,7 +84,7 @@ const Stage: React.FC<StageProps> = () => {
           .attr("width", nodeWidth + 20)
           .attr("height", nodeHeight + 20)
           .attr('x', d => Math.max(0, Math.min(width - nodeWidth, d.x! - xOffset)))
-          .attr('y', d => Math.max(0, Math.min(height - nodeHeight - 200, d.y! - yOffset - 100)))
+          .attr('y', d => Math.max(200, Math.min(height - nodeHeight - 200, d.y! - yOffset - 100)))
           .call(drag as any);
       }
 
@@ -117,19 +117,22 @@ const Stage: React.FC<StageProps> = () => {
   }, [dimensions]);
 
   return (
-    <svg ref={d3Container} className="bg-th-tint-20 w-screen h-screen" >
-      {nodes.map((node, index) => (
-        <foreignObject
-          key={index}
-          width={100}
-          height={100}
-          x={node.x!}
-          y={node.y!}
-        >
-          <CustomNode data={node} />
-        </foreignObject>
-      ))}
-    </svg>
+    <div className="w-screen h-screen relative">
+      <div className="fixed left-[-50vw] top-[-50vh] th-bg-gradient-angular z-0" />
+      <svg ref={d3Container} className="w-full h-full absolute z-10" >
+        {nodes.map((node, index) => (
+          <foreignObject
+            key={index}
+            width={100}
+            height={100}
+            x={node.x!}
+            y={node.y!}
+          >
+            <CustomNode data={node} />
+          </foreignObject>
+        ))}
+      </svg>
+    </div>
   );
 };
 
