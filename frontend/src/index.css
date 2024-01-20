@@ -19,21 +19,21 @@
 
   h2
   {
-    @apply text-6xl;
+    @apply text-5xl;
     @apply font-th-magic;
     @apply text-th-black-100;
   }
 
   h3
   {
-    @apply text-2xl;
+    @apply text-3xl;
     @apply font-th-magic;
     @apply text-th-black-100;
   }
 
   h4
   {
-    @apply text-xl;
+    @apply text-lg;
     @apply font-th-magic;
     @apply text-th-black-100;
   }
