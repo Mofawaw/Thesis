@@ -123,6 +123,7 @@ const Levels: React.FC<LevelsProps> = () => {
           height={100}
           x={level.x!}
           y={level.y!}
+          overflow="visible"
         >
           <LevelButton {...level} />
         </foreignObject>
