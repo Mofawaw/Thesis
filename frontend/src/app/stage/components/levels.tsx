@@ -31,14 +31,27 @@ const Levels: React.FC<LevelsProps> = () => {
       const xOffset = nodeWidth / 2;
       const yOffset = nodeHeight / 2;
 
+      const columnWidth = dimensions.width * 0.3;
+      const horizontalBarHeight = dimensions.height * 0.4;
+      const horizontalBarYStart = (dimensions.height / 2) - (horizontalBarHeight / 2);
+      const horizontalBarYEnd = horizontalBarYStart + horizontalBarHeight;
+
+      const isInsideCustomBoundary = (x: number, y: number) => {
+        // Use outer scope variables for the check
+        const inLeftColumn = x >= 0 && x < columnWidth;
+        const inRightColumn = x > dimensions.width - columnWidth && x <= dimensions.width;
+        const inHorizontalBar = (x >= columnWidth && x <= dimensions.width - columnWidth) && (y >= horizontalBarYStart && y <= horizontalBarYEnd);
+
+        return inLeftColumn || inRightColumn || inHorizontalBar;
+      };
+
       // Initialize simulation
       const simulation = d3.forceSimulation(levels)
         .force("x", d3.forceX<LevelButtonProps>().strength(d => d.group === 1 ? 0.2 : 0).x(width / 2))
         .force("y", d3.forceY<LevelButtonProps>().strength(d => d.group === 1 ? 0.4 : 0).y(height / 2))
         .force("center", d3.forceCenter(width / 2, height / 2))
         .force("charge", d3.forceManyBody().strength(0.2))
-        .force("collide", d3.forceCollide<LevelButtonProps>().strength(0.2).radius(d => d.group === 1 ? radius + 30 : radius + 120).iterations(1))
-        .on("tick", ticked)
+        .force("collide", d3.forceCollide<LevelButtonProps>().strength(0.2).radius(d => d.group === 1 ? radius + 30 : radius + 120).iterations(1));
 
       // Run simulation
       simulation.nodes(levels).on("tick", ticked);
@@ -50,10 +63,28 @@ const Levels: React.FC<LevelsProps> = () => {
           .join('foreignObject')
           .attr("width", nodeWidth + 20)
           .attr("height", nodeHeight + 20)
-          .attr('x', d => Math.max(0, Math.min(width - nodeWidth, d.x! - xOffset)))
-          .attr('y', d => Math.max(200, Math.min(height - nodeHeight - 200, d.y! - yOffset - 100)))
-          .call(drag as any);
+          .each(function (d) {
+            // Use the custom boundary function to check if the node is inside the boundary
+            if (!isInsideCustomBoundary(d.x!, d.y!)) {
+              // Node is outside the "H" shape, adjust its position
+              // This is just an example, you'll need a more complex logic to handle this properly
+              if (d.x! < columnWidth || d.x! > (width - columnWidth)) {
+                d.x = Math.max(columnWidth, Math.min(width - columnWidth, d.x!));
+              }
+              if (d.y! < horizontalBarYStart) {
+                d.y = Math.max(horizontalBarYStart, d.y!);
+              }
+              if (d.y! > horizontalBarYEnd) {
+                d.y = Math.min(horizontalBarYEnd, d.y!);
+              }
+            }
+          })
+          .attr('x', d => d.x! - nodeWidth / 2)
+          .attr('y', d => d.y! - nodeHeight / 2)
+          .call(drag as any)
       }
+
+      simulation.nodes(levels).on("tick", ticked);
 
       // Drag
       const drag = d3.drag<SVGForeignObjectElement, LevelButtonProps>()
