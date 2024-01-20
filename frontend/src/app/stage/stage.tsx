@@ -2,11 +2,14 @@ import ThStarUserButton from '@/components/buttons/th-star-user-button';
 import Levels from './components/levels';
 import useThStore from '@/stores/th-store';
 import ThCastleButton from '@/components/buttons/th-castle-button';
+import { ThStage } from '@/types/th-types';
 
 interface StageProps {
 }
 
-const Stage: React.FC<StageProps> = () => {
+const Stage: React.FC<StageProps> = ({
+}) => {
+  const { activeStage } = useThStore();
   const { setActiveStage } = useThStore.getState();
 
   return (
@@ -22,19 +25,22 @@ const Stage: React.FC<StageProps> = () => {
       {/* Overlay-Top */}
       <div className="w-screen absolute top-10 z-20 flex flex-row justify-center">
         <h2 className="text-th-black-20 text-center">
-          <span className="text-th-value-100">Werte</span> &<br />Referenzen
+          {activeStage.id === "s1" && <span><span className="text-th-value-100">Werte</span> &<br />Referenzen</span>}
+          {activeStage.id === "s2" && <span>Werte &<br /><span className="text-th-reference-100">Referenzen</span></span>}
+          {activeStage.id === "s3" && <span className="text-th-together-100">Werte &<br />Referenzen</span>}
         </h2>
       </div>
 
       {/* Overlay-Bottom */}
-      <div className="w-screen absolute bottom-0 z-20 flex flex-row justify-center items-center overflow-hidden">
-        <ThCastleButton castle="castle-value" className="w-48 h-48 translate-y-20" onClick={() => setActiveStage('s1')} />
-
-        <ThStarUserButton width={400} height={400} className="translate-y-40" />
-        <ThCastleButton castle="castle-reference" className="w-48 h-48 translate-y-20" onClick={() => setActiveStage('s2')} />
+      <div className="w-screen absolute bottom-0 z-20 flex flex-row justify-center items-center overflow-hidden pointer-events-auto translate-y-16">
+        <ThCastleButton castle="castle-value" onClick={() => setActiveStage('s1')} />
+        <div className="translate-y-24" >
+          <ThStarUserButton width={400} height={400} />
+        </div>
+        <ThCastleButton castle="castle-reference" onClick={() => setActiveStage('s2')} />
       </div>
-      <div className="w-screen absolute bottom-0 z-10 flex flex-row justify-center">
-        <ThCastleButton castle="castle-together" className="w-48 h-48 -translate-y-40" onClick={() => setActiveStage('s3')} />
+      <div className="w-screen absolute bottom-0 z-10 flex flex-row justify-center pointer-events-auto -translate-y-48">
+        <ThCastleButton castle="castle-together" onClick={() => setActiveStage('s3')} />
       </div>
     </div>
   );

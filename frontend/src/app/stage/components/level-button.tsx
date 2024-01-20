@@ -1,4 +1,5 @@
 import ThRoundButton from "@/components/buttons/th-round-button";
+import useThStore from "@/stores/th-store";
 import { useEffect, useState } from "react";
 
 export interface LevelButtonProps {
@@ -18,6 +19,7 @@ const LevelButton: React.FC<LevelButtonProps> = ({
   fx = null,
   fy = null,
 }) => {
+  const activeStage = useThStore(state => state.activeStage);
   const [opacity, setOpacity] = useState(0);
 
   useEffect(() => {
@@ -31,7 +33,7 @@ const LevelButton: React.FC<LevelButtonProps> = ({
   return (
     <div className="pointer-events-auto" style={{ opacity, transition: 'opacity 800ms ease-in-out' }}>
       {group === 1 && <ThRoundButton thColor="th-tint" bgThColorShade={70} shadowThColorShade={100} textThColorShade={20} text={name} />}
-      {group === 2 && <ThRoundButton thColor="th-value" text={name} />}
+      {group === 2 && <ThRoundButton thColor={activeStage.color} text={name} />}
     </div>
   );
 }

@@ -2,12 +2,12 @@ import { useState } from "react";
 import ThStar, { ThStarProps } from "../custom/th-star.tsx";
 import animal from "@/assets/images/animal-1.png";
 
-interface ThStarUserButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface ThStarUserProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   width: number;
   height: number;
 }
 
-const ThStarUserButton: React.FC<ThStarUserButtonProps> = ({
+const ThStarUser: React.FC<ThStarUserProps> = ({
   width,
   height,
   ...props
@@ -22,7 +22,7 @@ const ThStarUserButton: React.FC<ThStarUserButtonProps> = ({
   }
 
   return (
-    <button
+    <button {...props}
       style={{ width: `${width}px`, height: `${height}px` }}
       className={
         `relative w-56 h-56 z-50 drop-shadow-xl transition duration-150 ease-in-out
@@ -30,7 +30,6 @@ const ThStarUserButton: React.FC<ThStarUserButtonProps> = ({
         active:scale-95 active:duration-100`
       }
       onClick={handleClick}
-      {...props}
     >
       <div className="w-full h-full animate-th-spin-slow">
         <ThStar corners={starCorners} className="th-bg-gradient w-full h-full" />
@@ -40,4 +39,4 @@ const ThStarUserButton: React.FC<ThStarUserButtonProps> = ({
   )
 }
 
-export default ThStarUserButton;
+export default ThStarUser;
