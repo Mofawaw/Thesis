@@ -2,7 +2,7 @@ import CodeGraph from "@/app/code-ide/code-memory/code-memory-types.ts";
 import CodeIDEConfig from "@/app/code-ide/code-ide-config.ts";
 import { ThColorKey } from "@/utilities/th-color.ts";
 
-export interface ThStage {
+export interface ThStage { // TODO-Post: Backend Version
   id: "s1" | "s2" | "s3";
   label: string;
   color: ThColorKey;
@@ -10,25 +10,25 @@ export interface ThStage {
   levels: ThLevel[];
 }
 
-export interface ThCategory {
+export interface ThCategory { // TODO-Post: Backend Version
   id: "c1" | "c2" | "c3";
   label: string;
   baseNodes: ThBaseNode[];
-  baseTippNodes: ThBaseNode[];
+  baseTippNodes: ThBaseNode[]; // TODO-Post: Remove -> Move to Backend
   expected: "output" | "graph";
 }
 
-export interface ThLevel {
+export interface ThLevel { // TODO-Post: Backend Version
   id: string;
   stage: ThStage;
   category: ThCategory;
   label: string;
   nodes: ThNode[];
-  tippNodes: ThNode[];
-  expected: { output?: string, graph?: CodeGraph };
+  tippNodes: ThNode[]; // TODO-Post: Remove -> Move to Backend
+  expected: { output?: string, graph?: CodeGraph }; // TODO-Post: Remove -> Move to Backend
 }
 
-export interface ThBaseNode {
+export interface ThBaseNode { // TODO-Post: Backend Version
   id: string;
   type: "codeIDE" | "text" | "tutorial";
   data: {
@@ -38,7 +38,7 @@ export interface ThBaseNode {
   }
 }
 
-export interface ThNode {
+export interface ThNode { // TODO-Post: Backend Version
   baseNode: ThBaseNode;
   data: {
     codeIDE?: { initialCode?: string; initialGraph?: CodeGraph }
