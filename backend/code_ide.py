@@ -46,7 +46,7 @@ def compile_get_output():
 def compile_get_graph():
     code = request.json.get('code', '')
 
-    script_path = "/usr/src/app/memory_compiler/script.py"
+    script_path = "/usr/src/app/code_ide/script.py"
 
     docker_command = [
         "docker", "run", "--rm",
