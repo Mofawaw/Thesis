@@ -31,19 +31,33 @@ const Levels: React.FC<LevelsProps> = () => {
       const xOffset = nodeWidth / 2;
       const yOffset = nodeHeight / 2;
 
-      const columnWidth = dimensions.width * 0.3;
-      const horizontalBarHeight = dimensions.height * 0.4;
-      const horizontalBarYStart = (dimensions.height / 2) - (horizontalBarHeight / 2);
-      const horizontalBarYEnd = horizontalBarYStart + horizontalBarHeight;
+      function enforceHBoundary(d: LevelButtonProps) {
+        // Define "H" shape parameters inside this function
+        const columnWidth = dimensions.width * 0.3;
+        const horizontalBarYStart = dimensions.width * 0.15;
+        const horizontalBarYEnd = dimensions.height - dimensions.width * 0.25;
 
-      const isInsideCustomBoundary = (x: number, y: number) => {
-        // Use outer scope variables for the check
-        const inLeftColumn = x >= 0 && x < columnWidth;
-        const inRightColumn = x > dimensions.width - columnWidth && x <= dimensions.width;
-        const inHorizontalBar = (x >= columnWidth && x <= dimensions.width - columnWidth) && (y >= horizontalBarYStart && y <= horizontalBarYEnd);
+        // Check if the node is inside the "H" boundaries
+        const inLeftColumn = d.x! >= 0 && d.x! < columnWidth;
+        const inRightColumn = d.x! > dimensions.width - columnWidth && d.x! <= dimensions.width;
+        const inHorizontalBar = (d.x! >= columnWidth && d.x! <= dimensions.width - columnWidth) && (d.y! >= horizontalBarYStart && d.y! <= horizontalBarYEnd);
 
-        return inLeftColumn || inRightColumn || inHorizontalBar;
-      };
+        // If the node is outside the "H", adjust its position gradually
+        if (!(inLeftColumn || inRightColumn || inHorizontalBar)) {
+          if (d.x! < columnWidth || d.x! > (dimensions.width - columnWidth)) {
+            d.x = Math.max(columnWidth, Math.min(dimensions.width - columnWidth, d.x!));
+          }
+
+          // If the node's y-position is above the top boundary, push it down towards the boundary
+          if (d.y! < horizontalBarYStart) {
+            d.y! += (horizontalBarYStart - d.y!) * 0.1; // Adjust the multiplier as needed for the effect
+          }
+          // If the node's y-position is below the bottom boundary, push it up towards the boundary
+          else if (d.y! > horizontalBarYEnd) {
+            d.y! -= (d.y! - horizontalBarYEnd) * 0.1; // Adjust the multiplier as needed for the effect
+          }
+        }
+      }
 
       // Initialize simulation
       const simulation = d3.forceSimulation(levels)
@@ -63,22 +77,7 @@ const Levels: React.FC<LevelsProps> = () => {
           .join('foreignObject')
           .attr("width", nodeWidth + 20)
           .attr("height", nodeHeight + 20)
-          .each(function (d) {
-            // Use the custom boundary function to check if the node is inside the boundary
-            if (!isInsideCustomBoundary(d.x!, d.y!)) {
-              // Node is outside the "H" shape, adjust its position
-              // This is just an example, you'll need a more complex logic to handle this properly
-              if (d.x! < columnWidth || d.x! > (width - columnWidth)) {
-                d.x = Math.max(columnWidth, Math.min(width - columnWidth, d.x!));
-              }
-              if (d.y! < horizontalBarYStart) {
-                d.y = Math.max(horizontalBarYStart, d.y!);
-              }
-              if (d.y! > horizontalBarYEnd) {
-                d.y = Math.min(horizontalBarYEnd, d.y!);
-              }
-            }
-          })
+          .each(enforceHBoundary)
           .attr('x', d => d.x! - nodeWidth / 2)
           .attr('y', d => d.y! - nodeHeight / 2)
           .call(drag as any)
@@ -90,8 +89,8 @@ const Levels: React.FC<LevelsProps> = () => {
       const drag = d3.drag<SVGForeignObjectElement, LevelButtonProps>()
         .on("start", dragStarted)
         .on("drag", (event, d) => {
-          d.fx = Math.max(0, Math.min(width - xOffset, event.x));
-          d.fy = Math.max(0, Math.min(height - yOffset, event.y));
+          d.fx = Math.max(xOffset, Math.min(width - xOffset, event.x));
+          d.fy = Math.max(yOffset, Math.min(height - yOffset, event.y));
         })
         .on("end", dragEnded);
 
