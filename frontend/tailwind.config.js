@@ -53,7 +53,7 @@ export default {
         'th-zoom-in-from-bottom': 'zoomInFromBottom 0.15s ease-out',
         'th-spin': 'spin 0.75s linear infinite',
         'th-spin-slow': 'spin 6s linear infinite',
-        'th-spin-super-slow': 'spin 20s linear infinite',
+        'th-spin-super-slow': 'spin 12s linear infinite',
       },
     },
   },

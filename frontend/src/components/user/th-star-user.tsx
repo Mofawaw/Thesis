@@ -35,7 +35,7 @@ const ThStarUser: React.FC<ThStarUserProps> = ({
       <div className="w-full h-full animate-th-spin-slow">
         <ThStar corners={starCorners} className="th-bg-gradient w-full h-full" />
       </div>
-      <img src={animal} className="absolute w-24 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" alt="Animal" />
+      <img src={animal} className="absolute w-[40%] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" alt="Animal" />
     </button>
   )
 }

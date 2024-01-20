@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
 import ThButton from "@/components/buttons/th-button.tsx";
 import ThTextButton from "@/components/buttons/th-text-button.tsx";
 import ThStarUser from "@/components/user/th-star-user.tsx";
 import useTestingStore from "@/testing-1/testing-store.ts"; // MARK: Testing
 import { ThLevel } from "@/types/th-types.ts";
+import { ThCastle } from "@/utilities/th-castle";
 
 interface LevelOverlayTopProps {
   level: ThLevel;
@@ -12,18 +12,7 @@ interface LevelOverlayTopProps {
 const LevelOverlayTop: React.FC<LevelOverlayTopProps> = ({
   level,
 }) => {
-  const [imageSrc, setImageSrc] = useState<string>('');
   const store = useTestingStore.getState();
-
-  useEffect(() => {
-    import(`../../../assets/images/${level.stage.logo}.svg`)
-      .then(image => {
-        setImageSrc(image.default);
-      })
-      .catch(error => {
-        console.error('Failed to load image:', error);
-      });
-  }, [level.stage.logo]);
 
   return (
     <div className="relative">
@@ -32,7 +21,7 @@ const LevelOverlayTop: React.FC<LevelOverlayTopProps> = ({
           <div style={{ width: 200 }}>
             <ThButton width={140} height={200} thColor={level.stage.color} onClick={() => store.nextLevel(false, true)}> {/* MARK: Testing */}
               <div className="flex flex-col items-center p-2 gap-4">
-                {imageSrc && <img src={imageSrc} alt={level.stage.logo} />}
+                <ThCastle castle={level.stage.logo} />
                 <h3 className={`text-${level.stage.color}-100`}>{level.label}</h3>
               </div>
             </ThButton>

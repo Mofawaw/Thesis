@@ -19,7 +19,7 @@
 
   h2
   {
-    @apply text-5xl;
+    @apply text-6xl;
     @apply font-th-magic;
     @apply text-th-black-100;
   }

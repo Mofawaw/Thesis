@@ -6,7 +6,7 @@ interface ThButtonProps extends React.HTMLProps<HTMLButtonElement> {
   height: number;
   thColor: ThColorKey;
   bgThColorShade?: ThColorShadeKey;
-  shadowThColorShade?: ThColorShadeKey
+  shadowThColorShade?: ThColorShadeKey;
   round?: boolean;
 }
 

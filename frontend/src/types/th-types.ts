@@ -6,7 +6,7 @@ export interface ThStage {
   id: "s1" | "s2" | "s3";
   label: string;
   color: ThColorKey;
-  logo: string;
+  logo: "castle-value" | "castle-reference" | "castle-together";
   levels: ThLevel[];
 }
 
