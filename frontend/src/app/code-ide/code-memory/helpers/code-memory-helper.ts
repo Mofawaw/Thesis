@@ -1,4 +1,4 @@
-import useTestingStore from "@/th-data (todo-post: backend)/testing-store.ts";
+import useTestingStore from "@/data (todo-post: backend)/testing-store.ts";
 import useCodeIDEStore from "../../code-ide-store.ts";
 import CodeGraph from "../code-memory-types.ts";
 

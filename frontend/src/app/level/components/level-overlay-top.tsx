@@ -1,7 +1,7 @@
 import ThButton from "@/components/buttons/th-button.tsx";
 import ThTextButton from "@/components/buttons/th-text-button.tsx";
 import ThStarUserButton from "@/components/buttons/th-star-user-button";
-import useTestingStore from "@/th-data (todo-post: backend)/testing-store"; // MARK: Testing
+import useTestingStore from "@/data (todo-post: backend)/testing-store"; // MARK: Testing
 import { ThLevel } from "@/types/th-types.ts";
 import { ThCastle } from "@/utilities/th-castle";
 

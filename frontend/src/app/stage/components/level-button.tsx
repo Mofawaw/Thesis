@@ -4,7 +4,7 @@ import { ThCastleKey } from "@/utilities/th-castle";
 import { useEffect, useState } from "react";
 
 export interface LevelButtonProps {
-  level_id: string;
+  levelId: string;
   label?: string | null;
   icon?: ThCastleKey | null;
   group: number;
@@ -15,7 +15,7 @@ export interface LevelButtonProps {
 }
 
 const LevelButton: React.FC<LevelButtonProps> = ({
-  level_id,
+  levelId,
   label = null,
   icon = null,
   group,

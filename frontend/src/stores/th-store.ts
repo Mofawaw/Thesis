@@ -1,4 +1,4 @@
-import stages from '@/th-data (todo-post: backend)/stages';
+import stages from '@/data (todo-post: backend)/stages';
 import { ThLevel, ThStage } from '@/types/th-types';
 import { create } from 'zustand';
 

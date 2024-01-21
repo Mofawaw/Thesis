@@ -14,10 +14,10 @@ const Levels: React.FC<LevelsProps> = () => {
   const d3Container = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
-    const newLevelButtons: LevelButtonProps[] = activeStage.levels.map(level_id => ({
-      level_id: level_id,
-      label: level_id.match(/l(\d+)/)?.[1] ?? null,
-      icon: (level_id.match(/l(\D+)/)?.[1] === "final" ? activeStage.logo : null) ?? null,
+    const newLevelButtons: LevelButtonProps[] = activeStage.levelsId.map(levelId => ({
+      levelId: levelId,
+      label: levelId.match(/l(\d+)/)?.[1] ?? null,
+      icon: (levelId.match(/l(\D+)/)?.[1] === "final" ? activeStage.logo : null) ?? null,
       group: 1,
       x: 0,
       y: 0,
@@ -132,7 +132,7 @@ const Levels: React.FC<LevelsProps> = () => {
     <svg ref={d3Container} className="w-full h-full" >
       {levelButtons.map((levelButton) => (
         <foreignObject
-          key={levelButton.level_id}
+          key={levelButton.levelId}
           width={100}
           height={100}
           x={levelButton.x!}
