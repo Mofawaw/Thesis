@@ -1,17 +1,31 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
 import LevelButton, { LevelButtonProps } from './level-button';
+import useThStore from '@/stores/th-store';
+import { ThCastleKey } from '@/utilities/th-castle';
 
 interface LevelsProps {
 }
 
 const Levels: React.FC<LevelsProps> = () => {
-  const d3Container = useRef<SVGSVGElement>(null);
-  const [levels, setLevels] = useState<LevelButtonProps[]>([
-    { name: "1", group: 1 }, { name: "2", group: 1 }, { name: "3", group: 1 }, { name: "4", group: 1 }, { name: "5", group: 1 }, { name: "6", group: 1 },
-    { name: "7", group: 2 }, { name: "8", group: 2 }, { name: "9", group: 2 }, { name: "10", group: 2 }, { name: "11", group: 2 }, { name: "12", group: 2 }
-  ].map(d => ({ ...d, x: 0, y: 0 })));
+  const activeStage = useThStore(state => state.activeStage);
+  const [levelButtons, setLevelButtons] = useState<LevelButtonProps[]>([]);
   const [dimensions, setDimensions] = useState({ width: window.innerWidth, height: window.innerHeight });
+  const d3Container = useRef<SVGSVGElement>(null);
+
+  useEffect(() => {
+    const newLevelButtons: LevelButtonProps[] = activeStage.levels.map(level_id => ({
+      level_id: level_id,
+      label: level_id.match(/l(\d+)/)?.[1] ?? null,
+      icon: (level_id.match(/l(\D+)/)?.[1] === "final" ? activeStage.logo : null) ?? null,
+      group: 1,
+      x: 0,
+      y: 0,
+    }));
+    setLevelButtons(newLevelButtons);
+    console.log("!!!")
+    console.log(newLevelButtons)
+  }, [activeStage]);
 
   useEffect(() => {
     function handleResize() {
@@ -60,7 +74,7 @@ const Levels: React.FC<LevelsProps> = () => {
       }
 
       // Initialize simulation
-      const simulation = d3.forceSimulation(levels)
+      const simulation = d3.forceSimulation(levelButtons)
         .force("x", d3.forceX<LevelButtonProps>().strength(d => d.group === 1 ? 0.2 : 0).x(width / 2))
         .force("y", d3.forceY<LevelButtonProps>().strength(d => d.group === 1 ? 0.4 : 0).y(height / 2))
         .force("center", d3.forceCenter(width / 2, height / 2))
@@ -68,12 +82,12 @@ const Levels: React.FC<LevelsProps> = () => {
         .force("collide", d3.forceCollide<LevelButtonProps>().strength(0.2).radius(d => d.group === 1 ? radius + 30 : radius + 120).iterations(1));
 
       // Run simulation
-      simulation.nodes(levels).on("tick", ticked);
+      simulation.nodes(levelButtons).on("tick", ticked);
 
       function ticked() {
         d3.select(d3Container.current)
           .selectAll('foreignObject')
-          .data(levels)
+          .data(levelButtons)
           .join('foreignObject')
           .attr("width", nodeWidth + 20)
           .attr("height", nodeHeight + 20)
@@ -83,7 +97,7 @@ const Levels: React.FC<LevelsProps> = () => {
           .call(drag as any)
       }
 
-      simulation.nodes(levels).on("tick", ticked);
+      simulation.nodes(levelButtons).on("tick", ticked);
 
       // Drag
       const drag = d3.drag<SVGForeignObjectElement, LevelButtonProps>()
@@ -112,20 +126,20 @@ const Levels: React.FC<LevelsProps> = () => {
       };
     }
     return () => { };
-  }, [dimensions]);
+  }, [dimensions, levelButtons]);
 
   return (
     <svg ref={d3Container} className="w-full h-full" >
-      {levels.map((level, index) => (
+      {levelButtons.map((levelButton) => (
         <foreignObject
-          key={index}
+          key={levelButton.level_id}
           width={100}
           height={100}
-          x={level.x!}
-          y={level.y!}
+          x={levelButton.x!}
+          y={levelButton.y!}
           overflow="visible"
         >
-          <LevelButton {...level} />
+          <LevelButton {...levelButton} />
         </foreignObject>
       ))}
     </svg>
