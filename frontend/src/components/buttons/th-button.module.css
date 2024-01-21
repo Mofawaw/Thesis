@@ -1,0 +1,39 @@
+@tailwind utilities;
+
+@keyframes hop
+{
+
+  0%,
+  100%
+  {
+    transform: translateY(0) translateX(-50%);
+  }
+
+  50%
+  {
+    transform: translateY(-10px) translateX(-50%);
+  }
+}
+
+.tooltip
+{
+  visibility: visible;
+  z-index: 100;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: hop 1.5s ease-out infinite;
+  @apply bg-th-tint-20 rounded-th-inner border-th-tint-40 border-th;
+}
+
+.tooltip::after
+{
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -10px;
+  border-width: 10px;
+  border-style: solid;
+  border-radius: 5px;
+  border-color: #FCE19F transparent transparent transparent;
+}

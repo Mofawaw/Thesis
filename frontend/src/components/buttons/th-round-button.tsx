@@ -10,6 +10,7 @@ interface ThRoundButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   textThColorShade?: ThColorShadeKey;
   icon?: ThIconKey | ThCastleKey | null;
   text?: string | null;
+  tooltipText?: string;
 }
 
 const ThRoundButton: React.FC<ThRoundButtonProps> = ({
@@ -19,6 +20,7 @@ const ThRoundButton: React.FC<ThRoundButtonProps> = ({
   textThColorShade = 40,
   icon = null,
   text = null,
+  tooltipText = "",
   ...props
 }) => {
   const flagIcon = icon as ThCastleKey;

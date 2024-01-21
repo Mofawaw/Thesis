@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import { ThColorKey } from "@/utilities/th-color.ts";
+import ArrowIcon from '@/assets/icons/arrow-icon';
 
 interface ThDropdownPortalProps {
   width: number;
@@ -34,12 +35,6 @@ const ThDropdownPortal: React.FC<ThDropdownPortalProps> = ({
     }
   }, [buttonRef, height, width]);
 
-  const arrowIcon = (
-    <svg className={`text-${thColor}-30`} width="30" height="30" viewBox="0 0 37 15" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-      <path d="M15.1818 13.0563C17.0751 14.7359 19.9249 14.7359 21.8182 13.0563L36.2535 0.25H0.74646L15.1818 13.0563Z" />
-    </svg>
-  );
-
   return ReactDOM.createPortal(
     <>
       <div className="fixed top-0 left-0 w-full h-full z-30 animate-th-fade-in" onClick={onClose} ></div>
@@ -48,7 +43,7 @@ const ThDropdownPortal: React.FC<ThDropdownPortalProps> = ({
         className={`absolute bg-${thColor}-30 rounded-th border-th border-${thColor}-20 animate-th-zoom-in-from-bottom z-40`}
       >
         <div className="absolute -bottom-5 left-1/2 transform -translate-x-1/2 z-50">
-          {arrowIcon}
+          <ArrowIcon className={`text-${thColor}-30`} />
         </div>
         {children}
       </div>
