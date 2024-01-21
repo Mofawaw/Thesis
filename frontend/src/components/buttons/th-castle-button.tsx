@@ -3,10 +3,12 @@ import { ThCastle } from "@/utilities/th-castle.tsx";
 
 interface ThCastleButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   castle: ThCastleKey;
+  grey?: boolean;
 }
 
 const ThCastleButton: React.FC<ThCastleButtonProps> = ({
   castle,
+  grey = false,
   ...props
 }) => {
   return (
@@ -15,7 +17,7 @@ const ThCastleButton: React.FC<ThCastleButtonProps> = ({
       hover:scale-110
       active:scale-95 active:duration-100
     `}>
-      <ThCastle castle={castle} className="w-full h-full" />
+      <ThCastle castle={castle} grey={grey} className="w-full h-full" />
     </button>
   )
 }

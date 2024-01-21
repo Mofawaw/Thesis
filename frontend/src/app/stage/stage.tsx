@@ -2,7 +2,6 @@ import ThStarUserButton from '@/components/buttons/th-star-user-button';
 import Levels from './components/levels';
 import useThStore from '@/stores/th-store';
 import ThCastleButton from '@/components/buttons/th-castle-button';
-import { ThStage } from '@/types/th-types';
 
 interface StageProps {
 }
@@ -33,14 +32,14 @@ const Stage: React.FC<StageProps> = ({
 
       {/* Overlay-Bottom */}
       <div className="w-screen absolute bottom-0 z-20 flex flex-row justify-center items-center overflow-hidden pointer-events-auto translate-y-16">
-        <ThCastleButton castle="castle-value" onClick={() => setActiveStage('s1')} />
+        <ThCastleButton castle="castle-value" grey={activeStage.id !== 's1'} onClick={() => setActiveStage('s1')} />
         <div className="translate-y-24" >
           <ThStarUserButton width={400} height={400} />
         </div>
-        <ThCastleButton castle="castle-reference" onClick={() => setActiveStage('s2')} />
+        <ThCastleButton castle="castle-reference" grey={activeStage.id !== 's2'} onClick={() => setActiveStage('s2')} />
       </div>
       <div className="w-screen absolute bottom-0 z-10 flex flex-row justify-center pointer-events-auto -translate-y-48">
-        <ThCastleButton castle="castle-together" onClick={() => setActiveStage('s3')} />
+        <ThCastleButton castle="castle-together" grey={activeStage.id !== 's3'} onClick={() => setActiveStage('s3')} />
       </div>
     </div>
   );

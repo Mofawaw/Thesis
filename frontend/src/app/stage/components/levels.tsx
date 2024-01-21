@@ -33,9 +33,9 @@ const Levels: React.FC<LevelsProps> = () => {
 
       function enforceHBoundary(d: LevelButtonProps) {
         // Define "H" shape parameters inside this function
-        const columnWidth = dimensions.width * 0.3;
+        const columnWidth = dimensions.width * 0.25;
         const horizontalBarYStart = dimensions.width * 0.15;
-        const horizontalBarYEnd = dimensions.height - dimensions.width * 0.25;
+        const horizontalBarYEnd = dimensions.height - dimensions.width * 0.3;
 
         // Check if the node is inside the "H" boundaries
         const inLeftColumn = d.x! >= 0 && d.x! < columnWidth;
