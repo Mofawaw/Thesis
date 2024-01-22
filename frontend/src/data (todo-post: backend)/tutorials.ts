@@ -1,6 +1,6 @@
 import { ThNode } from "@/types/th-types.ts";
 
-export const tutorialNodes: ThNode[] = [
+const tutorialNodes: ThNode[] = [
   {
     baseNode: {
       id: "t1",
@@ -34,3 +34,5 @@ export const tutorialNodes: ThNode[] = [
     }
   }
 ]
+
+export default tutorialNodes;

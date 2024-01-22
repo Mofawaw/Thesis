@@ -31,8 +31,8 @@ const ThButton: React.FC<ThButtonProps> = ({
     >
       {/* Tooltip Container */}
       {tooltipText && (
-        <span className={`absolute bottom-full w-auto py-2 px-3 ${styles.tooltip}`}>
-          <h5 className="text-th-tint-100">{tooltipText}</h5>
+        <span className={`absolute bottom-full w-auto py-2 px-3 -mb-4 ${styles.tooltip}`}>
+          <h4 className="text-th-tint-100">{tooltipText}</h4>
         </span>
       )}
 

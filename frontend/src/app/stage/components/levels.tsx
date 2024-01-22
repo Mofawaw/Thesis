@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
 import LevelButton, { LevelButtonProps } from './level-button';
 import useThStore from '@/stores/th-store';
-import { ThCastleKey } from '@/utilities/th-castle';
+import useUserStore from '@/stores/user-store';
 
 interface LevelsProps {
 }
@@ -13,18 +13,23 @@ const Levels: React.FC<LevelsProps> = () => {
   const [dimensions, setDimensions] = useState({ width: window.innerWidth, height: window.innerHeight });
   const d3Container = useRef<SVGSVGElement>(null);
 
+  const { stagesProgress } = useUserStore.getState();
+  const currentLevel = stagesProgress[activeStage.id].currentLevel;
+
   useEffect(() => {
-    const newLevelButtons: LevelButtonProps[] = activeStage.levelsId.map(levelId => ({
-      levelId: levelId,
-      label: levelId.match(/l(\d+)/)?.[1] ?? null,
-      icon: (levelId.match(/l(\D+)/)?.[1] === "final" ? activeStage.logo : null) ?? null,
-      group: 1,
-      x: 0,
-      y: 0,
-    }));
+    const newLevelButtons: LevelButtonProps[] = activeStage.levels
+      .sort((a, b) => a.order - b.order)
+      .map((level) => {
+        return {
+          levelId: level.id,
+          label: level.id.match(/l(\d+)/)?.[1] ?? null,
+          icon: (level.id.match(/l(\D+)/)?.[1] === "final" ? activeStage.logo : null) ?? null,
+          group: level.order <= currentLevel.order ? 1 : 2,
+          x: 0,
+          y: 0,
+        };
+      });
     setLevelButtons(newLevelButtons);
-    console.log("!!!")
-    console.log(newLevelButtons)
   }, [activeStage]);
 
   useEffect(() => {

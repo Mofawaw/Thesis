@@ -21,7 +21,7 @@
   z-index: 100;
   left: 50%;
   transform: translateX(-50%);
-  animation: hop 1.5s ease-out infinite;
+  animation: hop 3s ease-out infinite;
   @apply bg-th-tint-20 rounded-th-inner border-th-tint-40 border-th;
 }
 

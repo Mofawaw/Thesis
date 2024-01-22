@@ -31,7 +31,7 @@ const Stage: React.FC<StageProps> = ({
       </div>
 
       {/* Overlay-Bottom */}
-      <div className="w-screen absolute bottom-0 z-10 flex flex-row gap-28 justify-center items-center pointer-events-auto overflow-visible -translate-y-6">
+      <div className="w-screen absolute bottom-0 z-10 flex flex-row gap-28 justify-center items-center pointer-events-auto -translate-y-6">
         <ThCastleButton castle="castle-value" grey={activeStage.id !== 's1'} onClick={() => setActiveStage('s1')} />
         <div className="-translate-y-32">
           <ThCastleButton castle="castle-together" grey={activeStage.id !== 's3'} onClick={() => setActiveStage('s3')} />

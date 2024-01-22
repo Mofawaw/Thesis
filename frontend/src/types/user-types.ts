@@ -9,14 +9,14 @@ export interface User { // TODO-Post: Backend Version
 
 export interface UserStageProgress { // TODO-Post: Backend Version
   userId: string;
-  stage: ThStage;
-  currentLevelId: string;
+  stageId: "s1" | "s2" | "s3";
+  currentLevel: { id: string, order: number };
   status: "locked" | "unlocked" | "completed";
 }
 
 export interface UserLevelProgress { // TODO-Post: Backend Version
   userId: string;
-  level: ThLevel;
+  levelId: string;
   status: "locked" | "unlocked" | "completed";
   currentNodes: ThNode[];
   currentTippNodes: ThNode[];

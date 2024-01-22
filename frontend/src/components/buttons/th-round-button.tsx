@@ -27,7 +27,7 @@ const ThRoundButton: React.FC<ThRoundButtonProps> = ({
   const thIcon = icon as ThIconKey
 
   return (
-    <ThButton width={100} height={100} thColor={thColor} bgThColorShade={bgThColorShade} shadowThColorShade={shadowThColorShade} round={true} className="relative" {...props} >
+    <ThButton width={100} height={100} thColor={thColor} bgThColorShade={bgThColorShade} shadowThColorShade={shadowThColorShade} round={true} tooltipText={tooltipText} className="relative" {...props} >
       <div className="flex flex-col gap-3 items-center justify-center mt-2">
         {thIcon && <ThIcon icon={thIcon} className={`w-12 h-12 text-${thColor}-${textThColorShade}`} />}
         {flagIcon && <ThCastleFlag castle={flagIcon} className={`w-20 h-16 text-${thColor}-${textThColorShade}`} />}
