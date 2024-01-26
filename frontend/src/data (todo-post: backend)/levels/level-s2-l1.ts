@@ -43,7 +43,7 @@ Die neue Bossin ist: Luisa, 5 Jahre alt
 `
 
 const levelS2C1: ThLevel = {
-  id: "l-s2c1",
+  id: "s2-l1",
   stage: stages[1],
   category: categories[0],
   label: "Test 2-1",

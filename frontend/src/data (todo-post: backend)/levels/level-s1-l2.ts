@@ -60,7 +60,7 @@ summe = h + b + k + e
 `
 
 const levelS1C2: ThLevel = {
-  id: "l-s1c2",
+  id: "s1-l2",
   stage: stages[0],
   category: categories[1],
   label: "Test 1-2",

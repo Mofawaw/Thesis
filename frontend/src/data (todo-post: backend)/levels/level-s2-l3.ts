@@ -78,7 +78,7 @@ Gegeben ist das entsprechene Programm. Deine Aufgabe ist es, den zugehörigen Sp
 `
 
 const levelS2C3: ThLevel = {
-  id: "l-s2c3",
+  id: "s2-l3",
   stage: stages[1],
   category: categories[2],
   label: "Test 2-3",

@@ -49,7 +49,7 @@ Punkt: 1, 1
 `
 
 const levelS3C1: ThLevel = {
-  id: "l-s3c1",
+  id: "s3-l1",
   stage: stages[2],
   category: categories[0],
   label: "Test 3-1",

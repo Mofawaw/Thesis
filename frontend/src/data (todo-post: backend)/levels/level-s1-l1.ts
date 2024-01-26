@@ -35,7 +35,7 @@ print(summe)
 `
 
 const levelS1C1: ThLevel = {
-  id: "l-s1c1",
+  id: "s1-l1",
   stage: stages[0],
   category: categories[0],
   label: "Test 1-1",

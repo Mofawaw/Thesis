@@ -56,7 +56,7 @@ const taskDescription =
 `
 
 const levelS3C2: ThLevel = {
-  id: "l-s3c2",
+  id: "s3-l2",
   stage: stages[2],
   category: categories[1],
   label: "Test 3-2",

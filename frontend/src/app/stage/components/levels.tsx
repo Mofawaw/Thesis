@@ -1,36 +1,39 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
 import LevelButton, { LevelButtonProps } from './level-button';
-import useThStore from '@/stores/th-store';
 import useUserStore from '@/stores/user-store';
+import { ThStage } from '@/types/th-types';
 
 interface LevelsProps {
+  stage: ThStage;
 }
 
-const Levels: React.FC<LevelsProps> = () => {
-  const activeStage = useThStore(state => state.activeStage);
+const Levels: React.FC<LevelsProps> = ({
+  stage,
+}) => {
   const [levelButtons, setLevelButtons] = useState<LevelButtonProps[]>([]);
   const [dimensions, setDimensions] = useState({ width: window.innerWidth, height: window.innerHeight });
   const d3Container = useRef<SVGSVGElement>(null);
 
-  const { stagesProgress } = useUserStore.getState();
-  const currentLevel = stagesProgress[activeStage.id].currentLevel;
+  const stagesProgress = useUserStore(state => state.stagesProgress);
+  const currentLevel = stagesProgress[stage.id].currentLevel;
 
   useEffect(() => {
-    const newLevelButtons: LevelButtonProps[] = activeStage.levels
+    const newLevelButtons: LevelButtonProps[] = stage.levels
       .sort((a, b) => a.order - b.order)
       .map((level) => {
         return {
+          stage: stage,
           levelId: level.id,
           label: level.id.match(/l(\d+)/)?.[1] ?? null,
-          icon: (level.id.match(/l(\D+)/)?.[1] === "final" ? activeStage.logo : null) ?? null,
+          icon: (level.id.match(/l(\D+)/)?.[1] === "final" ? stage.logo : null) ?? null,
           group: level.order <= currentLevel.order ? 1 : 2,
           x: 0,
           y: 0,
         };
       });
     setLevelButtons(newLevelButtons);
-  }, [activeStage]);
+  }, [stage]);
 
   useEffect(() => {
     function handleResize() {

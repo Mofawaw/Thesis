@@ -47,7 +47,7 @@ Ordne die Plätze neu zu, sodass sie den Tieren entsprechen, die jetzt dort lebe
 `
 
 const levelS2C2: ThLevel = {
-  id: "l-s2c2",
+  id: "s2-l2",
   stage: stages[1],
   category: categories[1],
   label: "Test 2-2",

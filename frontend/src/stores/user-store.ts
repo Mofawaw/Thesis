@@ -1,13 +1,13 @@
-import BackendDummy from '@/data (todo-post: backend)/backend-dummy';
-import { ThLevel, ThNode, ThStage } from '@/types/th-types';
+import { ThNode, ThStage } from '@/types/th-types';
 import { UserLevelProgress, UserStageProgress } from '@/types/user-types';
 import { create } from 'zustand';
-
-const backendDummy = new BackendDummy(); // TODO-Post: Backend
 
 export type UserStore = {
   stagesProgress: Record<string, UserStageProgress>;
   levelsProgress: Record<string, UserLevelProgress>;
+
+  // Initialize stagesProgress
+  initializeStagesProgress: (stages: ThStage[]) => (void);
 
   // Update currentLevel of stage
   updateStageProgressCurrentLevel: (stageId: string, newCurrentLevel: Record<number, string>) => void;
@@ -26,30 +26,34 @@ export type UserStore = {
 };
 
 const useUserStore = create<UserStore>((set) => {
-  const stagesProgress = backendDummy.stages.reduce((acc, stage) => ({
-    ...acc,
-    [stage.id]: {
-      userId: "u1", // TODO-Post: User
-      stageId: stage.id,
-      currentLevel: stage.levels[0],
-      status: "locked",
-    }
-  }), {});
+  // Initialize stagesProgress
+  const stagesProgress = {}; // TODO: LocalStorage
 
-  const levelsProgress = backendDummy.levels.flat().reduce((acc, level) => ({
-    ...acc,
-    [level.id]: {
-      userId: "u1", // TODO-Post: User
-      levelId: level.id,
-      status: "locked",
-      currentNodes: [],
-      currentTippNodes: []
-    }
-  }), {});
+  // Initialize levelsProgress
+  const levelsProgress = {}; // TODO: LocalStorage
 
   return {
     stagesProgress,
     levelsProgress,
+
+    initializeStagesProgress: (stages: ThStage[]) => {
+      set(state => {
+        const newStagesProgress = stages.reduce((acc, stage) => ({
+          ...acc,
+          [stage.id]: {
+            userId: "u1", // TODO-Post: User
+            stageId: stage.id,
+            currentLevel: stage.levels[0],
+            status: "locked",
+          }
+        }), {});
+
+        return {
+          ...state,
+          stagesProgress: newStagesProgress
+        };
+      });
+    },
 
     updateStageProgressCurrentLevel: (stageId, newCurrentLevel) => {
       updateStage(stageId, stageProgress => ({ ...stageProgress, currentLevelId: newCurrentLevel }));

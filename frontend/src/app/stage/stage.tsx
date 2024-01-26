@@ -2,13 +2,15 @@ import ThStarUserButton from '@/components/buttons/th-star-user-button';
 import Levels from './components/levels';
 import useThStore from '@/stores/th-store';
 import ThCastleButton from '@/components/buttons/th-castle-button';
+import { ThStage } from '@/types/th-types';
 
 interface StageProps {
+  stage: ThStage;
 }
 
 const Stage: React.FC<StageProps> = ({
+  stage,
 }) => {
-  const { activeStage } = useThStore();
   const { setActiveStage } = useThStore.getState();
 
   return (
@@ -18,25 +20,25 @@ const Stage: React.FC<StageProps> = ({
 
       {/* Levels */}
       <div className="w-screen h-screen absolute z-30 pointer-events-none">
-        <Levels />
+        <Levels stage={stage} />
       </div>
 
       {/* Overlay-Top */}
       <div className="w-screen absolute top-10 z-20 flex flex-row justify-center">
         <h2 className="text-th-black-20 text-center">
-          {activeStage.id === "s1" && <span><span className="text-th-value-100">Werte</span> &<br />Referenzen</span>}
-          {activeStage.id === "s2" && <span>Werte &<br /><span className="text-th-reference-100">Referenzen</span></span>}
-          {activeStage.id === "s3" && <span className="text-th-together-100">Werte &<br />Referenzen</span>}
+          {stage.id === "s1" && <span><span className="text-th-value-100">Werte</span> &<br />Referenzen</span>}
+          {stage.id === "s2" && <span>Werte &<br /><span className="text-th-reference-100">Referenzen</span></span>}
+          {stage.id === "s3" && <span className="text-th-together-100">Werte &<br />Referenzen</span>}
         </h2>
       </div>
 
       {/* Overlay-Bottom */}
       <div className="w-screen absolute bottom-0 z-10 flex flex-row gap-28 justify-center items-center pointer-events-auto -translate-y-6">
-        <ThCastleButton castle="castle-value" grey={activeStage.id !== 's1'} onClick={() => setActiveStage('s1')} />
+        <ThCastleButton castle="castle-value" grey={stage.id !== 's1'} onClick={() => setActiveStage('s1')} />
         <div className="-translate-y-32">
-          <ThCastleButton castle="castle-together" grey={activeStage.id !== 's3'} onClick={() => setActiveStage('s3')} />
+          <ThCastleButton castle="castle-together" grey={stage.id !== 's3'} onClick={() => setActiveStage('s3')} />
         </div>
-        <ThCastleButton castle="castle-reference" grey={activeStage.id !== 's2'} onClick={() => setActiveStage('s2')} />
+        <ThCastleButton castle="castle-reference" grey={stage.id !== 's2'} onClick={() => setActiveStage('s2')} />
       </div>
       <div className="w-screen absolute bottom-0 z-20 flex flex-row justify-center translate-y-40 pointer-events-none" >
         <div className="pointer-events-auto" >

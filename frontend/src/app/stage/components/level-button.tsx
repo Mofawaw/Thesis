@@ -1,10 +1,14 @@
 import ThRoundButton from "@/components/buttons/th-round-button";
+import { fetchLevel } from "@/data (todo-post: backend)/th-network";
 import useThStore from "@/stores/th-store";
 import useUserStore from "@/stores/user-store";
+import { ThStage } from "@/types/th-types";
 import { ThCastleKey } from "@/utilities/th-castle";
 import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
 export interface LevelButtonProps {
+  stage: ThStage;
   levelId: string;
   label?: string | null;
   icon?: ThCastleKey | null;
@@ -16,6 +20,7 @@ export interface LevelButtonProps {
 }
 
 const LevelButton: React.FC<LevelButtonProps> = ({
+  stage,
   levelId,
   label = null,
   icon = null,
@@ -26,11 +31,12 @@ const LevelButton: React.FC<LevelButtonProps> = ({
   fy = null,
 }) => {
   const [opacity, setOpacity] = useState(0);
+  const navigate = useNavigate();
 
-  const activeStage = useThStore(state => state.activeStage);
+  const thStore = useThStore.getState();
   const { stagesProgress } = useUserStore.getState();
 
-  const currentLevel = stagesProgress[activeStage.id].currentLevel;
+  const currentLevel = stagesProgress[stage.id].currentLevel;
   const isCurrentLevel = levelId === currentLevel.id;
 
   useEffect(() => {
@@ -44,8 +50,8 @@ const LevelButton: React.FC<LevelButtonProps> = ({
   return (
     <div className="pointer-events-auto" style={{ opacity, transition: 'opacity 800ms ease-in-out' }}>
       {(group === 1 && !isCurrentLevel) && <ThRoundButton thColor="th-tint" bgThColorShade={70} shadowThColorShade={100} textThColorShade={20} text={label} icon={icon} />}
-      {(group === 1 && isCurrentLevel) && <ThRoundButton thColor={activeStage.color} bgThColorShade={70} shadowThColorShade={100} textThColorShade={20} text={label} icon={icon} tooltipText="Anfangen" />}
-      {group === 2 && <ThRoundButton thColor={activeStage.color} text={label} icon={icon} />}
+      {(group === 1 && isCurrentLevel) && <ThRoundButton thColor={stage.color} bgThColorShade={70} shadowThColorShade={100} textThColorShade={20} text={label} icon={icon} tooltipText="Anfangen" onClick={() => navigate(`/level/${levelId}`)} />}
+      {group === 2 && <ThRoundButton thColor={stage.color} text={label} icon={icon} />}
     </div>
   );
 }

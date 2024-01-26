@@ -1,23 +1,27 @@
-import BackendDummy from '@/data (todo-post: backend)/backend-dummy';
 import { ThLevel, ThStage } from '@/types/th-types';
 import { create } from 'zustand';
 
 export type ThStore = {
   stages: ThStage[];
-  activeStage: ThStage;
+  activeStage: ThStage | null;
   activeLevel: ThLevel | null;
 
+  initializeStages: (stages: ThStage[]) => (void);
   setActiveStage: (newStageId: "s1" | "s2" | "s3") => (void);
-  setActiveLevel: (newLevel: ThLevel) => (void);
+  setActiveLevel: (newLevel: ThLevel | null) => (void);
 };
 
 const useThStore = create<ThStore>((set) => {
-  const backendDummy = new BackendDummy(); // TODO-Post: Backend 
-
   return {
-    stages: backendDummy.stages,
-    activeStage: backendDummy.stages[0], // TODO: LocalStorage
+    stages: [],
+    activeStage: null,
     activeLevel: null,
+
+    initializeStages: (stages: ThStage[]) => {
+      set(state => {
+        return { ...state, stages: stages, activeStage: stages[0] };
+      });
+    },
 
     setActiveStage: (newStageId: "s1" | "s2" | "s3") => {
       set(state => {
@@ -26,7 +30,11 @@ const useThStore = create<ThStore>((set) => {
       });
     },
 
-    setActiveLevel: (newLevel) => set({ activeLevel: newLevel }),
+    setActiveLevel: (newLevel: ThLevel | null) => {
+      set(state => {
+        return { ...state, activeLevel: newLevel };
+      });
+    },
   };
 });
 
