@@ -18,14 +18,14 @@ const delay = (ms: number): Promise<void> => {
   return new Promise(resolve => setTimeout(resolve, ms));
 };
 
-export const fetchStages = async () => {
-  await delay(3000);
+export const fetchStagesAndInitializeThAndUserData = async () => {
+  await delay(2000);
   useThStore.getState().initializeStages(stages);
   useUserStore.getState().initializeStagesProgress(stages);
 };
 
-export const fetchLevel = async (levelId: string) => {
-  await delay(3000);
+export const fetchLevelAndSetActiveLevel = async (levelId: string) => {
+  await delay(200);
   const levels: ThLevel[][] = [
     [levelS1C1, levelS1C2, levelS1C3],
     [levelS2C1, levelS2C2, levelS2C3],
@@ -41,3 +41,4 @@ export const fetchTutorialNodes = async (): Promise<ThNode[]> => {
   await delay(2000);
   return tutorialNodes;
 };
+

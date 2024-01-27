@@ -22,6 +22,7 @@ const Levels: React.FC<LevelsProps> = ({
     const newLevelButtons: LevelButtonProps[] = stage.levels
       .sort((a, b) => a.order - b.order)
       .map((level) => {
+        console.log(level.id);
         return {
           stage: stage,
           levelId: level.id,

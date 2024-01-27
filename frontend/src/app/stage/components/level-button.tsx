@@ -1,6 +1,4 @@
 import ThRoundButton from "@/components/buttons/th-round-button";
-import { fetchLevel } from "@/data (todo-post: backend)/th-network";
-import useThStore from "@/stores/th-store";
 import useUserStore from "@/stores/user-store";
 import { ThStage } from "@/types/th-types";
 import { ThCastleKey } from "@/utilities/th-castle";
