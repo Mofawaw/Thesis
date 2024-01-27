@@ -53,34 +53,6 @@ const Levels: React.FC<LevelsProps> = ({
       const xOffset = nodeWidth / 2;
       const yOffset = nodeHeight / 2;
 
-      function enforceHBoundary(d: LevelButtonProps) {
-        // Define "H" shape parameters inside this function
-        const columnWidth = dimensions.width * 0.25;
-        const horizontalBarYStart = dimensions.width * 0.15;
-        const horizontalBarYEnd = dimensions.height - dimensions.width * 0.3;
-
-        // Check if the node is inside the "H" boundaries
-        const inLeftColumn = d.x! >= 0 && d.x! < columnWidth;
-        const inRightColumn = d.x! > dimensions.width - columnWidth && d.x! <= dimensions.width;
-        const inHorizontalBar = (d.x! >= columnWidth && d.x! <= dimensions.width - columnWidth) && (d.y! >= horizontalBarYStart && d.y! <= horizontalBarYEnd);
-
-        // If the node is outside the "H", adjust its position gradually
-        if (!(inLeftColumn || inRightColumn || inHorizontalBar)) {
-          if (d.x! < columnWidth || d.x! > (dimensions.width - columnWidth)) {
-            d.x = Math.max(columnWidth, Math.min(dimensions.width - columnWidth, d.x!));
-          }
-
-          // If the node's y-position is above the top boundary, push it down towards the boundary
-          if (d.y! < horizontalBarYStart) {
-            d.y! += (horizontalBarYStart - d.y!) * 0.1; // Adjust the multiplier as needed for the effect
-          }
-          // If the node's y-position is below the bottom boundary, push it up towards the boundary
-          else if (d.y! > horizontalBarYEnd) {
-            d.y! -= (d.y! - horizontalBarYEnd) * 0.1; // Adjust the multiplier as needed for the effect
-          }
-        }
-      }
-
       // Initialize simulation
       const simulation = d3.forceSimulation(levelButtons)
         .force("x", d3.forceX<LevelButtonProps>().strength(d => d.group === 1 ? 0.2 : 0).x(width / 2))
@@ -106,6 +78,29 @@ const Levels: React.FC<LevelsProps> = ({
       }
 
       simulation.nodes(levelButtons).on("tick", ticked);
+
+      // Boundary
+      function enforceHBoundary(d: LevelButtonProps) {
+        const columnWidth = dimensions.width * 0.25;
+        const horizontalBarYStart = dimensions.width * 0.15;
+        const horizontalBarYEnd = dimensions.height - dimensions.width * 0.3;
+
+        const inLeftColumn = d.x! >= 0 && d.x! < columnWidth;
+        const inRightColumn = d.x! > dimensions.width - columnWidth && d.x! <= dimensions.width;
+        const inHorizontalBar = (d.x! >= columnWidth && d.x! <= dimensions.width - columnWidth) && (d.y! >= horizontalBarYStart && d.y! <= horizontalBarYEnd);
+
+        if (!(inLeftColumn || inRightColumn || inHorizontalBar)) {
+          if (d.x! < columnWidth || d.x! > (dimensions.width - columnWidth)) {
+            d.x = Math.max(columnWidth, Math.min(dimensions.width - columnWidth, d.x!));
+          }
+          if (d.y! < horizontalBarYStart) {
+            d.y! += (horizontalBarYStart - d.y!) * 0.1;
+          }
+          else if (d.y! > horizontalBarYEnd) {
+            d.y! -= (d.y! - horizontalBarYEnd) * 0.1;
+          }
+        }
+      }
 
       // Drag
       const drag = d3.drag<SVGForeignObjectElement, LevelButtonProps>()

@@ -42,7 +42,7 @@ const Stage: React.FC<StageProps> = ({
       </div>
       <div className="w-screen absolute bottom-0 z-20 flex flex-row justify-center translate-y-40 pointer-events-none" >
         <div className="pointer-events-auto" >
-          <ThStarUserButton width={400} height={400} />
+          <ThStarUserButton width={400} height={400} iconWidth="small" />
         </div>
       </div>
     </div>

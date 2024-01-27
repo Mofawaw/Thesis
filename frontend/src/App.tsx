@@ -45,7 +45,7 @@ const LevelRoute = () => {
   return (
     <div>
       {activeLevel && <Level level={activeLevel} tutorialNodes={tutorialNodes} />}
-      {!activeLevel && <Loading />}
+      {!activeLevel && <LoadingLevel />}
     </div>
   );
 }
@@ -54,6 +54,14 @@ const Loading = () => {
   return (
     <div className="w-screen h-screen flex flex-row justify-center items-center text-center bg-th-background">
       <h1><span className="text-th-value-100">Werte</span><span className="text-th-together-100"> &</span><br /><span className="text-th-reference-100">Referenzen</span></h1>
+    </div>
+  )
+}
+
+const LoadingLevel = () => {
+  return (
+    <div className="w-screen h-screen flex flex-row justify-center items-center text-center bg-th-background">
+
     </div>
   )
 }

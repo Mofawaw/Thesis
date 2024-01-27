@@ -38,7 +38,7 @@ const levelS1C1: ThLevel = {
   id: "s1-l1",
   stage: stages[0],
   category: categories[0],
-  label: "Test 1-1",
+  label: "Lvl 1",
   nodes: [
     { baseNode: categories[0].baseNodes[0], data: { codeIDE: { initialCode: initialCode } } },
     { baseNode: categories[0].baseNodes[1], data: { text: { description: taskDescription } } }

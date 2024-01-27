@@ -33,9 +33,7 @@ const LevelButton: React.FC<LevelButtonProps> = ({
   const [opacity, setOpacity] = useState(0);
   const navigate = useNavigate();
 
-  const thStore = useThStore.getState();
-  const { stagesProgress } = useUserStore.getState();
-
+  const stagesProgress = useUserStore(state => state.stagesProgress);
   const currentLevel = stagesProgress[stage.id].currentLevel;
   const isCurrentLevel = levelId === currentLevel.id;
 

@@ -5,11 +5,13 @@ import animal from "@/assets/images/animal-1.png";
 interface ThStarUserProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   width: number;
   height: number;
+  iconWidth: "small" | "large";
 }
 
 const ThStarUser: React.FC<ThStarUserProps> = ({
   width,
   height,
+  iconWidth,
   ...props
 }) => {
   const [starCorners, setStarCorners] = useState<ThStarProps['corners']>(4);
@@ -34,7 +36,8 @@ const ThStarUser: React.FC<ThStarUserProps> = ({
       <div className="w-full h-full animate-th-spin-slow">
         <ThStar corners={starCorners} className="th-bg-gradient w-full h-full" />
       </div>
-      <img src={animal} className="absolute w-[40%] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" alt="Animal" />
+      {iconWidth === "small" && <img src={animal} className={`absolute w-[40%] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" alt="Animal`} />}
+      {iconWidth === "large" && <img src={animal} className={`absolute w-[50%] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" alt="Animal`} />}
     </button>
   )
 }
