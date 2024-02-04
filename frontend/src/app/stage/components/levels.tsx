@@ -16,19 +16,19 @@ const Levels: React.FC<LevelsProps> = ({
   const d3Container = useRef<SVGSVGElement>(null);
 
   const stagesProgress = useUserStore(state => state.stagesProgress);
-  const currentLevel = stagesProgress[stage.id].currentLevel;
 
   useEffect(() => {
     const newLevelButtons: LevelButtonProps[] = stage.levels
       .sort((a, b) => a.order - b.order)
       .map((level) => {
-        console.log(level.id);
+        const levelStatus = stagesProgress[stage.id].levelsStatus.find(levelStatus => levelStatus.id === level.id);
+
         return {
           stage: stage,
           levelId: level.id,
           label: level.id.match(/l(\d+)/)?.[1] ?? null,
           icon: (level.id.match(/l(\D+)/)?.[1] === "final" ? stage.logo : null) ?? null,
-          group: level.order <= currentLevel.order ? 1 : 2,
+          group: levelStatus?.status === "locked" ? 2 : 1,
           x: 0,
           y: 0,
         };
@@ -60,7 +60,7 @@ const Levels: React.FC<LevelsProps> = ({
         .force("y", d3.forceY<LevelButtonProps>().strength(d => d.group === 1 ? 0.4 : 0).y(height / 2))
         .force("center", d3.forceCenter(width / 2, height / 2 - height * 0.05))
         .force("charge", d3.forceManyBody().strength(0.2))
-        .force("collide", d3.forceCollide<LevelButtonProps>().strength(0.2).radius(d => d.group === 1 ? radius + 30 : radius + 120).iterations(1));
+        .force("collide", d3.forceCollide<LevelButtonProps>().strength(0.2).radius(d => d.group === 1 ? radius + 30 : radius + 100).iterations(1));
 
       // Run simulation
       simulation.nodes(levelButtons).on("tick", ticked);

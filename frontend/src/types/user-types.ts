@@ -10,7 +10,7 @@ export interface User { // TODO-Post: Backend Version
 export interface UserStageProgress { // TODO-Post: Backend Version
   userId: string;
   stageId: "s1" | "s2" | "s3";
-  currentLevel: { id: string, order: number };
+  levelsStatus: { id: string, status: "locked" | "unlocked" | "completed" }[];
   status: "locked" | "unlocked" | "completed";
 }
 

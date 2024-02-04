@@ -32,8 +32,7 @@ const LevelButton: React.FC<LevelButtonProps> = ({
   const navigate = useNavigate();
 
   const stagesProgress = useUserStore(state => state.stagesProgress);
-  const currentLevel = stagesProgress[stage.id].currentLevel;
-  const isCurrentLevel = levelId === currentLevel.id;
+  const levelStatus = stagesProgress[stage.id].levelsStatus.find(levelStatus => levelStatus.id === levelId);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -45,9 +44,9 @@ const LevelButton: React.FC<LevelButtonProps> = ({
 
   return (
     <div className="pointer-events-auto" style={{ opacity, transition: 'opacity 800ms ease-in-out' }}>
-      {(group === 1 && !isCurrentLevel) && <ThRoundButton thColor="th-tint" bgThColorShade={70} shadowThColorShade={100} textThColorShade={20} text={label} icon={icon} />}
-      {(group === 1 && isCurrentLevel) && <ThRoundButton thColor={stage.color} bgThColorShade={70} shadowThColorShade={100} textThColorShade={20} text={label} icon={icon} tooltipText="Anfangen" onClick={() => navigate(`/level/${levelId}`)} />}
-      {group === 2 && <ThRoundButton thColor={stage.color} text={label} icon={icon} />}
+      {levelStatus?.status === "completed" && <ThRoundButton thColor="th-tint" bgThColorShade={70} shadowThColorShade={100} textThColorShade={20} text={label} icon={icon} />}
+      {levelStatus?.status === "unlocked" && <ThRoundButton thColor={stage.color} bgThColorShade={70} shadowThColorShade={100} textThColorShade={20} text={label} icon={icon} tooltipText="Anfangen" onClick={() => navigate(`/level/${levelId}`)} />}
+      {levelStatus?.status === "locked" && <ThRoundButton thColor={stage.color} text={label} icon={icon} />}
     </div>
   );
 }

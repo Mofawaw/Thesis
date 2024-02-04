@@ -8,6 +8,8 @@ import ThPopup from "@/components/portals/th-popup.tsx";
 import ThTextButton from "@/components/buttons/th-text-button.tsx";
 import { ThLevel, ThNode } from "@/types/th-types.ts";
 import { evaluateLevelCompletion } from "../level-evaluation.ts";
+import useUserStore from "@/stores/user-store.ts";
+import { useNavigate } from "react-router-dom";
 
 interface LevelOverlayBottomProps {
   level: ThLevel;
@@ -27,6 +29,8 @@ const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
   const [openTutorialDropdown, setOpenTutorialDropdown] = useState<boolean>(false);
   const [openCheckResultsPopup, setOpenCheckResultsPopup] = useState<{ success?: boolean, fail?: boolean, title: string, message: string }>();
   const [onChecking, setOnChecking] = useState<boolean>(false);
+  const userStore = useUserStore.getState();
+  const navigate = useNavigate();
 
   function handleCheckButtonOnClick() {
     setOnChecking(true);
@@ -46,7 +50,10 @@ const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
 
   function handleCheckButtonOnClose() {
     setOpenCheckResultsPopup({ success: false, fail: false, title: "", message: "" });
-    // Todo: Logic to handle going to stage, ...
+    userStore.updateLevelProgressStatus(level.id, "completed");
+    userStore.updateStageProgressLevelsStatus(level.stage.id, { id: level.id, status: "completed" });
+    navigate(`/`);
+    // Todo: Logic to handle going to stage, ..
   }
 
   return (

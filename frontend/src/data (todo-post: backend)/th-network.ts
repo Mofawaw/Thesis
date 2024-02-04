@@ -20,7 +20,11 @@ const delay = (ms: number): Promise<void> => {
 
 export const fetchStagesAndInitializeThAndUserData = async () => {
   await delay(2000);
+
+  if (useThStore.getState().stages.length > 0) return;
   useThStore.getState().initializeStages(stages);
+
+  if (Object.keys(useUserStore.getState().stagesProgress).length > 0) return;
   useUserStore.getState().initializeStagesProgress(stages);
 };
 
