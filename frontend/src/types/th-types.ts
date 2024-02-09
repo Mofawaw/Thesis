@@ -13,6 +13,7 @@ export interface ThStage { // TODO-Post: Backend Version
 export interface ThCategory { // TODO-Post: Backend Version
   id: "c1" | "c2" | "c3";
   label: string;
+  description: string;
   baseNodes: ThBaseNode[];
   baseTippNodes: ThBaseNode[]; // TODO-Post: Remove -> Move to Backend
   expected: "output" | "graph";

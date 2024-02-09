@@ -70,7 +70,7 @@ const Levels: React.FC<LevelsProps> = ({
           .selectAll('foreignObject')
           .data(levelButtons)
           .join('foreignObject')
-          .attr("width", nodeWidth + 20)
+          .attr("width", nodeWidth)
           .attr("height", nodeHeight + 20)
           .each(enforceHBoundary)
           .attr('x', d => d.x! - nodeWidth / 2)
