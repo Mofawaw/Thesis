@@ -18,16 +18,16 @@ const Levels: React.FC<LevelsProps> = ({
   const stagesProgress = useUserStore(state => state.stagesProgress);
 
   useEffect(() => {
-    const newLevelButtons: LevelButtonProps[] = stage.levels
+    const newLevelButtons: LevelButtonProps[] = stage.stageLevels
       .sort((a, b) => a.order - b.order)
-      .map((level) => {
-        const levelStatus = stagesProgress[stage.id].levelsStatus.find(levelStatus => levelStatus.id === level.id);
+      .map((stageLevel) => {
+        const levelStatus = stagesProgress[stage.id].levelsStatus.find(levelStatus => levelStatus.id === stageLevel.levelId);
 
         return {
           stage: stage,
-          levelId: level.id,
-          label: level.id.match(/l(\d+)/)?.[1] ?? null,
-          icon: (level.id.match(/l(\D+)/)?.[1] === "final" ? stage.logo : null) ?? null,
+          stageLevel: stageLevel,
+          label: stageLevel.levelId.match(/l(\d+)/)?.[1] ?? null,
+          icon: (stageLevel.levelId.match(/l(\D+)/)?.[1] === "final" ? stage.logo : null) ?? null,
           group: levelStatus?.status === "locked" ? 2 : 1,
           x: 0,
           y: 0,
@@ -136,7 +136,7 @@ const Levels: React.FC<LevelsProps> = ({
     <svg ref={d3Container} className="w-full h-full" >
       {levelButtons.map((levelButton) => (
         <foreignObject
-          key={levelButton.levelId}
+          key={levelButton.stageLevel.levelId}
           width={100}
           height={100}
           x={levelButton.x!}

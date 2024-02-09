@@ -46,7 +46,7 @@ const useUserStore = create<UserStore>((set) => {
           [stage.id]: {
             userId: "u1", // TODO-Post: User
             stageId: stage.id,
-            levelsStatus: stage.levels.map(level => ({ id: level.id, order: level.order, status: "locked" as "locked" })),
+            levelsStatus: stage.stageLevels.map(stageLevel => ({ id: stageLevel.levelId, order: stageLevel.order, status: "locked" as "locked" })),
             status: "locked",
           }
         }), {});

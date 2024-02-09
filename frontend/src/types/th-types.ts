@@ -7,7 +7,13 @@ export interface ThStage { // TODO-Post: Backend Version
   label: string;
   color: ThColorKey;
   logo: "castle-value" | "castle-reference" | "castle-together";
-  levels: { id: string, order: number }[];
+  stageLevels: ThStageLevel[];
+}
+
+export interface ThStageLevel {
+  levelId: string;
+  order: number;
+  category: ThCategory;
 }
 
 export interface ThCategory { // TODO-Post: Backend Version

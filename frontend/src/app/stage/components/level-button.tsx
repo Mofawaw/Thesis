@@ -1,14 +1,15 @@
+import ThMenuTextButton from "@/components/buttons/th-menu-text-button";
 import ThRoundButton from "@/components/buttons/th-round-button";
 import ThDropdown from "@/components/portals/th-dropdown";
 import useUserStore from "@/stores/user-store";
-import { ThStage } from "@/types/th-types";
+import { ThStage, ThStageLevel } from "@/types/th-types";
 import { ThCastleKey } from "@/utilities/th-castle";
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 
 export interface LevelButtonProps {
   stage: ThStage;
-  levelId: string;
+  stageLevel: ThStageLevel;
   label?: string | null;
   icon?: ThCastleKey | null;
   group: number;
@@ -20,7 +21,7 @@ export interface LevelButtonProps {
 
 const LevelButton: React.FC<LevelButtonProps> = ({
   stage,
-  levelId,
+  stageLevel,
   label = null,
   icon = null,
   group,
@@ -34,7 +35,7 @@ const LevelButton: React.FC<LevelButtonProps> = ({
   const navigate = useNavigate();
 
   const stagesProgress = useUserStore(state => state.stagesProgress);
-  const levelStatus = stagesProgress[stage.id].levelsStatus.find(levelStatus => levelStatus.id === levelId);
+  const levelStatus = stagesProgress[stage.id].levelsStatus.find(levelStatus => levelStatus.id === stageLevel.levelId);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -47,9 +48,9 @@ const LevelButton: React.FC<LevelButtonProps> = ({
   return (
     <div className="pointer-events-auto" style={{ opacity, transition: 'opacity 800ms ease-in-out' }}>
       <ThDropdown
-        width={300}
-        height={200}
-        thColor={stage.color}
+        width={350}
+        height={260}
+        thColor={levelStatus?.status === "completed" ? "th-tint" : stage.color}
         button={
           <>
             {levelStatus?.status === "completed" && <ThRoundButton
@@ -82,10 +83,27 @@ const LevelButton: React.FC<LevelButtonProps> = ({
         isOpen={openDropdown}
         onClose={() => setOpenDropdown(false)}
       >
-        <div className="flex flex-col items-center gap-3 p-3">
-          <h3 className={`text-${stage.color}-100`}>{`Level ${label}`}</h3>
-          <p></p>
-        </div>
+        {levelStatus?.status === "completed" &&
+          <div className="flex flex-col items-center gap-3 p-3 m-2">
+            <h3 className={`text-th-tint-100`}>{`${stageLevel.levelId.includes("final") ? "Finale" : `Level ${label}`}`}</h3>
+            <p className={`h-32 text-center text-th-tint-100`}><b>{stageLevel.category.description}</b></p>
+            <ThMenuTextButton width={165} thColor="th-tint" text={"Open"} onClick={() => { }} />
+          </div>
+        }
+        {levelStatus?.status === "unlocked" &&
+          <div className="flex flex-col items-center gap-3 p-3 m-2">
+            <h3 className={`text-${stage.color}-100`}>{`${stageLevel.levelId.includes("final") ? "Finale" : `Level ${label}`}`}</h3>
+            <p className={`h-32 text-center text-${stage.color}-100`}><b>{stageLevel.category.description}</b></p>
+            <ThMenuTextButton width={165} thColor={stage.color} bgThColorShade={70} textThColorShade={10} text={"Start"} onClick={() => { }} />
+          </div>
+        }
+        {levelStatus?.status === "locked" &&
+          <div className="flex flex-col items-center gap-3 p-3 m-2">
+            <h3 className={`text-${stage.color}-70`}>{`${stageLevel.levelId.includes("final") ? "Finale" : `Level ${label}`}`}</h3>
+            <p className={`h-32 text-center text-${stage.color}-70`}><b>{stageLevel.category.description}</b></p>
+            <ThMenuTextButton width={165} thColor={stage.color} textThColorShade={40} text={"Locked"} onClick={() => { }} />
+          </div>
+        }
       </ThDropdown>
     </div>
   );
