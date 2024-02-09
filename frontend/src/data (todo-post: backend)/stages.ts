@@ -13,9 +13,7 @@ const stages: ThStage[] = [
       { levelId: "s1-l3", order: 2, category: categories[2] },
       { levelId: "s1-l4", order: 3, category: categories[0] },
       { levelId: "s1-l5", order: 4, category: categories[0] },
-      { levelId: "s1-l6", order: 5, category: categories[0] },
-      { levelId: "s1-l7", order: 6, category: categories[0] },
-      { levelId: "s1-lfinal", order: 7, category: categories[0] }
+      { levelId: "s1-lfinal", order: 5, category: categories[0] }
     ]
   },
   {
@@ -30,10 +28,7 @@ const stages: ThStage[] = [
       { levelId: "s2-l4", order: 3, category: categories[0] },
       { levelId: "s2-l5", order: 4, category: categories[0] },
       { levelId: "s2-l6", order: 5, category: categories[0] },
-      { levelId: "s2-l7", order: 6, category: categories[0] },
-      { levelId: "s2-l8", order: 7, category: categories[0] },
-      { levelId: "s2-l9", order: 8, category: categories[0] },
-      { levelId: "s2-lfinal", order: 9, category: categories[0] }
+      { levelId: "s2-lfinal", order: 6, category: categories[0] }
     ]
   },
   {
@@ -49,11 +44,7 @@ const stages: ThStage[] = [
       { levelId: "s3-l5", order: 4, category: categories[0] },
       { levelId: "s3-l6", order: 5, category: categories[0] },
       { levelId: "s3-l7", order: 6, category: categories[0] },
-      { levelId: "s3-l8", order: 7, category: categories[0] },
-      { levelId: "s3-l9", order: 8, category: categories[0] },
-      { levelId: "s3-l10", order: 9, category: categories[0] },
-      { levelId: "s3-l11", order: 10, category: categories[0] },
-      { levelId: "s3-lfinal", order: 11, category: categories[0] }
+      { levelId: "s3-lfinal", order: 7, category: categories[0] }
     ]
   }
 ];
