@@ -57,7 +57,7 @@ const Levels: React.FC<LevelsProps> = ({
         .force("y", d3.forceY<LevelButtonProps>().strength(d => d.group === 1 ? 0.4 : 0).y(height / 2))
         .force("center", d3.forceCenter(width / 2, height / 2 - height * 0.05))
         .force("charge", d3.forceManyBody().strength(0.2))
-        .force("collide", d3.forceCollide<LevelButtonProps>().strength(0.2).radius(d => d.group === 1 ? nodeRadius + 30 : nodeRadius + 120).iterations(1));
+        .force("collide", d3.forceCollide<LevelButtonProps>().strength(0.2).radius(d => d.group === 1 ? nodeRadius + 30 : nodeRadius + 150).iterations(1));
 
       // Run simulation
       simulation.nodes(levelButtons).on("tick", ticked);
