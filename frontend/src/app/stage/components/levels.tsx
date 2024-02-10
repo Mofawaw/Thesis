@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
-import LevelButton, { LevelButtonProps } from './level-button';
+import LevelButton, { LevelButtonProps, levelButtonRadius } from './level-button';
 import useUserStore from '@/stores/user-store';
 import { ThStage } from '@/types/th-types';
 
@@ -48,11 +48,8 @@ const Levels: React.FC<LevelsProps> = ({
     if (d3Container.current) {
       const width = window.innerWidth;
       const height = window.innerHeight;
-      const radius = 50;
-      const nodeWidth = 100;
-      const nodeHeight = 100;
-      const xOffset = nodeWidth / 2;
-      const yOffset = nodeHeight / 2;
+      const nodeRadius = levelButtonRadius;
+      const nodeOffset = nodeRadius;
 
       // Initialize simulation
       const simulation = d3.forceSimulation(levelButtons)
@@ -60,7 +57,7 @@ const Levels: React.FC<LevelsProps> = ({
         .force("y", d3.forceY<LevelButtonProps>().strength(d => d.group === 1 ? 0.4 : 0).y(height / 2))
         .force("center", d3.forceCenter(width / 2, height / 2 - height * 0.05))
         .force("charge", d3.forceManyBody().strength(0.2))
-        .force("collide", d3.forceCollide<LevelButtonProps>().strength(0.2).radius(d => d.group === 1 ? radius + 30 : radius + 120).iterations(1));
+        .force("collide", d3.forceCollide<LevelButtonProps>().strength(0.2).radius(d => d.group === 1 ? nodeRadius + 30 : nodeRadius + 120).iterations(1));
 
       // Run simulation
       simulation.nodes(levelButtons).on("tick", ticked);
@@ -70,11 +67,11 @@ const Levels: React.FC<LevelsProps> = ({
           .selectAll('foreignObject')
           .data(levelButtons)
           .join('foreignObject')
-          .attr("width", nodeWidth)
-          .attr("height", nodeHeight + 20)
+          .attr("width", nodeRadius * 2)
+          .attr("height", nodeRadius * 2 + 20)
           .each(enforceHBoundary)
-          .attr('x', d => d.x! - nodeWidth / 2)
-          .attr('y', d => d.y! - nodeHeight / 2)
+          .attr('x', d => d.x! - nodeOffset)
+          .attr('y', d => d.y! - nodeOffset)
           .call(drag as any)
       }
 
@@ -107,8 +104,8 @@ const Levels: React.FC<LevelsProps> = ({
       const drag = d3.drag<SVGForeignObjectElement, LevelButtonProps>()
         .on("start", dragStarted)
         .on("drag", (event, d) => {
-          d.fx = Math.max(xOffset, Math.min(width - xOffset, event.x));
-          d.fy = Math.max(yOffset, Math.min(height - yOffset, event.y));
+          d.fx = Math.max(nodeOffset, Math.min(width - nodeOffset, event.x));
+          d.fy = Math.max(nodeOffset, Math.min(height - nodeOffset, event.y));
         })
         .on("end", dragEnded);
 

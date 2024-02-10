@@ -19,6 +19,8 @@ export interface LevelButtonProps {
   fy?: number | null;
 }
 
+export const levelButtonRadius = 55;
+
 const LevelButton: React.FC<LevelButtonProps> = ({
   stage,
   stageLevel,
@@ -66,6 +68,7 @@ const LevelButton: React.FC<LevelButtonProps> = ({
               bgThColorShade={70}
               shadowThColorShade={100}
               textThColorShade={20}
+              radius={levelButtonRadius}
               text={label}
               icon={icon}
               onClick={() => setOpenDropdown(!openDropdown)}
@@ -75,6 +78,7 @@ const LevelButton: React.FC<LevelButtonProps> = ({
               bgThColorShade={70}
               shadowThColorShade={100}
               textThColorShade={20}
+              radius={levelButtonRadius}
               text={label}
               icon={icon}
               tooltipText={!openDropdown ? "Anfangen" : ""}
@@ -82,6 +86,7 @@ const LevelButton: React.FC<LevelButtonProps> = ({
             />}
             {levelStatus?.status === "locked" && <ThRoundButton
               thColor={stage.color}
+              radius={levelButtonRadius}
               text={label}
               icon={icon}
               onClick={() => setOpenDropdown(!openDropdown)}
