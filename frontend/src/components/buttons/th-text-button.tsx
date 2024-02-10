@@ -7,6 +7,7 @@ interface ThTextButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement
   bgThColorShade?: ThColorShadeKey;
   shadowThColorShade?: ThColorShadeKey;
   textThColorShade?: ThColorShadeKey;
+  gradient?: boolean;
   text: string;
 }
 
@@ -16,11 +17,12 @@ const ThTextButton: React.FC<ThTextButtonProps> = ({
   bgThColorShade = 20,
   shadowThColorShade = 30,
   textThColorShade = 100,
+  gradient = false,
   text,
   ...props
 }) => {
   return (
-    <ThButton width={width} height={45} thColor={thColor} bgThColorShade={bgThColorShade} shadowThColorShade={shadowThColorShade} {...props} >
+    <ThButton width={width} height={45} thColor={thColor} bgThColorShade={bgThColorShade} shadowThColorShade={shadowThColorShade} gradient={gradient} {...props} >
       <h3 className={`text-${thColor}-${textThColorShade} p-4`}>{text}</h3>
     </ThButton>
   )

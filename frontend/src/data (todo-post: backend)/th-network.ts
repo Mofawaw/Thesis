@@ -39,11 +39,11 @@ export const fetchStagesAndInitializeThAndUserData = async () => {
   useUserStore.getState().initializeStagesProgress(stages);
 
   // Set initial active stage based on progress
-  // const stagesProgress = useUserStore.getState().stagesProgress;
-  // const activeStage = Object.values(stagesProgress).find(stageProgress => stageProgress.status === "unlocked")?.stageId;
-  // if (activeStage) {
-  //   useThStore.getState().setActiveStage(activeStage);
-  // }
+  const stagesProgress = useUserStore.getState().stagesProgress;
+  const activeStage = Object.values(stagesProgress).find(stageProgress => stageProgress.status === "unlocked")?.stageId;
+  if (activeStage) {
+    useThStore.getState().setActiveStage(activeStage);
+  }
 
   await delay(getRandomIntBetween(300, 600));
 };

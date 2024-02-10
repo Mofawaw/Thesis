@@ -7,6 +7,7 @@ interface ThDropdownPortalProps {
   width: number;
   height: number;
   thColor: ThColorKey;
+  gradientBorder?: boolean;
   children: React.ReactNode;
   buttonRef: React.RefObject<HTMLElement>;
   onClose: () => (void);
@@ -16,6 +17,7 @@ const ThDropdownPortal: React.FC<ThDropdownPortalProps> = ({
   width,
   height,
   thColor,
+  gradientBorder = false,
   children,
   buttonRef,
   onClose
@@ -35,17 +37,33 @@ const ThDropdownPortal: React.FC<ThDropdownPortalProps> = ({
     }
   }, [buttonRef, height, width]);
 
+  let border = gradientBorder ? 'th-bg-gradient' : `bg-${thColor}-20`;
+  const borderPadding = 5;
+
   return ReactDOM.createPortal(
     <>
-      <div className="fixed top-0 left-0 w-full h-full z-30 animate-th-fade-in" onClick={onClose} ></div>
+      <div className="fixed top-0 left-0 w-full h-full z-30 animate-th-fade-in" onClick={onClose}></div>
       <div
+        className="absolute animate-th-zoom-in-from-bottom z-40"
         style={{ width: `${width}px`, height: `${height}px`, top: `${position.top}px`, left: `${position.left}px` }}
-        className={`absolute bg-${thColor}-30 rounded-th border-th border-${thColor}-20 animate-th-zoom-in-from-bottom z-40`}
       >
-        <div className="absolute -bottom-5 left-1/2 transform -translate-x-1/2 z-50">
-          <ArrowIcon className={`text-${thColor}-30`} />
+        {/* Border Wrapper */}
+        <div
+          className={`${border} rounded-th absolute`}
+          style={{ top: 0, right: 0, bottom: 0, left: 0, boxSizing: 'border-box' }}
+        >
+          {/* Content Wrapper */}
+          <div
+            className={`bg-${thColor}-30 rounded-th-inner absolute`}
+            style={{ top: `${borderPadding}px`, right: `${borderPadding}px`, bottom: `${borderPadding}px`, left: `${borderPadding}px`, boxSizing: 'border-box' }}
+          >
+            {/* Arrow and Content */}
+            <div className="absolute -bottom-5 left-1/2 transform -translate-x-1/2 z-50">
+              <ArrowIcon className={`text-${thColor}-30`} />
+            </div>
+            {children}
+          </div>
         </div>
-        {children}
       </div>
     </>,
     document.body
@@ -56,6 +74,7 @@ interface ThDropdownProps {
   width: number;
   height: number;
   thColor: ThColorKey;
+  gradientBorder?: boolean;
   button: React.ReactNode;
   children: React.ReactNode;
   isOpen: boolean;
@@ -66,6 +85,7 @@ const ThDropdown: React.FC<ThDropdownProps> = ({
   width,
   height,
   thColor,
+  gradientBorder = false,
   button,
   children,
   isOpen,
@@ -79,7 +99,7 @@ const ThDropdown: React.FC<ThDropdownProps> = ({
         {button}
       </div>
       {isOpen &&
-        <ThDropdownPortal width={width} height={height} thColor={thColor} buttonRef={buttonRef} onClose={onClose}>
+        <ThDropdownPortal width={width} height={height} thColor={thColor} gradientBorder={gradientBorder} buttonRef={buttonRef} onClose={onClose}>
           {children}
         </ThDropdownPortal>
       }

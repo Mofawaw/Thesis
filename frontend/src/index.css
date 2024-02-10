@@ -78,6 +78,11 @@
     @apply animate-th-gradient bg-th-gradient-40 bg-400%;
   }
 
+  .th-bg-gradient-100
+  {
+    @apply animate-th-gradient-fast bg-th-gradient-100 bg-400%;
+  }
+
   .th-text-gradient
   {
     @apply animate-th-gradient-fast bg-th-gradient-100 bg-400%;

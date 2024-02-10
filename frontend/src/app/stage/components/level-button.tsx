@@ -58,9 +58,10 @@ const LevelButton: React.FC<LevelButtonProps> = ({
   return (
     <div className="pointer-events-auto" style={{ opacity, transition: 'opacity 800ms ease-in-out' }}>
       <ThDropdown
-        width={350}
+        width={380}
         height={260}
         thColor={levelStatus?.status === "completed" ? "th-tint" : stage.color}
+        gradientBorder={levelStatus?.status === "unlocked"}
         button={
           <>
             {levelStatus?.status === "completed" && <ThRoundButton
@@ -98,23 +99,23 @@ const LevelButton: React.FC<LevelButtonProps> = ({
       >
         {levelStatus?.status === "completed" &&
           <div className="flex flex-col items-center gap-3 p-3 m-2">
-            <h3 className={`text-th-tint-100`}>{`${stageLevel.levelId.includes("final") ? "Finale" : `Level ${label}`}`}</h3>
+            <h3 className={`th-text-gradient scale-110`}>{`${stageLevel.levelId.includes("final") ? "Finale" : `Level ${label}`}`}</h3>
             <p className={`h-28 text-center text-th-tint-100`}><b>{stageLevel.category.description}</b></p>
-            <ThTextButton width={200} thColor="th-tint" text={"Öffnen"} onClick={() => { navigate(`/level/${stageLevel.levelId}`) }} />
+            <ThTextButton width={250} thColor="th-tint" text={"Öffnen"} onClick={() => { navigate(`/level/${stageLevel.levelId}`) }} className="scale-90" />
           </div>
         }
         {levelStatus?.status === "unlocked" &&
           <div className="flex flex-col items-center gap-3 p-3 m-2">
-            <h3 className={`text-${stage.color}-100`}>{`${stageLevel.levelId.includes("final") ? "Finale" : `Level ${label}`}`}</h3>
+            <h3 className={`text-${stage.color}-100 scale-110`}>{`${stageLevel.levelId.includes("final") ? "Finale" : `Level ${label}`}`}</h3>
             <p className={`h-28 text-center text-${stage.color}-100`}><b>{stageLevel.category.description}</b></p>
-            <ThTextButton width={200} thColor={stage.color} bgThColorShade={70} textThColorShade={10} text={"Start"} onClick={() => { navigate(`/level/${stageLevel.levelId}`) }} />
+            <ThTextButton width={250} thColor={stage.color} bgThColorShade={70} textThColorShade={10} text={"Start"} onClick={() => { navigate(`/level/${stageLevel.levelId}`) }} className="scale-90" />
           </div>
         }
         {levelStatus?.status === "locked" &&
           <div className="flex flex-col items-center gap-3 p-3 m-2">
-            <h3 className={`text-${stage.color}-70`}>{`${stageLevel.levelId.includes("final") ? "Finale" : `Level ${label}`}`}</h3>
+            <h3 className={`text-${stage.color}-70 scale-110`}>{`${stageLevel.levelId.includes("final") ? "Finale" : `Level ${label}`}`}</h3>
             <p className={`h-28 text-center text-${stage.color}-70`}><b>{stageLevel.category.description}</b></p>
-            <ThTextButton width={200} thColor={stage.color} textThColorShade={40} text={"Gesperrt"} />
+            <ThTextButton width={250} thColor={stage.color} textThColorShade={40} text={"Gesperrt"} className="scale-90" />
           </div>
         }
       </ThDropdown>

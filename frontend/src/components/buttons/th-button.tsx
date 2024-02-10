@@ -8,6 +8,7 @@ interface ThButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   thColor: ThColorKey;
   bgThColorShade?: ThColorShadeKey;
   shadowThColorShade?: ThColorShadeKey;
+  gradient?: boolean;
   round?: boolean;
   tooltipText?: string;
 }
@@ -19,6 +20,7 @@ const ThButton: React.FC<ThButtonProps> = ({
   thColor,
   bgThColorShade = 20,
   shadowThColorShade = 30,
+  gradient = false,
   round = false,
   tooltipText = "",
   ...props
@@ -39,7 +41,7 @@ const ThButton: React.FC<ThButtonProps> = ({
       {/* Button Content */}
       <span
         className={`
-          block bg-${thColor}-${bgThColorShade} ${round ? "rounded-full" : "rounded-th"} w-full h-full relative z-20 flex justify-center items-center transition duration-150 ease-in-out 
+          block ${gradient ? "th-bg-gradient-100" : `bg-${thColor}-${bgThColorShade}`} ${round ? "rounded-full" : "rounded-th"} w-full h-full relative z-20 flex justify-center items-center transition duration-150 ease-in-out 
           hover:-translate-y-1
           active:scale-95 active:translate-y-1 active:duration-100`
         }>
