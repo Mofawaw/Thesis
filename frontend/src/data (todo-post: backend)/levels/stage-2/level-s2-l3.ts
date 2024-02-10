@@ -1,5 +1,5 @@
-import stages from "./stages.ts";
-import categories from "./categories.ts";
+import stages from "../../stages.ts";
+import categories from "../../categories.ts";
 import { ThLevel } from "@/types/th-types.ts";
 import CodeGraph from "@/app/code-ide/code-memory/code-memory-types.ts";
 
@@ -77,11 +77,11 @@ Gegeben ist das entsprechene Programm. Deine Aufgabe ist es, den zugehörigen Sp
 <b>Fülle die Lücken des Speicher-Graphen aus.</b>
 `
 
-const levelS2C3: ThLevel = {
-  id: "l-s2c3",
+const levelS2L3: ThLevel = {
+  id: "s2-l3",
   stage: stages[1],
   category: categories[2],
-  label: "Test 2-3",
+  label: "3",
   nodes: [
     { baseNode: categories[2].baseNodes[0], data: { codeIDE: { initialCode: expectedGraphProgram } } },
     { baseNode: categories[2].baseNodes[1], data: { codeIDE: { initialGraph: initialGraph } } },
@@ -95,4 +95,4 @@ const levelS2C3: ThLevel = {
   expected: { graph: expectedGraph }
 }
 
-export default levelS2C3;
+export default levelS2L3;

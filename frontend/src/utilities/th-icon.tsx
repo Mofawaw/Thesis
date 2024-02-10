@@ -8,9 +8,11 @@ import {
   RunIcon,
   ResetIcon,
   GenerateIcon,
+  LevelsIcon,
+  ExitIcon,
 } from "@/assets/icons/icons.tsx";
 
-export type ThIconKey = 'plus' | 'minus' | 'fit' | 'tutorial' | 'tipps' | 'check' | 'run' | 'reset' | 'generate';
+export type ThIconKey = 'plus' | 'minus' | 'fit' | 'tutorial' | 'tipps' | 'check' | 'run' | 'reset' | 'generate' | 'levels' | 'exit';
 
 interface ThIconProps extends React.SVGProps<SVGSVGElement> {
   icon: ThIconKey;
@@ -49,6 +51,12 @@ export const ThIcon: React.FC<ThIconProps> = ({
       break;
     case 'generate':
       IconComponent = GenerateIcon;
+      break;
+    case 'levels':
+      IconComponent = LevelsIcon;
+      break;
+    case 'exit':
+      IconComponent = ExitIcon;
       break;
     default:
       return null;

@@ -1,5 +1,5 @@
-import stages from "./stages.ts";
-import categories from "./categories.ts";
+import stages from "../../stages.ts";
+import categories from "../../categories.ts";
 import { ThLevel } from "@/types/th-types.ts";
 
 const initialCode =
@@ -34,11 +34,11 @@ summe = h + b + k
 print(summe)
 `
 
-const levelS1C1: ThLevel = {
-  id: "l-s1c1",
+const levelS1L1: ThLevel = {
+  id: "s1-l1",
   stage: stages[0],
   category: categories[0],
-  label: "Test 1-1",
+  label: "1",
   nodes: [
     { baseNode: categories[0].baseNodes[0], data: { codeIDE: { initialCode: initialCode } } },
     { baseNode: categories[0].baseNodes[1], data: { text: { description: taskDescription } } }
@@ -51,4 +51,4 @@ const levelS1C1: ThLevel = {
   expected: { output: expectedOutput }
 }
 
-export default levelS1C1;
+export default levelS1L1;

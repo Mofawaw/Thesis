@@ -42,6 +42,7 @@ const createCodeIDEStore = (scopeId: string) => create<CodeIDEStore>((set) => {
 const storeMap = new Map();
 
 export function resetStoreMap() {
+  console.log("Resetting all CodeIDE stores.")
   storeMap.clear();
 }
 

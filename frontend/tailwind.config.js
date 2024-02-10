@@ -12,7 +12,8 @@ export default {
     extend: {
       backgroundImage: {
         'th-gradient-100': "linear-gradient(to right, #18B5CB, #1836CB, #CB188E)",
-        'th-gradient-40': "linear-gradient(to bottom right, #A3E1EA, #EBEBEB, #A3E1EA, #A3AFEA, #EAA3D2, #EBEBEB, #EAA3D2)"
+        'th-gradient-40': "linear-gradient(to bottom right, #A3E1EA, #EBEBEB, #A3E1EA, #A3AFEA, #EAA3D2, #EBEBEB, #EAA3D2)",
+        'th-gradient-angular': 'conic-gradient(at center, #FDE9B7 0%, #FCE19F 20%, #FEF8E7 40%, #FEF0CF 80%, #FDE9B7 90%)',
       },
       backgroundSize: {
         '400%': '400% 400%'
@@ -52,6 +53,7 @@ export default {
         'th-zoom-in-from-bottom': 'zoomInFromBottom 0.15s ease-out',
         'th-spin': 'spin 0.75s linear infinite',
         'th-spin-slow': 'spin 6s linear infinite',
+        'th-spin-super-slow': 'spin 12s linear infinite',
       },
     },
   },

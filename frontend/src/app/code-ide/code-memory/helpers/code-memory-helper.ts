@@ -1,12 +1,12 @@
-import useTestingStore from "@/testing-1/testing-store.ts";
+import useThStore from "@/stores/th-store.ts";
 import useCodeIDEStore from "../../code-ide-store.ts";
 import CodeGraph from "../code-memory-types.ts";
 
 export function calculateAndSetGraphOutput(scopeId: string) {
   const store = useCodeIDEStore(scopeId).getState();
-  const testingStore = useTestingStore.getState();
+  const thStore = useThStore.getState();
 
-  const expectedGraph = testingStore.currentLevel.expected.graph ?? { nodes: [], edges: [] };
+  const expectedGraph = thStore.activeLevel?.expected.graph ?? { nodes: [], edges: [] };
 
   store.setGraphOutput(getGraphMatches(store.graph, expectedGraph));
   console.log("Graph Output", getGraphMatches(store.graph, expectedGraph));

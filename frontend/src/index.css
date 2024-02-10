@@ -78,10 +78,27 @@
     @apply animate-th-gradient bg-th-gradient-40 bg-400%;
   }
 
+  .th-bg-gradient-100
+  {
+    @apply animate-th-gradient-fast bg-th-gradient-100 bg-400%;
+  }
+
+  .th-text-gradient-40
+  {
+    @apply animate-th-gradient-fast bg-th-gradient-40 bg-400%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
   .th-text-gradient
   {
     @apply animate-th-gradient-fast bg-th-gradient-100 bg-400%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+  }
+
+  .th-bg-gradient-angular
+  {
+    @apply animate-th-spin-super-slow bg-th-gradient-angular w-[200vw] h-[200vh];
   }
 }

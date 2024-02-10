@@ -1,5 +1,5 @@
-import stages from "./stages.ts";
-import categories from "./categories.ts";
+import stages from "../../stages.ts";
+import categories from "../../categories.ts";
 import { ThLevel } from "@/types/th-types.ts";
 
 const initialCode =
@@ -48,11 +48,11 @@ Punkt: 1, 1
 Punkt: 1, 1
 `
 
-const levelS3C1: ThLevel = {
-  id: "l-s3c1",
+const levelS3L1: ThLevel = {
+  id: "s3-l1",
   stage: stages[2],
   category: categories[0],
-  label: "Test 3-1",
+  label: "1",
   nodes: [
     { baseNode: categories[0].baseNodes[0], data: { codeIDE: { initialCode: initialCode } } },
     { baseNode: categories[0].baseNodes[1], data: { text: { description: taskDescription } } }
@@ -65,7 +65,7 @@ const levelS3C1: ThLevel = {
   expected: { output: expectedOutput }
 }
 
-export default levelS3C1;
+export default levelS3L1;
 
 const exampleSolution =
   `class Punkt:
