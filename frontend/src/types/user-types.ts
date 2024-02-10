@@ -1,4 +1,4 @@
-import { ThLevel, ThNode, ThStage } from "./th-types";
+import { ThNode } from "./th-types";
 
 export interface User { // TODO-Post: Backend Version
   id: string;
@@ -10,14 +10,16 @@ export interface User { // TODO-Post: Backend Version
 export interface UserStageProgress { // TODO-Post: Backend Version
   userId: string;
   stageId: "s1" | "s2" | "s3";
-  levelsStatus: { id: string, status: "locked" | "unlocked" | "completed" }[];
-  status: "locked" | "unlocked" | "completed";
+  levelsStatus: { id: string, status: UserProgressStatus }[];
+  status: UserProgressStatus;
 }
 
 export interface UserLevelProgress { // TODO-Post: Backend Version
   userId: string;
   levelId: string;
-  status: "locked" | "unlocked" | "completed";
+  status: UserProgressStatus;
   currentNodes: ThNode[];
   currentTippNodes: ThNode[];
 }
+
+export type UserProgressStatus = "locked" | "unlocked" | "completed"

@@ -1,5 +1,5 @@
 import { ThNode, ThStage } from '@/types/th-types';
-import { UserLevelProgress, UserStageProgress } from '@/types/user-types';
+import { UserLevelProgress, UserProgressStatus, UserStageProgress } from '@/types/user-types';
 import { create } from 'zustand';
 
 export type UserStore = {
@@ -12,14 +12,8 @@ export type UserStore = {
   // Initialize levelProgress
   initializeLevelProgress: (levelId: string) => (void);
 
-  // Update currentLevel of stage
-  updateStageProgressLevelsStatus: (stageId: string, newLevelStatus: { id: string, status: "locked" | "unlocked" | "completed" }) => void;
-
-  // Update status of stage
-  updateStageProgressStatus: (stageId: string, newStatus: "locked" | "unlocked" | "completed") => void;
-
-  // Update status of level
-  updateLevelProgressStatus: (levelId: string, newStatus: "locked" | "unlocked" | "completed") => void;
+  // Update stage and level progress after level completion
+  completeLevel: (stageId: string, levelId: string) => (void);
 
   // Update currentNodes of level
   updateLevelProgressCurrentNodes: (levelId: string, newCurrentNodes: ThNode[]) => void;
@@ -96,7 +90,7 @@ const useUserStore = create<UserStore>((set, get) => {
       });
     },
 
-    updateStageProgressLevelsStatus: (stageId: string, newLevelStatus: { id: string, status: "locked" | "unlocked" | "completed" }) => {
+    completeLevel: (stageId, levelId) => {
       set(state => {
         const stageProgress = state.stagesProgress[stageId];
         if (!stageProgress) {
@@ -104,33 +98,36 @@ const useUserStore = create<UserStore>((set, get) => {
           return state;
         }
 
+        // Update level status to 'completed'
         const updatedLevelsStatus = stageProgress.levelsStatus.map(level =>
-          level.id === newLevelStatus.id ? { ...level, status: newLevelStatus.status } : level
+          level.id === levelId ? { ...level, status: "completed" as UserProgressStatus } : level
         );
 
-        if (newLevelStatus.status === "completed") {
-          const currentLevelIndex = updatedLevelsStatus.findIndex(level => level.id === newLevelStatus.id);
-          if (currentLevelIndex !== -1 && currentLevelIndex + 1 < updatedLevelsStatus.length) {
-            updatedLevelsStatus[currentLevelIndex + 1].status = "unlocked";
-          }
+        // Unlock the next level, if any
+        const currentLevelIndex = updatedLevelsStatus.findIndex(level => level.id === levelId);
+        if (currentLevelIndex !== -1 && currentLevelIndex + 1 < updatedLevelsStatus.length) {
+          updatedLevelsStatus[currentLevelIndex + 1].status = "unlocked" as UserProgressStatus;
         }
+
+        // Determine if all levels are completed
+        const allLevelsCompleted = updatedLevelsStatus.every(level => level.status === "completed");
+        const newStageStatus = allLevelsCompleted ? "completed" : stageProgress.status;
+
+        // Update the stagesProgress state
+        const updatedStagesProgress = {
+          ...state.stagesProgress,
+          [stageId]: {
+            ...stageProgress,
+            levelsStatus: updatedLevelsStatus,
+            status: newStageStatus
+          }
+        };
 
         return {
           ...state,
-          stagesProgress: {
-            ...state.stagesProgress,
-            [stageId]: { ...stageProgress, levelsStatus: updatedLevelsStatus }
-          }
+          stagesProgress: updatedStagesProgress
         };
       });
-    },
-
-    updateStageProgressStatus: (stageId, newStatus) => {
-      updateStage(stageId, stageProgress => ({ ...stageProgress, status: newStatus }));
-    },
-
-    updateLevelProgressStatus: (levelId, newStatus) => {
-      updateLevel(levelId, levelProgress => ({ ...levelProgress, status: newStatus }));
     },
 
     updateLevelProgressCurrentNodes: (levelId, newCurrentNodes) => {
