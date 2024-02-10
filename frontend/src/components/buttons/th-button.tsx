@@ -41,7 +41,7 @@ const ThButton: React.FC<ThButtonProps> = ({
       {/* Button Content */}
       <span
         className={`
-          block ${gradient ? "th-bg-gradient-100" : `bg-${thColor}-${bgThColorShade}`} ${round ? "rounded-full" : "rounded-th"} w-full h-full relative z-20 flex justify-center items-center transition duration-150 ease-in-out 
+          block ${gradient ? "th-bg-gradient" : `bg-${thColor}-${bgThColorShade}`} ${round ? "rounded-full" : "rounded-th"} w-full h-full relative z-20 flex justify-center items-center transition duration-150 ease-in-out 
           hover:-translate-y-1
           active:scale-95 active:translate-y-1 active:duration-100`
         }>
