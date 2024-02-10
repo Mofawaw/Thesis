@@ -13,13 +13,14 @@ import levelS3C2 from './levels/level-s3-l2.ts';
 import levelS3C3 from './levels/level-s3-l3.ts';
 import useThStore from "@/stores/th-store.ts";
 import useUserStore from "@/stores/user-store.ts";
+import getRandomIntBetween from "@/helpers/random.ts";
 
 const delay = (ms: number): Promise<void> => {
   return new Promise(resolve => setTimeout(resolve, ms));
 };
 
 export const fetchStagesAndInitializeThAndUserData = async () => {
-  await delay(2000);
+  await delay(getRandomIntBetween(1000, 3000));
 
   if (useThStore.getState().stages.length > 0) return;
   useThStore.getState().initializeStages(stages);
@@ -29,7 +30,7 @@ export const fetchStagesAndInitializeThAndUserData = async () => {
 };
 
 export const fetchLevelAndSetActiveLevel = async (levelId: string) => {
-  await delay(200);
+  await delay(getRandomIntBetween(300, 2000));
   const levels: ThLevel[][] = [
     [levelS1C1, levelS1C2, levelS1C3],
     [levelS2C1, levelS2C2, levelS2C3],

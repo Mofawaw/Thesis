@@ -48,7 +48,7 @@ const Level: React.FC<LevelProps> = ({
     return () => {
       console.log("Resetting Level")
       setNodes([]);
-      resetStoreMap();
+      // resetStoreMap();
     }
   }, [level]);
 
