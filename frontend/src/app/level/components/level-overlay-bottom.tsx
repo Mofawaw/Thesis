@@ -36,6 +36,9 @@ const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
   const thStore = useThStore.getState();
   const navigate = useNavigate();
 
+  const levelProgress = userStore.levelsProgress[level.id];
+  const buttonsColor = levelProgress.status === "completed" ? "th-tint" : level.stage.color;
+
   function handleCheckButtonOnClick() {
     setOnChecking(true);
 
@@ -53,7 +56,7 @@ const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
   }
 
   function handleCheckButtonOnClose() {
-    if (openCheckResultsPopup?.success) {
+    if (openCheckResultsPopup?.success && levelProgress.status !== "completed") {
       userStore.completeLevel(level.stage.id, level.id);
       thStore.setActiveLevel(null);
 
@@ -80,13 +83,13 @@ const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
           <ThDropdown
             width={150}
             height={25 + 40}
-            thColor={level.stage.color}
-            button={<ThIconTextButton thColor={level.stage.color} icon="exit" text="Exit" onClick={() => setOpenExitDropdown(true)} />}
+            thColor={buttonsColor}
+            button={<ThIconTextButton thColor={buttonsColor} icon="exit" text="Exit" onClick={() => setOpenExitDropdown(true)} />}
             isOpen={openExitDropdown}
             onClose={() => setOpenExitDropdown(false)}
           >
             <div className="flex flex-col items-center gap-1 p-3">
-              <ThMenuTextButton width={120} thColor={level.stage.color} text="Exit" onClick={() => { navigate('/') }} />
+              <ThMenuTextButton width={120} thColor={buttonsColor} text="Exit" onClick={() => { navigate('/') }} />
             </div>
           </ThDropdown>
 
@@ -94,8 +97,8 @@ const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
           <ThDropdown
             width={180}
             height={25 + 40 * level.stage.stageLevels.length}
-            thColor={level.stage.color}
-            button={<ThIconTextButton thColor={level.stage.color} icon="levels" text="Levels" onClick={() => setOpenLevelsDropdown(true)} />}
+            thColor={buttonsColor}
+            button={<ThIconTextButton thColor={buttonsColor} icon="levels" text="Levels" onClick={() => setOpenLevelsDropdown(true)} />}
             isOpen={openLevelsDropdown}
             onClose={() => setOpenLevelsDropdown(false)}
           >
@@ -108,15 +111,24 @@ const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
                 return (
                   <li key={stageLevel.levelId}>
                     {levelStatus?.status === "completed" &&
-                      <ThMenuTextButton width={150} thColor={level.stage.color} bgThColorShade={20} textGradient={true} text={label}
+                      <ThMenuTextButton width={150} thColor={buttonsColor} bgThColorShade={20} textGradient={true} text={label}
                         onClick={() => {
+                          if (stageLevel.levelId === level.id) { return }
                           thStore.setActiveLevel(null);
                           navigate(`/level/${stageLevel.levelId}`);
                         }}
                       />
                     }
-                    {levelStatus?.status === "unlocked" && <ThMenuTextButton width={150} thColor={level.stage.color} textThColorShade={10} gradient={true} text={label} disabled />}
-                    {levelStatus?.status === "locked" && <ThMenuTextButton width={150} thColor={level.stage.color} bgThColorShade={40} textThColorShade={30} text={label} disabled />}
+                    {levelStatus?.status === "unlocked" &&
+                      <ThMenuTextButton width={150} thColor={buttonsColor} textThColorShade={10} gradient={true} text={label}
+                        onClick={() => {
+                          if (stageLevel.levelId === level.id) { return }
+                          thStore.setActiveLevel(null);
+                          navigate(`/level/${stageLevel.levelId}`);
+                        }}
+                      />
+                    }
+                    {levelStatus?.status === "locked" && <ThMenuTextButton width={150} thColor={buttonsColor} bgThColorShade={40} textThColorShade={30} text={label} disabled />}
                   </li>
                 )
               })}
@@ -127,14 +139,14 @@ const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
           <ThDropdown
             width={150}
             height={25 + 40 * level.tippNodes.length}
-            thColor={level.stage.color}
-            button={<ThIconTextButton thColor={level.stage.color} icon="tipps" text="Tipps" onClick={() => setOpenTippsDropdown(true)} />}
+            thColor={buttonsColor}
+            button={<ThIconTextButton thColor={buttonsColor} icon="tipps" text="Tipps" onClick={() => setOpenTippsDropdown(true)} />}
             isOpen={openTippsDropdown}
             onClose={() => setOpenTippsDropdown(false)}
           >
             <ul className="flex flex-col items-center gap-1 p-3">
               {level.tippNodes.map((tippNode) => (
-                <li key={tippNode.baseNode.id}><ThMenuTextButton width={120} thColor={level.stage.color} text={tippNode.baseNode.data.title ?? "Error"} onClick={() => onAddNode(tippNode)} /></li>
+                <li key={tippNode.baseNode.id}><ThMenuTextButton width={120} thColor={buttonsColor} text={tippNode.baseNode.data.title ?? "Error"} onClick={() => onAddNode(tippNode)} /></li>
               ))}
             </ul>
           </ThDropdown>
@@ -143,14 +155,14 @@ const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
           <ThDropdown
             width={200}
             height={25 + 40 * tutorialNodes.length}
-            thColor={level.stage.color}
-            button={<ThIconTextButton thColor={level.stage.color} icon="tutorial" text="Tutorial" onClick={() => setOpenTutorialDropdown(!openTutorialDropdown)} />}
+            thColor={buttonsColor}
+            button={<ThIconTextButton thColor={buttonsColor} icon="tutorial" text="Tutorial" onClick={() => setOpenTutorialDropdown(!openTutorialDropdown)} />}
             isOpen={openTutorialDropdown}
             onClose={() => setOpenTutorialDropdown(false)}
           >
             <ul className="flex flex-col items-center gap-1 p-3">
               {tutorialNodes.map((tutorialNode) => (
-                <li key={tutorialNode.baseNode.id}><ThMenuTextButton width={165} thColor={level.stage.color} text={tutorialNode.baseNode.data.title ?? "Error"} onClick={() => onAddNode(tutorialNode)} /></li>
+                <li key={tutorialNode.baseNode.id}><ThMenuTextButton width={165} thColor={buttonsColor} text={tutorialNode.baseNode.data.title ?? "Error"} onClick={() => onAddNode(tutorialNode)} /></li>
               ))}
             </ul>
           </ThDropdown>
@@ -161,7 +173,7 @@ const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
             height={openCheckResultsPopup?.success ? 600 : 800}
             thColor={openCheckResultsPopup?.success ? "th-tint" : "th-black"}
             backgroundClass={openCheckResultsPopup?.success ? "th-bg-gradient" : "bg-none"}
-            button={<ThIconTextButton thColor={level.stage.color} icon="check" text={"Check"} isLoading={onChecking} onClick={handleCheckButtonOnClick} />}
+            button={<ThIconTextButton thColor={buttonsColor} icon="check" text={"Check"} isLoading={onChecking} onClick={handleCheckButtonOnClick} />}
             isOpen={(openCheckResultsPopup?.success || openCheckResultsPopup?.fail) ?? false}
             onClose={handleCheckButtonOnClose}
           >
@@ -171,7 +183,7 @@ const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
                 <h2 className="th-text-gradient">Erfolg!</h2>
                 <h3 className="text-center">{openCheckResultsPopup.title}</h3>
                 <p className="text-center whitespace-pre-line mt-4">{openCheckResultsPopup.message}</p>
-                <ThTextButton width={150} thColor="th-tint" text="Weiter" onClick={handleCheckButtonOnClose} />
+                <ThTextButton width={300} thColor="th-tint" text="Weiter" onClick={handleCheckButtonOnClose} />
               </div>
             }
             {openCheckResultsPopup?.fail &&

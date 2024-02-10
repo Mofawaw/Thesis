@@ -63,8 +63,6 @@ const LoadingLevel = ({ activeLevel, levelId }: { activeLevel?: ThLevel | null, 
         setProgress(100);
         setTimeout(() => setIsLoading(false), 1500);
       });
-
-      setTimeout(() => navigate('/'), 5000); // Timeout after 5 seconds
     }, 0);
 
     return () => {
