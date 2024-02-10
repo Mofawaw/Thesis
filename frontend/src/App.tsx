@@ -7,10 +7,18 @@ import Stage from './app/stage/stage';
 import { useEffect, useState } from 'react';
 
 const App = () => {
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
+
+  useEffect(() => {
+    fetchStagesAndInitializeThAndUserData().then(() => {
+      setIsInitialLoading(false);
+    });
+  }, []);
+
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<StageRoute />} />
+        <Route path="/" element={<StageRoute isInitialLoading={isInitialLoading} />} />
         <Route path="/level/:levelId" element={<LevelRoute />} />
       </Routes>
     </BrowserRouter>
@@ -19,22 +27,20 @@ const App = () => {
 
 export default App;
 
-const StageRoute = () => {
+const StageRoute = ({ isInitialLoading }: { isInitialLoading: boolean }) => {
   const activeStage = useThStore(state => state.activeStage);
-  const [isFetching, setIsFetching] = useState(true);
   const [showStage, setShowStage] = useState(false);
 
   useEffect(() => {
-    fetchStagesAndInitializeThAndUserData().then(() => {
-      setIsFetching(false);
+    if (!isInitialLoading) {
       setTimeout(() => setShowStage(true), 500);
-    });
-  }, []);
+    }
+  }, [isInitialLoading]);
 
   return (
     <div className="relative w-screen h-screen bg-th-gradient-angular">
       {/* Loading */}
-      <div className={`absolute inset-0 transition-opacity duration-500 ${isFetching ? 'opacity-100' : 'opacity-0'}`}>
+      <div className={`absolute inset-0 transition-opacity duration-500 ${isInitialLoading ? 'opacity-100' : 'opacity-0'}`}>
         <Loading />
       </div>
 
