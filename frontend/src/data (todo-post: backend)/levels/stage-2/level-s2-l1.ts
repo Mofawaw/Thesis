@@ -1,5 +1,5 @@
-import stages from "../stages.ts";
-import categories from "../categories.ts";
+import stages from "../../stages.ts";
+import categories from "../../categories.ts";
 import { ThLevel } from "@/types/th-types.ts";
 
 const initialCode =
@@ -42,7 +42,7 @@ Der aktuelle Boss ist: Max, 2 Jahre alt
 Die neue Bossin ist: Luisa, 5 Jahre alt
 `
 
-const levelS2C1: ThLevel = {
+const levelS2L1: ThLevel = {
   id: "s2-l1",
   stage: stages[1],
   category: categories[0],
@@ -59,7 +59,7 @@ const levelS2C1: ThLevel = {
   expected: { output: expectedOutput }
 }
 
-export default levelS2C1;
+export default levelS2L1;
 
 const exampleSolution =
   `class Tier:

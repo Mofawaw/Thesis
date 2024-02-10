@@ -1,5 +1,5 @@
-import stages from "../stages.ts";
-import categories from "../categories.ts";
+import stages from "../../stages.ts";
+import categories from "../../categories.ts";
 import { ThLevel } from "@/types/th-types.ts";
 import CodeGraph from "@/app/code-ide/code-memory/code-memory-types.ts";
 
@@ -76,7 +76,7 @@ const taskDescription =
 <b>Fülle die Lücken des Speicher-Graphen aus.</b>
 `
 
-const levelS1C3: ThLevel = {
+const levelS1L3: ThLevel = {
   id: "s1-l3",
   stage: stages[0],
   category: categories[2],
@@ -94,4 +94,4 @@ const levelS1C3: ThLevel = {
   expected: { graph: expectedGraph }
 }
 
-export default levelS1C3;
+export default levelS1L3;

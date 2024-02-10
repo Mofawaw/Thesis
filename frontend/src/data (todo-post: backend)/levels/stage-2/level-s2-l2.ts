@@ -1,5 +1,5 @@
-import stages from "../stages.ts";
-import categories from "../categories.ts";
+import stages from "../../stages.ts";
+import categories from "../../categories.ts";
 import { ThLevel } from "@/types/th-types.ts";
 import CodeGraph from "@/app/code-ide/code-memory/code-memory-types.ts";
 
@@ -46,7 +46,7 @@ Ordne die Plätze neu zu, sodass sie den Tieren entsprechen, die jetzt dort lebe
 <b>Schreibe ein Programm, welches diesen Speicher ausgibt.</b>
 `
 
-const levelS2C2: ThLevel = {
+const levelS2L2: ThLevel = {
   id: "s2-l2",
   stage: stages[1],
   category: categories[1],
@@ -64,7 +64,7 @@ const levelS2C2: ThLevel = {
   expected: { graph: expectedGraph }
 }
 
-export default levelS2C2;
+export default levelS2L2;
 
 const exampleSolution =
   `class Tier:
