@@ -8,6 +8,7 @@ export function generateReactFlowNodes(level: ThLevel): Node[] {
   const reactFlowNodes = level.nodes.map(node => {
     const reactFlowNode = convertToReactFlowNode(node);
 
+    reactFlowNode.id = level.id + "-" + reactFlowNode.id
     reactFlowNode.position = { x: currentPositionX, y: 0 };
     currentPositionX += reactFlowNode.data.width + 20;
 
@@ -51,6 +52,7 @@ export function convertToReactFlowNode(node: ThNode) {
       }
     }
     return { id: node.baseNode.id, type: node.baseNode.type, position: { x: 0, y: 0 }, data: textData };
+
   } else if (node.baseNode.type === "tutorial" && node.data.tutorial) {
     // Merge TutorialNode Data
     const tutorialData: TutorialNodeData = {

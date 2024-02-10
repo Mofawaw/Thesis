@@ -31,7 +31,7 @@ const Level: React.FC<LevelProps> = ({
     });
 
     const reactflowNode: Node = convertToReactFlowNode(newLevelNode);
-    reactflowNode.id = (nodes.length + 1).toString();
+    reactflowNode.id = level.id + "-" + (nodes.length + 1).toString();
     reactflowNode.position = { x: maxX + 20, y: 0 };
 
     setNodes((nodes) => nodes.concat(reactflowNode));
@@ -43,6 +43,10 @@ const Level: React.FC<LevelProps> = ({
     setNodes(initialNodes)
     userStore.initializeLevelProgress(level.id);
     console.log(initialNodes);
+
+    return () => {
+      setNodes([]);
+    }
   }, [level]);
 
   return (
@@ -50,7 +54,7 @@ const Level: React.FC<LevelProps> = ({
       <ReactFlowProvider>
         <div className="w-screen h-screen">
           <LevelOverlayTop level={level} />
-          <LevelReactFlow nodes={nodes} setNodes={setNodes} />
+          <LevelReactFlow level={level} nodes={nodes} setNodes={setNodes} />
           <LevelOverlayBottom level={level} nodes={nodes} tutorialNodes={tutorialNodes} onAddNode={(node) => addNode(node)} />
         </div>
       </ReactFlowProvider>
@@ -58,11 +62,22 @@ const Level: React.FC<LevelProps> = ({
   );
 }
 
-function LevelReactFlow({ nodes, setNodes }: { nodes: Node[], setNodes: Dispatch<SetStateAction<Node[]>> }) {
+interface LevelReactFlowProps {
+  nodes: Node[];
+  setNodes: Dispatch<SetStateAction<Node[]>>;
+  level: ThLevel;
+}
+
+const LevelReactFlow: React.FC<LevelReactFlowProps> = ({
+  nodes,
+  setNodes,
+  level,
+}) => {
   const reactFlowInstance = useReactFlow();
   const prevNodesLength = useRef(nodes.length);
 
   const onInit = (instance: ReactFlowInstance) => {
+    console.log(nodes);
     const timeoutId = setTimeout(() => {
       instance.fitView({ padding: 0.25, includeHiddenNodes: true, duration: 300 });
     }, 200);
@@ -86,6 +101,7 @@ function LevelReactFlow({ nodes, setNodes }: { nodes: Node[], setNodes: Dispatch
 
   return (
     <ReactFlow
+      key={level.id}
       nodes={nodes}
       nodeTypes={nodeTypes}
       onInit={onInit}

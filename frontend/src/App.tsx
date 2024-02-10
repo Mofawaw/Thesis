@@ -70,7 +70,7 @@ const LevelRoute = () => {
 
       {/* Level */}
       <div className={`absolute inset-0 transition-opacity duration-500 ${showLevel && activeLevel ? 'opacity-100' : 'opacity-0'}`}>
-        {activeLevel && <Level level={activeLevel} tutorialNodes={tutorialNodes} />}
+        {activeLevel && <Level key={levelId} level={activeLevel} tutorialNodes={tutorialNodes} />}
       </div>
     </div>
   );
