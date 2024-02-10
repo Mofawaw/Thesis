@@ -1,5 +1,5 @@
-import stages from "../stages.ts";
-import categories from "../categories.ts";
+import stages from "../../stages.ts";
+import categories from "../../categories.ts";
 import { ThLevel } from "@/types/th-types.ts";
 import CodeGraph from "@/app/code-ide/code-memory/code-memory-types.ts";
 
@@ -59,7 +59,7 @@ e = 48
 summe = h + b + k + e
 `
 
-const levelS1C2: ThLevel = {
+const levelS1L2: ThLevel = {
   id: "s1-l2",
   stage: stages[0],
   category: categories[1],
@@ -77,4 +77,4 @@ const levelS1C2: ThLevel = {
   expected: { graph: expectedGraph }
 }
 
-export default levelS1C2;
+export default levelS1L2;

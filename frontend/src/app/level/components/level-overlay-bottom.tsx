@@ -51,12 +51,15 @@ const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
   }
 
   function handleCheckButtonOnClose() {
+    if (openCheckResultsPopup?.success) {
+      userStore.updateLevelProgressStatus(level.id, "completed");
+      userStore.updateStageProgressLevelsStatus(level.stage.id, { id: level.id, status: "completed" });
+
+      thStore.setActiveLevel(null);
+
+      navigate(`/`);
+    }
     setOpenCheckResultsPopup({ success: false, fail: false, title: "", message: "" });
-    userStore.updateLevelProgressStatus(level.id, "completed");
-    userStore.updateStageProgressLevelsStatus(level.stage.id, { id: level.id, status: "completed" });
-    thStore.setActiveLevel(null);
-    navigate(`/`);
-    // Todo: Logic to handle going to stage, ..
   }
 
   return (

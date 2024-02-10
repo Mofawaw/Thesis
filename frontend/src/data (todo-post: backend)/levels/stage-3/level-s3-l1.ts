@@ -1,5 +1,5 @@
-import stages from "../stages.ts";
-import categories from "../categories.ts";
+import stages from "../../stages.ts";
+import categories from "../../categories.ts";
 import { ThLevel } from "@/types/th-types.ts";
 
 const initialCode =
@@ -48,7 +48,7 @@ Punkt: 1, 1
 Punkt: 1, 1
 `
 
-const levelS3C1: ThLevel = {
+const levelS3L1: ThLevel = {
   id: "s3-l1",
   stage: stages[2],
   category: categories[0],
@@ -65,7 +65,7 @@ const levelS3C1: ThLevel = {
   expected: { output: expectedOutput }
 }
 
-export default levelS3C1;
+export default levelS3L1;
 
 const exampleSolution =
   `class Punkt:

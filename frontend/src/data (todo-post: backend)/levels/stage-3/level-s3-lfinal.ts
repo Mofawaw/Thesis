@@ -1,44 +1,29 @@
-import stages from "../stages.ts";
-import categories from "../categories.ts";
+import stages from "../../stages.ts";
+import categories from "../../categories.ts";
 import { ThLevel } from "@/types/th-types.ts";
 
 const initialCode =
-  `# TODO: - Bearbeite hier
-h = 10
-b = 3
-
-summe = 0
-
-print(summe)
+  `# TODO
+print(5)
 `;
 
 const expectedOutput =
-  `18
+  `5
 `
 
 const taskDescription =
-  `Ein Bauernhof hat 10 Hamster, 3 Bieber und 5 Katzen. Die Anzahl Tiere werden mit den Variablen h, b und k definiert.
-<br/>
-<br/>
-<b>Vervollständige das Programm und gebe die Summe aller Tiere im Bauernhof aus.</b>
+  `TODO
 `
 
 const exampleSolution =
-  `# TODO: - Bearbeite hier
-h = 10
-b = 3
-k = 5
-
-summe = h + b + k
-
-print(summe)
+  `# TODO
 `
 
-const levelS1C1: ThLevel = {
-  id: "s1-l1",
-  stage: stages[0],
+const levelS3LFinal: ThLevel = {
+  id: "s3-lfinal",
+  stage: stages[2],
   category: categories[0],
-  label: "Lvl 1",
+  label: "Finale",
   nodes: [
     { baseNode: categories[0].baseNodes[0], data: { codeIDE: { initialCode: initialCode } } },
     { baseNode: categories[0].baseNodes[1], data: { text: { description: taskDescription } } }
@@ -51,4 +36,4 @@ const levelS1C1: ThLevel = {
   expected: { output: expectedOutput }
 }
 
-export default levelS1C1;
+export default levelS3LFinal;
