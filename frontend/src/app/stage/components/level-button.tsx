@@ -100,7 +100,7 @@ const LevelButton: React.FC<LevelButtonProps> = ({
           <div className="flex flex-col items-center gap-3 p-3 m-2">
             <h3 className={`text-th-tint-100`}>{`${stageLevel.levelId.includes("final") ? "Finale" : `Level ${label}`}`}</h3>
             <p className={`h-28 text-center text-th-tint-100`}><b>{stageLevel.category.description}</b></p>
-            <ThTextButton width={200} thColor="th-tint" text={"Open"} onClick={() => { navigate(`/level/${stageLevel.levelId}`) }} />
+            <ThTextButton width={200} thColor="th-tint" text={"Öffnen"} onClick={() => { navigate(`/level/${stageLevel.levelId}`) }} />
           </div>
         }
         {levelStatus?.status === "unlocked" &&
@@ -114,7 +114,7 @@ const LevelButton: React.FC<LevelButtonProps> = ({
           <div className="flex flex-col items-center gap-3 p-3 m-2">
             <h3 className={`text-${stage.color}-70`}>{`${stageLevel.levelId.includes("final") ? "Finale" : `Level ${label}`}`}</h3>
             <p className={`h-28 text-center text-${stage.color}-70`}><b>{stageLevel.category.description}</b></p>
-            <ThTextButton width={200} thColor={stage.color} textThColorShade={40} text={"Locked"} />
+            <ThTextButton width={200} thColor={stage.color} textThColorShade={40} text={"Gesperrt"} />
           </div>
         }
       </ThDropdown>

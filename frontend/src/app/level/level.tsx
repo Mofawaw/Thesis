@@ -7,7 +7,6 @@ import LevelOverlayBottom from './components/level-overlay-bottom.tsx';
 import { ThLevel, ThNode } from '@/types/th-types.ts';
 import { convertToReactFlowNode, generateReactFlowNodes } from './level-initialization.ts';
 import useUserStore from '@/stores/user-store.ts';
-import { resetStoreMap } from '../code-ide/code-ide-store.ts';
 
 interface LevelProps {
   level: ThLevel;
