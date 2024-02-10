@@ -26,6 +26,7 @@ const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
   onAddNode,
 }) => {
   const { zoomIn, zoomOut, fitView } = useReactFlow();
+  const [openExitDropdown, setOpenExitDropdown] = useState<boolean>(false);
   const [openLevelsDropdown, setOpenLevelsDropdown] = useState<boolean>(false);
   const [openTippsDropdown, setOpenTippsDropdown] = useState<boolean>(false);
   const [openTutorialDropdown, setOpenTutorialDropdown] = useState<boolean>(false);
@@ -75,6 +76,20 @@ const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
 
       <div className="absolute right-3 bottom-3">
         <div className="flex flex-row gap-3">
+          {/*Exit*/}
+          <ThDropdown
+            width={140}
+            height={25 + 40}
+            thColor={level.stage.color}
+            button={<ThIconTextButton thColor={level.stage.color} icon="exit" text="Exit" onClick={() => setOpenExitDropdown(true)} />}
+            isOpen={openExitDropdown}
+            onClose={() => setOpenExitDropdown(false)}
+          >
+            <div className="flex flex-col items-center gap-1 p-3">
+              <ThMenuTextButton width={120} thColor={level.stage.color} text="Exit" onClick={() => { navigate('/') }} />
+            </div>
+          </ThDropdown>
+
           {/*Levels*/}
           <ThDropdown
             width={140}
