@@ -89,7 +89,12 @@ const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
             onClose={() => setOpenExitDropdown(false)}
           >
             <div className="flex flex-col items-center gap-1 p-3">
-              <ThMenuTextButton width={120} thColor={buttonsColor} text="Exit" onClick={() => { navigate('/') }} />
+              <ThMenuTextButton width={120} thColor={buttonsColor} text="Exit"
+                onClick={() => {
+                  thStore.setActiveLevel(null);
+                  navigate('/');
+                }}
+              />
             </div>
           </ThDropdown>
 

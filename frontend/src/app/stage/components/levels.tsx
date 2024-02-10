@@ -125,7 +125,7 @@ const Levels: React.FC<LevelsProps> = ({
       };
     }
     return () => { };
-  }, [dimensions, levelButtons, stagesProgress]);
+  }, [dimensions, levelButtons, stage, stagesProgress]);
 
   return (
     <svg ref={d3Container} className="w-full h-full" >
