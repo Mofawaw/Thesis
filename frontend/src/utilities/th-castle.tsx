@@ -1,17 +1,16 @@
 import { CastleValue, CastleReference, CastleTogether } from '@/assets/images/castles.tsx'
-import { ThColorKey, ThColorShadeKey } from './th-color';
 import { FlagReference, FlagTogether, FlagValue } from '@/assets/images/flags';
 
 export type ThCastleKey = 'castle-value' | 'castle-reference' | 'castle-together';
 
 interface ThCastleProps extends React.SVGProps<SVGSVGElement> {
   castle: ThCastleKey;
-  grey?: boolean;
+  color?: "stage" | "grey" | "tint";
 }
 
 export const ThCastle: React.FC<ThCastleProps> = ({
   castle,
-  grey = false,
+  color = "stage",
   ...props
 }) => {
   let CastleComponent;
@@ -30,7 +29,7 @@ export const ThCastle: React.FC<ThCastleProps> = ({
       return null;
   }
 
-  return <CastleComponent grey={grey} {...props} />;
+  return <CastleComponent color={color} {...props} />;
 };
 
 interface ThCastleFlagProps extends React.SVGProps<SVGSVGElement> {

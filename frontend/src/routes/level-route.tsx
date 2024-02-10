@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import useThStore from "@/stores/th-store";
-import { ThLevel } from "@/types/th-types";
 import Level from "@/app/level/level";
-import getRandomIntBetween from "@/helpers/random";
 import { fetchLevelAndSetActiveLevel } from "@/data (todo-post: backend)/th-network";
 import tutorialNodes from "@/data (todo-post: backend)/tutorials";
+import getRandomIntBetween from "@/helpers/random";
+import useThStore from "@/stores/th-store";
+import { ThLevel } from "@/types/th-types";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 const LevelRoute = () => {
   const { levelId } = useParams();
@@ -60,9 +60,9 @@ const LoadingLevel = ({ activeLevel, levelId }: { activeLevel?: ThLevel | null, 
 
       fetchLevelAndSetActiveLevel(levelId).then(() => {
         setProgress(100);
-        setTimeout(() => setIsLoading(false), 1000);
+        setTimeout(() => setIsLoading(false), 1500);
       });
-    }, 100);
+    }, 0);
 
     return () => {
       clearInterval(intervalId);
@@ -72,13 +72,12 @@ const LoadingLevel = ({ activeLevel, levelId }: { activeLevel?: ThLevel | null, 
 
   const loadingText = progress < 100 ? (progress < 67 ? 'Level lädt...' : 'Fast fertig...') : 'Los gehts!';
   const barColor = progress < 100 ? 'bg-th-black-30' : (activeLevel ? `bg-${activeLevel.stage.color}-100` : 'bg-th-black-30');
-  const bgColor = 'bg-th-black-10';
 
   return (
-    <div className="w-screen h-screen flex flex-col justify-center items-center gap-5 bg-th-background">
+    <div className={`w-screen h-screen flex flex-col justify-center items-center gap-5 th-bg-gradient`}>
       <h3 className={`text-${activeLevel ? activeLevel.stage.color : "th-black"}-100 text-center`}>{loadingText}</h3>
       <div className="w-2/4">
-        <div className={`h-8 rounded-th ${bgColor}`}>
+        <div className={`h-8 rounded-th bg-th-black-10`}>
           <div className={`h-8 rounded-th ${barColor} transition-all duration-100`} style={{ width: `${progress}%` }}></div>
         </div>
       </div>

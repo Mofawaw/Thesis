@@ -1,10 +1,11 @@
-export const CastleValue = ({ grey = false, ...props }: { grey?: boolean }) => {
+export const CastleValue = ({ color = "stage", ...props }: { color: "stage" | "grey" | "tint" }) => {
   const colorMappings = {
-    nonGreyColors: ["#F8B50E", "#18B5CB", "#18B5CB", "#18B5CB", "#18B5CB", "#747474", "#545454", "#383838", "#9B9B9B", "#9B9B9B", "#9B9B9B"],
-    greyColors: ["#D7D7D7", "#C3C3C3", "#C3C3C3", "#C3C3C3", "#C3C3C3", "#C3C3C3", "#545454", "#9B9B9B", "#D7D7D7", "#D7D7D7", "#D7D7D7"]
+    stageColors: ["#F8B50E", "#18B5CB", "#18B5CB", "#18B5CB", "#18B5CB", "#747474", "#545454", "#383838", "#9B9B9B", "#9B9B9B", "#9B9B9B"],
+    greyColors: ["#D7D7D7", "#C3C3C3", "#C3C3C3", "#C3C3C3", "#C3C3C3", "#C3C3C3", "#545454", "#9B9B9B", "#D7D7D7", "#D7D7D7", "#D7D7D7"],
+    tintColors: ["#FACB57", "#F8B50E", "#F8B50E", "#F8B50E", "#F8B50E", "#FACB57", "#545454", "#F8B50E", "#FCE19F", "#FCE19F", "#FCE19F"],
   };
 
-  const colors = grey ? colorMappings.greyColors : colorMappings.nonGreyColors;
+  const colors = color === "stage" ? colorMappings.stageColors : (color === "grey" ? colorMappings.greyColors : colorMappings.tintColors);
 
   return (
     <svg width="156" height="156" viewBox="0 0 156 156" fill="none" xmlns="http://www.w3.org/2000/svg" {...props} >
@@ -27,13 +28,14 @@ export const CastleValue = ({ grey = false, ...props }: { grey?: boolean }) => {
   )
 };
 
-export const CastleReference = ({ grey = false, ...props }: { grey?: boolean }) => {
+export const CastleReference = ({ color = "stage", ...props }: { color: "stage" | "grey" | "tint" }) => {
   const colorMappings = {
-    nonGreyColors: ["#F8B50E", "#1836CB", "#1836CB", "#1836CB", "#747474", "#383838", "#9B9B9B", "#9B9B9B", "#9B9B9B"],
-    greyColors: ["#D7D7D7", "#C3C3C3", "#C3C3C3", "#C3C3C3", "#C3C3C3", "#9B9B9B", "#D7D7D7", "#D7D7D7", "#D7D7D7"]
+    stageColors: ["#F8B50E", "#1836CB", "#1836CB", "#1836CB", "#747474", "#383838", "#9B9B9B", "#9B9B9B", "#9B9B9B"],
+    greyColors: ["#D7D7D7", "#C3C3C3", "#C3C3C3", "#C3C3C3", "#C3C3C3", "#9B9B9B", "#D7D7D7", "#D7D7D7", "#D7D7D7"],
+    tintColors: ["#FACB57", "#F8B50E", "#F8B50E", "#F8B50E", "#FACB57", "#F8B50E", "#FCE19F", "#FCE19F", "#FCE19F"],
   };
 
-  const colors = grey ? colorMappings.greyColors : colorMappings.nonGreyColors;
+  const colors = color === "stage" ? colorMappings.stageColors : (color === "grey" ? colorMappings.greyColors : colorMappings.tintColors);
 
   return (
     <svg width="156" height="156" viewBox="0 0 156 156" fill="none" xmlns="http://www.w3.org/2000/svg" {...props} >
@@ -50,13 +52,14 @@ export const CastleReference = ({ grey = false, ...props }: { grey?: boolean }) 
   )
 };
 
-export const CastleTogether = ({ grey = false, ...props }: { grey?: boolean }) => {
+export const CastleTogether = ({ color = "stage", ...props }: { color: "stage" | "grey" | "tint" }) => {
   const colorMappings = {
-    nonGreyColors: ["#F8B50E", "#F8B50E", "#CB188E", "#CB188E", "#CB188E", "#CB188E", "#747474", "#383838", "#9B9B9B", "#9B9B9B", "#9B9B9B", "#747474", "#545454", "#383838", "#9B9B9B", "#9B9B9B", "#9B9B9B"],
-    greyColors: ["#D7D7D7", "#D7D7D7", "#C3C3C3", "#C3C3C3", "#C3C3C3", "#C3C3C3", "#C3C3C3", "#9B9B9B", "#D7D7D7", "#D7D7D7", "#D7D7D7", "#C3C3C3", "#545454", "#9B9B9B", "#D7D7D7", "#D7D7D7", "#D7D7D7"]
+    stageColors: ["#F8B50E", "#F8B50E", "#CB188E", "#CB188E", "#CB188E", "#CB188E", "#747474", "#383838", "#9B9B9B", "#9B9B9B", "#9B9B9B", "#747474", "#545454", "#383838", "#9B9B9B", "#9B9B9B", "#9B9B9B"],
+    greyColors: ["#D7D7D7", "#D7D7D7", "#C3C3C3", "#C3C3C3", "#C3C3C3", "#C3C3C3", "#C3C3C3", "#9B9B9B", "#D7D7D7", "#D7D7D7", "#D7D7D7", "#C3C3C3", "#545454", "#9B9B9B", "#D7D7D7", "#D7D7D7", "#D7D7D7"],
+    tintColors: ["#FACB57", "#FACB57", "#F8B50E", "#F8B50E", "#F8B50E", "#F8B50E", "#FACB57", "#F8B50E", "#FCE19F", "#FCE19F", "#FCE19F", "#FACB57", "#545454", "#F8B50E", "#FCE19F", "#FCE19F", "#FCE19F"],
   };
 
-  const colors = grey ? colorMappings.greyColors : colorMappings.nonGreyColors;
+  const colors = color === "stage" ? colorMappings.stageColors : (color === "grey" ? colorMappings.greyColors : colorMappings.tintColors);
 
   return (
     <svg width="156" height="156" viewBox="0 0 156 156" fill="none" xmlns="http://www.w3.org/2000/svg" {...props} >

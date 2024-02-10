@@ -8,6 +8,7 @@ interface ThRoundButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   bgThColorShade?: ThColorShadeKey;
   shadowThColorShade?: ThColorShadeKey;
   textThColorShade?: ThColorShadeKey;
+  textGradient?: boolean;
   radius: number;
   icon?: ThIconKey | ThCastleKey | null;
   text?: string | null;
@@ -19,6 +20,7 @@ const ThRoundButton: React.FC<ThRoundButtonProps> = ({
   bgThColorShade = 20,
   shadowThColorShade = 30,
   textThColorShade = 40,
+  textGradient = false,
   radius,
   icon = null,
   text = null,
@@ -28,12 +30,14 @@ const ThRoundButton: React.FC<ThRoundButtonProps> = ({
   const flagIcon = icon as ThCastleKey;
   const thIcon = icon as ThIconKey
 
+  const textColor = textGradient ? "th-text-gradient-40" : `text-${thColor}-${textThColorShade}`
+
   return (
     <ThButton width={radius * 2} height={radius * 2} thColor={thColor} bgThColorShade={bgThColorShade} shadowThColorShade={shadowThColorShade} round={true} tooltipText={tooltipText} className="relative" {...props} >
       <div className="flex flex-col gap-3 items-center justify-center mt-2">
-        {thIcon && <ThIcon icon={thIcon} className={`w-12 h-12 text-${thColor}-${textThColorShade}`} />}
-        {flagIcon && <ThCastleFlag castle={flagIcon} className={`w-20 h-16 text-${thColor}-${textThColorShade}`} />}
-        {text && <h2 className={`text-${thColor}-${textThColorShade}`}>{text}</h2>}
+        {thIcon && <ThIcon icon={thIcon} className={`w-12 h-12 ${textColor}`} />}
+        {flagIcon && <ThCastleFlag castle={flagIcon} className={`w-20 h-16 ${textColor}`} />}
+        {text && <h2 className={textColor}>{text}</h2>}
       </div>
     </ThButton>
   );
