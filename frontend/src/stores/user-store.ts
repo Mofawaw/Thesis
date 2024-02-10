@@ -28,16 +28,25 @@ export type UserStore = {
   updateLevelProgressCurrentTippNodes: (levelId: string, newCurrentTippNodes: ThNode[]) => void;
 };
 
-const useUserStore = create<UserStore>((set) => {
-  // Initialize stagesProgress
-  const stagesProgress = {}; // TODO: LocalStorage
+// LocalStorage
+const localStorageKey = 'userProgress';
 
-  // Initialize levelsProgress
-  const levelsProgress = {}; // TODO: LocalStorage
+function loadFromLocalStorage(): Partial<UserStore> {
+  const storedState = localStorage.getItem(localStorageKey);
+  return storedState ? JSON.parse(storedState) : {};
+}
+
+function saveToLocalStorage(stagesProgress: Record<string, UserStageProgress>, levelsProgress: Record<string, UserLevelProgress>): void {
+  const stateToSave = { stagesProgress, levelsProgress };
+  localStorage.setItem(localStorageKey, JSON.stringify(stateToSave));
+}
+
+const useUserStore = create<UserStore>((set, get) => {
+  const initialState = loadFromLocalStorage();
 
   return {
-    stagesProgress,
-    levelsProgress,
+    stagesProgress: initialState.stagesProgress || {},
+    levelsProgress: initialState.levelsProgress || {},
 
     initializeStagesProgress: (stages: ThStage[]) => {
       set(state => {
@@ -172,6 +181,12 @@ const useUserStore = create<UserStore>((set) => {
       return state;
     });
   }
-})
+});
+
+useUserStore.subscribe((state, previousState) => {
+  if (state.stagesProgress !== previousState.stagesProgress || state.levelsProgress !== previousState.levelsProgress) {
+    saveToLocalStorage(state.stagesProgress, state.levelsProgress);
+  }
+});
 
 export default useUserStore;
