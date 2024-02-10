@@ -34,7 +34,7 @@ const Levels: React.FC<LevelsProps> = ({
         };
       });
     setLevelButtons(newLevelButtons);
-  }, [stage]);
+  }, [stage, stagesProgress]);
 
   useEffect(() => {
     function handleResize() {
@@ -130,7 +130,7 @@ const Levels: React.FC<LevelsProps> = ({
       };
     }
     return () => { };
-  }, [dimensions, levelButtons]);
+  }, [dimensions, levelButtons, stagesProgress]);
 
   return (
     <svg ref={d3Container} className="w-full h-full" >

@@ -20,13 +20,15 @@ const delay = (ms: number): Promise<void> => {
 };
 
 export const fetchStagesAndInitializeThAndUserData = async () => {
-  await delay(getRandomIntBetween(1000, 3000));
+  await delay(getRandomIntBetween(300, 1800));
 
   if (useThStore.getState().stages.length > 0) return;
   useThStore.getState().initializeStages(stages);
 
   if (Object.keys(useUserStore.getState().stagesProgress).length > 0) return;
   useUserStore.getState().initializeStagesProgress(stages);
+
+  await delay(getRandomIntBetween(300, 600));
 };
 
 export const fetchLevelAndSetActiveLevel = async (levelId: string) => {
