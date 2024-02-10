@@ -6,7 +6,7 @@ export type ThStore = {
   activeStage: ThStage | null;
   activeLevel: ThLevel | null;
 
-  initializeStages: (stages: ThStage[]) => (void);
+  initializeThStore: (initialStages: ThStage[]) => (void);
   setActiveStage: (newStageId: "s1" | "s2" | "s3") => (void);
   setActiveLevel: (newLevel: ThLevel | null) => (void);
 };
@@ -17,9 +17,12 @@ const useThStore = create<ThStore>((set) => {
     activeStage: null,
     activeLevel: null,
 
-    initializeStages: (stages: ThStage[]) => {
+    initializeThStore: (initialStages: ThStage[]) => {
       set(state => {
-        return { ...state, stages: stages, activeStage: stages[0] };
+        if (state.stages.length > 0) {
+          return state
+        }
+        return { ...state, stages: initialStages, activeStage: initialStages[0] };
       });
     },
 

@@ -1,7 +1,6 @@
 import { ThNode, ThStage } from '@/types/th-types';
 import { UserLevelProgress, UserProgressStatus, UserStageProgress } from '@/types/user-types';
 import { create } from 'zustand';
-import useThStore from './th-store';
 
 export type UserStore = {
   stagesProgress: Record<string, UserStageProgress>;
@@ -43,9 +42,13 @@ const useUserStore = create<UserStore>((set, get) => {
     stagesProgress: initialState.stagesProgress || {},
     levelsProgress: initialState.levelsProgress || {},
 
-    initializeStagesProgress: (stages: ThStage[]) => {
+    initializeStagesProgress: (initialStages: ThStage[]) => {
       set(state => {
-        const newStagesProgress: Record<string, UserStageProgress> = stages.reduce((acc, stage) => ({
+        if (Object.keys(state.stagesProgress).length > 0) {
+          return state;
+        }
+
+        const newStagesProgress: Record<string, UserStageProgress> = initialStages.reduce((acc, stage) => ({
           ...acc,
           [stage.id]: {
             userId: "u1", // TODO-Post: User
@@ -58,10 +61,7 @@ const useUserStore = create<UserStore>((set, get) => {
         newStagesProgress["s1"].status = "unlocked";
         newStagesProgress["s1"].levelsStatus[0].status = "unlocked";
 
-        return {
-          ...state,
-          stagesProgress: newStagesProgress
-        };
+        return { ...state, stagesProgress: newStagesProgress };
       });
     },
 

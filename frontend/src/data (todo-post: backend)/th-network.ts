@@ -34,11 +34,16 @@ const delay = (ms: number): Promise<void> => {
 export const fetchStagesAndInitializeThAndUserData = async () => {
   await delay(getRandomIntBetween(300, 1800));
 
-  if (useThStore.getState().stages.length > 0) return;
-  useThStore.getState().initializeStages(stages);
-
-  if (Object.keys(useUserStore.getState().stagesProgress).length > 0) return;
+  // Initialize stores
+  useThStore.getState().initializeThStore(stages);
   useUserStore.getState().initializeStagesProgress(stages);
+
+  // Set initial active stage based on progress
+  // const stagesProgress = useUserStore.getState().stagesProgress;
+  // const activeStage = Object.values(stagesProgress).find(stageProgress => stageProgress.status === "unlocked")?.stageId;
+  // if (activeStage) {
+  //   useThStore.getState().setActiveStage(activeStage);
+  // }
 
   await delay(getRandomIntBetween(300, 600));
 };
