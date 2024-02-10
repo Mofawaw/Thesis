@@ -59,7 +59,7 @@ const levelS3L2: ThLevel = {
   id: "s3-l2",
   stage: stages[2],
   category: categories[1],
-  label: "Lvl 2",
+  label: "2",
   nodes: [
     { baseNode: categories[1].baseNodes[0], data: { codeIDE: { initialGraph: expectedGraph } } },
     { baseNode: categories[1].baseNodes[1], data: { codeIDE: { initialCode: initialCode } } },

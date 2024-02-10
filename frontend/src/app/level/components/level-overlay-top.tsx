@@ -11,6 +11,8 @@ interface LevelOverlayTopProps {
 const LevelOverlayTop: React.FC<LevelOverlayTopProps> = ({
   level,
 }) => {
+  const label = !isNaN(parseFloat(level.label)) ? `Lvl ${level.label}` : level.label;
+
   return (
     <div className="relative">
       <div className="absolute top-3 right-3 left-3">
@@ -19,7 +21,7 @@ const LevelOverlayTop: React.FC<LevelOverlayTopProps> = ({
             <ThButton width={130} height={180} thColor={level.stage.color} >
               <div className="flex flex-col items-center p-2 -translate-y-2">
                 <ThCastle castle={level.stage.logo} className="w-32" />
-                <h3 className={`text-${level.stage.color}-100`}>{level.label}</h3>
+                <h3 className={`text-${level.stage.color}-100`}>{label}</h3>
               </div>
             </ThButton>
           </div>

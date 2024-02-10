@@ -26,8 +26,6 @@ const Levels: React.FC<LevelsProps> = ({
         return {
           stage: stage,
           stageLevel: stageLevel,
-          label: stageLevel.levelId.match(/l(\d+)/)?.[1] ?? null,
-          icon: (stageLevel.levelId.match(/l(\D+)/)?.[1] === "final" ? stage.logo : null) ?? null,
           group: levelStatus?.status === "locked" ? 2 : 1,
           x: 0,
           y: 0,

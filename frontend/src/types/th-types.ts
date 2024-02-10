@@ -12,6 +12,7 @@ export interface ThStage { // TODO-Post: Backend Version
 
 export interface ThStageLevel {
   levelId: string;
+  label: string;
   order: number;
   category: ThCategory;
 }

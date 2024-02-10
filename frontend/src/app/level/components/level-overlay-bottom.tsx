@@ -78,7 +78,7 @@ const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
         <div className="flex flex-row gap-3">
           {/*Exit*/}
           <ThDropdown
-            width={140}
+            width={150}
             height={25 + 40}
             thColor={level.stage.color}
             button={<ThIconTextButton thColor={level.stage.color} icon="exit" text="Exit" onClick={() => setOpenExitDropdown(true)} />}
@@ -92,7 +92,7 @@ const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
 
           {/*Levels*/}
           <ThDropdown
-            width={140}
+            width={180}
             height={25 + 40 * level.stage.stageLevels.length}
             thColor={level.stage.color}
             button={<ThIconTextButton thColor={level.stage.color} icon="levels" text="Levels" onClick={() => setOpenLevelsDropdown(true)} />}
@@ -103,19 +103,20 @@ const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
               {level.stage.stageLevels.map((stageLevel) => {
                 const stagesProgress = useUserStore(state => state.stagesProgress);
                 const levelStatus = stagesProgress[level.stage.id].levelsStatus.find(levelStatus => levelStatus.id === stageLevel.levelId);
+                const label = !isNaN(parseFloat(stageLevel.label)) ? `Lvl ${stageLevel.label}` : stageLevel.label;
 
                 return (
                   <li key={stageLevel.levelId}>
                     {levelStatus?.status === "completed" &&
-                      <ThMenuTextButton width={120} thColor={level.stage.color} bgThColorShade={20} textGradient={true} text={stageLevel.levelId}
+                      <ThMenuTextButton width={150} thColor={level.stage.color} bgThColorShade={20} textGradient={true} text={label}
                         onClick={() => {
                           thStore.setActiveLevel(null);
                           navigate(`/level/${stageLevel.levelId}`);
                         }}
                       />
                     }
-                    {levelStatus?.status === "unlocked" && <ThMenuTextButton width={120} thColor={level.stage.color} textThColorShade={10} gradient={true} text={stageLevel.levelId} disabled />}
-                    {levelStatus?.status === "locked" && <ThMenuTextButton width={120} thColor={level.stage.color} bgThColorShade={40} textThColorShade={30} text={stageLevel.levelId} disabled />}
+                    {levelStatus?.status === "unlocked" && <ThMenuTextButton width={150} thColor={level.stage.color} textThColorShade={10} gradient={true} text={label} disabled />}
+                    {levelStatus?.status === "locked" && <ThMenuTextButton width={150} thColor={level.stage.color} bgThColorShade={40} textThColorShade={30} text={label} disabled />}
                   </li>
                 )
               })}
@@ -124,7 +125,7 @@ const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
 
           {/*Tipps*/}
           <ThDropdown
-            width={140}
+            width={150}
             height={25 + 40 * level.tippNodes.length}
             thColor={level.stage.color}
             button={<ThIconTextButton thColor={level.stage.color} icon="tipps" text="Tipps" onClick={() => setOpenTippsDropdown(true)} />}
