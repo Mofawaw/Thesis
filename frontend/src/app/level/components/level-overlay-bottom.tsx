@@ -26,6 +26,7 @@ const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
   onAddNode,
 }) => {
   const { zoomIn, zoomOut, fitView } = useReactFlow();
+  const [openLevelsDropdown, setOpenLevelsDropdown] = useState<boolean>(false);
   const [openTippsDropdown, setOpenTippsDropdown] = useState<boolean>(false);
   const [openTutorialDropdown, setOpenTutorialDropdown] = useState<boolean>(false);
   const [openCheckResultsPopup, setOpenCheckResultsPopup] = useState<{ success?: boolean, fail?: boolean, title: string, message: string }>();
@@ -74,6 +75,38 @@ const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
 
       <div className="absolute right-3 bottom-3">
         <div className="flex flex-row gap-3">
+          {/*Levels*/}
+          <ThDropdown
+            width={140}
+            height={25 + 40 * level.stage.stageLevels.length}
+            thColor={level.stage.color}
+            button={<ThIconTextButton thColor={level.stage.color} icon="levels" text="Levels" onClick={() => setOpenLevelsDropdown(true)} />}
+            isOpen={openLevelsDropdown}
+            onClose={() => setOpenLevelsDropdown(false)}
+          >
+            <ul className="flex flex-col items-center gap-1 p-3">
+              {level.stage.stageLevels.map((stageLevel) => {
+                const stagesProgress = useUserStore(state => state.stagesProgress);
+                const levelStatus = stagesProgress[level.stage.id].levelsStatus.find(levelStatus => levelStatus.id === stageLevel.levelId);
+
+                return (
+                  <li key={stageLevel.levelId}>
+                    {levelStatus?.status === "completed" &&
+                      <ThMenuTextButton width={120} thColor={level.stage.color} bgThColorShade={20} textGradient={true} text={stageLevel.levelId}
+                        onClick={() => {
+                          thStore.setActiveLevel(null);
+                          navigate(`/level/${stageLevel.levelId}`);
+                        }}
+                      />
+                    }
+                    {levelStatus?.status === "unlocked" && <ThMenuTextButton width={120} thColor={level.stage.color} textThColorShade={10} gradient={true} text={stageLevel.levelId} disabled />}
+                    {levelStatus?.status === "locked" && <ThMenuTextButton width={120} thColor={level.stage.color} bgThColorShade={40} textThColorShade={30} text={stageLevel.levelId} disabled />}
+                  </li>
+                )
+              })}
+            </ul>
+          </ThDropdown>
+
           {/*Tipps*/}
           <ThDropdown
             width={140}

@@ -70,17 +70,18 @@ const LoadingLevel = ({ activeLevel, levelId }: { activeLevel?: ThLevel | null, 
     };
   }, [levelId]);
 
-  const loadingText = progress < 100 ? (progress < 67 ? 'Level lädt...' : 'Fast fertig...') : 'Los gehts!';
-  const barColor = progress < 100 ? 'bg-th-black-30' : (activeLevel ? `bg-${activeLevel.stage.color}-100` : 'bg-th-black-30');
+  // const loadingText = progress < 100 ? (progress < 67 ? 'Level lädt...' : 'Fast fertig...') : 'Los gehts!';
+  // const barColor = progress < 100 ? 'bg-th-black-30' : (activeLevel ? `bg-${activeLevel.stage.color}-100` : 'bg-th-black-30');
 
   return (
     <div className={`w-screen h-screen flex flex-col justify-center items-center gap-5 th-bg-gradient`}>
-      <h3 className={`text-${activeLevel ? activeLevel.stage.color : "th-black"}-100 text-center`}>{loadingText}</h3>
-      <div className="w-2/4">
-        <div className={`h-8 rounded-th bg-th-black-10`}>
-          <div className={`h-8 rounded-th ${barColor} transition-all duration-100`} style={{ width: `${progress}%` }}></div>
+      {/* <h3 className={`text-${activeLevel ? activeLevel.stage.color : "th-black"}-100 text-center`}>{loadingText}</h3>
+      <div className="w-3/4">
+        <div className={`h-3 rounded-th`}>
+          <div className={`h-3 rounded-th bg-th-black-10 opacity-20 transition-all duration-100`} style={{ width: `${progress}%` }}></div>
         </div>
       </div>
+      */}
     </div>
   );
 }

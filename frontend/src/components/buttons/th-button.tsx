@@ -10,6 +10,7 @@ interface ThButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   shadowThColorShade?: ThColorShadeKey;
   gradient?: boolean;
   round?: boolean;
+  shadow?: boolean;
   tooltipText?: string;
 }
 
@@ -22,6 +23,7 @@ const ThButton: React.FC<ThButtonProps> = ({
   shadowThColorShade = 30,
   gradient = false,
   round = false,
+  shadow = true,
   tooltipText = "",
   ...props
 }) => {
@@ -32,11 +34,11 @@ const ThButton: React.FC<ThButtonProps> = ({
       {...props}
     >
       {/* Tooltip Container */}
-      {tooltipText && (
+      {tooltipText &&
         <span className={`absolute bottom-full w-auto py-2 px-3 -mb-4 ${styles.tooltip}`}>
           <h4 className="text-th-tint-100">{tooltipText}</h4>
         </span>
-      )}
+      }
 
       {/* Button Content */}
       <span
@@ -49,10 +51,12 @@ const ThButton: React.FC<ThButtonProps> = ({
       </span>
 
       {/* Button Shadow */}
-      <span
-        style={{ width: `${width - 10}px`, height: `${height - 10}px` }}
-        className={`block bg-${thColor}-${shadowThColorShade} ${round ? "rounded-full" : "rounded-th"} absolute bottom-[-6px] left-[5px] z-10`}>
-      </span>
+      {shadow &&
+        <span
+          style={{ width: `${width - 10}px`, height: `${height - 10}px` }}
+          className={`block bg-${thColor}-${shadowThColorShade} ${round ? "rounded-full" : "rounded-th"} absolute bottom-[-6px] left-[5px] z-10`}>
+        </span>
+      }
     </button>
   );
 }
