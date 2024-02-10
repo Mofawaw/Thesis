@@ -94,10 +94,7 @@ const useUserStore = create<UserStore>((set, get) => {
     completeLevel: (stageId, levelId) => {
       set(state => {
         // Complete the current level
-        const updatedLevelProgress = {
-          ...state.levelsProgress[levelId],
-          status: 'completed' as UserProgressStatus
-        };
+        const updatedLevelProgress = { ...state.levelsProgress[levelId], status: 'completed' as UserProgressStatus };
 
         // Update the current stage: complete level and unlock next level
         const stageProgress = state.stagesProgress[stageId];
@@ -105,7 +102,9 @@ const useUserStore = create<UserStore>((set, get) => {
           level.id === levelId ? { ...level, status: 'completed' as UserProgressStatus } : level
         );
         const currentLevelIndex = updatedLevelsStatus.findIndex(level => level.id === levelId);
+        let nextLevelId = null;
         if (currentLevelIndex !== -1 && currentLevelIndex + 1 < updatedLevelsStatus.length) {
+          nextLevelId = updatedLevelsStatus[currentLevelIndex + 1].id;
           updatedLevelsStatus[currentLevelIndex + 1].status = 'unlocked' as UserProgressStatus;
         }
         const allLevelsCompleted = updatedLevelsStatus.every(level => level.status === 'completed');
@@ -146,12 +145,23 @@ const useUserStore = create<UserStore>((set, get) => {
               }
             };
           }
+        } else {
+          // Update the next level's progress to 'unlocked'
+
+          if (nextLevelId) {
+            newState = {
+              ...newState,
+              levelsProgress: {
+                ...newState.levelsProgress,
+                [nextLevelId]: { ...newState.levelsProgress[nextLevelId], status: 'unlocked' as UserProgressStatus }
+              }
+            };
+          }
         }
 
         return newState;
       });
     },
-
 
     updateLevelProgressCurrentNodes: (levelId, newCurrentNodes) => {
       updateLevel(levelId, levelProgress => ({ ...levelProgress, currentNodes: newCurrentNodes }));

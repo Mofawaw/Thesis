@@ -5,7 +5,7 @@ import getRandomIntBetween from "@/helpers/random";
 import useThStore from "@/stores/th-store";
 import { ThLevel } from "@/types/th-types";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const LevelRoute = () => {
   const { levelId } = useParams();
@@ -36,6 +36,7 @@ const LevelRoute = () => {
 export default LevelRoute;
 
 const LoadingLevel = ({ activeLevel, levelId }: { activeLevel?: ThLevel | null, levelId: string }) => {
+  const navigate = useNavigate();
   const [progress, setProgress] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -62,6 +63,8 @@ const LoadingLevel = ({ activeLevel, levelId }: { activeLevel?: ThLevel | null, 
         setProgress(100);
         setTimeout(() => setIsLoading(false), 1500);
       });
+
+      setTimeout(() => navigate('/'), 5000); // Timeout after 5 seconds
     }, 0);
 
     return () => {
@@ -70,18 +73,7 @@ const LoadingLevel = ({ activeLevel, levelId }: { activeLevel?: ThLevel | null, 
     };
   }, [levelId]);
 
-  // const loadingText = progress < 100 ? (progress < 67 ? 'Level lädt...' : 'Fast fertig...') : 'Los gehts!';
-  // const barColor = progress < 100 ? 'bg-th-black-30' : (activeLevel ? `bg-${activeLevel.stage.color}-100` : 'bg-th-black-30');
-
   return (
-    <div className={`w-screen h-screen flex flex-col justify-center items-center gap-5 th-bg-gradient`}>
-      {/* <h3 className={`text-${activeLevel ? activeLevel.stage.color : "th-black"}-100 text-center`}>{loadingText}</h3>
-      <div className="w-3/4">
-        <div className={`h-3 rounded-th`}>
-          <div className={`h-3 rounded-th bg-th-black-10 opacity-20 transition-all duration-100`} style={{ width: `${progress}%` }}></div>
-        </div>
-      </div>
-      */}
-    </div>
+    <div className={`w-screen h-screen flex flex-col justify-center items-center gap-5 th-bg-gradient`} />
   );
 }

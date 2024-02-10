@@ -58,7 +58,14 @@ export const fetchLevelAndSetActiveLevel = async (levelId: string) => {
 
   const newLevel = levels.flat().find(level => level.id === levelId) ?? null;
   console.log(newLevel);
-  useThStore.getState().setActiveLevel(newLevel);
+
+  if (newLevel) {
+    if (useUserStore.getState().levelsProgress[newLevel.id].status === "locked") {
+      useThStore.getState().setActiveLevel(null);
+    } else {
+      useThStore.getState().setActiveLevel(newLevel);
+    }
+  }
 };
 
 export const fetchTutorialNodes = async (): Promise<ThNode[]> => {
