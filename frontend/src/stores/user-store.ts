@@ -18,9 +18,6 @@ export type UserStore = {
 
   // Update currentNodes of level
   updateLevelProgressCurrentNodes: (level: ThLevel) => void;
-
-  // Update currentTippNodes of level
-  updateLevelProgressCurrentTippNodes: (level: ThLevel) => void;
 };
 
 // LocalStorage
@@ -184,41 +181,6 @@ const useUserStore = create<UserStore>((set, get) => {
         }
       });
     },
-
-    updateLevelProgressCurrentTippNodes: (level: ThLevel) => {
-      set(state => {
-        const updatedTippNodes: ThNode[] = level.tippNodes.map(node => {
-          if (node.baseNode.type === "codeIDE" && node.baseNode.data.codeIDE) {
-            const codeIDEStore = useCodeIDEStore(node.baseNode.data.codeIDE.scopeId).getState();
-
-            return {
-              ...node,
-              data: {
-                ...node.data,
-                codeIDE: {
-                  ...node.data.codeIDE,
-                  initialCode: codeIDEStore.code,
-                  initialGraph: codeIDEStore.graph,
-                },
-              },
-            };
-          }
-
-          return node;
-        });
-
-        return {
-          ...state,
-          levelsProgress: {
-            ...state.levelsProgress,
-            [level.id]: {
-              ...state.levelsProgress[level.id],
-              currentTippNodes: updatedTippNodes
-            }
-          }
-        }
-      });
-    }
   };
 });
 

@@ -77,7 +77,6 @@ const Level: React.FC<LevelProps> = ({
   function updateUserProgress() {
     console.log("Updating level progress nodes to LocalStorage.");
     userStore.updateLevelProgressCurrentNodes(level);
-    userStore.updateLevelProgressCurrentTippNodes(level);
   }
 
   return (

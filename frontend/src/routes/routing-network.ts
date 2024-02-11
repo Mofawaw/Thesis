@@ -76,7 +76,6 @@ export const fetchAndConfigureLevel = async (levelId: string) => {
     if (levelProgress) {
       console.log("LevelProgress:", levelProgress);
       loadingLevel.nodes = levelProgress.currentNodes;
-      loadingLevel.tippNodes = levelProgress.currentTippNodes;
     } else {
       console.log("First initialization!");
     }

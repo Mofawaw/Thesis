@@ -19,7 +19,6 @@ export interface UserLevelProgress { // TODO-Post: Backend Version
   levelId: string;
   status: UserProgressStatus;
   currentNodes: ThNode[];
-  currentTippNodes: ThNode[];
 }
 
 export type UserProgressStatus = "locked" | "unlocked" | "completed"
