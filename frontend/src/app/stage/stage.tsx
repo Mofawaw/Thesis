@@ -28,9 +28,9 @@ const Stage: React.FC<StageProps> = ({
       {/* Overlay-Top */}
       <div className="w-screen absolute top-10 z-20 flex flex-row justify-center">
         <h2 className="text-th-black-20 text-center">
-          {stage.id === "s1" && <span><span className="text-th-value-100">Werte</span> &<br />Referenzen</span>}
-          {stage.id === "s2" && <span>Werte &<br /><span className="text-th-reference-100">Referenzen</span></span>}
-          {stage.id === "s3" && <span className="text-th-together-100">Werte &<br />Referenzen</span>}
+          {stage.id === "s1" && <span><span className={userStore.stagesProgress['s1'].status === "completed" ? "th-text-gradient" : `text-th-value-100`}>Werte</span> &<br />Referenzen</span>}
+          {stage.id === "s2" && <span>Werte &<br /><span className={userStore.stagesProgress['s2'].status === "completed" ? "th-text-gradient" : `text-th-reference-100`}>Referenzen</span></span>}
+          {stage.id === "s3" && <span className={userStore.stagesProgress['s3'].status === "completed" ? "th-text-gradient" : `text-th-together-100`}>Werte &<br />Referenzen</span>}
         </h2>
       </div>
 
