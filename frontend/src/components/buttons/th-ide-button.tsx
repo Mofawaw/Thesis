@@ -15,11 +15,11 @@ const ThIDEButton: React.FC<ThIDEButtonProps> = ({
 }) => {
   return (
     <button {...props} className={`
-      h-7 w-7 transition duration-150 ease-in-out 
+      h-8 w-8 transition duration-150 ease-in-out 
       hover:scale-110
       active:scale-95 active:duration-100
     `}>
-      <ThIcon icon={icon} className={`h-7 w-7 text-${thColor}-${thColorShade}`} />
+      <ThIcon icon={icon} className={`h-8 w-8 text-${thColor}-${thColorShade}`} />
     </button>
   );
 }

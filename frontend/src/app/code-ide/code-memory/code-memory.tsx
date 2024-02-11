@@ -45,7 +45,7 @@ const CodeMemory: React.FC<CodeMemoryProps> = ({
           <div className="flex flex-col gap-2 justify-center">
             <div className="th-xline px-[-1rem]" />
 
-            <div className="flex flex-row justify-between px-4">
+            <div className="flex flex-row justify-between h-8 px-4">
               <ThIDEButton thColor="th-black" thColorShade={100} icon="run" onClick={() => calculateAndSetGraphOutput(scopeId)} />
             </div>
           </div>

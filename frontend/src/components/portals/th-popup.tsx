@@ -68,7 +68,7 @@ const ThPopup: React.FC<ThPopupProps> = ({
 }) => {
   return (
     <>
-      <div >
+      <div>
         {button}
       </div>
       {isOpen &&

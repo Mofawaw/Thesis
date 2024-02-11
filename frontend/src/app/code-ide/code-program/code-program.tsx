@@ -41,9 +41,9 @@ const CodeProgram: React.FC<CodeProgramProps> = ({
         <div className="flex flex-col gap-2 justify-center">
           <div className="th-xline px-[-1rem]" />
 
-          <div className="flex flex-row justify-between px-4">
+          <div className="flex flex-row justify-between items-center px-4 h-8">
             <ThIDEButton thColor="th-black" thColorShade={100} icon="run" onClick={() => compileGetCodeOutput(scopeId)} />
-            <div className="flex flex-row justify-left gap-2">
+            <div className="flex flex-row justify-left gap-2 h-8">
               {config.type === "program+graph" && <ThIDEButton thColor="th-black" thColorShade={30} icon="generate" onClick={() => { compileGetGraph(scopeId) }} />}
               {config.mode === "write" &&
                 <ThPopup
