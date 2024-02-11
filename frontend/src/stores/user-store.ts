@@ -6,11 +6,11 @@ export type UserStore = {
   stagesProgress: Record<string, UserStageProgress>;
   levelsProgress: Record<string, UserLevelProgress>;
 
-  // Initialize stagesProgress
+  // Configure stagesProgress
   initializeStagesProgress: (stages: ThStage[]) => (void);
 
-  // Initialize levelProgress
-  initializeLevelProgress: (levelId: string) => (void);
+  // Configure levelProgress
+  initializeLevelProgress: (levelId: string, nodes: ThNode[], tippNodes: ThNode[]) => (void);
 
   // Update stage and level progress after level completion
   completeLevel: (stageId: string, levelId: string) => (void);
@@ -44,10 +44,10 @@ const useUserStore = create<UserStore>((set, get) => {
 
     initializeStagesProgress: (initialStages: ThStage[]) => {
       set(state => {
-        if (Object.keys(state.stagesProgress).length > 0) {
-          return state;
-        }
+        // Return if already initialized
+        if (Object.keys(state.stagesProgress).length > 0) { return state }
 
+        // Initialization
         const newStagesProgress: Record<string, UserStageProgress> = initialStages.reduce((acc, stage) => ({
           ...acc,
           [stage.id]: {
@@ -65,17 +65,17 @@ const useUserStore = create<UserStore>((set, get) => {
       });
     },
 
-    initializeLevelProgress: (levelId: string) => {
+    initializeLevelProgress: (levelId: string, nodes: ThNode[], tippNodes: ThNode[]) => {
       set(state => {
-        if (state.levelsProgress[levelId]) {
-          return state;
-        }
+        // Return if already initialized
+        if (levelId in state.levelsProgress) { return state }
 
+        // Initialization
         const newLevelProgress = {
           userId: "u1", // TODO-Post: User
           levelId: levelId,
-          currentNodes: [],
-          currentTippNodes: [],
+          currentNodes: nodes,
+          currentTippNodes: tippNodes,
           status: "unlocked" as "unlocked",
         };
 

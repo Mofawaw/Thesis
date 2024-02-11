@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { fetchStagesAndInitializeThAndUserData } from './routing-network';
+import { fetchAndConfigureStage } from './routing-network';
 import { useEffect, useState } from 'react';
 import StageRoute from './stage-route';
 import LevelRoute from './level-route';
@@ -8,7 +8,7 @@ const Root = () => {
   const [isInitialLoading, setIsInitialLoading] = useState(true);
 
   useEffect(() => {
-    fetchStagesAndInitializeThAndUserData().then(() => {
+    fetchAndConfigureStage().then(() => {
       setIsInitialLoading(false);
     });
   }, []);

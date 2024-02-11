@@ -27,55 +27,65 @@ import levelS3L5 from '@/data (todo-post: backend)/levels/stage-3/level-s3-l5.ts
 import levelS3L6 from '@/data (todo-post: backend)/levels/stage-3/level-s3-l6.ts';
 import levelS3LFinal from '@/data (todo-post: backend)/levels/stage-3/level-s3-lfinal.ts';
 
+const levels: ThLevel[][] = [
+  [levelS1L1, levelS1L2, levelS1L3, levelS1L4, levelS1L5, levelS1LFinal],
+  [levelS2L1, levelS2L2, levelS2L3, levelS2L4, levelS2L5, levelS2LFinal],
+  [levelS3L1, levelS3L2, levelS3L3, levelS3L4, levelS3L5, levelS3L6, levelS3LFinal]
+];
+
 const delay = (ms: number): Promise<void> => {
   return new Promise(resolve => setTimeout(resolve, ms));
 };
 
-export const fetchStagesAndInitializeThAndUserData = async () => {
+export const fetchAndConfigureStage = async () => {
   await delay(getRandomIntBetween(300, 1800));
 
-  // Initialize stores
+  // Update stores
   useThStore.getState().initializeThStore(stages);
   useUserStore.getState().initializeStagesProgress(stages);
 
-  // Set initial active stage based on progress
+  // Update initial active stage based on progress
   const stagesProgress = useUserStore.getState().stagesProgress;
   const activeStage = Object.values(stagesProgress).find(stageProgress => stageProgress.status === "unlocked")?.stageId;
   if (activeStage) {
     useThStore.getState().setActiveStage(activeStage);
   }
-
-  await delay(getRandomIntBetween(300, 600));
 };
 
-export const fetchLevelAndSetActiveLevel = async (levelId: string) => {
+export const fetchAndConfigureLevel = async (levelId: string) => {
   await delay(getRandomIntBetween(300, 2000));
 
-  const levels: ThLevel[][] = [
-    [levelS1L1, levelS1L2, levelS1L3, levelS1L4, levelS1L5, levelS1LFinal],
-    [levelS2L1, levelS2L2, levelS2L3, levelS2L4, levelS2L5, levelS2LFinal],
-    [levelS3L1, levelS3L2, levelS3L3, levelS3L4, levelS3L5, levelS3L6, levelS3LFinal]
-  ];
+  const loadingLevel = levels.flat().find(level => level.id === levelId) ?? null;
+  console.log(loadingLevel);
 
-  const newLevel = levels.flat().find(level => level.id === levelId) ?? null;
-  console.log(newLevel);
+  if (loadingLevel) {
+    const stageProgress = useUserStore.getState().stagesProgress[loadingLevel.stage.id]
+    const newLevelStatus = stageProgress.levelsStatus.find(levelStatus => levelStatus.id === loadingLevel.id)
 
-  if (newLevel) {
-    useUserStore.getState().initializeLevelProgress(newLevel.id);
-
-    const stageProgress = useUserStore.getState().stagesProgress[newLevel.stage.id]
-    const newLevelStatus = stageProgress.levelsStatus.find(levelStatus => levelStatus.id === newLevel.id)
-
+    // Reject if locked
     if (newLevelStatus?.status === "locked") {
       useThStore.getState().setActiveLevel(null);
       return Promise.reject({ title: "Hey!", message: "Nicht cheaten." });
-
-    } else {
-      useThStore.getState().setActiveLevel(newLevel);
-      return Promise.resolve(true);
     }
+
+    // Update stores
+    useUserStore.getState().initializeLevelProgress(loadingLevel.id, loadingLevel.nodes, loadingLevel.tippNodes);
+
+    // Update level based on progress
+    const levelProgress = useUserStore.getState().levelsProgress[loadingLevel.id];
+    if (levelProgress) {
+      console.log("LevelProgress:", levelProgress);
+      loadingLevel.nodes = levelProgress.currentNodes;
+      loadingLevel.tippNodes = levelProgress.currentTippNodes;
+    } else {
+      console.log("First initialization!");
+    }
+    useThStore.getState().setActiveLevel(loadingLevel);
+
+    return Promise.resolve(true);
   }
 
+  // Reject if levelId incorrect
   return Promise.reject(null);
 };
 
