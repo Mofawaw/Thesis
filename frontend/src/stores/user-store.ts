@@ -1,4 +1,5 @@
-import { ThNode, ThStage } from '@/types/th-types';
+import useCodeIDEStore from '@/app/code-ide/code-ide-store';
+import { ThLevel, ThNode, ThStage } from '@/types/th-types';
 import { UserLevelProgress, UserProgressStatus, UserStageProgress } from '@/types/user-types';
 import { create } from 'zustand';
 
@@ -16,10 +17,10 @@ export type UserStore = {
   completeLevel: (stageId: string, levelId: string) => (void);
 
   // Update currentNodes of level
-  updateLevelProgressCurrentNodes: (levelId: string, newCurrentNodes: ThNode[]) => void;
+  updateLevelProgressCurrentNodes: (level: ThLevel) => void;
 
   // Update currentTippNodes of level
-  updateLevelProgressCurrentTippNodes: (levelId: string, newCurrentTippNodes: ThNode[]) => void;
+  updateLevelProgressCurrentTippNodes: (level: ThLevel) => void;
 };
 
 // LocalStorage
@@ -79,7 +80,7 @@ const useUserStore = create<UserStore>((set, get) => {
           status: "unlocked" as "unlocked",
         };
 
-        console.log("---Initializing:", newLevelProgress)
+        console.log("Initializing:", newLevelProgress)
 
         return {
           ...state,
@@ -102,9 +103,7 @@ const useUserStore = create<UserStore>((set, get) => {
           level.id === levelId ? { ...level, status: 'completed' as UserProgressStatus } : level
         );
         const currentLevelIndex = updatedLevelsStatus.findIndex(level => level.id === levelId);
-        let nextLevelId = null;
         if (currentLevelIndex !== -1 && currentLevelIndex + 1 < updatedLevelsStatus.length) {
-          nextLevelId = updatedLevelsStatus[currentLevelIndex + 1].id;
           updatedLevelsStatus[currentLevelIndex + 1].status = 'unlocked' as UserProgressStatus;
         }
         const allLevelsCompleted = updatedLevelsStatus.every(level => level.status === 'completed');
@@ -145,72 +144,82 @@ const useUserStore = create<UserStore>((set, get) => {
               }
             };
           }
-        } else {
-          // Update the next level's progress to 'unlocked'
-
-          if (nextLevelId) {
-            newState = {
-              ...newState,
-              levelsProgress: {
-                ...newState.levelsProgress,
-                [nextLevelId]: { ...newState.levelsProgress[nextLevelId], status: 'unlocked' as UserProgressStatus }
-              }
-            };
-          }
         }
 
         return newState;
       });
     },
 
-    updateLevelProgressCurrentNodes: (levelId, newCurrentNodes) => {
-      updateLevel(levelId, levelProgress => ({ ...levelProgress, currentNodes: newCurrentNodes }));
-    },
+    updateLevelProgressCurrentNodes: (level: ThLevel) => {
+      set(state => {
+        const updatedNodes: ThNode[] = level.nodes.map(node => {
+          if (node.baseNode.type === "codeIDE" && node.baseNode.data.codeIDE) {
+            const codeIDEStore = useCodeIDEStore(node.baseNode.data.codeIDE.scopeId).getState();
 
-    updateLevelProgressCurrentTippNodes: (levelId, newCurrentTippNodes) => {
-      updateLevel(levelId, levelProgress => ({ ...levelProgress, currentTippNodes: newCurrentTippNodes }));
-    }
-  };
-
-  function updateStage(stageId: string, transform: (stageProgress: UserStageProgress) => UserStageProgress) {
-    set(state => {
-      const currentStageProgress = state.stagesProgress[stageId];
-      console.log("Current stage progress:", currentStageProgress)
-      if (currentStageProgress) {
-        const newStageProgress = transform(currentStageProgress);
-        console.log("New stage progress:", newStageProgress);
-        return {
-          ...state,
-          stagesProgress: {
-            ...state.stagesProgress,
-            [stageId]: newStageProgress
+            return {
+              ...node,
+              data: {
+                ...node.data,
+                codeIDE: {
+                  ...node.data.codeIDE,
+                  initialCode: codeIDEStore.code,
+                  initialGraph: codeIDEStore.graph,
+                },
+              },
+            };
           }
-        };
-      }
-      return state;
-    });
-  }
 
-  function updateLevel(levelId: string, transform: (levelProgress: UserLevelProgress) => UserLevelProgress) {
-    console.log("Updating level:", levelId);
-    console.log("With transform:", transform);
-    set(state => {
-      const currentLevelProgress = state.levelsProgress[levelId];
-      console.log("Current level progress:", currentLevelProgress)
-      if (currentLevelProgress) {
-        const newLevelProgress = transform(currentLevelProgress);
-        console.log("New level progress:", newLevelProgress);
+          return node;
+        });
+
         return {
           ...state,
           levelsProgress: {
             ...state.levelsProgress,
-            [levelId]: newLevelProgress
+            [level.id]: {
+              ...state.levelsProgress[level.id],
+              currentNodes: updatedNodes
+            }
           }
-        };
-      }
-      return state;
-    });
-  }
+        }
+      });
+    },
+
+    updateLevelProgressCurrentTippNodes: (level: ThLevel) => {
+      set(state => {
+        const updatedTippNodes: ThNode[] = level.tippNodes.map(node => {
+          if (node.baseNode.type === "codeIDE" && node.baseNode.data.codeIDE) {
+            const codeIDEStore = useCodeIDEStore(node.baseNode.data.codeIDE.scopeId).getState();
+
+            return {
+              ...node,
+              data: {
+                ...node.data,
+                codeIDE: {
+                  ...node.data.codeIDE,
+                  initialCode: codeIDEStore.code,
+                  initialGraph: codeIDEStore.graph,
+                },
+              },
+            };
+          }
+
+          return node;
+        });
+
+        return {
+          ...state,
+          levelsProgress: {
+            ...state.levelsProgress,
+            [level.id]: {
+              ...state.levelsProgress[level.id],
+              currentTippNodes: updatedTippNodes
+            }
+          }
+        }
+      });
+    }
+  };
 });
 
 useUserStore.subscribe((state, previousState) => {
