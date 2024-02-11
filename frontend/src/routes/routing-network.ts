@@ -50,6 +50,7 @@ export const fetchStagesAndInitializeThAndUserData = async () => {
 
 export const fetchLevelAndSetActiveLevel = async (levelId: string) => {
   await delay(getRandomIntBetween(300, 2000));
+
   const levels: ThLevel[][] = [
     [levelS1L1, levelS1L2, levelS1L3, levelS1L4, levelS1L5, levelS1LFinal],
     [levelS2L1, levelS2L2, levelS2L3, levelS2L4, levelS2L5, levelS2LFinal],

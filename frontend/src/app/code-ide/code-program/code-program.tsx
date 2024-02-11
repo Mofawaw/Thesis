@@ -72,7 +72,6 @@ const CodeProgram: React.FC<CodeProgramProps> = ({
                     </div>
                   </div>
                 </ThPopup>
-
               }
             </div>
           </div>
