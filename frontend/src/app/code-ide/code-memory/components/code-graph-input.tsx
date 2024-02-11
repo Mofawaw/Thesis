@@ -28,7 +28,7 @@ const CodeGraphInput: React.FC<CodeGraphInputProps> = ({
   const saveSelectedNode = () => {
     // Reset styles
     graphRef.current?.getElements().forEach(node => {
-      if (node.prop('preset')) { return }
+      // if (node.prop('preset')) { return }
       if (!node.attr('label/text')) {
         node.attr({ body: { stroke: stylesGraphInput.node.color.rect, fill: "none" } });
       } else {
@@ -75,7 +75,7 @@ const CodeGraphInput: React.FC<CodeGraphInputProps> = ({
     // Select node
     paper.on('element:pointerdown', (cellView) => {
       const node = (cellView as any).model;
-      if (node instanceof dia.Element && !node.prop('preset')) {
+      if (node instanceof dia.Element) { //  && !node.prop('preset')
         saveSelectedNode();
         setSelectedNode(node);
         selectedNodeRef.current = node;
@@ -119,7 +119,7 @@ const CodeGraphInput: React.FC<CodeGraphInputProps> = ({
   // SelectedNode input
   useEffect(() => {
     const handleInputChange = (event: any) => {
-      if (selectedNode && !selectedNode.prop('preset')) {
+      if (selectedNode) { // && !selectedNode.prop('preset')
         const maxCharsAllowed = selectedNode.prop('maxChars');
         const inputValue = event.target.value.slice(0, maxCharsAllowed);
 
