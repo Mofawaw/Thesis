@@ -41,7 +41,6 @@ const Level: React.FC<LevelProps> = ({
   useEffect(() => {
     const initialNodes = generateReactFlowNodes(level);
     setNodes(initialNodes)
-    userStore.initializeLevelProgress(level.id);
     console.log(initialNodes);
 
     return () => {

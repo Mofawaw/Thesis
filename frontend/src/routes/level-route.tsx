@@ -1,5 +1,5 @@
 import Level from "@/app/level/level";
-import { fetchLevelAndSetActiveLevel } from "@/data (todo-post: backend)/th-network";
+import { fetchLevelAndSetActiveLevel } from "@/routes/routing-network";
 import tutorialNodes from "@/data (todo-post: backend)/tutorials";
 import getRandomIntBetween from "@/helpers/random";
 import useThStore from "@/stores/th-store";
@@ -59,10 +59,14 @@ const LoadingLevel = ({ activeLevel, levelId }: { activeLevel?: ThLevel | null, 
         });
       }, intervalDuration);
 
-      fetchLevelAndSetActiveLevel(levelId).then(() => {
-        setProgress(100);
-        setTimeout(() => setIsLoading(false), 1500);
-      });
+      fetchLevelAndSetActiveLevel(levelId)
+        .then(() => {
+          setProgress(100);
+          setTimeout(() => setIsLoading(false), 1500);
+        })
+        .catch(() => {
+          setTimeout(() => navigate('/'), 1500);
+        });
     }, 0);
 
     return () => {
@@ -72,6 +76,8 @@ const LoadingLevel = ({ activeLevel, levelId }: { activeLevel?: ThLevel | null, 
   }, [levelId]);
 
   return (
-    <div className={`w-screen h-screen flex flex-col justify-center items-center gap-5 th-bg-gradient`} />
+    <div className={`w-screen h-screen flex flex-col justify-center items-center gap-5 th-bg-gradient`}>
+
+    </div>
   );
 }

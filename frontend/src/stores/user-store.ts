@@ -76,7 +76,7 @@ const useUserStore = create<UserStore>((set, get) => {
           levelId: levelId,
           currentNodes: [],
           currentTippNodes: [],
-          status: "locked" as "locked",
+          status: "unlocked" as "unlocked",
         };
 
         console.log("---Initializing:", newLevelProgress)
