@@ -64,7 +64,6 @@ const Levels: React.FC<LevelsProps> = ({
         d3.select(d3Container.current)
           .selectAll('foreignObject')
           .data(levelButtons)
-          .join('foreignObject')
           .attr("width", nodeRadius * 2)
           .attr("height", nodeRadius * 2 + 20)
           .each(enforceHBoundary)
