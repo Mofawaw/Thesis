@@ -6,6 +6,8 @@ import useThStore from "@/stores/th-store";
 import { ThLevel } from "@/types/th-types";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import ThPopup from "@/components/portals/th-popup";
+import ThMenuTextButton from "@/components/buttons/th-menu-text-button";
 
 const LevelRoute = () => {
   const { levelId } = useParams();
@@ -39,6 +41,7 @@ const LoadingLevel = ({ activeLevel, levelId }: { activeLevel?: ThLevel | null, 
   const navigate = useNavigate();
   const [progress, setProgress] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [openMessageToStagePopup, setOpenMessageToStagePopup] = useState<{ title: string, message: string } | null>(null);
 
   useEffect(() => {
     setProgress(0);
@@ -64,8 +67,12 @@ const LoadingLevel = ({ activeLevel, levelId }: { activeLevel?: ThLevel | null, 
           setProgress(100);
           setTimeout(() => setIsLoading(false), 1500);
         })
-        .catch(() => {
-          setTimeout(() => navigate('/'), 1500);
+        .catch((error) => {
+          if (error) {
+            setOpenMessageToStagePopup(error);
+          } else {
+            navigate('/');
+          }
         });
     }, 0);
 
@@ -77,7 +84,30 @@ const LoadingLevel = ({ activeLevel, levelId }: { activeLevel?: ThLevel | null, 
 
   return (
     <div className={`w-screen h-screen flex flex-col justify-center items-center gap-5 th-bg-gradient`}>
-
+      <ThPopup
+        width={450}
+        height={300}
+        thColor={"th-black"}
+        backgroundClass={"bg-none"}
+        button={<></>}
+        isOpen={openMessageToStagePopup !== null}
+        onClose={() => { }}
+      >
+        <div className="h-full flex flex-col items-center justify-between p-12">
+          <h3>{openMessageToStagePopup?.title}</h3>
+          <div className="pb-10">
+            <p className="text-center whitespace-pre-line mt-4">{openMessageToStagePopup?.message}</p>
+          </div>
+          <div className="flex flex-row gap-3">
+            <ThMenuTextButton width={150} thColor="th-black" text="Verstanden"
+              onClick={() => {
+                setOpenMessageToStagePopup(null);
+                navigate('/');
+              }}
+            />
+          </div>
+        </div>
+      </ThPopup>
     </div>
   );
 }

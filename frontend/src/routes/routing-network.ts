@@ -67,7 +67,7 @@ export const fetchLevelAndSetActiveLevel = async (levelId: string) => {
 
     if (newLevelStatus?.status === "locked") {
       useThStore.getState().setActiveLevel(null);
-      return Promise.reject(new Error("Level is locked"));
+      return Promise.reject({ title: "Hey!", message: "Nicht cheaten." });
 
     } else {
       useThStore.getState().setActiveLevel(newLevel);
@@ -75,7 +75,7 @@ export const fetchLevelAndSetActiveLevel = async (levelId: string) => {
     }
   }
 
-  return Promise.reject(new Error("Level not found"));
+  return Promise.reject(null);
 };
 
 export const fetchTutorialNodes = async (): Promise<ThNode[]> => {
