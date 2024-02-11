@@ -2,16 +2,13 @@ import Level from "@/app/level/level";
 import { fetchAndConfigureLevel } from "@/routes/routing-network";
 import tutorialNodes from "@/data (todo-post: backend)/tutorials";
 import useThStore from "@/stores/th-store";
-import useUserStore from "@/stores/user-store";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ThPopup from "@/components/portals/th-popup";
 import ThMenuTextButton from "@/components/buttons/th-menu-text-button";
 
 const LevelRoute = () => {
-  const location = useLocation();
   const { levelId } = useParams();
-  const userStore = useUserStore.getState();
   const activeLevel = useThStore(state => state.activeLevel);
 
   const [showLevel, setShowLevel] = useState(false);
@@ -22,36 +19,6 @@ const LevelRoute = () => {
     }
     return () => setShowLevel(false);
   }, [activeLevel]);
-
-  // Persist progress data when closing level
-  useEffect(() => {
-    updateUserProgress();
-
-    return () => {
-      updateUserProgress()
-    }
-  }, [location, activeLevel]);
-
-  // Persist progress data when site is closed
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      updateUserProgress();
-    };
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
-  }, [activeLevel]);
-
-  function updateUserProgress() {
-    if (activeLevel) {
-      console.log("Updating level progress nodes to LocalStorage.");
-      userStore.updateLevelProgressCurrentNodes(activeLevel);
-      userStore.updateLevelProgressCurrentTippNodes(activeLevel);
-    }
-  }
 
   return (
     <div className="relative w-screen h-screen bg-th-background">

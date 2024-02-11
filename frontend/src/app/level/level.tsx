@@ -7,6 +7,7 @@ import LevelOverlayBottom from './components/level-overlay-bottom.tsx';
 import { ThLevel, ThNode } from '@/types/th-types.ts';
 import { convertToReactFlowNode, generateReactFlowNodes } from './level-initialization.ts';
 import useUserStore from '@/stores/user-store.ts';
+import { useLocation } from "react-router-dom";
 
 interface LevelProps {
   level: ThLevel;
@@ -19,6 +20,7 @@ const Level: React.FC<LevelProps> = ({
 }) => {
   const [nodes, setNodes] = useState<Node[]>([]);
   const userStore = useUserStore.getState();
+  const location = useLocation();
 
   const addNode = (newLevelNode: ThNode) => {
     let maxX = -Infinity;
@@ -49,6 +51,34 @@ const Level: React.FC<LevelProps> = ({
       // resetStoreMap();
     }
   }, [level]);
+
+  // Persist progress data when closing level
+  useEffect(() => {
+    updateUserProgress();
+
+    return () => {
+      updateUserProgress()
+    }
+  }, [location, level]);
+
+  // Persist progress data when site is closed
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      updateUserProgress();
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [level]);
+
+  function updateUserProgress() {
+    console.log("Updating level progress nodes to LocalStorage.");
+    userStore.updateLevelProgressCurrentNodes(level);
+    userStore.updateLevelProgressCurrentTippNodes(level);
+  }
 
   return (
     <div className="w-screen h-screen">
