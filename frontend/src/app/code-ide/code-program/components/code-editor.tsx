@@ -25,6 +25,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
   const updateFromEditorRef = useRef(false);
   const code = useCodeIDEStore(scopeId)((state: CodeIDEStore) => state.code)
   const setCode = useCodeIDEStore(scopeId)((state: CodeIDEStore) => state.setCode)
+  const initialCode = useCodeIDEStore(scopeId)((state: CodeIDEStore) => state.initialCode)
 
   const debouncedCompileGetGraph = debounce(() => {
     config.runnable ? compileGetGraph(scopeId) : {};
@@ -86,14 +87,36 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
             }
           }
         }),
-        // Disable edit when mode is read
         EditorState.transactionFilter.of((tr) => {
+          // Disable edit when mode is read
           if (config.mode === "read") {
             const isProgrammatic = tr.annotation(Transaction.userEvent) === 'programmatic';
             if (tr.docChanged && !isProgrammatic) {
               return [];
             }
           }
+          // Allow editing only within TODO range
+          if (tr.docChanged) {
+            const doc = tr.startState.doc.toString();
+            const todoStart = doc.indexOf("# TODO: -\u200B");
+            const todoEnd = doc.indexOf("# ----------\u200B");
+
+            if (todoStart === -1 || todoEnd === -1 || todoStart >= todoEnd) {
+              return tr;
+            }
+
+            let preventChange = false;
+            tr.changes.iterChanges((from, to) => {
+              if (from <= doc.indexOf('\n', todoStart) || to >= todoEnd) {
+                preventChange = true;
+              }
+            });
+
+            if (preventChange) {
+              return [];
+            }
+          }
+          return tr;
           return tr;
         })
       ]
@@ -109,7 +132,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
     return () => {
       view.destroy();
     };
-  }, []);
+  }, [initialCode]);
 
   useEffect(() => {
     if (updateFromEditorRef.current) {
