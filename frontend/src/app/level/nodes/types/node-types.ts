@@ -8,9 +8,9 @@ import { ThColorKey } from "@/utilities/th-color";
 export const nodeTypes = { codeIDE: CodeIDENode, text: TextNode, tutorial: TutorialNode };
 
 export class ThNodeSize {
-  static small = { width: 500, height: 800 };
-  static medium = { width: 700, height: 800 };
-  static large = { width: 1200, height: 800 };
+  static small = { width: 500, height: 750 };
+  static medium = { width: 700, height: 750 };
+  static large = { width: 1100, height: 750 };
 
   static fromString(sizeType: string) {
     switch (sizeType) {
