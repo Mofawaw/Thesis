@@ -34,7 +34,7 @@ const Level: React.FC<LevelProps> = ({
 
     const reactflowNode: Node = convertToReactFlowNode(newLevelNode);
     reactflowNode.id = level.id + "-" + (nodes.length + 1).toString();
-    reactflowNode.position = { x: maxX + 10, y: 0 };
+    reactflowNode.position = { x: maxX + 20, y: 0 };
 
     setNodes((nodes) => nodes.concat(reactflowNode));
   };

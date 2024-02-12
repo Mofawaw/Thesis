@@ -30,7 +30,7 @@ const TextNode: React.FC<TextNodeProps> = ({
         <p className={`px-4 pb-4 text-${activeLevel.stage.color}-100`}><b><i>{activeLevel.category.label ?? ""}</i></b></p>
       }
       <div className="overflow-hidden p-4">
-        <div className="nowheel" style={{ height: `${componentNodeLayout.getContentHeight(size.height)}px`, overflow: 'auto' }} >
+        <div className="nowheel" style={{ height: `${componentNodeLayout.getContentHeight(size.height) - (isTask ? 40 : 0)}px`, overflow: 'auto' }} >
           <div dangerouslySetInnerHTML={{ __html: data.text.description }}></div>
         </div>
       </div>

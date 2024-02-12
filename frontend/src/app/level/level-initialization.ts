@@ -10,7 +10,7 @@ export function generateReactFlowNodes(level: ThLevel): Node[] {
 
     reactFlowNode.id = level.id + "-" + reactFlowNode.id
     reactFlowNode.position = { x: currentPositionX, y: 0 };
-    currentPositionX += reactFlowNode.data.width + 10;
+    currentPositionX += reactFlowNode.data.width + 20;
 
     return reactFlowNode;
   });
