@@ -57,6 +57,7 @@ const LevelButton: React.FC<LevelButtonProps> = ({
   return (
     <div className="pointer-events-auto" style={{ opacity, transition: 'opacity 800ms ease-in-out' }}>
       <ThDropdown
+        position="top"
         width={380}
         height={260}
         thColor={levelStatus?.status === "completed" ? "th-tint" : stage.color}

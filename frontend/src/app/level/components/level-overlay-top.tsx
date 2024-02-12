@@ -22,18 +22,18 @@ const LevelOverlayTop: React.FC<LevelOverlayTopProps> = ({
     <div className="relative">
       <div className="absolute top-3 right-3 left-3">
         <div className="flex justify-between">
-          <div style={{ width: 200 }}>
-            <ThButton width={115} height={165} thColor={buttonsColor} >
-              <div className="flex flex-col items-center -translate-y-2">
-                <ThCastle castle={level.stage.logo} color={stageProgress.status === "completed" ? "tint" : "stage"} className="w-32" />
-                <h3 className={levelProgress.status === "completed" ? "th-text-gradient" : `text-${buttonsColor}-100 -translate-y-1 scale-90`}>{label}</h3>
+          <div style={{ width: 165 }}>
+            <ThButton width={115} height={155} thColor={buttonsColor} >
+              <div className="flex flex-col items-center -translate-y-1">
+                <ThCastle castle={level.stage.logo} color={stageProgress.status === "completed" ? "tint" : "stage"} className="w-[6.5rem]" />
+                <h3 className={levelProgress.status === "completed" ? "th-text-gradient" : `text-${buttonsColor}-100 scale-90 -translate-y-4`}>{label}</h3>
               </div>
             </ThButton>
           </div>
 
-          <ThTextButton width={700} thColor={buttonsColor} text={level.stage.label + " - " + level.category.label} />
+          <ThTextButton width={650} thColor={buttonsColor} text={level.stage.label + " - " + level.category.label} />
 
-          <ThStarUserButton width={160} height={160} iconWidth="large" />
+          <ThStarUserButton width={165} height={165} iconWidth="large" />
         </div>
       </div>
     </div>

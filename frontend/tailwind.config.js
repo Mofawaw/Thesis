@@ -45,12 +45,23 @@ export default {
             opacity: 1,
           },
         },
+        zoomInFromRight: {
+          '0%': {
+            transform: 'translateX(100px) scale(0.3)',
+            opacity: 0,
+          },
+          '100%': {
+            transform: 'translateX(0) scale(1)',
+            opacity: 1,
+          },
+        },
       },
       animation: {
         'th-fade-in': 'fadeIn 0.3s ease-out',
         'th-gradient': 'background 6s ease infinite',
         'th-gradient-fast': 'background 3s ease infinite',
         'th-zoom-in-from-bottom': 'zoomInFromBottom 0.15s ease-out',
+        'th-zoom-in-from-right': 'zoomInFromRight 0.15s ease-out',
         'th-spin': 'spin 0.75s linear infinite',
         'th-spin-slow': 'spin 6s linear infinite',
         'th-spin-super-slow': 'spin 12s linear infinite',

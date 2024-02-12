@@ -67,141 +67,147 @@ const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
 
   return (
     <div className="relative">
-      <div className="absolute left-3 bottom-3">
-        <div className="flex flex-col gap-3">
-          <ThIconButton thColor={buttonsColor} icon="plus" onClick={() => zoomIn({ duration: 300 })} />
-          <div className="flex flex-row gap-3">
-            <ThIconButton thColor={buttonsColor} icon="fit" onClick={() => fitView({ padding: 0.20, includeHiddenNodes: true, duration: 300 })} />
-            <ThIconButton thColor={buttonsColor} icon="minus" onClick={() => zoomOut({ duration: 300 })} />
-          </div>
-        </div>
-      </div>
-
-      <div className="absolute right-3 bottom-3">
-        <div className="flex flex-row gap-3">
-          {/*Exit*/}
-          <ThDropdown
-            width={150}
-            height={25 + 40}
-            thColor={buttonsColor}
-            button={<ThIconTextButton thColor={buttonsColor} icon="exit" text="Exit" onClick={() => setOpenExitDropdown(true)} />}
-            isOpen={openExitDropdown}
-            onClose={() => setOpenExitDropdown(false)}
-          >
-            <div className="flex flex-col items-center gap-1 p-3">
-              <ThMenuTextButton width={120} thColor={buttonsColor} text="Exit"
-                onClick={() => {
-                  thStore.setActiveLevel(null);
-                  navigate('/');
-                }}
-              />
+      <div className="absolute left-3 right-3 bottom-3 pointer-events-none">
+        <div className="flex flex-row justify-between items-end">
+          <div className="flex flex-col gap-3 items-start pointer-events-auto" style={{ width: 0 }}>
+            <ThIconButton thColor={buttonsColor} icon="plus" onClick={() => zoomIn({ duration: 300 })} />
+            <div className="flex flex-row gap-3">
+              <ThIconButton thColor={buttonsColor} icon="fit" onClick={() => fitView({ padding: 0.2, includeHiddenNodes: true, duration: 300 })} />
+              <ThIconButton thColor={buttonsColor} icon="minus" onClick={() => zoomOut({ duration: 300 })} />
             </div>
-          </ThDropdown>
+          </div>
 
-          {/*Levels*/}
-          <ThDropdown
-            width={180}
-            height={25 + 40 * level.stage.stageLevels.length}
-            thColor={buttonsColor}
-            button={<ThIconTextButton thColor={buttonsColor} icon="levels" text="Levels" onClick={() => setOpenLevelsDropdown(true)} />}
-            isOpen={openLevelsDropdown}
-            onClose={() => setOpenLevelsDropdown(false)}
-          >
-            <ul className="flex flex-col items-center gap-1 p-3">
-              {level.stage.stageLevels.map((stageLevel) => {
-                const stagesProgress = useUserStore(state => state.stagesProgress);
-                const levelStatus = stagesProgress[level.stage.id].levelsStatus.find(levelStatus => levelStatus.id === stageLevel.levelId);
-                const label = !isNaN(parseFloat(stageLevel.label)) ? `Lvl ${stageLevel.label}` : stageLevel.label;
+          <div className="flex flex-row gap-3 pointer-events-auto">
+            {/*Tipps*/}
+            <ThDropdown
+              position="top"
+              width={150}
+              height={25 + 40 * level.tippNodes.length}
+              thColor={buttonsColor}
+              button={<ThIconTextButton width={150} thColor={buttonsColor} icon="tipps" text="Tipps" onClick={() => setOpenTippsDropdown(true)} />}
+              isOpen={openTippsDropdown}
+              onClose={() => setOpenTippsDropdown(false)}
+            >
+              <ul className="flex flex-col items-center gap-1 p-3">
+                {level.tippNodes.map((tippNode) => (
+                  <li key={tippNode.baseNode.id}><ThMenuTextButton width={120} thColor={buttonsColor} text={tippNode.baseNode.data.title ?? "Error"} onClick={() => onAddNode(tippNode)} /></li>
+                ))}
+              </ul>
+            </ThDropdown>
 
-                return (
-                  <li key={stageLevel.levelId}>
-                    {levelStatus?.status === "completed" &&
-                      <ThMenuTextButton width={150} thColor={buttonsColor} bgThColorShade={20} textGradient={true} text={label}
-                        onClick={() => {
-                          if (stageLevel.levelId === level.id) { return }
-                          thStore.setActiveLevel(null);
-                          navigate(`/level/${stageLevel.levelId}`);
-                        }}
-                      />
-                    }
-                    {levelStatus?.status === "unlocked" &&
-                      <ThMenuTextButton width={150} thColor={buttonsColor} textThColorShade={10} gradient={true} text={label}
-                        onClick={() => {
-                          if (stageLevel.levelId === level.id) { return }
-                          thStore.setActiveLevel(null);
-                          navigate(`/level/${stageLevel.levelId}`);
-                        }}
-                      />
-                    }
-                    {levelStatus?.status === "locked" && <ThMenuTextButton width={150} thColor={buttonsColor} bgThColorShade={40} textThColorShade={30} text={label} disabled />}
-                  </li>
-                )
-              })}
-            </ul>
-          </ThDropdown>
+            {/*Tutorial*/}
+            <ThDropdown
+              position="top"
+              width={200}
+              height={25 + 40 * tutorialNodes.length}
+              thColor={buttonsColor}
+              button={<ThIconTextButton width={150} thColor={buttonsColor} icon="tutorial" text="Tutorial" onClick={() => setOpenTutorialDropdown(!openTutorialDropdown)} />}
+              isOpen={openTutorialDropdown}
+              onClose={() => setOpenTutorialDropdown(false)}
+            >
+              <ul className="flex flex-col items-center gap-1 p-3">
+                {tutorialNodes.map((tutorialNode) => (
+                  <li key={tutorialNode.baseNode.id}><ThMenuTextButton width={165} thColor={buttonsColor} text={tutorialNode.baseNode.data.title ?? "Error"} onClick={() => onAddNode(tutorialNode)} /></li>
+                ))}
+              </ul>
+            </ThDropdown>
 
-          {/*Tipps*/}
-          <ThDropdown
-            width={150}
-            height={25 + 40 * level.tippNodes.length}
-            thColor={buttonsColor}
-            button={<ThIconTextButton thColor={buttonsColor} icon="tipps" text="Tipps" onClick={() => setOpenTippsDropdown(true)} />}
-            isOpen={openTippsDropdown}
-            onClose={() => setOpenTippsDropdown(false)}
-          >
-            <ul className="flex flex-col items-center gap-1 p-3">
-              {level.tippNodes.map((tippNode) => (
-                <li key={tippNode.baseNode.id}><ThMenuTextButton width={120} thColor={buttonsColor} text={tippNode.baseNode.data.title ?? "Error"} onClick={() => onAddNode(tippNode)} /></li>
-              ))}
-            </ul>
-          </ThDropdown>
+            {/*Check*/}
+            <ThPopup
+              width={openCheckResultsPopup?.success ? 1000 : 650}
+              height={openCheckResultsPopup?.success ? 600 : 800}
+              thColor={openCheckResultsPopup?.success ? "th-tint" : "th-black"}
+              backgroundClass={openCheckResultsPopup?.success ? "th-bg-gradient" : "bg-none"}
+              button={<ThIconTextButton width={150} thColor={buttonsColor} icon="check" text={"Check"} isLoading={onChecking} onClick={handleCheckButtonOnClick} />}
+              isOpen={(openCheckResultsPopup?.success || openCheckResultsPopup?.fail) ?? false}
+              onClose={handleCheckButtonOnClose}
+            >
 
-          {/*Tutorial*/}
-          <ThDropdown
-            width={200}
-            height={25 + 40 * tutorialNodes.length}
-            thColor={buttonsColor}
-            button={<ThIconTextButton thColor={buttonsColor} icon="tutorial" text="Tutorial" onClick={() => setOpenTutorialDropdown(!openTutorialDropdown)} />}
-            isOpen={openTutorialDropdown}
-            onClose={() => setOpenTutorialDropdown(false)}
-          >
-            <ul className="flex flex-col items-center gap-1 p-3">
-              {tutorialNodes.map((tutorialNode) => (
-                <li key={tutorialNode.baseNode.id}><ThMenuTextButton width={165} thColor={buttonsColor} text={tutorialNode.baseNode.data.title ?? "Error"} onClick={() => onAddNode(tutorialNode)} /></li>
-              ))}
-            </ul>
-          </ThDropdown>
-
-          {/*Check*/}
-          <ThPopup
-            width={openCheckResultsPopup?.success ? 1000 : 650}
-            height={openCheckResultsPopup?.success ? 600 : 800}
-            thColor={openCheckResultsPopup?.success ? "th-tint" : "th-black"}
-            backgroundClass={openCheckResultsPopup?.success ? "th-bg-gradient" : "bg-none"}
-            button={<ThIconTextButton thColor={buttonsColor} icon="check" text={"Check"} isLoading={onChecking} onClick={handleCheckButtonOnClick} />}
-            isOpen={(openCheckResultsPopup?.success || openCheckResultsPopup?.fail) ?? false}
-            onClose={handleCheckButtonOnClose}
-          >
-
-            {openCheckResultsPopup?.success &&
-              <div className="h-full flex flex-col items-center justify-between p-12">
-                <h2 className="th-text-gradient">Erfolg!</h2>
-                <h3 className="text-center">{openCheckResultsPopup.title}</h3>
-                <p className="text-center whitespace-pre-line mt-4">{openCheckResultsPopup.message}</p>
-                <ThTextButton width={300} thColor="th-tint" text="Weiter" onClick={handleCheckButtonOnClose} />
-              </div>
-            }
-            {openCheckResultsPopup?.fail &&
-              <div className="h-full flex flex-col items-center justify-between p-12">
-                <h3>Falsch!</h3>
-                <div>
-                  <h4 className="text-center mb-10">{openCheckResultsPopup.title}</h4>
+              {openCheckResultsPopup?.success &&
+                <div className="h-full flex flex-col items-center justify-between p-12">
+                  <h2 className="th-text-gradient">Erfolg!</h2>
+                  <h3 className="text-center">{openCheckResultsPopup.title}</h3>
                   <p className="text-center whitespace-pre-line mt-4">{openCheckResultsPopup.message}</p>
+                  <ThTextButton width={300} thColor="th-tint" text="Weiter" onClick={handleCheckButtonOnClose} />
                 </div>
-                <ThMenuTextButton width={150} thColor="th-black" text="Weiter" onClick={handleCheckButtonOnClose} />
+              }
+              {openCheckResultsPopup?.fail &&
+                <div className="h-full flex flex-col items-center justify-between p-12">
+                  <h3>Falsch!</h3>
+                  <div>
+                    <h4 className="text-center mb-10">{openCheckResultsPopup.title}</h4>
+                    <p className="text-center whitespace-pre-line mt-4">{openCheckResultsPopup.message}</p>
+                  </div>
+                  <ThMenuTextButton width={150} thColor="th-black" text="Weiter" onClick={handleCheckButtonOnClose} />
+                </div>
+              }
+            </ThPopup>
+          </div>
+
+          <div className="flex flex-col items-end gap-3 pointer-events-auto" style={{ width: 0 }}>
+            {/*Levels*/}
+            <ThDropdown
+              position="top-left"
+              width={180}
+              height={25 + 40 * level.stage.stageLevels.length}
+              thColor={buttonsColor}
+              button={<ThIconButton thColor={buttonsColor} icon="levels" onClick={() => setOpenLevelsDropdown(true)} />}
+              isOpen={openLevelsDropdown}
+              onClose={() => setOpenLevelsDropdown(false)}
+            >
+              <ul className="flex flex-col items-center gap-1 p-3">
+                {level.stage.stageLevels.map((stageLevel) => {
+                  const stagesProgress = useUserStore(state => state.stagesProgress);
+                  const levelStatus = stagesProgress[level.stage.id].levelsStatus.find(levelStatus => levelStatus.id === stageLevel.levelId);
+                  const label = !isNaN(parseFloat(stageLevel.label)) ? `Lvl ${stageLevel.label}` : stageLevel.label;
+
+                  return (
+                    <li key={stageLevel.levelId}>
+                      {levelStatus?.status === "completed" &&
+                        <ThMenuTextButton width={150} thColor={buttonsColor} bgThColorShade={20} textGradient={true} text={label}
+                          onClick={() => {
+                            if (stageLevel.levelId === level.id) { return }
+                            thStore.setActiveLevel(null);
+                            navigate(`/level/${stageLevel.levelId}`);
+                          }}
+                        />
+                      }
+                      {levelStatus?.status === "unlocked" &&
+                        <ThMenuTextButton width={150} thColor={buttonsColor} textThColorShade={10} gradient={true} text={label}
+                          onClick={() => {
+                            if (stageLevel.levelId === level.id) { return }
+                            thStore.setActiveLevel(null);
+                            navigate(`/level/${stageLevel.levelId}`);
+                          }}
+                        />
+                      }
+                      {levelStatus?.status === "locked" && <ThMenuTextButton width={150} thColor={buttonsColor} bgThColorShade={40} textThColorShade={30} text={label} disabled />}
+                    </li>
+                  )
+                })}
+              </ul>
+            </ThDropdown>
+
+            {/*Exit*/}
+            <ThDropdown
+              position="top-left"
+              width={150}
+              height={25 + 40}
+              thColor={buttonsColor}
+              button={<ThIconButton thColor={buttonsColor} icon="exit" onClick={() => setOpenExitDropdown(true)} />}
+              isOpen={openExitDropdown}
+              onClose={() => setOpenExitDropdown(false)}
+            >
+              <div className="flex flex-col items-center gap-1 p-3">
+                <ThMenuTextButton width={120} thColor={buttonsColor} text="Exit"
+                  onClick={() => {
+                    thStore.setActiveLevel(null);
+                    navigate('/');
+                  }}
+                />
               </div>
-            }
-          </ThPopup>
+            </ThDropdown>
+          </div>
         </div>
       </div>
     </div>

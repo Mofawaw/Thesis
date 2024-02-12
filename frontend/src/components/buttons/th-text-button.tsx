@@ -22,7 +22,7 @@ const ThTextButton: React.FC<ThTextButtonProps> = ({
   ...props
 }) => {
   return (
-    <ThButton width={width} height={40} thColor={thColor} bgThColorShade={bgThColorShade} shadowThColorShade={shadowThColorShade} gradient={gradient} {...props} >
+    <ThButton width={width} height={45} thColor={thColor} bgThColorShade={bgThColorShade} shadowThColorShade={shadowThColorShade} gradient={gradient} {...props} >
       <h3 className={`text-${thColor}-${textThColorShade} p-4 scale-90`}>{text}</h3>
     </ThButton>
   )

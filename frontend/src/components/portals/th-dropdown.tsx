@@ -4,6 +4,7 @@ import { ThColorKey } from "@/utilities/th-color.ts";
 import ArrowIcon from '@/assets/icons/arrow-icon';
 
 interface ThDropdownPortalProps {
+  position: "top" | "top-left";
   width: number;
   height: number;
   thColor: ThColorKey;
@@ -14,6 +15,7 @@ interface ThDropdownPortalProps {
 }
 
 const ThDropdownPortal: React.FC<ThDropdownPortalProps> = ({
+  position,
   width,
   height,
   thColor,
@@ -22,18 +24,23 @@ const ThDropdownPortal: React.FC<ThDropdownPortalProps> = ({
   buttonRef,
   onClose
 }) => {
-  const [position, setPosition] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
+  const [coordinates, setCoordinates] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
   const dropDownGap = 10
 
   useEffect(() => {
     if (buttonRef.current) {
       const rect = buttonRef.current.getBoundingClientRect();
 
-      const top = rect.top + window.scrollY - height - dropDownGap;
+      let top = rect.top + window.scrollY - height - dropDownGap;
       const triggerCenterX = rect.left + rect.width / 2;
-      const left = triggerCenterX - width / 2;
+      let left = triggerCenterX - width / 2;
 
-      setPosition({ top, left });
+      if (position === 'top-left') {
+        left = rect.left - width - dropDownGap;
+        top = top + 65;
+      }
+
+      setCoordinates({ top, left });
     }
   }, [buttonRef, height, width]);
 
@@ -44,8 +51,8 @@ const ThDropdownPortal: React.FC<ThDropdownPortalProps> = ({
     <>
       <div className="fixed top-0 left-0 w-full h-full z-30 animate-th-fade-in" onClick={onClose}></div>
       <div
-        className="absolute animate-th-zoom-in-from-bottom z-40"
-        style={{ width: `${width}px`, height: `${height}px`, top: `${position.top}px`, left: `${position.left}px` }}
+        className={`absolute ${position === "top" ? "animate-th-zoom-in-from-bottom" : "animate-th-zoom-in-from-right"} z-40`}
+        style={{ width: `${width}px`, height: `${height}px`, top: `${coordinates.top}px`, left: `${coordinates.left}px` }}
       >
         {/* Border Wrapper */}
         <div
@@ -58,19 +65,22 @@ const ThDropdownPortal: React.FC<ThDropdownPortalProps> = ({
             style={{ top: `${borderPadding}px`, right: `${borderPadding}px`, bottom: `${borderPadding}px`, left: `${borderPadding}px`, boxSizing: 'border-box' }}
           >
             {/* Arrow and Content */}
-            <div className="absolute -bottom-5 left-1/2 transform -translate-x-1/2 z-50">
+            <div
+              className={`absolute z-50 ${position === 'top-left' ? '-bottom-5 -right-5 transform -rotate-90 -translate-y-[30px]' : '-bottom-5 left-1/2 transform -translate-x-1/2'}`}
+            >
               <ArrowIcon className={`text-${thColor}-30`} />
             </div>
             {children}
           </div>
         </div>
-      </div>
+      </div >
     </>,
     document.body
   );
 };
 
 interface ThDropdownProps {
+  position: "top" | "top-left"
   width: number;
   height: number;
   thColor: ThColorKey;
@@ -82,6 +92,7 @@ interface ThDropdownProps {
 }
 
 const ThDropdown: React.FC<ThDropdownProps> = ({
+  position,
   width,
   height,
   thColor,
@@ -99,7 +110,7 @@ const ThDropdown: React.FC<ThDropdownProps> = ({
         {button}
       </div>
       {isOpen &&
-        <ThDropdownPortal width={width} height={height} thColor={thColor} gradientBorder={gradientBorder} buttonRef={buttonRef} onClose={onClose}>
+        <ThDropdownPortal position={position} width={width} height={height} thColor={thColor} gradientBorder={gradientBorder} buttonRef={buttonRef} onClose={onClose}>
           {children}
         </ThDropdownPortal>
       }
