@@ -23,17 +23,17 @@ const LevelOverlayTop: React.FC<LevelOverlayTopProps> = ({
       <div className="absolute top-3 right-3 left-3">
         <div className="flex justify-between">
           <div style={{ width: 200 }}>
-            <ThButton width={130} height={180} thColor={buttonsColor} >
-              <div className="flex flex-col items-center p-2 -translate-y-2">
+            <ThButton width={115} height={165} thColor={buttonsColor} >
+              <div className="flex flex-col items-center -translate-y-2">
                 <ThCastle castle={level.stage.logo} color={stageProgress.status === "completed" ? "tint" : "stage"} className="w-32" />
-                <h3 className={levelProgress.status === "completed" ? "th-text-gradient" : `text-${buttonsColor}-100`}>{label}</h3>
+                <h3 className={levelProgress.status === "completed" ? "th-text-gradient" : `text-${buttonsColor}-100 -translate-y-1 scale-90`}>{label}</h3>
               </div>
             </ThButton>
           </div>
 
           <ThTextButton width={700} thColor={buttonsColor} text={level.stage.label + " - " + level.category.label} />
 
-          <ThStarUserButton width={200} height={200} iconWidth="large" />
+          <ThStarUserButton width={160} height={160} iconWidth="large" />
         </div>
       </div>
     </div>

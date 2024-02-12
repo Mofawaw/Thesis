@@ -71,7 +71,7 @@ const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
         <div className="flex flex-col gap-3">
           <ThIconButton thColor={buttonsColor} icon="plus" onClick={() => zoomIn({ duration: 300 })} />
           <div className="flex flex-row gap-3">
-            <ThIconButton thColor={buttonsColor} icon="fit" onClick={() => fitView({ padding: 0.25, includeHiddenNodes: true, duration: 300 })} />
+            <ThIconButton thColor={buttonsColor} icon="fit" onClick={() => fitView({ padding: 0.20, includeHiddenNodes: true, duration: 300 })} />
             <ThIconButton thColor={buttonsColor} icon="minus" onClick={() => zoomOut({ duration: 300 })} />
           </div>
         </div>

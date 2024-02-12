@@ -17,7 +17,7 @@ const ThIconTextButton: React.FC<ThIconTextButtonProps> = ({
   ...props
 }) => {
   return (
-    <ThButton width={100} height={100} thColor={thColor} {...props} >
+    <ThButton width={95} height={95} thColor={thColor} {...props} >
       <div className="flex flex-col gap-3 items-center justify-center mt-2">
         <ThIcon icon={icon} className={`${isLoading && "animate-th-spin"} w-7 h-7 text-${thColor}-100`} />
         <h5 className={`text-${thColor}-100 scale-110`}>{text}</h5>

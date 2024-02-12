@@ -34,7 +34,7 @@ const Level: React.FC<LevelProps> = ({
 
     const reactflowNode: Node = convertToReactFlowNode(newLevelNode);
     reactflowNode.id = level.id + "-" + (nodes.length + 1).toString();
-    reactflowNode.position = { x: maxX + 20, y: 0 };
+    reactflowNode.position = { x: maxX + 10, y: 0 };
 
     setNodes((nodes) => nodes.concat(reactflowNode));
   };
@@ -109,7 +109,7 @@ const LevelReactFlow: React.FC<LevelReactFlowProps> = ({
   const onInit = (instance: ReactFlowInstance) => {
     console.log(nodes);
     const timeoutId = setTimeout(() => {
-      instance.fitView({ padding: 0.25, includeHiddenNodes: true, duration: 300 });
+      instance.fitView({ padding: 0.2, includeHiddenNodes: true, duration: 300 });
     }, 200);
     return () => clearTimeout(timeoutId);
   };
@@ -124,7 +124,7 @@ const LevelReactFlow: React.FC<LevelReactFlowProps> = ({
     setNodes(nodes => applyNodeChanges(filteredChanges, nodes));
 
     if (reactFlowInstance && nodes.length > prevNodesLength.current) {
-      reactFlowInstance.fitView({ padding: 0.25, includeHiddenNodes: true, duration: 300 });
+      reactFlowInstance.fitView({ padding: 0.2, includeHiddenNodes: true, duration: 300 });
     }
     prevNodesLength.current = nodes.length;
   }, [reactFlowInstance, nodes]);

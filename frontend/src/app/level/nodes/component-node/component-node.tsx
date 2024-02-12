@@ -56,8 +56,8 @@ const ComponentNode: React.FC<ComponentNodeProps> = ({
     >
       <div className={`${styles.resizerHandle}`}>
         <NodeResizer
-          minWidth={initialWidth * 0.8}
-          minHeight={minHeight ?? initialHeight * 0.8}
+          minWidth={initialWidth * 0.6}
+          minHeight={minHeight ?? initialHeight * 0.6}
           maxWidth={maxWidth ?? initialWidth * 1.6}
           maxHeight={initialHeight * 1.6}
           onResize={handleResize}
