@@ -1,11 +1,18 @@
 import useCodeIDEStore from '@/app/code-ide/code-ide-store';
 import { ThLevel, ThNode, ThStage } from '@/types/th-types';
-import { UserLevelProgress, UserProgressStatus, UserStageProgress } from '@/types/user-types';
+import { UserLevelProgress, UserProgress, UserProgressStatus, UserStageProgress } from '@/types/user-types';
 import { create } from 'zustand';
 
 export type UserStore = {
+  userProgress: UserProgress | null;
   stagesProgress: Record<string, UserStageProgress>;
   levelsProgress: Record<string, UserLevelProgress>;
+
+  // Configure userProgress
+  initializeUserProgress: () => (void);
+
+  // Update userProgress
+  updateUserProgress: (updates: any) => (void);
 
   // Configure stagesProgress
   initializeStagesProgress: (stages: ThStage[]) => (void);
@@ -20,7 +27,7 @@ export type UserStore = {
   updateLevelProgressCurrentNodes: (level: ThLevel) => void;
 
   // Increase failed checks by one
-  increaseCheckingAttempt: (levelId: string) => void;
+  increaseLevelCheckingAttempt: (levelId: string) => void;
 };
 
 // LocalStorage
@@ -31,8 +38,8 @@ function loadFromLocalStorage(): Partial<UserStore> {
   return storedState ? JSON.parse(storedState) : {};
 }
 
-function saveToLocalStorage(stagesProgress: Record<string, UserStageProgress>, levelsProgress: Record<string, UserLevelProgress>): void {
-  const stateToSave = { stagesProgress, levelsProgress };
+function saveToLocalStorage(userProgress: UserProgress | null, stagesProgress: Record<string, UserStageProgress>, levelsProgress: Record<string, UserLevelProgress>): void {
+  const stateToSave = { userProgress, stagesProgress, levelsProgress };
   localStorage.setItem(localStorageKey, JSON.stringify(stateToSave));
 }
 
@@ -40,8 +47,42 @@ const useUserStore = create<UserStore>((set, get) => {
   const initialState = loadFromLocalStorage();
 
   return {
+    userProgress: initialState.userProgress || null,
     stagesProgress: initialState.stagesProgress || {},
     levelsProgress: initialState.levelsProgress || {},
+
+    initializeUserProgress: () => {
+      set(state => {
+        if (state.userProgress) { return state }
+
+        const newUserProgress = {
+          userId: "u1", // TODO-Post: User
+          firstVisit: false,
+          completedStage1: false,
+          completedStage2: false,
+          completedAllStages: false
+        }
+
+        return {
+          ...state,
+          userProgress: newUserProgress
+        }
+      })
+    },
+
+    updateUserProgress: (updates: any) => {
+      set(state => {
+        const updatedUserProgress = {
+          ...state.userProgress,
+          ...updates
+        };
+
+        return {
+          ...state,
+          userProgress: updatedUserProgress
+        };
+      });
+    },
 
     initializeStagesProgress: (initialStages: ThStage[]) => {
       set(state => {
@@ -185,7 +226,7 @@ const useUserStore = create<UserStore>((set, get) => {
       });
     },
 
-    increaseCheckingAttempt: (levelId: string) => {
+    increaseLevelCheckingAttempt: (levelId: string) => {
       set(state => {
         return {
           ...state,
@@ -203,8 +244,8 @@ const useUserStore = create<UserStore>((set, get) => {
 });
 
 useUserStore.subscribe((state, previousState) => {
-  if (state.stagesProgress !== previousState.stagesProgress || state.levelsProgress !== previousState.levelsProgress) {
-    saveToLocalStorage(state.stagesProgress, state.levelsProgress);
+  if (state.userProgress !== previousState.userProgress || state.stagesProgress !== previousState.stagesProgress || state.levelsProgress !== previousState.levelsProgress) {
+    saveToLocalStorage(state.userProgress, state.stagesProgress, state.levelsProgress);
   }
 });
 

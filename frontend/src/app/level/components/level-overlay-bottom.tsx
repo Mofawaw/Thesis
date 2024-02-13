@@ -28,7 +28,6 @@ const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
   const [openExitDropdown, setOpenExitDropdown] = useState<boolean>(false);
   const [openLevelsDropdown, setOpenLevelsDropdown] = useState<boolean>(false);
   const [openTippsDropdown, setOpenTippsDropdown] = useState<boolean>(false);
-  const [openTutorialDropdown, setOpenTutorialDropdown] = useState<boolean>(false);
   const [openCheckResultsPopup, setOpenCheckResultsPopup] = useState<{ success?: boolean, fail?: boolean, title: string, message: string }>();
   const [onChecking, setOnChecking] = useState<boolean>(false);
   const userStore = useUserStore.getState();
@@ -61,7 +60,7 @@ const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
 
       navigate(`/`);
     } else if (openCheckResultsPopup?.fail) {
-      userStore.increaseCheckingAttempt(level.id);
+      userStore.increaseLevelCheckingAttempt(level.id);
     }
     setOpenCheckResultsPopup({ success: false, fail: false, title: "", message: "" });
   }

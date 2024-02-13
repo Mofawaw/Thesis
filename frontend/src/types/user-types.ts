@@ -7,6 +7,14 @@ export interface User { // TODO-Post: Backend Version
   gradient: string; // TODO-Post: UserGradient
 }
 
+export interface UserProgress {
+  userId: string;
+  firstVisit: boolean;
+  completedStage1: boolean;
+  completedStage2: boolean;
+  completedAllStages: boolean;
+}
+
 export interface UserStageProgress { // TODO-Post: Backend Version
   userId: string;
   stageId: "s1" | "s2" | "s3";

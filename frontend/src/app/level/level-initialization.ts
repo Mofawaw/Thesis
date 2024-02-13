@@ -57,9 +57,7 @@ export function convertToReactFlowNode(node: ThNode) {
     // Merge TutorialNode Data
     const tutorialData: TutorialNodeData = {
       ...componentNodeData,
-      tutorial: {
-        tutorial: true
-      }
+      tutorial: {}
     }
     return { id: node.baseNode.id, type: node.baseNode.type, position: { x: 0, y: 0 }, data: tutorialData };
   }

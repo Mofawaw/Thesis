@@ -3,11 +3,14 @@ import { fetchAndConfigureStage } from './routing-network';
 import { useEffect, useState } from 'react';
 import StageRoute from './stage-route';
 import LevelRoute from './level-route';
+import useUserStore from '@/stores/user-store';
 
 const Root = () => {
+  const userStore = useUserStore.getState();
   const [isInitialLoading, setIsInitialLoading] = useState(true);
 
   useEffect(() => {
+    userStore.initializeUserProgress();
     fetchAndConfigureStage().then(() => {
       setIsInitialLoading(false);
     });
