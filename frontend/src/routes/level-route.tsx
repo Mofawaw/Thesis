@@ -10,8 +10,10 @@ import ThMenuTextButton from "@/components/buttons/th-menu-text-button";
 const LevelRoute = () => {
   const { levelId } = useParams();
   const activeLevel = useThStore(state => state.activeLevel);
-
   const [showLevel, setShowLevel] = useState(false);
+
+  const tutorialNodesStage1 = tutorialNodes.filter(node => node.baseNode.id === "tu-s1");
+  const tutorialNodesStage2 = tutorialNodes.filter(node => node.baseNode.id === "tu-s2");
 
   useEffect(() => {
     if (activeLevel) {
@@ -27,7 +29,13 @@ const LevelRoute = () => {
 
       {/* Level */}
       <div className={`absolute inset-0 transition-opacity duration-500 ${showLevel ? 'opacity-100' : 'opacity-0'}`}>
-        {activeLevel && <Level key={levelId} level={activeLevel} tutorialNodes={tutorialNodes} />}
+        {activeLevel &&
+          <Level
+            key={levelId}
+            level={activeLevel}
+            tutorialNodes={activeLevel.stage.id === "s1" ? tutorialNodesStage1 : (activeLevel.stage.id === "s2" ? tutorialNodesStage2 : tutorialNodes)}
+          />
+        }
       </div>
     </div>
   );

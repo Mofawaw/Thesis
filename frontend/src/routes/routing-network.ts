@@ -69,7 +69,7 @@ export const fetchAndConfigureLevel = async (levelId: string) => {
     }
 
     // Update stores
-    useUserStore.getState().initializeLevelProgress(loadingLevel.id, loadingLevel.nodes, loadingLevel.tippNodes);
+    useUserStore.getState().initializeLevelProgress(loadingLevel.id, loadingLevel.nodes);
 
     // Update level based on progress
     const levelProgress = useUserStore.getState().levelsProgress[loadingLevel.id];

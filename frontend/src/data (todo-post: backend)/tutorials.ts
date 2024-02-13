@@ -3,7 +3,7 @@ import { ThNode } from "@/types/th-types.ts";
 const tutorialNodes: ThNode[] = [
   {
     baseNode: {
-      id: "t1",
+      id: "tu-s1",
       type: "tutorial",
       data: {
         title: "Wertetypen",
@@ -19,7 +19,7 @@ const tutorialNodes: ThNode[] = [
   },
   {
     baseNode: {
-      id: "t2",
+      id: "tu-s2",
       type: "tutorial",
       data: {
         title: "Referenztypen",
