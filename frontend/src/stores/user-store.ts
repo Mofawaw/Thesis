@@ -11,13 +11,16 @@ export type UserStore = {
   initializeStagesProgress: (stages: ThStage[]) => (void);
 
   // Configure levelProgress
-  initializeLevelProgress: (levelId: string, nodes: ThNode[], tippNodes: ThNode[]) => (void);
+  initializeLevelProgress: (levelId: string, nodes: ThNode[]) => (void);
 
   // Update stage and level progress after level completion
   completeLevel: (stageId: string, levelId: string) => (void);
 
   // Update currentNodes of level
   updateLevelProgressCurrentNodes: (level: ThLevel) => void;
+
+  // Increase failed checks by one
+  increaseCheckingAttempt: (levelId: string) => void;
 };
 
 // LocalStorage
@@ -63,7 +66,7 @@ const useUserStore = create<UserStore>((set, get) => {
       });
     },
 
-    initializeLevelProgress: (levelId: string, nodes: ThNode[], tippNodes: ThNode[]) => {
+    initializeLevelProgress: (levelId: string, nodes: ThNode[]) => {
       set(state => {
         // Return if already initialized
         if (levelId in state.levelsProgress) { return state }
@@ -72,9 +75,9 @@ const useUserStore = create<UserStore>((set, get) => {
         const newLevelProgress = {
           userId: "u1", // TODO-Post: User
           levelId: levelId,
-          currentNodes: nodes,
-          currentTippNodes: tippNodes,
           status: "unlocked" as "unlocked",
+          currentNodes: nodes,
+          checkingAttempts: 0,
         };
 
         console.log("Initializing:", newLevelProgress)
@@ -176,6 +179,21 @@ const useUserStore = create<UserStore>((set, get) => {
             [level.id]: {
               ...state.levelsProgress[level.id],
               currentNodes: updatedNodes
+            }
+          }
+        }
+      });
+    },
+
+    increaseCheckingAttempt: (levelId: string) => {
+      set(state => {
+        return {
+          ...state,
+          levelsProgress: {
+            ...state.levelsProgress,
+            [levelId]: {
+              ...state.levelsProgress[levelId],
+              checkingAttempts: state.levelsProgress[levelId].checkingAttempts + 1
             }
           }
         }

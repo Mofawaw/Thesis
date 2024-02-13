@@ -61,6 +61,8 @@ const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
       thStore.setActiveLevel(null);
 
       navigate(`/`);
+    } else if (openCheckResultsPopup?.fail) {
+      userStore.increaseCheckingAttempt(level.id);
     }
     setOpenCheckResultsPopup({ success: false, fail: false, title: "", message: "" });
   }
@@ -89,9 +91,21 @@ const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
               onClose={() => setOpenTippsDropdown(false)}
             >
               <ul className="flex flex-col items-center gap-1 p-3">
-                {level.tippNodes.map((tippNode) => (
-                  <li key={tippNode.baseNode.id}><ThMenuTextButton width={120} thColor={buttonsColor} text={tippNode.baseNode.data.title ?? "Error"} onClick={() => onAddNode(tippNode)} /></li>
-                ))}
+                {level.tippNodes.map((tippNode) => {
+                  const tippCheckingAttemptsToUnlock = tippNode.baseNode.id.includes("ti1") ? 0 : (tippNode.baseNode.id.includes("ti2") ? 3 : (level.stage.id === "s3" ? 20 : 10))
+                  const tippUnlocked = levelProgress.checkingAttempts >= tippCheckingAttemptsToUnlock
+
+                  return (
+                    <li key={tippNode.baseNode.id}>
+                      {(levelProgress.status === "completed" || tippUnlocked) &&
+                        <ThMenuTextButton width={120} thColor={buttonsColor} text={tippNode.baseNode.data.title ?? "Error"} onClick={() => onAddNode(tippNode)} />
+                      }
+                      {(levelProgress.status !== "completed" && !tippUnlocked) &&
+                        <ThMenuTextButton width={120} thColor={buttonsColor} bgThColorShade={40} textThColorShade={30} text={tippNode.baseNode.data.title ?? "Error"} disabled />
+                      }
+                    </li>
+                  )
+                })}
               </ul>
             </ThDropdown>
 
