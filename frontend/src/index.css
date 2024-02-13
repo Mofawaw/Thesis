@@ -73,6 +73,11 @@
 
 @layer utilities
 {
+  .th-bg-gradient-10
+  {
+    @apply animate-th-gradient-slow bg-th-gradient-10 bg-400%;
+  }
+
   .th-bg-gradient
   {
     @apply animate-th-gradient bg-th-gradient-40 bg-400%;

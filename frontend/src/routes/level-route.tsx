@@ -1,6 +1,5 @@
 import Level from "@/app/level/level";
 import { fetchAndConfigureLevel } from "@/routes/routing-network";
-import tutorialNodes from "@/data (todo-post: backend)/tutorials";
 import useThStore from "@/stores/th-store";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -11,9 +10,6 @@ const LevelRoute = () => {
   const { levelId } = useParams();
   const activeLevel = useThStore(state => state.activeLevel);
   const [showLevel, setShowLevel] = useState(false);
-
-  const tutorialNodesStage1 = tutorialNodes.filter(node => node.baseNode.id === "tu-s1");
-  const tutorialNodesStage2 = tutorialNodes.filter(node => node.baseNode.id === "tu-s2");
 
   useEffect(() => {
     if (activeLevel) {
@@ -33,7 +29,6 @@ const LevelRoute = () => {
           <Level
             key={levelId}
             level={activeLevel}
-            tutorialNodes={activeLevel.stage.id === "s1" ? tutorialNodesStage1 : (activeLevel.stage.id === "s2" ? tutorialNodesStage2 : tutorialNodes)}
           />
         }
       </div>

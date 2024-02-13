@@ -11,18 +11,17 @@ import { evaluateLevelCompletion } from "../level-evaluation.ts";
 import useUserStore from "@/stores/user-store.ts";
 import { useNavigate } from "react-router-dom";
 import useThStore from "@/stores/th-store.ts";
+import tutorialNode from "@/data (todo-post: backend)/tutorial.ts";
 
 interface LevelOverlayBottomProps {
   level: ThLevel;
   nodes: Node[];
-  tutorialNodes: ThNode[];
   onAddNode: (node: ThNode) => (void);
 }
 
 const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
   level,
   nodes,
-  tutorialNodes,
   onAddNode,
 }) => {
   const { zoomIn, zoomOut, fitView } = useReactFlow();
@@ -110,21 +109,7 @@ const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
             </ThDropdown>
 
             {/*Tutorial*/}
-            <ThDropdown
-              position="top"
-              width={200}
-              height={25 + 40 * tutorialNodes.length}
-              thColor={buttonsColor}
-              button={<ThIconTextButton width={150} thColor={buttonsColor} icon="tutorial" text="Tutorial" onClick={() => setOpenTutorialDropdown(!openTutorialDropdown)} />}
-              isOpen={openTutorialDropdown}
-              onClose={() => setOpenTutorialDropdown(false)}
-            >
-              <ul className="flex flex-col items-center gap-1 p-3">
-                {tutorialNodes.map((tutorialNode) => (
-                  <li key={tutorialNode.baseNode.id}><ThMenuTextButton width={165} thColor={buttonsColor} text={tutorialNode.baseNode.data.title ?? "Error"} onClick={() => onAddNode(tutorialNode)} /></li>
-                ))}
-              </ul>
-            </ThDropdown>
+            <ThIconTextButton width={150} thColor={buttonsColor} icon="tutorial" text="Tutorial" onClick={() => onAddNode(tutorialNode)} />
 
             {/*Check*/}
             <ThPopup

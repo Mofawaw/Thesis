@@ -36,15 +36,13 @@ const ComponentNode: React.FC<ComponentNodeProps> = ({
   let border;
   if ((data as CodeIDENodeData)?.codeIDE?.main) {
     border = 'th-bg-gradient p-[5px]';
-  } else if ((data as TutorialNodeData)?.tutorial?.color) {
-    border = `border-${(data as TutorialNodeData).tutorial.color}-20 border-th`;
   } else {
     border = 'border-th-black-10 border-th';
   }
 
   let background;
-  if ((data as TutorialNodeData)?.tutorial?.color) {
-    background = `bg-${(data as TutorialNodeData).tutorial.color}-10`;
+  if ((data as TutorialNodeData)?.tutorial) {
+    background = `th-bg-gradient-10`;
   } else {
     background = 'bg-th-white';
   }

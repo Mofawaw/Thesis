@@ -87,9 +87,3 @@ export const fetchAndConfigureLevel = async (levelId: string) => {
   // Reject if levelId incorrect
   return Promise.reject(null);
 };
-
-export const fetchTutorialNodes = async (): Promise<ThNode[]> => {
-  await delay(2000);
-  return tutorialNodes;
-};
-

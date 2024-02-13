@@ -11,12 +11,10 @@ import { useLocation } from "react-router-dom";
 
 interface LevelProps {
   level: ThLevel;
-  tutorialNodes: ThNode[];
 }
 
 const Level: React.FC<LevelProps> = ({
   level,
-  tutorialNodes,
 }) => {
   const [nodes, setNodes] = useState<Node[]>([]);
   const userStore = useUserStore.getState();
@@ -85,7 +83,7 @@ const Level: React.FC<LevelProps> = ({
         <div className="w-screen h-screen">
           <LevelOverlayTop level={level} />
           <LevelReactFlow level={level} nodes={nodes} setNodes={setNodes} />
-          <LevelOverlayBottom level={level} nodes={nodes} tutorialNodes={tutorialNodes} onAddNode={(node) => addNode(node)} />
+          <LevelOverlayBottom level={level} nodes={nodes} onAddNode={(node) => addNode(node)} />
         </div>
       </ReactFlowProvider>
     </div>

@@ -21,8 +21,8 @@ const TutorialNode: React.FC<TutorialNodeProps> = ({
     <ComponentNode data={data} maxWidth={data.width * 3.2} minHeight={data.height * 0.4} onSizeChange={handleSizeChange}>
       <h3 className="px-4 pt-8">{data.title ?? ""}</h3>
       <div className="overflow-hidden p-4">
-        <div className="nowheel" style={{ height: `${componentNodeLayout.getContentHeight(size.height)}px`, overflow: 'auto' }} >
-          <div dangerouslySetInnerHTML={{ __html: data.tutorial.description }}></div>
+        <div className="nowheel nodrag" style={{ height: `${componentNodeLayout.getContentHeight(size.height)}px`, overflow: 'auto' }} >
+          <TutorialValue />
         </div>
       </div>
     </ComponentNode>
@@ -30,3 +30,12 @@ const TutorialNode: React.FC<TutorialNodeProps> = ({
 }
 
 export default TutorialNode;
+
+const TutorialValue = () => {
+  return (
+    <div>
+      <p>Wertetypen </p>
+
+    </div>
+  )
+}

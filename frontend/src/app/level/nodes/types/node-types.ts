@@ -39,10 +39,7 @@ export interface TextNodeData extends ComponentNodeData {
 }
 
 export interface TutorialNodeData extends ComponentNodeData {
-  tutorial: {
-    color: ThColorKey;
-    description: string;
-  }
+  tutorial: {}
 }
 
 export interface CodeIDENodeData extends ComponentNodeData {

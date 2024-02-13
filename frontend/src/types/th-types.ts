@@ -51,6 +51,5 @@ export interface ThNode { // TODO-Post: Backend Version
   data: {
     codeIDE?: { initialCode?: string; initialGraph?: CodeGraph }
     text?: { description: string }
-    tutorial?: { color: ThColorKey, description: string }
   }
 }
