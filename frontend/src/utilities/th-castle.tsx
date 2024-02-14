@@ -5,7 +5,7 @@ export type ThCastleKey = 'castle-value' | 'castle-reference' | 'castle-together
 
 interface ThCastleProps extends React.SVGProps<SVGSVGElement> {
   castle: ThCastleKey;
-  color?: "stage" | "grey" | "tint";
+  color?: "stage" | "grey" | "tint" | "tint-grey";
 }
 
 export const ThCastle: React.FC<ThCastleProps> = ({

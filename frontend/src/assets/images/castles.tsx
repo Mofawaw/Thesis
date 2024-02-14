@@ -1,11 +1,18 @@
-export const CastleValue = ({ color = "stage", ...props }: { color: "stage" | "grey" | "tint" }) => {
+export const CastleValue = ({ color = "stage", ...props }: { color: "stage" | "grey" | "tint" | "tint-grey" }) => {
   const colorMappings = {
     stageColors: ["#F8B50E", "#18B5CB", "#18B5CB", "#18B5CB", "#18B5CB", "#747474", "#545454", "#383838", "#9B9B9B", "#9B9B9B", "#9B9B9B"],
     greyColors: ["#D7D7D7", "#C3C3C3", "#C3C3C3", "#C3C3C3", "#C3C3C3", "#C3C3C3", "#545454", "#9B9B9B", "#D7D7D7", "#D7D7D7", "#D7D7D7"],
     tintColors: ["#FACB57", "#F8B50E", "#F8B50E", "#F8B50E", "#F8B50E", "#FACB57", "#545454", "#F8B50E", "#FCE19F", "#FCE19F", "#FCE19F"],
+    tintGreyColors: ["#FCE19F", "#FACB57", "#FACB57", "#FACB57", "#FACB57", "#FCE19F", "#545454", "#FACB57", "#FDE9B7", "#FDE9B7", "#FDE9B7"]
   };
 
-  const colors = color === "stage" ? colorMappings.stageColors : (color === "grey" ? colorMappings.greyColors : colorMappings.tintColors);
+  let colors = [];
+  switch (color) {
+    case "stage": colors = colorMappings.stageColors; break;
+    case "grey": colors = colorMappings.greyColors; break;
+    case "tint": colors = colorMappings.tintColors; break;
+    case "tint-grey": colors = colorMappings.tintGreyColors; break;
+  }
 
   return (
     <svg width="156" height="156" viewBox="0 0 156 156" fill="none" xmlns="http://www.w3.org/2000/svg" {...props} >
@@ -28,14 +35,22 @@ export const CastleValue = ({ color = "stage", ...props }: { color: "stage" | "g
   )
 };
 
-export const CastleReference = ({ color = "stage", ...props }: { color: "stage" | "grey" | "tint" }) => {
+export const CastleReference = ({ color = "stage", ...props }: { color: "stage" | "grey" | "tint" | "tint-grey" }) => {
   const colorMappings = {
     stageColors: ["#F8B50E", "#1836CB", "#1836CB", "#1836CB", "#747474", "#383838", "#9B9B9B", "#9B9B9B", "#9B9B9B"],
     greyColors: ["#D7D7D7", "#C3C3C3", "#C3C3C3", "#C3C3C3", "#C3C3C3", "#9B9B9B", "#D7D7D7", "#D7D7D7", "#D7D7D7"],
     tintColors: ["#FACB57", "#F8B50E", "#F8B50E", "#F8B50E", "#FACB57", "#F8B50E", "#FCE19F", "#FCE19F", "#FCE19F"],
+    tintGreyColors: ["#FCE19F", "#FACB57", "#FACB57", "#FACB57", "#FCE19F", "#FACB57", "#FDE9B7", "#FDE9B7", "#FDE9B7"]
+
   };
 
-  const colors = color === "stage" ? colorMappings.stageColors : (color === "grey" ? colorMappings.greyColors : colorMappings.tintColors);
+  let colors = [];
+  switch (color) {
+    case "stage": colors = colorMappings.stageColors; break;
+    case "grey": colors = colorMappings.greyColors; break;
+    case "tint": colors = colorMappings.tintColors; break;
+    case "tint-grey": colors = colorMappings.tintGreyColors; break;
+  }
 
   return (
     <svg width="156" height="156" viewBox="0 0 156 156" fill="none" xmlns="http://www.w3.org/2000/svg" {...props} >
@@ -52,14 +67,21 @@ export const CastleReference = ({ color = "stage", ...props }: { color: "stage" 
   )
 };
 
-export const CastleTogether = ({ color = "stage", ...props }: { color: "stage" | "grey" | "tint" }) => {
+export const CastleTogether = ({ color = "stage", ...props }: { color: "stage" | "grey" | "tint" | "tint-grey" }) => {
   const colorMappings = {
     stageColors: ["#F8B50E", "#F8B50E", "#CB188E", "#CB188E", "#CB188E", "#CB188E", "#747474", "#383838", "#9B9B9B", "#9B9B9B", "#9B9B9B", "#747474", "#545454", "#383838", "#9B9B9B", "#9B9B9B", "#9B9B9B"],
     greyColors: ["#D7D7D7", "#D7D7D7", "#C3C3C3", "#C3C3C3", "#C3C3C3", "#C3C3C3", "#C3C3C3", "#9B9B9B", "#D7D7D7", "#D7D7D7", "#D7D7D7", "#C3C3C3", "#545454", "#9B9B9B", "#D7D7D7", "#D7D7D7", "#D7D7D7"],
     tintColors: ["#FACB57", "#FACB57", "#F8B50E", "#F8B50E", "#F8B50E", "#F8B50E", "#FACB57", "#F8B50E", "#FCE19F", "#FCE19F", "#FCE19F", "#FACB57", "#545454", "#F8B50E", "#FCE19F", "#FCE19F", "#FCE19F"],
+    tintGreyColors: ["#FCE19F", "#FCE19F", "#FACB57", "#FACB57", "#FACB57", "#FACB57", "#FCE19F", "#FACB57", "#FDE9B7", "#FDE9B7", "#FDE9B7", "#FCE19F", "#545454", "#FACB57", "#FDE9B7", "#FDE9B7", "#FDE9B7"]
   };
 
-  const colors = color === "stage" ? colorMappings.stageColors : (color === "grey" ? colorMappings.greyColors : colorMappings.tintColors);
+  let colors = [];
+  switch (color) {
+    case "stage": colors = colorMappings.stageColors; break;
+    case "grey": colors = colorMappings.greyColors; break;
+    case "tint": colors = colorMappings.tintColors; break;
+    case "tint-grey": colors = colorMappings.tintGreyColors; break;
+  }
 
   return (
     <svg width="156" height="156" viewBox="0 0 156 156" fill="none" xmlns="http://www.w3.org/2000/svg" {...props} >

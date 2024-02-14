@@ -3,7 +3,7 @@ import { ThCastle } from "@/utilities/th-castle.tsx";
 
 interface ThCastleButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   castle: ThCastleKey;
-  color?: "stage" | "grey" | "tint";
+  color?: "stage" | "grey" | "tint" | "tint-grey";
 }
 
 const ThCastleButton: React.FC<ThCastleButtonProps> = ({

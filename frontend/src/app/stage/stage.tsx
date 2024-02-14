@@ -36,11 +36,11 @@ const Stage: React.FC<StageProps> = ({
 
       {/* Overlay-Bottom */}
       <div className="w-screen absolute bottom-0 z-10 flex flex-row gap-28 justify-center items-center pointer-events-auto -translate-y-6">
-        <ThCastleButton castle="castle-value" color={stage.id === 's1' ? (userStore.stagesProgress['s1'].status === "completed" ? "tint" : "stage") : "grey"} onClick={() => setActiveStage('s1')} />
+        <ThCastleButton castle="castle-value" color={userStore.stagesProgress['s1'].status === "completed" ? (stage.id === 's1' ? "tint" : "tint-grey") : (stage.id === 's1' ? "stage" : "grey")} onClick={() => setActiveStage('s1')} />
         <div className="-translate-y-32">
-          <ThCastleButton castle="castle-together" color={stage.id === 's3' ? (userStore.stagesProgress['s3'].status === "completed" ? "tint" : "stage") : "grey"} onClick={() => setActiveStage('s3')} />
+          <ThCastleButton castle="castle-together" color={userStore.stagesProgress['s3'].status === "completed" ? (stage.id === 's3' ? "tint" : "tint-grey") : (stage.id === 's3' ? "stage" : "grey")} onClick={() => setActiveStage('s3')} />
         </div>
-        <ThCastleButton castle="castle-reference" color={stage.id === 's2' ? (userStore.stagesProgress['s2'].status === "completed" ? "tint" : "stage") : "grey"} onClick={() => setActiveStage('s2')} />
+        <ThCastleButton castle="castle-reference" color={userStore.stagesProgress['s2'].status === "completed" ? (stage.id === 's2' ? "tint" : "tint-grey") : (stage.id === 's2' ? "stage" : "grey")} onClick={() => setActiveStage('s2')} />
       </div>
       <div className="w-screen absolute bottom-0 z-20 flex flex-row justify-center translate-y-40 pointer-events-none" >
         <div className="pointer-events-auto" >
