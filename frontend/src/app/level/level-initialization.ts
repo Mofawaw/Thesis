@@ -53,11 +53,13 @@ export function convertToReactFlowNode(node: ThNode) {
     }
     return { id: node.baseNode.id, type: node.baseNode.type, position: { x: 0, y: 0 }, data: textData };
 
-  } else if (node.baseNode.type === "tutorial") {
+  } else if (node.baseNode.type === "tutorial" && node.data.tutorial) {
     // Merge TutorialNode Data
     const tutorialData: TutorialNodeData = {
       ...componentNodeData,
-      tutorial: {}
+      tutorial: {
+        id: node.data.tutorial.id
+      }
     }
     return { id: node.baseNode.id, type: node.baseNode.type, position: { x: 0, y: 0 }, data: tutorialData };
   }

@@ -3,7 +3,6 @@ import CodeGraph from "@/app/code-ide/code-memory/code-memory-types";
 import CodeIDENode from "../code-ide-node";
 import TextNode from "../text-node";
 import TutorialNode from "../tutorial-node";
-import { ThColorKey } from "@/utilities/th-color";
 
 export const nodeTypes = { codeIDE: CodeIDENode, text: TextNode, tutorial: TutorialNode };
 
@@ -39,7 +38,9 @@ export interface TextNodeData extends ComponentNodeData {
 }
 
 export interface TutorialNodeData extends ComponentNodeData {
-  tutorial: {}
+  tutorial: {
+    id: string;
+  }
 }
 
 export interface CodeIDENodeData extends ComponentNodeData {

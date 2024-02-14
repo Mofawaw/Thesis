@@ -47,7 +47,10 @@ export const fetchAndConfigureStage = async () => {
   // Update initial active stage based on progress
   const stagesProgress = useUserStore.getState().stagesProgress;
   const activeStage = Object.values(stagesProgress).find(stageProgress => stageProgress.status === "unlocked")?.stageId;
-  if (activeStage) {
+  const allStagesCompleted = Object.values(stagesProgress).every(stageProgress => stageProgress.status === 'completed');
+  if (allStagesCompleted) {
+    useThStore.getState().setActiveStage("s3");
+  } else if (activeStage) {
     useThStore.getState().setActiveStage(activeStage);
   }
 };

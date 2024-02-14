@@ -11,7 +11,7 @@ import { evaluateLevelCompletion } from "../level-evaluation.ts";
 import useUserStore from "@/stores/user-store.ts";
 import { useNavigate } from "react-router-dom";
 import useThStore from "@/stores/th-store.ts";
-import { tutorialNode } from "@/data (todo-post: backend)/tutorial.ts";
+import { tutorialNodes } from "@/data (todo-post: backend)/tutorial.ts";
 
 interface LevelOverlayBottomProps {
   level: ThLevel;
@@ -117,7 +117,7 @@ const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
             </ThDropdown>
 
             {/*Tutorial*/}
-            <ThIconTextButton width={150} thColor={buttonsColor} icon="tutorial" text="Tutorial" onClick={() => onAddNode(tutorialNode)} />
+            <ThIconTextButton width={150} thColor={buttonsColor} icon="tutorial" text="Tutorial" onClick={() => onAddNode(tutorialNodes[0])} />
 
             {/*Check*/}
             <ThPopup

@@ -2,14 +2,50 @@ import { ThLevel, ThNode } from "@/types/th-types.ts";
 import stages from "./stages";
 import categories from "./categories";
 
-export const tutorialNode: ThNode = {
-  baseNode: {
-    id: "c-tu",
-    type: "tutorial",
+export const tutorialNodes: ThNode[] = [
+  {
+    baseNode: {
+      id: "tu-main",
+      type: "tutorial",
+      data: {
+        title: "Tutorial",
+        size: "small",
+      }
+    },
     data: {
-      title: "Tutorial",
-      size: "medium",
+      tutorial: {
+        id: "main"
+      }
     }
   },
-  data: {}
-}
+  {
+    baseNode: {
+      id: "tu-val",
+      type: "tutorial",
+      data: {
+        title: "Wertetypen",
+        size: "medium",
+      }
+    },
+    data: {
+      tutorial: {
+        id: "value"
+      }
+    }
+  },
+  {
+    baseNode: {
+      id: "tu-ref",
+      type: "tutorial",
+      data: {
+        title: "Referenztypen",
+        size: "medium",
+      }
+    },
+    data: {
+      tutorial: {
+        id: "reference"
+      }
+    }
+  }
+]

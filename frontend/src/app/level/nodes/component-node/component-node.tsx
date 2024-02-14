@@ -8,6 +8,7 @@ interface ComponentNodeProps {
   maxWidth?: number;
   minHeight?: number;
   onSizeChange?: (size: { width: number; height: number }) => void;
+  background?: string;
   children: React.ReactNode;
 }
 
@@ -16,6 +17,7 @@ const ComponentNode: React.FC<ComponentNodeProps> = ({
   maxWidth,
   minHeight,
   onSizeChange,
+  background = 'bg-th-white',
   children,
 }) => {
   const initialWidth = data.width
@@ -40,13 +42,6 @@ const ComponentNode: React.FC<ComponentNodeProps> = ({
     border = `border-th-white border-th`;
   } else {
     border = 'border-th-black-10 border-th';
-  }
-
-  let background;
-  if ((data as TutorialNodeData)?.tutorial) {
-    background = `th-bg-gradient-10`;
-  } else {
-    background = 'bg-th-white';
   }
 
   return (

@@ -2,10 +2,9 @@ import { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } fr
 import ReactFlow, { ReactFlowProvider, NodeChange, applyNodeChanges, useReactFlow, ReactFlowInstance, Node } from 'reactflow';
 import 'reactflow/dist/style.css';
 import { nodeTypes } from '../nodes/types/node-types.ts';
-import { ThNode } from '@/types/th-types.ts';
 import { convertToReactFlowNode } from '../level-initialization.ts';
 import useUserStore from '@/stores/user-store.ts';
-import { tutorialNode } from '@/data (todo-post: backend)/tutorial.ts';
+import { tutorialNodes } from '@/data (todo-post: backend)/tutorial.ts';
 import ThIconButton from '@/components/buttons/th-icon-button.tsx';
 import ThTextButton from '@/components/buttons/th-text-button.tsx';
 import ThDropdown from '@/components/portals/th-dropdown.tsx';
@@ -15,28 +14,10 @@ import { useNavigate } from 'react-router-dom';
 const Tutorial: React.FC = ({
 }) => {
   const [nodes, setNodes] = useState<Node[]>([]);
-  const userStore = useUserStore.getState();
-
-  const addNode = (newLevelNode: ThNode) => {
-    let maxX = -Infinity;
-    nodes.forEach((node) => {
-      const nodeWidth = node.width || 0
-      const nodeRightEdge = node.position.x + nodeWidth;
-      if (nodeRightEdge > maxX) {
-        maxX = nodeRightEdge;
-      }
-    });
-
-    const reactflowNode: Node = convertToReactFlowNode(newLevelNode);
-    reactflowNode.id = "tutorial" + "-" + (nodes.length + 1).toString();
-    reactflowNode.position = { x: maxX + 20, y: 0 };
-
-    setNodes((nodes) => nodes.concat(reactflowNode));
-  };
 
   // Initialize TutorialNode
   useEffect(() => {
-    const initialNode: Node = convertToReactFlowNode(tutorialNode);
+    const initialNode: Node = convertToReactFlowNode(tutorialNodes[0]);
     setNodes([initialNode])
     console.log([initialNode]);
 
@@ -81,9 +62,6 @@ const TutorialReactFlow: React.FC<LevelReactFlowProps> = ({
 
   const onNodesChange = useCallback((changes: NodeChange[]) => {
     const filteredChanges = changes.filter(change => {
-      if (change.type === 'remove' && change.id.includes("c-")) {
-        return false;
-      }
       return true;
     });
     setNodes(nodes => applyNodeChanges(filteredChanges, nodes));
