@@ -78,7 +78,7 @@ const Level: React.FC<LevelProps> = ({
   }
 
   return (
-    <div className="w-screen h-screen">
+    <div className="w-screen h-screen overflow-hidden">
       <ReactFlowProvider>
         <div className="w-screen h-screen">
           <LevelOverlayTop level={level} />

@@ -16,7 +16,7 @@ const Stage: React.FC<StageProps> = ({
   const userStore = useUserStore.getState();
 
   return (
-    <div className="w-screen h-screen relative">
+    <div className="w-screen h-screen relative overflow-hidden">
       {/* Background */}
       <div className="fixed left-[-50vw] top-[-50vh] th-bg-gradient-angular z-0" />
 
@@ -44,7 +44,7 @@ const Stage: React.FC<StageProps> = ({
       </div>
       <div className="w-screen absolute bottom-0 z-20 flex flex-row justify-center translate-y-40 pointer-events-none" >
         <div className="pointer-events-auto" >
-          <ThStarUserButton width={400} height={400} iconWidth="small" />
+          <ThStarUserButton width={380} height={380} iconWidth="small" />
         </div>
       </div>
     </div>

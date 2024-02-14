@@ -47,7 +47,7 @@ const Tutorial: React.FC = ({
   }, []);
 
   return (
-    <div className="w-screen h-screen">
+    <div className="w-screen h-screen overflow-hidden">
       <ReactFlowProvider>
         <div className="w-screen h-screen">
           <TutorialOverlayTop />
