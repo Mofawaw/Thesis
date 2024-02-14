@@ -1,5 +1,5 @@
 import { ThColorKey, ThColorShadeKey } from "@/utilities/th-color.ts";
-import ThButton from "./th-button.tsx"
+import ThButton from "./th-button.tsx";
 
 interface ThTextButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   width: number;
@@ -8,6 +8,7 @@ interface ThTextButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement
   shadowThColorShade?: ThColorShadeKey;
   textThColorShade?: ThColorShadeKey;
   gradient?: boolean;
+  shadow?: boolean;
   text: string;
 }
 
@@ -18,11 +19,12 @@ const ThTextButton: React.FC<ThTextButtonProps> = ({
   shadowThColorShade = 30,
   textThColorShade = 100,
   gradient = false,
+  shadow = true,
   text,
   ...props
 }) => {
   return (
-    <ThButton width={width} height={45} thColor={thColor} bgThColorShade={bgThColorShade} shadowThColorShade={shadowThColorShade} gradient={gradient} {...props} >
+    <ThButton width={width} height={45} thColor={thColor} bgThColorShade={bgThColorShade} shadowThColorShade={shadowThColorShade} gradient={gradient} shadow={shadow} {...props} >
       <h3 className={`text-${thColor}-${textThColorShade} p-4 scale-90`}>{text}</h3>
     </ThButton>
   )

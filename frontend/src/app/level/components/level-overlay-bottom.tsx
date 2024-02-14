@@ -11,7 +11,7 @@ import { evaluateLevelCompletion } from "../level-evaluation.ts";
 import useUserStore from "@/stores/user-store.ts";
 import { useNavigate } from "react-router-dom";
 import useThStore from "@/stores/th-store.ts";
-import tutorialNode from "@/data (todo-post: backend)/tutorial.ts";
+import { tutorialNode } from "@/data (todo-post: backend)/tutorial.ts";
 
 interface LevelOverlayBottomProps {
   level: ThLevel;
@@ -29,6 +29,7 @@ const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
   const [openLevelsDropdown, setOpenLevelsDropdown] = useState<boolean>(false);
   const [openTippsDropdown, setOpenTippsDropdown] = useState<boolean>(false);
   const [openCheckResultsPopup, setOpenCheckResultsPopup] = useState<{ success?: boolean, fail?: boolean, title: string, message: string }>();
+  const [openCompletedStagePopup, setOpenCompletedStagePopup] = useState<boolean>(false);
   const [onChecking, setOnChecking] = useState<boolean>(false);
   const userStore = useUserStore.getState();
   const thStore = useThStore.getState();
@@ -56,13 +57,21 @@ const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
   function handleCheckButtonOnClose() {
     if (openCheckResultsPopup?.success && levelProgress.status !== "completed") {
       userStore.completeLevel(level.stage.id, level.id);
-      thStore.setActiveLevel(null);
 
-      navigate(`/`);
+      if (!level.id.includes("final")) {
+        dismissLevel();
+      } else {
+        setOpenCompletedStagePopup(true);
+      }
     } else if (openCheckResultsPopup?.fail) {
       userStore.increaseLevelCheckingAttempt(level.id);
     }
     setOpenCheckResultsPopup({ success: false, fail: false, title: "", message: "" });
+  }
+
+  function dismissLevel() {
+    thStore.setActiveLevel(null);
+    navigate(`/`);
   }
 
   return (
@@ -120,7 +129,6 @@ const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
               isOpen={(openCheckResultsPopup?.success || openCheckResultsPopup?.fail) ?? false}
               onClose={handleCheckButtonOnClose}
             >
-
               {openCheckResultsPopup?.success &&
                 <div className="h-full flex flex-col items-center justify-between p-12">
                   <h2 className="th-text-gradient">Erfolg!</h2>
@@ -137,6 +145,32 @@ const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
                     <p className="text-center whitespace-pre-line mt-4">{openCheckResultsPopup.message}</p>
                   </div>
                   <ThMenuTextButton width={150} thColor="th-black" text="Weiter" onClick={handleCheckButtonOnClose} />
+                </div>
+              }
+            </ThPopup>
+
+            {/*Check: Completed Stage*/}
+            <ThPopup
+              width={1000}
+              height={600}
+              thColor={"th-tint"}
+              backgroundClass={"th-bg-gradient-100"}
+              button={<></>}
+              isOpen={openCompletedStagePopup}
+              onClose={() => { }}
+            >
+              {openCompletedStagePopup &&
+                <div className="h-full flex flex-col items-center justify-between p-12">
+                  <h2 className="th-text-gradient scale-75">{level.stage.id === "s3" ? "Glückwunsch" : "Geschafft"}</h2>
+                  {level.stage.id === "s1" && <p className="text-center whitespace-pre-line scale-125 -translate-y-2 px-20"><b>Nice! Du hast Wertetypen gemeistert. Weiter so! 💪</b></p>}
+                  {level.stage.id === "s2" && <p className="text-center whitespace-pre-line scale-125 -translate-y-2 px-20"><b> Referenztypen ✅ - du bist genial! Als nächstes kommt alles zusammen.</b></p>}
+                  {level.stage.id === "s3" && <p className="text-center whitespace-pre-line scale-125 -translate-y-2 px-20"><b>Alles geschafft - alles gemeistert!<br /><br />Du bist nun erfolgreicher Absolvent und beherrschst Werte- und Referenztypen. Enjoy deine Trophäe: 🏆</b></p>}
+                  <ThTextButton width={300} thColor="th-white" gradient={true} shadow={false} text={level.stage.id === "s3" ? "Beenden" : "Weiter 🥳"}
+                    onClick={() => {
+                      setOpenCompletedStagePopup(false);
+                      dismissLevel();
+                    }}
+                  />
                 </div>
               }
             </ThPopup>

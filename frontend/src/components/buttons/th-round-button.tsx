@@ -35,8 +35,8 @@ const ThRoundButton: React.FC<ThRoundButtonProps> = ({
   return (
     <ThButton width={radius * 2} height={radius * 2} thColor={thColor} bgThColorShade={bgThColorShade} shadowThColorShade={shadowThColorShade} round={true} tooltipText={tooltipText} className="relative" {...props} >
       <div className="flex flex-col gap-3 items-center justify-center mt-2">
-        {thIcon && <ThIcon icon={thIcon} className={`w-12 h-12 ${textColor}`} />}
-        {flagIcon && <ThCastleFlag castle={flagIcon} className={`w-20 h-16 ${textColor}`} />}
+        {thIcon && <ThIcon icon={thIcon} className={`w-12 h-12 ${textGradient ? "th-text-gradient-40" : `text-${thColor}-${textThColorShade}`}`} />}
+        {flagIcon && <ThCastleFlag castle={flagIcon} className={`w-20 h-16 ${textGradient ? "text-th-value-100" : `text-${thColor}-${textThColorShade}`}`} />}
         {text && <h2 className={textColor}>{text}</h2>}
       </div>
     </ThButton>

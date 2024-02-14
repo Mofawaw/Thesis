@@ -36,7 +36,7 @@ const ThPopupPortal: React.FC<ThPopupPortalProps> = ({
 
       <div
         style={{ width: `${width}px`, height: `${height}px`, top: `${position.top}px`, left: `${position.left}px` }}
-        className={`absolute bg-${thColor}-30 rounded-th border-th border-${thColor}-20 z-40 animate-th-zoom-in-from-bottom`}
+        className={`absolute ${backgroundClass === "th-bg-gradient-100" ? "th-bg-gradient" : `bg-${thColor}-30`} rounded-th border-th border-${thColor}-20 z-40 animate-th-zoom-in-from-bottom`}
       >
         {children}
       </div>

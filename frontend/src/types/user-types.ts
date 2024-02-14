@@ -9,10 +9,7 @@ export interface User { // TODO-Post: Backend Version
 
 export interface UserProgress {
   userId: string;
-  firstVisit: boolean;
-  completedStage1: boolean;
-  completedStage2: boolean;
-  completedAllStages: boolean;
+  completedTutorial: boolean;
 }
 
 export interface UserStageProgress { // TODO-Post: Backend Version

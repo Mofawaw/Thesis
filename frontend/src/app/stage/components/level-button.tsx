@@ -109,7 +109,7 @@ const LevelButton: React.FC<LevelButtonProps> = ({
           <div className="flex flex-col items-center gap-3 p-3 m-2">
             <h3 className={`text-${stage.color}-100 scale-110`}>{labelFull}</h3>
             <p className={`h-28 text-center text-${stage.color}-100`}><b>{stageLevel.category.description}</b></p>
-            <ThTextButton width={250} thColor={stage.color} textThColorShade={10} gradient={true} text={"Start"} onClick={() => { navigate(`/level/${stageLevel.levelId}`) }} className="scale-90" />
+            <ThTextButton width={250} thColor={stage.color} textThColorShade={10} gradient={true} text={"Start 🤞"} onClick={() => { navigate(`/level/${stageLevel.levelId}`) }} className="scale-90" />
           </div>
         }
         {levelStatus?.status === "locked" &&
