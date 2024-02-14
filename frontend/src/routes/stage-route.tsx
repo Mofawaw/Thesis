@@ -4,8 +4,10 @@ import useThStore from "@/stores/th-store";
 import useUserStore from "@/stores/user-store";
 import ThPopup from "@/components/portals/th-popup";
 import ThTextButton from "@/components/buttons/th-text-button";
+import { useNavigate } from "react-router-dom";
 
 const StageRoute = ({ isInitialLoading }: { isInitialLoading: boolean }) => {
+  const navigate = useNavigate();
   const activeStage = useThStore(state => state.activeStage);
   const userStore = useUserStore.getState();
   const [showStage, setShowStage] = useState(false);
@@ -15,7 +17,7 @@ const StageRoute = ({ isInitialLoading }: { isInitialLoading: boolean }) => {
     let timeoutId: any;
 
     if (!isInitialLoading) {
-      if (!userStore.userProgress?.firstVisit) {
+      if (!userStore.userProgress?.completedTutorial) {
         setShowFirstVisitPopup(true);
         return;
       }
@@ -32,25 +34,25 @@ const StageRoute = ({ isInitialLoading }: { isInitialLoading: boolean }) => {
       <div className={`absolute inset-0 transition-opacity duration-500 ${isInitialLoading ? 'opacity-100' : 'opacity-0'}`}>
         <Loading />
 
-        {/* Show FirstVisit Popup*/}
+        {/*FirstVisit Popup*/}
         <ThPopup
-          width={1000}
-          height={600}
+          width={800}
+          height={500}
           thColor={"th-tint"}
-          backgroundClass={"bg-th-tint-40"}
+          backgroundClass={"th-bg-gradient"}
           button={<></>}
           isOpen={showFirstVisitPopup}
           onClose={() => { }}
         >
           {showFirstVisitPopup &&
             <div className="h-full flex flex-col items-center justify-between p-12">
-              <h2 className="text-th-tint-100 scale-75">Willkommen!</h2>
-              <p>Mofawaw</p>
-              <ThTextButton width={300} thColor="th-tint" text="Los gehts!"
+              <h2 className="text-th-tint-100 scale-75">Willkommen 🎉</h2>
+              <p className="text-center whitespace-pre-line scale-125 -translate-y-2"><b>Meistere Werte und Referenztypen in Python!</b></p>
+              <ThTextButton width={300} thColor="th-tint" text="Los gehts 🙌"
                 onClick={() => {
-                  userStore.updateUserProgress({ firstVisit: true });
                   setShowFirstVisitPopup(false);
                   setShowStage(true);
+                  navigate('level/tutorial');
                 }}
               />
             </div>

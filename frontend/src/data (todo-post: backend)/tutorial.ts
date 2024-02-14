@@ -1,8 +1,10 @@
-import { ThNode } from "@/types/th-types.ts";
+import { ThLevel, ThNode } from "@/types/th-types.ts";
+import stages from "./stages";
+import categories from "./categories";
 
-const tutorialNode: ThNode = {
+export const tutorialNode: ThNode = {
   baseNode: {
-    id: "tu-s1",
+    id: "c-tu",
     type: "tutorial",
     data: {
       title: "Tutorial",
@@ -11,5 +13,3 @@ const tutorialNode: ThNode = {
   },
   data: {}
 }
-
-export default tutorialNode;
