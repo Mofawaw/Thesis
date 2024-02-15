@@ -10,6 +10,7 @@ export interface LevelButtonProps {
   stage: ThStage;
   stageLevel: ThStageLevel;
   group: number;
+  tutorial?: boolean;
   x?: number;
   y?: number;
   fx?: number | null;
@@ -22,6 +23,7 @@ const LevelButton: React.FC<LevelButtonProps> = ({
   stage,
   stageLevel,
   group,
+  tutorial,
   x = 0,
   y = 0,
   fx = null,
@@ -32,11 +34,17 @@ const LevelButton: React.FC<LevelButtonProps> = ({
   const navigate = useNavigate();
 
   const stagesProgress = useUserStore(state => state.stagesProgress);
-  const levelStatus = stagesProgress[stage.id].levelsStatus.find(levelStatus => levelStatus.id === stageLevel.levelId);
+  const levelStatus = stagesProgress[stage.id]?.levelsStatus.find(levelStatus => levelStatus.id === stageLevel.levelId);
 
-  const label = !isNaN(parseFloat(stageLevel.label)) ? stageLevel.label : null;
-  const icon = label ? null : stage.logo;
-  const labelFull = label ? `Level ${label}` : stageLevel.label
+  let label = !isNaN(parseFloat(stageLevel.label)) ? stageLevel.label : null;
+  let icon = label ? null : stage.logo;
+  let labelFull = label ? `Level ${label}` : stageLevel.label;
+
+  if (tutorial) {
+    label = "T";
+    icon = null;
+    labelFull = stageLevel.label;
+  }
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -56,7 +64,7 @@ const LevelButton: React.FC<LevelButtonProps> = ({
         gradientBorder={levelStatus?.status === "unlocked"}
         button={
           <>
-            {levelStatus?.status === "completed" && <ThRoundButton
+            {(levelStatus?.status === "completed" || tutorial) && <ThRoundButton
               thColor="th-tint"
               bgThColorShade={70}
               shadowThColorShade={100}
@@ -90,18 +98,27 @@ const LevelButton: React.FC<LevelButtonProps> = ({
         isOpen={openDropdown}
         onClose={() => setOpenDropdown(false)}
       >
-        {levelStatus?.status === "completed" &&
+        {(levelStatus?.status === "completed" || tutorial) &&
           <div className="flex flex-col items-center gap-3 p-3 m-2">
             <h3 className={`th-text-gradient scale-110`}>{labelFull}</h3>
             <p className={`h-28 text-center text-th-tint-100`}><b>{stageLevel.category.description}</b></p>
-            <ThTextButton width={250} thColor="th-tint" text={"Öffnen"} onClick={() => { navigate(`/level/${stageLevel.levelId}`) }} className="scale-90" />
+            <ThTextButton width={250} thColor="th-tint" text={"Öffnen"}
+              onClick={() => {
+                if (tutorial) {
+                  navigate("/level/tutorial");
+                  return;
+                }
+                navigate(`/level/${stageLevel.levelId}`);
+              }}
+              className="scale-90"
+            />
           </div>
         }
         {levelStatus?.status === "unlocked" &&
           <div className="flex flex-col items-center gap-3 p-3 m-2">
             <h3 className={`text-${stage.color}-100 scale-110`}>{labelFull}</h3>
             <p className={`h-28 text-center text-${stage.color}-100`}><b>{stageLevel.category.description}</b></p>
-            <ThTextButton width={250} thColor={stage.color} textThColorShade={10} gradient={true} text={"Start 🤞"} onClick={() => { navigate(`/level/${stageLevel.levelId}`) }} className="scale-90" />
+            <ThTextButton width={250} thColor={stage.color} textThColorShade={10} gradient={true} text={"Start 🤞"} onClick={() => navigate(`/level/${stageLevel.levelId}`)} className="scale-90" />
           </div>
         }
         {levelStatus?.status === "locked" &&

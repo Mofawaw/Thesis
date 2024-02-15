@@ -52,7 +52,7 @@ const StageRoute = ({ isInitialLoading }: { isInitialLoading: boolean }) => {
                 onClick={() => {
                   setShowFirstVisitPopup(false);
                   setShowStage(true);
-                  navigate('level/tutorial');
+                  navigate('/level/tutorial');
                 }}
               />
             </div>

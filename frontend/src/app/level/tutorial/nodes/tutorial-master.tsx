@@ -4,7 +4,7 @@ import { ThNode } from "@/types/th-types";
 import { Node, useReactFlow } from "reactflow";
 import { convertToReactFlowNode, generateReactFlowNodes } from "../../level-initialization";
 import useUserStore from "@/stores/user-store";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const TutorialMaster: React.FC = () => {
   const userStore = useUserStore.getState();
@@ -37,38 +37,50 @@ const TutorialMaster: React.FC = () => {
     });
   };
 
-  const addTutorialLevel = () => {
+  const initializeTutorialChallenge = () => {
     const tutorialLevelNodes = generateReactFlowNodes(tutorialLevel);
     reactFlowInstance.setNodes(tutorialLevelNodes);
   }
 
+  useEffect(() => {
+    if (userStore.userProgress?.completedTutorial) {
+      initializeTutorialChallenge();
+    }
+  }, [])
+
   return (
     <div className="flex flex-col gap-10">
       <div className="flex flex-col gap-3">
-        <p>In Python gibt es Werte- und Referenztypen.</p>
+        <p><b>Willkommen beim Tutorial.</b></p>
+        <p>Das Tutorial besteht aus<br />(1) Dokumentation <br />(2) Challenge</p>
       </div>
 
-      <div className="flex flex-row gap-3">
-        <p>Wertetypen:</p>
-        <ThMenuTextButton width={200} thColor="th-value" text="Wertetypen" onClick={() => addNode(tutorialValueNode)} />
+      <div className="flex flex-col gap-3">
+        <p><b>(1) In Python gibt es Werte- und Referenztypen:</b></p>
+        <div className="flex flex-row gap-3">
+          <p>Wertetypen:</p>
+          <ThMenuTextButton width={200} thColor="th-value" text="Wertetypen" onClick={() => addNode(tutorialValueNode)} />
+        </div>
+        <div className="flex flex-row gap-3 -mt-1">
+          <p>Referenztypen:</p>
+          <ThMenuTextButton width={200} thColor="th-reference" text="Referenztypen" onClick={() => addNode(tutorialReferenceNode)} />
+        </div>
       </div>
 
-      <div className="flex flex-row gap-3">
-        <p>Referenztypen:</p>
-        <ThMenuTextButton width={200} thColor="th-reference" text="Referenztypen" onClick={() => addNode(tutorialReferenceNode)} />
-      </div>
-
-      {showTutorialChallenge && !userProgress?.completedTutorial &&
-        <div className="flex flex-col gap-3">
-          <p>Um das Tutorial abzuschliessen, beende die Challenge:</p>
-          <ThMenuTextButton width={200} thColor="th-black" text="Challenge"
+      <div className="flex flex-col gap-3">
+        <p><b>(2) Um das Tutorial abzuschliessen, beende die Challenge:</b></p>
+        {showTutorialChallenge && !userProgress?.completedTutorial &&
+          <ThMenuTextButton width={250} thColor="th-tint" text="Los gehts!"
             onClick={() => {
-              addTutorialLevel();
+              initializeTutorialChallenge();
               userStore.updateUserProgress({ completedTutorialValueAndReference: true });
             }
             } />
-        </div>
-      }
+        }
+        {!showTutorialChallenge &&
+          <ThMenuTextButton width={250} thColor="th-black" bgThColorShade={20} shadowThColorShade={30} textThColorShade={40} text="Beende zuerst (1)" disabled />
+        }
+      </div>
     </div>
   )
 }

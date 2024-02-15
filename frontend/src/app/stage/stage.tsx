@@ -3,10 +3,7 @@ import Levels from './components/levels';
 import ThCastleButton from '@/components/buttons/th-castle-button';
 import { ThStage } from '@/types/th-types';
 import useUserStore from '@/stores/user-store';
-import ThDropdown from '@/components/portals/th-dropdown';
-import ThIconButton from '@/components/buttons/th-icon-button';
 import { useState } from 'react';
-import ThMenuTextButton from '@/components/buttons/th-menu-text-button';
 import { useNavigate } from 'react-router-dom';
 
 interface StageProps {

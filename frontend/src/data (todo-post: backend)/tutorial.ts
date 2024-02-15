@@ -23,7 +23,6 @@ b = 2
 c = [-1, -2]
 
 a = b
-c.append(-3)
 `
 
 const initialGraph: CodeGraph = {
@@ -40,7 +39,7 @@ const initialGraph: CodeGraph = {
     { "id": "e-v-1", "type": "value", "source": "n-vs-1", "target": "n-vh-1" },
     { "id": "e-r-0", "type": "reference", "source": "n-rs-0", "target": "n-rh-0" }
   ],
-  inputMaxChars: 12
+  inputMaxChars: 8
 }
 
 const expectedGraph: CodeGraph = {
@@ -50,7 +49,7 @@ const expectedGraph: CodeGraph = {
     { "id": "n-vs-1", "type": "value-stack", "label": "b" },
     { "id": "n-vh-1", "type": "value-heap", "label": "2" },
     { "id": "n-rs-0", "type": "reference-stack", "label": "c" },
-    { "id": "n-rh-0", "type": "reference-heap", "label": "[-1, -2, -3]" }
+    { "id": "n-rh-0", "type": "reference-heap", "label": "[-1, -2]" }
   ],
   "edges": [
     { "id": "e-v-0", "type": "value", "source": "n-vs-0", "target": "n-vh-0" },
@@ -72,7 +71,7 @@ const taskDescription = `<p><b>Ziel:</b></p>
 export const tutorialStage: ThStage = {
   id: "s1",
   label: "Tutorial",
-  color: "th-black",
+  color: "th-tint",
   logo: "castle-value",
   stageLevels: [
     { levelId: "ltutorial", label: "Tutorial", order: 0, category: categories[2] },
@@ -87,7 +86,7 @@ export const tutorialLevel: ThLevel = {
   nodes: [
     { baseNode: categories[2].baseNodes[0], data: { codeIDE: { initialCode: expectedGraphProgram } } },
     { baseNode: categories[2].baseNodes[1], data: { codeIDE: { initialGraph: initialGraph } } },
-    { baseNode: categories[2].baseNodes[2], data: { text: { description: taskDescription } } }
+    { baseNode: { ...categories[2].baseNodes[2], data: { ...categories[2].baseNodes[2].data, title: "Tutorial Challenge" } }, data: { text: { description: taskDescription } } }
   ],
   tippNodes: [
     { baseNode: categories[2].baseTippNodes[0], data: { codeIDE: { initialCode: expectedGraphProgram } } },

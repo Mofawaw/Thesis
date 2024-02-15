@@ -164,6 +164,7 @@ const TutorialOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
     if (openCheckResultsPopup?.success && !userStore.userProgress?.completedTutorial) {
       userStore.updateUserProgress({ completedTutorialChallenge: true });
       userStore.updateUserProgress({ completedTutorial: true });
+      navigate('/');
     }
     setOpenCheckResultsPopup({ success: false, fail: false, title: "", message: "" });
   }
@@ -217,7 +218,7 @@ const TutorialOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
                 {openCheckResultsPopup?.success &&
                   <div className="h-full flex flex-col items-center justify-between p-12">
                     <h2 className="th-text-gradient">Erfolg!</h2>
-                    <h3 className="text-center">{openCheckResultsPopup.title}</h3>
+                    <h3 className="text-center">Nice! Du hast das Tutorial erfolgreich abgeschlossen.</h3>
                     <p className="text-center whitespace-pre-line mt-4">{openCheckResultsPopup.message}</p>
                     <ThTextButton width={300} thColor="th-tint" text="Weiter" onClick={handleCheckButtonOnClose} />
                   </div>
@@ -240,7 +241,7 @@ const TutorialOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
             {/*Exit*/}
             <ThDropdown
               position="top-left"
-              width={270}
+              width={userStore.userProgress?.completedTutorial ? 150 : 270}
               height={25 + 40}
               thColor="th-tint"
               button={<ThIconButton thColor="th-tint" icon="exit" onClick={() => setOpenExitDropdown(true)} />}
@@ -248,8 +249,10 @@ const TutorialOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
               onClose={() => setOpenExitDropdown(false)}
             >
               <div className="flex flex-col items-center gap-1 p-3">
-                <ThMenuTextButton width={250} thColor="th-tint" text="Weiter ohne Tutorial"
+                <ThMenuTextButton width={userStore.userProgress?.completedTutorial ? 120 : 250} thColor="th-tint" text={`${userStore.userProgress?.completedTutorial ? "Exit" : "Weiter ohne Tutorial"}`}
                   onClick={() => {
+                    userStore.updateUserProgress({ completedTutorialValueAndReference: true });
+                    userStore.updateUserProgress({ completedTutorialChallenge: true });
                     userStore.updateUserProgress({ completedTutorial: true });
                     navigate('/');
                   }}
