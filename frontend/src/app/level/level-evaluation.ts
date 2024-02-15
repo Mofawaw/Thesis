@@ -206,7 +206,13 @@ function isEqualGraphInput(graph1: CodeGraph, graph2: CodeGraph, stage: ThStage)
 
   // Helper function to normalize strings for comparison
   const normalizeString = (str: string): string => {
-    return str.trim().replace(/"/g, "'");
+    return str
+      .trim()
+      .replace(/\s+/g, ' ') // normalize all whitespaces to single space
+      .replace(/[\[\(\{]\s+/g, m => m.trim()) // remove spaces after '[', '(', '{'
+      .replace(/\s+[\]\)\}]/g, m => m.trim()) // remove spaces before ']', ')', '}'
+      .replace(/\s*,\s*/g, ',') // remove spaces before and after ','
+      .replace(/"/g, "'");
   };
 
   // Adjusted helper function to compare nodes by type with normalization
