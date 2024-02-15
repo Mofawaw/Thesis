@@ -16,7 +16,7 @@ export default {
         'th-gradient-40': "linear-gradient(to bottom right, #A3E1EA, #EBEBEB, #A3E1EA, #A3AFEA, #EAA3D2, #EBEBEB, #EAA3D2)",
         'th-gradient-30': "linear-gradient(to bottom right, #BAE9EF, #EBEBEB, #BAE9EF, #BAC3EF, #EFBADD, #EBEBEB, #EFBADD)",
         'th-gradient-20': "linear-gradient(to bottom right, #D1F0F5, #FFFFFF, #D1F0F5, #D1D7F5, #F5D1E9, #FFFFFF, #F5D1E9)",
-        'th-gradient-10': "linear-gradient(to bottom right, #FAF8F4, #FFFFFF, #FAF8F4, #FFFFFF, #FAF8F4, #FFFFFF. #FAF8F4)",
+        'th-gradient-10': "linear-gradient(to bottom right, #FFFFFF, #FFFFFF, #FAF8F4, #FFFFFF, #FAF8F4, #FFFFFF, #FFFFFF)",
         'th-gradient-angular': 'conic-gradient(at center, #FDE9B7 0%, #FCE19F 20%, #FEF8E7 40%, #FEF0CF 80%, #FDE9B7 90%)',
       },
       backgroundSize: {

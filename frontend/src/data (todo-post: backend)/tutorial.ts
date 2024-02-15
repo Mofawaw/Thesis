@@ -1,4 +1,4 @@
-import { ThLevel, ThNode } from "@/types/th-types.ts";
+import { ThLevel, ThNode, ThStage, ThStageLevel } from "@/types/th-types.ts";
 import stages from "./stages";
 import categories from "./categories";
 import CodeGraph from "@/app/code-ide/code-memory/code-memory-types";
@@ -69,11 +69,21 @@ const taskDescription = `<p><b>Ziel:</b></p>
 </ul><br/>
 `
 
+export const tutorialStage: ThStage = {
+  id: "s1",
+  label: "Tutorial",
+  color: "th-black",
+  logo: "castle-value",
+  stageLevels: [
+    { levelId: "ltutorial", label: "Tutorial", order: 0, category: categories[2] },
+  ]
+}
+
 export const tutorialLevel: ThLevel = {
-  id: "tu-ch",
-  stage: stages[0],
+  id: "ltutorial",
+  stage: stages[2],
   category: categories[2],
-  label: "",
+  label: "Tutorial",
   nodes: [
     { baseNode: categories[2].baseNodes[0], data: { codeIDE: { initialCode: expectedGraphProgram } } },
     { baseNode: categories[2].baseNodes[1], data: { codeIDE: { initialGraph: initialGraph } } },

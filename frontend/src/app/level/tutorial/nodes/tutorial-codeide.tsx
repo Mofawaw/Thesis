@@ -1,9 +1,7 @@
 import CodeIDEConfig from "@/app/code-ide/code-ide-config";
-import { compileGetGraph } from "@/app/code-ide/code-ide-network";
 import useCodeIDEStore from "@/app/code-ide/code-ide-store";
 import CodeGraph from "@/app/code-ide/code-memory/components/code-graph";
 import CodeEditor from "@/app/code-ide/code-program/components/code-editor";
-import CodeOutput from "@/app/code-ide/code-program/components/code-output";
 import { useEffect } from "react";
 
 interface TutorialCodeIDEProps {

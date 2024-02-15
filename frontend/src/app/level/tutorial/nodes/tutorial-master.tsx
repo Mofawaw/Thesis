@@ -4,11 +4,13 @@ import { ThNode } from "@/types/th-types";
 import { Node, useReactFlow } from "reactflow";
 import { convertToReactFlowNode, generateReactFlowNodes } from "../../level-initialization";
 import useUserStore from "@/stores/user-store";
+import { useState } from "react";
 
 const TutorialMaster: React.FC = () => {
   const userStore = useUserStore.getState();
   const userProgress = useUserStore(state => state.userProgress);
   const reactFlowInstance = useReactFlow();
+  const [showTutorialChallenge, setShowTutorialChallenge] = useState(false);
 
   const addNode = (newLevelNode: ThNode) => {
     let maxX = -Infinity;
@@ -28,7 +30,7 @@ const TutorialMaster: React.FC = () => {
       const newNodes = nodes.concat(reactflowNode)
 
       if (newNodes.find(node => node.id.includes("value")) && newNodes.find(node => node.id.includes("reference"))) {
-        userStore.updateUserProgress({ completedTutorialValueAndReference: true });
+        setShowTutorialChallenge(true);
       }
 
       return newNodes
@@ -56,10 +58,15 @@ const TutorialMaster: React.FC = () => {
         <ThMenuTextButton width={200} thColor="th-reference" text="Referenztypen" onClick={() => addNode(tutorialReferenceNode)} />
       </div>
 
-      {userProgress?.completedTutorialValueAndReference && !userProgress?.completedTutorial &&
+      {showTutorialChallenge && !userProgress?.completedTutorial &&
         <div className="flex flex-col gap-3">
           <p>Um das Tutorial abzuschliessen, beende die Challenge:</p>
-          <ThMenuTextButton width={200} thColor="th-black" text="Challenge" onClick={addTutorialLevel} />
+          <ThMenuTextButton width={200} thColor="th-black" text="Challenge"
+            onClick={() => {
+              addTutorialLevel();
+              userStore.updateUserProgress({ completedTutorialValueAndReference: true });
+            }
+            } />
         </div>
       }
     </div>

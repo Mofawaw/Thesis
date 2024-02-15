@@ -13,7 +13,7 @@ const ThCastleButton: React.FC<ThCastleButtonProps> = ({
 }) => {
   return (
     <button {...props} className={`
-      relative w-56 h-56 z-50 transition duration-150 ease-in-out
+      relative w-48 h-48 z-50 transition duration-150 ease-in-out
       hover:scale-110
       active:scale-95 active:duration-100
     `}>

@@ -39,17 +39,9 @@ const LevelButton: React.FC<LevelButtonProps> = ({
   const labelFull = label ? `Level ${label}` : stageLevel.label
 
   useEffect(() => {
-    let timeout: any;
-
-    if (stagesProgress[stage.id].status === "locked") {
-      timeout = setTimeout(() => {
-        setOpacity(1);
-      }, 300);
-    } else {
-      timeout = setTimeout(() => {
-        setOpacity(1);
-      }, group === 1 ? 300 : 900);
-    }
+    const timeout = setTimeout(() => {
+      setOpacity(1);
+    }, group === 1 ? 300 : 1200);
 
     return () => clearTimeout(timeout);
   }, [group]);

@@ -52,7 +52,7 @@ const levelS3L1: ThLevel = {
   id: "s3-l1",
   stage: stages[2],
   category: categories[0],
-  label: "1",
+  label: "7",
   nodes: [
     { baseNode: categories[0].baseNodes[0], data: { codeIDE: { initialCode: initialCode } } },
     { baseNode: categories[0].baseNodes[1], data: { text: { description: taskDescription } } }

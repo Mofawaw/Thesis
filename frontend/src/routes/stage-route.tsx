@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 const StageRoute = ({ isInitialLoading }: { isInitialLoading: boolean }) => {
   const navigate = useNavigate();
-  const activeStage = useThStore(state => state.activeStage);
+  const stages = useThStore(state => state.stages);
   const userStore = useUserStore.getState();
   const [showStage, setShowStage] = useState(false);
   const [showFirstVisitPopup, setShowFirstVisitPopup] = useState(false);
@@ -61,8 +61,8 @@ const StageRoute = ({ isInitialLoading }: { isInitialLoading: boolean }) => {
       </div>
 
       {/* Stage Component */}
-      <div className={`absolute inset-0 transition-opacity duration-500 ${showStage && activeStage ? 'opacity-100' : 'opacity-0'}`}>
-        {activeStage && <Stage stage={activeStage} />}
+      <div className={`absolute inset-0 transition-opacity duration-500 ${showStage && stages ? 'opacity-100' : 'opacity-0'}`}>
+        <Stage stages={stages} />
       </div>
     </div>
   );

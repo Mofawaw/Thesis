@@ -5,11 +5,11 @@ import useUserStore from '@/stores/user-store';
 import { ThStage } from '@/types/th-types';
 
 interface LevelsProps {
-  stage: ThStage;
+  stages: ThStage[];
 }
 
 const Levels: React.FC<LevelsProps> = ({
-  stage,
+  stages,
 }) => {
   const [levelButtons, setLevelButtons] = useState<LevelButtonProps[]>([]);
   const [dimensions, setDimensions] = useState({ width: window.innerWidth, height: window.innerHeight });
@@ -18,21 +18,26 @@ const Levels: React.FC<LevelsProps> = ({
   const stagesProgress = useUserStore(state => state.stagesProgress);
 
   useEffect(() => {
-    const newLevelButtons: LevelButtonProps[] = stage.stageLevels
-      .sort((a, b) => a.order - b.order)
-      .map((stageLevel) => {
-        const levelStatus = stagesProgress[stage.id].levelsStatus.find(levelStatus => levelStatus.id === stageLevel.levelId);
+    const stagesLevelButtons: LevelButtonProps[] = stages.flatMap(stage => {
+      const stageLevelButtons: LevelButtonProps[] = stage.stageLevels
+        .sort((a, b) => a.order - b.order)
+        .map((stageLevel) => {
+          const levelStatus = stagesProgress[stage.id].levelsStatus.find(levelStatus => levelStatus.id === stageLevel.levelId);
 
-        return {
-          stage: stage,
-          stageLevel: stageLevel,
-          group: levelStatus?.status === "locked" ? 2 : 1,
-          x: 0,
-          y: 0,
-        };
-      });
-    setLevelButtons(newLevelButtons);
-  }, [stage, stagesProgress]);
+          return {
+            stage: stage,
+            stageLevel: stageLevel,
+            group: levelStatus?.status === "locked" ? 2 : 1,
+            x: 0,
+            y: 0,
+          };
+        });
+
+      return stageLevelButtons;
+    })
+
+    setLevelButtons(stagesLevelButtons);
+  }, [stages, stagesProgress]);
 
   useEffect(() => {
     function handleResize() {
@@ -55,7 +60,7 @@ const Levels: React.FC<LevelsProps> = ({
         .force("y", d3.forceY<LevelButtonProps>().strength(d => d.group === 1 ? 0.4 : 0).y(height / 2))
         .force("center", d3.forceCenter(width / 2, height / 2 - height * 0.05))
         .force("charge", d3.forceManyBody().strength(0.2))
-        .force("collide", d3.forceCollide<LevelButtonProps>().strength(0.2).radius(d => d.group === 1 ? nodeRadius + 30 : nodeRadius + 150).iterations(1));
+        .force("collide", d3.forceCollide<LevelButtonProps>().strength(0.2).radius(d => d.group === 1 ? nodeRadius + 30 : nodeRadius + 100).iterations(1));
 
       // Run simulation
       simulation.nodes(levelButtons).on("tick", ticked);
@@ -124,7 +129,7 @@ const Levels: React.FC<LevelsProps> = ({
       };
     }
     return () => { };
-  }, [dimensions, levelButtons, stage, stagesProgress]);
+  }, [dimensions, levelButtons, stages, stagesProgress]);
 
   return (
     <svg ref={d3Container} className="w-full h-full" >

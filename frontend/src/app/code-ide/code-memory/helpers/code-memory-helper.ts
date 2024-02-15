@@ -1,15 +1,23 @@
 import useThStore from "@/stores/th-store.ts";
 import useCodeIDEStore from "../../code-ide-store.ts";
 import CodeGraph from "../code-memory-types.ts";
+import useUserStore from "@/stores/user-store.ts";
+import { tutorialLevel } from "@/data (todo-post: backend)/tutorial.ts";
 
 export function calculateAndSetGraphOutput(scopeId: string) {
   const store = useCodeIDEStore(scopeId).getState();
   const thStore = useThStore.getState();
+  const userStore = useUserStore.getState();
 
-  const expectedGraph = thStore.activeLevel?.expected.graph ?? { nodes: [], edges: [] };
+  let expectedGraph;
+  if (thStore.activeLevel) {
+    expectedGraph = thStore.activeLevel?.expected.graph;
+  } else if (!userStore.userProgress?.completedTutorial) {
+    expectedGraph = tutorialLevel.expected.graph;
+  }
 
-  store.setGraphOutput(getGraphMatches(store.graph, expectedGraph));
-  console.log("Graph Output", getGraphMatches(store.graph, expectedGraph));
+  store.setGraphOutput(getGraphMatches(store.graph, expectedGraph ?? { nodes: [], edges: [] }));
+  console.log("Graph Output", getGraphMatches(store.graph, expectedGraph ?? { nodes: [], edges: [] }));
 }
 
 function getGraphMatches(graph1: CodeGraph, graph2: CodeGraph): { nodeIds: Set<string>, edgeIds: Set<string> } {
