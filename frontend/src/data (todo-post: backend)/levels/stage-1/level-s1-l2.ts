@@ -3,28 +3,36 @@ import categories from "../../categories.ts";
 import { ThLevel } from "@/types/th-types.ts";
 import CodeGraph from "@/app/code-ide/code-memory/code-memory-types.ts";
 
+// ================================== CodeIDEs ==================================
 const initialCode =
-  `# Vor vier Jahren
-h = 10
-b = 3
-k = 5
-summe = h + b + k
+  `# Stand heute
+e = 1
+m = 2
+j = 92
+summe = e + m + j
 
-# TODO: - Schreibe hier
+# Stand 2010
+# TODO: -\u200B Schreibe deinen Code hier
+
+
+
+# ----------\u200B
+
+print(summe)
 `;
 
 const expectedGraph: CodeGraph = {
   "nodes": [
-    { "id": "n-vs-0", "type": "value-stack", "label": "h" },
-    { "id": "n-vh-0", "type": "value-heap", "label": "20" },
-    { "id": "n-vs-1", "type": "value-stack", "label": "b" },
-    { "id": "n-vh-1", "type": "value-heap", "label": "3" },
-    { "id": "n-vs-2", "type": "value-stack", "label": "k" },
-    { "id": "n-vh-2", "type": "value-heap", "label": "4" },
+    { "id": "n-vs-0", "type": "value-stack", "label": "e" },
+    { "id": "n-vh-0", "type": "value-heap", "label": "1" },
+    { "id": "n-vs-1", "type": "value-stack", "label": "m" },
+    { "id": "n-vh-1", "type": "value-heap", "label": "2" },
+    { "id": "n-vs-2", "type": "value-stack", "label": "j" },
+    { "id": "n-vh-2", "type": "value-heap", "label": "63" },
     { "id": "n-vs-3", "type": "value-stack", "label": "summe" },
-    { "id": "n-vh-3", "type": "value-heap", "label": "75" },
-    { "id": "n-vs-4", "type": "value-stack", "label": "e" },
-    { "id": "n-vh-4", "type": "value-heap", "label": "48" }
+    { "id": "n-vh-3", "type": "value-heap", "label": "128" },
+    { "id": "n-vs-4", "type": "value-stack", "label": "s" },
+    { "id": "n-vh-4", "type": "value-heap", "label": "62" }
   ],
   "edges": [
     { "id": "e-v-0", "type": "value", "source": "n-vs-0", "target": "n-vh-0" },
@@ -35,30 +43,50 @@ const expectedGraph: CodeGraph = {
   ]
 }
 
+// ================================== Task ==================================
 const taskDescription =
-  `Nun sind vier Jahre vergangen und es hat sich einiges verändert. Die Hamster haben sich verdoppelt, eine Katze ist abgehauen und es sind gleich 48 Esel dazu gekommen. 
-<br/>
-<br/>
-Der entsprechende Speicher-Zustand beschreibt die neue Situation. Beachte, dass der jeweilige Wert der Variable im Speicher überschrieben wurde.
-<br/>
-<br/>
-<b>Schreibe ein Programm welches diesen Speicher ausgibt.</b>
+  `<p><b>Ziel:</b></p>
+<p>Gegeben der Speicher. Vervollständige das Programm, sodass er diesen Speicher-Zustand ausgibt.</p><br/>
+
+<p><b>Informationen (Stand 2010):</b></p>
+<ul class="list-disc pl-4">
+  <li>Die Erde hat 1 Mond</li>
+  <li>Der Mars hat 2 Monde</li>
+  <li>Der Jupiter hat 63 Monde (heute 92)</li>
+  <li>Der Saturn hat 62 Monde (heute 146)</li>
+</ul><br/>
 `
 
+// ================================== Solution ==================================
 const exampleSolution =
-  `# Vor vier Jahren
-h = 10
-b = 3
-k = 5
-summe = h + b + k
+  `# Stand heute
+e = 1
+m = 2
+j = 92
+summe = e + m + j
 
-# TODO: - Schreibe hier
-h = 10 * 2
-k = 5 - 1
-e = 48
-summe = h + b + k + e
+# Stand 2010
+# TODO: -\u200B Schreibe deinen Code hier
+
+j = 63
+s = 62
+summe = e + m + j + s
+
+# ----------\u200B
+
+print(summe)
 `
 
+// ================================== Tipps ==================================
+
+
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+// ================================== Level ==================================
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
 const levelS1L2: ThLevel = {
   id: "s1-l2",
   stage: stages[0],

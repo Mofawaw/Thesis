@@ -1,14 +1,13 @@
 import { ThLevel, ThNode, ThStage } from "@/types/th-types.ts";
 import stages from "@/data (todo-post: backend)/stages.ts";
-import tutorialNodes from "@/data (todo-post: backend)/tutorials.ts";
 import useThStore from "@/stores/th-store.ts";
 import useUserStore from "@/stores/user-store.ts";
 import getRandomIntBetween from "@/helpers/random.ts";
 
 import levelS1L1 from '@/data (todo-post: backend)/levels/stage-1/level-s1-l1.ts';
 import levelS1L2 from '@/data (todo-post: backend)/levels/stage-1/level-s1-l2.ts';
-import levelS1L3 from '@/data (todo-post: backend)/levels/stage-1/level-s1-l3.ts';
-import levelS1L4 from '@/data (todo-post: backend)/levels/stage-1/level-s1-l4.ts';
+import levelS1L3 from '@/data (todo-post: backend)/levels/stage-1/level-s1-l4';
+import levelS1L4 from '@/data (todo-post: backend)/levels/stage-1/level-s1-l3';
 import levelS1L5 from '@/data (todo-post: backend)/levels/stage-1/level-s1-l5.ts';
 import levelS1LFinal from '@/data (todo-post: backend)/levels/stage-1/level-s1-lfinal.ts';
 
