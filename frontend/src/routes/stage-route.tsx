@@ -34,7 +34,7 @@ const StageRoute = ({ isInitialLoading }: { isInitialLoading: boolean }) => {
       <div className={`absolute inset-0 transition-opacity duration-500 ${isInitialLoading ? 'opacity-100' : 'opacity-0'}`}>
         <Loading />
 
-        {/*FirstVisit Popup*/}
+        {/*First Visit Popup*/}
         <ThPopup
           width={800}
           height={500}

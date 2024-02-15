@@ -9,6 +9,8 @@ export interface User { // TODO-Post: Backend Version
 
 export interface UserProgress {
   userId: string;
+  completedTutorialValueAndReference: boolean;
+  completedTutorialChallenge: boolean;
   completedTutorial: boolean;
 }
 

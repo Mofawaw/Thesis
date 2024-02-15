@@ -69,8 +69,8 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
         history(),
         codeEditorStyles,
         lineNumbers(),
-        highlightActiveLine(),
-        highlightActiveLineGutter(),
+        ...(config.mode === "write" ? [highlightActiveLine()] : []),
+        ...(config.mode === "write" ? [highlightActiveLineGutter()] : []),
         EditorView.updateListener.of(update => {
           if (update.docChanged) {
             updateFromEditorRef.current = true;

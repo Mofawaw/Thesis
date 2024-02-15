@@ -4,12 +4,12 @@ import 'reactflow/dist/style.css';
 import { nodeTypes } from '../nodes/types/node-types.ts';
 import { convertToReactFlowNode } from '../level-initialization.ts';
 import useUserStore from '@/stores/user-store.ts';
-import { tutorialNodes } from '@/data (todo-post: backend)/tutorial.ts';
+import { tutorialMasterNode } from '@/data (todo-post: backend)/tutorial.ts';
 import ThIconButton from '@/components/buttons/th-icon-button.tsx';
 import ThTextButton from '@/components/buttons/th-text-button.tsx';
 import ThDropdown from '@/components/portals/th-dropdown.tsx';
 import ThMenuTextButton from '@/components/buttons/th-menu-text-button.tsx';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 
 const Tutorial: React.FC = ({
 }) => {
@@ -17,7 +17,7 @@ const Tutorial: React.FC = ({
 
   // Initialize TutorialNode
   useEffect(() => {
-    const initialNode: Node = convertToReactFlowNode(tutorialNodes[0]);
+    const initialNode: Node = convertToReactFlowNode(tutorialMasterNode);
     setNodes([initialNode])
     console.log([initialNode]);
 
@@ -62,6 +62,9 @@ const TutorialReactFlow: React.FC<LevelReactFlowProps> = ({
 
   const onNodesChange = useCallback((changes: NodeChange[]) => {
     const filteredChanges = changes.filter(change => {
+      if (change.type === 'remove' && change.id.includes("t-")) {
+        return false;
+      }
       return true;
     });
     setNodes(nodes => applyNodeChanges(filteredChanges, nodes));

@@ -57,6 +57,8 @@ const useUserStore = create<UserStore>((set, get) => {
 
         const newUserProgress = {
           userId: "u1", // TODO-Post: User
+          completedTutorialValueAndReference: false,
+          completedTutorialChallenge: false,
           completedTutorial: false,
         }
 
