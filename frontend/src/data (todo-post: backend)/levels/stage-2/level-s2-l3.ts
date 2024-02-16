@@ -4,13 +4,12 @@ import { ThLevel } from "@/types/th-types.ts";
 
 // ================================== CodeIDEs ==================================
 const initialCode =
-  `class Viereck:
+  `class Dreieck:
   def __init__(self, name):
     self.name = name
 
-v1 = Viereck("Quadrat")
-v2 = Viereck("Trapez")
-v3 = Viereck("Drache")
+v1 = Dreieck("Rechtwinklig")
+v2 = Dreieck("Gleichseitig")
 
 # TODO: -\u200B Schreibe deinen Code hier
 
@@ -24,13 +23,13 @@ const expectedGraph = {
     { "id": "n-rs-0", "type": "reference-stack", "label": "v1" },
     { "id": "n-rs-1", "type": "reference-stack", "label": "v2" },
     { "id": "n-rs-2", "type": "reference-stack", "label": "v3" },
-    { "id": "n-rhd-0", "type": "reference-heap-deallocated", "label": "Viereck('Quadrat')" },
-    { "id": "n-rh-1", "type": "reference-heap", "label": "Viereck('Trapez')" },
-    { "id": "n-rh-2", "type": "reference-heap", "label": "Viereck('Drache')" }
+    { "id": "n-rh-0", "type": "reference-heap", "label": "Dreieck('Gleichseitig')" },
+    { "id": "n-rh-1", "type": "reference-heap", "label": "Dreieck('Gleichseitig')" },
+    { "id": "n-rh-2", "type": "reference-heap", "label": "Dreieck('Gleichschenklig')" }
   ],
   "edges": [
-    { "id": "e-r-0", "type": "reference", "source": "n-rs-0", "target": "n-rh-1" },
-    { "id": "e-r-1", "type": "reference", "source": "n-rs-1", "target": "n-rh-2" },
+    { "id": "e-r-0", "type": "reference", "source": "n-rs-0", "target": "n-rh-0" },
+    { "id": "e-r-1", "type": "reference", "source": "n-rs-1", "target": "n-rh-1" },
     { "id": "e-r-2", "type": "reference", "source": "n-rs-2", "target": "n-rh-2" }
   ]
 }
@@ -49,18 +48,17 @@ const taskDescription =
 
 // ================================== Solution ==================================
 const exampleSolution =
-  `class Viereck:
+  `class Dreieck:
   def __init__(self, name):
     self.name = name
 
-v1 = Viereck("Quadrat")
-v2 = Viereck("Trapez")
-v3 = Viereck("Drache")
+v1 = Dreieck("Rechtwinklig")
+v2 = Dreieck("Gleichseitig")
 
 # TODO: -\u200B Schreibe deinen Code hier
 
-v1 = v2
-v2 = v3
+v1.name = v2.name
+v3 = Dreieck("Gleichschenklig")
 
 # ----------\u200B
 `
@@ -72,11 +70,11 @@ v2 = v3
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
-const levelS2L2: ThLevel = {
-  id: "s2-l2",
+const levelS2L3: ThLevel = {
+  id: "s2-l3",
   stage: stages[1],
   category: categories[1],
-  label: "6",
+  label: "7",
   nodes: [
     { baseNode: categories[1].baseNodes[0], data: { codeIDE: { initialGraph: expectedGraph } } },
     { baseNode: categories[1].baseNodes[1], data: { codeIDE: { initialCode: initialCode } } },
@@ -89,4 +87,4 @@ const levelS2L2: ThLevel = {
   expected: { graph: expectedGraph }
 }
 
-export default levelS2L2;
+export default levelS2L3;

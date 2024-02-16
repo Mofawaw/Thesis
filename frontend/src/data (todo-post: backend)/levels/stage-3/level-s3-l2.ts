@@ -1,8 +1,8 @@
 import stages from "../../stages.ts";
 import categories from "../../categories.ts";
 import { ThLevel } from "@/types/th-types.ts";
-import CodeGraph from "@/app/code-ide/code-memory/code-memory-types.ts";
 
+// ================================== CodeIDEs ==================================
 const initialCode =
   `class Rechteck:
     def __init__(self, laenge, breite):
@@ -20,10 +20,15 @@ areas.append(area)
 a = b
 areas.append(area)
 
-# Todo: Bearbeite hier
+# TODO: -\u200B Schreibe deinen Code hier
+
+
+
+# ----------\u200B
+areas.append(a.laenge * a.breite)
 `;
 
-const expectedGraph: CodeGraph = {
+const expectedGraph = {
   "nodes": [
     { "id": "n-rs-0", "type": "reference-stack", "label": "a" },
     { "id": "n-rs-1", "type": "reference-stack", "label": "b" },
@@ -48,33 +53,18 @@ const expectedGraph: CodeGraph = {
   ]
 }
 
+// ================================== Task ==================================
 const taskDescription =
-  `Gegeben die Klasse 'Rechteck' mit den Attributen 'laenge' und 'breite'.
-<br/>
-<br/>
-<b>Vervollständige das Programm so, dass er den Speicher-Zustand beschreibt.</b>
+  `<p><b>Ziel:</b></p>
+<p>Gegeben der Speicher. Vervollständige das Programm, sodass er diesen Speicher-Zustand ausgibt.</p><br/>
+
+<p><b>Anweisungen:</b></p>
+<ul class="list-disc pl-4">
+  <li>Entnehme die Informationen der Variablen aus dem Speicher-Zustand.</li>
+</ul><br/>
 `
 
-const levelS3L2: ThLevel = {
-  id: "s3-l2",
-  stage: stages[2],
-  category: categories[1],
-  label: "8",
-  nodes: [
-    { baseNode: categories[1].baseNodes[0], data: { codeIDE: { initialGraph: expectedGraph } } },
-    { baseNode: categories[1].baseNodes[1], data: { codeIDE: { initialCode: initialCode } } },
-    { baseNode: categories[1].baseNodes[2], data: { text: { description: taskDescription } } }
-  ],
-  tippNodes: [
-    { baseNode: categories[1].baseTippNodes[0], data: { codeIDE: { initialCode: initialCode } } },
-    { baseNode: categories[1].baseTippNodes[1], data: { codeIDE: {} } },
-    { baseNode: categories[1].baseTippNodes[2], data: { codeIDE: {} } },
-  ],
-  expected: { graph: expectedGraph }
-}
-
-export default levelS3L2;
-
+// ================================== Solution ==================================
 const exampleSolution =
   `class Rechteck:
     def __init__(self, laenge, breite):
@@ -92,12 +82,43 @@ areas.append(area)
 a = b
 areas.append(area)
 
-# Todo: Bearbeite hier
+# TODO: -\u200B Schreibe deinen Code hier
+
 b = d
 areas.append(c.laenge * c.breite)
 c = a
 a = d
 areas.append(c.laenge * c.breite)
-# -----
+
+# ----------\u200B
 areas.append(a.laenge * a.breite)
 `
+
+// ================================== Tipps ==================================
+
+
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+// ================================== Level ==================================
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+const levelS3L2: ThLevel = {
+  id: "s3-l2",
+  stage: stages[2],
+  category: categories[1],
+  label: "10",
+  nodes: [
+    { baseNode: categories[1].baseNodes[0], data: { codeIDE: { initialGraph: expectedGraph } } },
+    { baseNode: categories[1].baseNodes[1], data: { codeIDE: { initialCode: initialCode } } },
+    { baseNode: categories[1].baseNodes[2], data: { text: { description: taskDescription } } }
+  ],
+  tippNodes: [
+    { baseNode: categories[1].baseTippNodes[0], data: { codeIDE: {} } },
+    { baseNode: categories[1].baseTippNodes[1], data: { codeIDE: { initialCode: exampleSolution } } },
+  ],
+  expected: { graph: expectedGraph }
+}
+
+export default levelS3L2;

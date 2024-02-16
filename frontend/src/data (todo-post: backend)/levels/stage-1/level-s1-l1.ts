@@ -4,8 +4,8 @@ import { ThLevel } from "@/types/th-types.ts";
 
 // ================================== CodeIDEs ==================================
 const initialCode =
-  `e = 1
-m = 2
+  `x = 1
+y = 2
 summe = 0
 
 # TODO: -\u200B Schreibe deinen Code hier
@@ -18,25 +18,18 @@ print(summe)
 `;
 
 const expectedOutput =
-  `95
+  `33
 `
 
 // ================================== Task ==================================
 const taskDescription =
   `<p><b>Ziel:</b></p>
-<p>Schreibe ein Programm, das die Summe der Monde von Erde, Mars und Jupiter berechnet.</p><br/>
-
-<p><b>Informationen (Stand heute):</b></p>
-<ul class="list-disc pl-4">
-  <li>Die Erde hat 1 Mond</li>
-  <li>Der Mars hat 2 Monde</li>
-  <li>Der Jupiter hat 92 Monde</li>
-</ul><br/>
+<p>Bearbeite das Programm, sodass es die Summe von den Variablen x, y und z ausgibt.</p><br/>
 
 <p><b>Anweisungen:</b></p>
 <ul class="list-disc pl-4">
-  <li>Definiere eine Variable <i>j</i> für die Anzahl Monde des Jupiters</li>
-  <li>Aktualisiere die Variable <i>summe</i> mit der Summe der Monde</li>
+  <li>Definiere eine Variable <i>z</i> mit dem Wert 30</li>
+  <li>Aktualisiere die Variable <i>summe</i></li>
 </ul><br/>
 
 <p><b>Erwartete Ausgabe:</b></p>
@@ -45,14 +38,14 @@ const taskDescription =
 
 // ================================== Solution ==================================
 const exampleSolution =
-  `e = 1
-m = 2
+  `x = 1
+y = 2
 summe = 0
 
 # TODO: -\u200B Schreibe deinen Code hier
 
-j = 92
-summe = e + m + j
+z = 30
+summe = x + y + z
 
 # ----------\u200B
 
@@ -60,7 +53,10 @@ print(summe)
 `
 
 // ================================== Tipps ==================================
-
+const tippDescription =
+  `<p><b>Erwartete Ausgabe:</b></p>
+33
+`
 
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
@@ -79,9 +75,8 @@ const levelS1L1: ThLevel = {
     { baseNode: categories[0].baseNodes[1], data: { text: { description: taskDescription } } }
   ],
   tippNodes: [
-    { baseNode: categories[0].baseTippNodes[0], data: { text: { description: "Tipp Text" } } },
-    { baseNode: categories[0].baseTippNodes[1], data: { codeIDE: { initialCode: initialCode } } },
-    { baseNode: categories[0].baseTippNodes[2], data: { codeIDE: { initialCode: exampleSolution } } },
+    { baseNode: categories[0].baseTippNodes[0], data: { text: { description: tippDescription } } },
+    { baseNode: categories[0].baseTippNodes[1], data: { codeIDE: { initialCode: exampleSolution } } },
   ],
   expected: { output: expectedOutput }
 }

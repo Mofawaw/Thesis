@@ -3,7 +3,6 @@ import * as d3 from 'd3';
 import LevelButton, { LevelButtonProps, levelButtonRadius } from './level-button';
 import useUserStore from '@/stores/user-store';
 import { ThStage } from '@/types/th-types';
-import { tutorialStage } from '@/data (todo-post: backend)/tutorial';
 
 interface LevelsProps {
   stages: ThStage[];
@@ -19,14 +18,6 @@ const Levels: React.FC<LevelsProps> = ({
   const stagesProgress = useUserStore(state => state.stagesProgress);
 
   useEffect(() => {
-    const tutorialLevelButton: LevelButtonProps = {
-      stage: tutorialStage,
-      stageLevel: tutorialStage.stageLevels[0],
-      group: 1,
-      tutorial: true,
-      x: 0,
-      y: 0
-    }
     const stagesLevelButtons: LevelButtonProps[] = stages.flatMap(stage => {
       const stageLevelButtons: LevelButtonProps[] = stage.stageLevels
         .sort((a, b) => a.order - b.order)
@@ -44,8 +35,7 @@ const Levels: React.FC<LevelsProps> = ({
 
       return stageLevelButtons;
     })
-
-    setLevelButtons([tutorialLevelButton, stagesLevelButtons].flat());
+    setLevelButtons(stagesLevelButtons);
   }, [stages, stagesProgress]);
 
   useEffect(() => {

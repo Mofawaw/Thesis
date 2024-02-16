@@ -4,23 +4,20 @@ import useThStore from "@/stores/th-store.ts";
 import useUserStore from "@/stores/user-store.ts";
 import getRandomIntBetween from "@/helpers/random.ts";
 
-import levelS1L1 from '@/data (todo-post: backend)/levels/stage-1/level-s1-l1.ts';
-import levelS1L2 from '@/data (todo-post: backend)/levels/stage-1/level-s1-l2.ts';
-import levelS1LFinal from '@/data (todo-post: backend)/levels/stage-1/level-s1-lfinal.ts';
-
-import levelS2L1 from '@/data (todo-post: backend)/levels/stage-2/level-s2-l1.ts';
-import levelS2L2 from '@/data (todo-post: backend)/levels/stage-2/level-s2-l2.ts';
-import levelS2LFinal from '@/data (todo-post: backend)/levels/stage-2/level-s2-lfinal.ts';
-
-import levelS3L1 from '@/data (todo-post: backend)/levels/stage-3/level-s3-l1.ts';
-import levelS3L2 from '@/data (todo-post: backend)/levels/stage-3/level-s3-l2.ts';
-import levelS3L3 from '@/data (todo-post: backend)/levels/stage-3/level-s3-l3.ts';
-import levelS3LFinal from '@/data (todo-post: backend)/levels/stage-3/level-s3-lfinal.ts';
+import levelL1 from '@/data (todo-post: backend)/levels/stage-1/level-s1-l1';
+import levelL2 from '@/data (todo-post: backend)/levels/stage-1/level-s1-l2';
+import levelL3 from '@/data (todo-post: backend)/levels/stage-1/level-s1-l3';
+import levelL4 from '@/data (todo-post: backend)/levels/stage-1/level-s1-lfinal';
+import levelL5 from '@/data (todo-post: backend)/levels/stage-2/level-s2-l1';
+import levelL6 from '@/data (todo-post: backend)/levels/stage-2/level-s2-l2';
+import levelL7 from "@/data (todo-post: backend)/levels/stage-2/level-s2-l3";
+import levelL8 from "@/data (todo-post: backend)/levels/stage-2/level-s2-lfinal";
+import levelL9 from "@/data (todo-post: backend)/levels/stage-3/level-s3-l1";
+import levelL10 from "@/data (todo-post: backend)/levels/stage-3/level-s3-l2";
+import levelL11 from "@/data (todo-post: backend)/levels/stage-3/level-s3-lfinal";
 
 const levels: ThLevel[][] = [
-  [levelS1L1, levelS1L2, levelS1LFinal],
-  [levelS2L1, levelS2L2, levelS2LFinal],
-  [levelS3L1, levelS3L2, levelS3L3, levelS3LFinal]
+  [levelL1, levelL2, levelL3, levelL4, levelL5, levelL6, levelL7, levelL8, levelL9, levelL10, levelL10, levelL11],
 ];
 
 const delay = (ms: number): Promise<void> => {

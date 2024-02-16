@@ -99,7 +99,12 @@ const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
             >
               <ul className="flex flex-col items-center gap-1 p-3">
                 {level.tippNodes.map((tippNode) => {
-                  const tippCheckingAttemptsToUnlock = tippNode.baseNode.id.includes("ti1") ? 0 : (tippNode.baseNode.id.includes("ti2") ? 3 : (level.stage.id === "s3" ? 20 : 10))
+                  let tippCheckingAttemptsToUnlock = 0;
+                  switch (tippNode.baseNode.id) {
+                    case "ti-1": tippCheckingAttemptsToUnlock = 0; break;
+                    case "ti-2": tippCheckingAttemptsToUnlock = 3; break;
+                    case "ti-sol": tippCheckingAttemptsToUnlock = (level.stage.id === "s3" ? 20 : 10); break;
+                  }
                   const tippUnlocked = levelProgress.checkingAttempts >= tippCheckingAttemptsToUnlock
 
                   return (

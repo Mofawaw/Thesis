@@ -2,83 +2,91 @@ import stages from "../../stages.ts";
 import categories from "../../categories.ts";
 import { ThLevel } from "@/types/th-types.ts";
 
+// ================================== CodeIDEs ==================================
 const initialCode =
-  `class Tier:
-  def __init__(self, name, alter):
-      self.name = name
-      self.alter = alter
+  `class Viereck:
+  def __init__(self, name):
+    self.name = name
 
-  def __repr__(self):
-      return f"{self.name}, {self.alter} Jahre alt"
+quadrat = Viereck("Quadrat")
+trapez = Viereck("Trapez")
 
-hamster = Tier("Max", 2)
-biber = Tier("Bert", 3)
-katze = Tier("Luisa", 5)
+viereck = quadrat
 
-boss = hamster
-print("Der aktuelle Boss ist:", boss)
+# TODO: -\u200B Schreibe deinen Code hier
 
-# TODO: - Bearbeite hier
+
+
+# ----------\u200B
+
+print("Das Viereck ist ein:", viereck.name)
 `;
 
 const expectedOutput =
-  `
-Der aktuelle Boss ist: Max, 2 Jahre alt
-Die neue Bossin ist: Luisa, 5 Jahre alt
+  `Das Viereck ist ein: Trapez
 `
 
+// ================================== Task ==================================
 const taskDescription =
-  `Im Bauernhof sind die Tiere organisiert: Sie haben einen Boss - aktuell, der Hamster Max. Jedoch hat sich die Katze Luisa als weiser erwiesen und soll die neue Bossin werden.
-<br/>
-<br/>
-Dafür gibt es die Klasse 'Tier' mit den Parametern 'name' und 'alter'. Die Variable 'boss' ist eine Referenz auf das Objekt 'hamster'.
-<br/>
-<br/>
-<b>Weise die Variable 'boss' der Katze zu und beobachte, was passiert. Gebe danach die folgende Ausgabe aus:</b>
-<br/>
-<br/>
-Der aktuelle Boss ist: Max, 2 Jahre alt
-<br/>
-Die neue Bossin ist: Luisa, 5 Jahre alt
+  `<p><b>Ziel:</b></p>
+<p>Bearbeite das Programm, sodass das Viereck ein Trapez ist.</p><br/>
+
+<p><b>Anweisungen:</b></p>
+<ul class="list-disc pl-4">
+  <li>Aktualisiere die Variable <i>viereck</i></li>
+</ul><br/>
+
+<p><b>Erwartete Ausgabe:</b></p>
+<p><i>Siehe: Tipp 1</i></p>
 `
 
+// ================================== Solution ==================================
+const exampleSolution =
+  `class Viereck:
+  def __init__(self, name):
+    self.name = name
+
+quadrat = Viereck("Quadrat")
+trapez = Viereck("Trapez")
+
+viereck = quadrat
+
+# TODO: -\u200B Schreibe deinen Code hier
+
+viereck = trapez
+
+# ----------\u200B
+
+print("Das Viereck ist ein:", viereck.name)
+`
+
+// ================================== Tipps ==================================
+const tippDescription =
+  `<p><b>Erwartete Ausgabe:</b></p>
+Das Viereck ist ein: Trapez
+`
+
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+// ================================== Level ==================================
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
 const levelS2L1: ThLevel = {
   id: "s2-l1",
   stage: stages[1],
   category: categories[0],
-  label: "4",
+  label: "5",
   nodes: [
     { baseNode: categories[0].baseNodes[0], data: { codeIDE: { initialCode: initialCode } } },
     { baseNode: categories[0].baseNodes[1], data: { text: { description: taskDescription } } }
   ],
   tippNodes: [
-    { baseNode: categories[0].baseTippNodes[0], data: { text: { description: "Tipp Text" } } },
-    { baseNode: categories[0].baseTippNodes[1], data: { codeIDE: { initialCode: initialCode } } },
-    { baseNode: categories[0].baseTippNodes[2], data: { codeIDE: {} } },
+    { baseNode: categories[0].baseTippNodes[0], data: { text: { description: tippDescription } } },
+    { baseNode: categories[0].baseTippNodes[1], data: { codeIDE: { initialCode: exampleSolution } } },
   ],
   expected: { output: expectedOutput }
 }
 
 export default levelS2L1;
-
-const exampleSolution =
-  `class Tier:
-  def __init__(self, name, alter):
-      self.name = name
-      self.alter = alter
-
-  def __repr__(self):
-      return f"{self.name}, {self.alter} Jahre alt"
-
-hamster = Tier("Max", 2)
-biber = Tier("Bert", 3)
-katze = Tier("Luisa", 5)
-
-boss = hamster
-print("Der aktuelle Boss ist:", boss)
-
-# TODO: - Bearbeite hier
-
-boss = katze
-print("Die neue Bossin ist:", boss)
-`

@@ -3,82 +3,81 @@ import categories from "../../categories.ts";
 import { ThLevel } from "@/types/th-types.ts";
 import CodeGraph from "@/app/code-ide/code-memory/code-memory-types.ts";
 
+// ================================== CodeIDEs ==================================
 const expectedGraphProgram =
-  `class Tier:
-    def __init__(self, name, alter):
-        self.name = name
-        self.alter = alter
+  `class Viereck:
+  def __init__(self, name):
+    self.name = name
 
-stall = Tier("Max", 2)
-teich = Tier("Bert", 3)
-scheune = Tier("Luisa", 5)
-wiese = Tier("Elsa", 1)
+class Dreieck:
+  def __init__(self, name):
+    self.name = name
 
-# Julius das neue Tier kommt und ersetzt Max im Stall
-stall = Tier("Julius", 4)
+f1 = Viereck("Parallelogramm")
+f2 = Viereck("Drache")
+f3 = Dreieck("Rechtwinklig")
 
-# Elsa verlässt die Wiese und wird nicht ersetzt
-del wiese
+f1.name = ("Rhombus")
 
-# Bert und Luisa tauschen die Plätze
-temp = stall
-stall = scheune
-scheune = temp
+f2 = f1
+f1 = f3
+f3 = f1
 `;
 
 const initialGraph: CodeGraph = {
   "nodes": [
     { "id": "n-rs-0", "type": "reference-stack", "label": "" },
     { "id": "n-rs-1", "type": "reference-stack", "label": "" },
-    { "id": "n-rs-2", "type": "reference-stack", "label": "scheune" },
-    { "id": "n-rs-3", "type": "reference-stack", "label": "temp" },
-    { "id": "n-rhd-0", "type": "reference-heap-deallocated", "label": "" },
-    { "id": "n-rh-1", "type": "reference-heap", "label": "Tier('Bert', 3)" },
-    { "id": "n-rh-2", "type": "reference-heap", "label": "" },
-    { "id": "n-rhd-3", "type": "reference-heap-deallocated", "label": "" },
-    { "id": "n-rh-4", "type": "reference-heap", "label": "" }
+    { "id": "n-rs-2", "type": "reference-stack", "label": "" },
+    { "id": "n-rh-0", "type": "reference-heap", "label": "" },
+    { "id": "n-rhd-1", "type": "reference-heap-deallocated", "label": "Viereck('Drache')" },
+    { "id": "n-rh-2", "type": "reference-heap", "label": "" }
   ],
   "edges": [
     { "id": "e-r-0", "type": "reference", "source": "n-rs-0", "target": "n-rh-2" },
-    { "id": "e-r-1", "type": "reference", "source": "n-rs-1", "target": "n-rh-1" },
-    { "id": "e-r-2", "type": "reference", "source": "n-rs-2", "target": "n-rh-4" },
-    { "id": "e-r-3", "type": "reference", "source": "n-rs-3", "target": "n-rh-4" }
+    { "id": "e-r-1", "type": "reference", "source": "n-rs-1", "target": "n-rh-0" },
+    { "id": "e-r-2", "type": "reference", "source": "n-rs-2", "target": "n-rh-2" }
   ],
-  inputMaxChars: 17
+  inputMaxChars: 24
 }
+
 
 const expectedGraph: CodeGraph = {
   "nodes": [
-    { "id": "n-rs-0", "type": "reference-stack", "label": "stall" },
-    { "id": "n-rs-1", "type": "reference-stack", "label": "teich" },
-    { "id": "n-rs-2", "type": "reference-stack", "label": "scheune" },
-    { "id": "n-rs-3", "type": "reference-stack", "label": "temp" },
-    { "id": "n-rhd-0", "type": "reference-heap-deallocated", "label": "Tier('Max', 2)" },
-    { "id": "n-rh-1", "type": "reference-heap", "label": "Tier('Bert', 3)" },
-    { "id": "n-rh-2", "type": "reference-heap", "label": "Tier('Luisa', 5)" },
-    { "id": "n-rhd-3", "type": "reference-heap-deallocated", "label": "Tier('Elsa', 1)" },
-    { "id": "n-rh-4", "type": "reference-heap", "label": "Tier('Julius', 4)" }
+    { "id": "n-rs-0", "type": "reference-stack", "label": "f1" },
+    { "id": "n-rs-1", "type": "reference-stack", "label": "f2" },
+    { "id": "n-rs-2", "type": "reference-stack", "label": "f3" },
+    { "id": "n-rh-0", "type": "reference-heap", "label": "Viereck('Rhombus')" },
+    { "id": "n-rhd-1", "type": "reference-heap-deallocated", "label": "Viereck('Drache')" },
+    { "id": "n-rh-2", "type": "reference-heap", "label": "Dreieck('Rechtwinklig')" }
   ],
   "edges": [
     { "id": "e-r-0", "type": "reference", "source": "n-rs-0", "target": "n-rh-2" },
-    { "id": "e-r-1", "type": "reference", "source": "n-rs-1", "target": "n-rh-1" },
-    { "id": "e-r-2", "type": "reference", "source": "n-rs-2", "target": "n-rh-4" },
-    { "id": "e-r-3", "type": "reference", "source": "n-rs-3", "target": "n-rh-4" }
+    { "id": "e-r-1", "type": "reference", "source": "n-rs-1", "target": "n-rh-0" },
+    { "id": "e-r-2", "type": "reference", "source": "n-rs-2", "target": "n-rh-2" }
   ]
 }
 
+// ================================== Task ==================================
 const taskDescription =
-  `Heute im Bauernhof: Julius kommt hinzu und ersetzt Max am Teich und Elsa verlässt den Bauernhof. Zudem tauschen Bert und Luisa die Plätze.
-<br/>
-<br/>
-Gegeben ist das entsprechene Programm. Deine Aufgabe ist es, den zugehörigen Speicher-Graphen zu vollenden.
-<br/>
-<br/>
-<b>Fülle die Lücken des Speicher-Graphen aus.</b>
+  `<p><b>Ziel:</b></p>
+<p>Gegeben das Program. Fülle die Lücken des Speicher-Graphens aus.</p><br/>
+
+<p><b>Anweisungen:</b></p>
+<ul class="list-disc pl-4">
+  <li>Entnehme die Informationen der Variablen aus dem Program</li>
+</ul><br/>
 `
 
-const levelS2LFinale: ThLevel = {
-  id: "s2-lFinal",
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+// ================================== Level ==================================
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+const levelS2LFinal: ThLevel = {
+  id: "s2-lfinal",
   stage: stages[1],
   category: categories[2],
   label: "Finale",
@@ -95,4 +94,4 @@ const levelS2LFinale: ThLevel = {
   expected: { graph: expectedGraph }
 }
 
-export default levelS2LFinale;
+export default levelS2LFinal;

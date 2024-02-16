@@ -5,6 +5,7 @@ import { ThStage } from '@/types/th-types';
 import useUserStore from '@/stores/user-store';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ThIcon } from '@/utilities/th-icon';
 
 interface StageProps {
   stages: ThStage[];
@@ -15,7 +16,6 @@ const Stage: React.FC<StageProps> = ({
 }) => {
   const navigate = useNavigate();
   const userStore = useUserStore.getState();
-  const [openTutorialDropdown, setOpenTutorialDropdown] = useState<boolean>(false);
   const [openInfoPopup, setOpenInfoPopup] = useState<boolean>(false);
 
   const getClassFromProgress = (stage: "s1" | "s2" | "s3", lockedClass: string, unlockedClass: string, completedClass: string) => {
@@ -33,7 +33,8 @@ const Stage: React.FC<StageProps> = ({
       </div>
 
       {/* Overlay-Top */}
-      <div className="w-screen absolute top-10 z-20 flex flex-row justify-center">
+      <div className="w-screen absolute top-10 z-20 flex flex-row justify-between">
+        <div style={{ width: 200 }} className="pointer-events-auto" />
         <h2 className="text-th-black-20 text-center">
           {<span>
             <span className={getClassFromProgress("s1", "text-th-black-30", "text-th-value-100", "th-text-gradient")}>Werte</span>
@@ -41,6 +42,15 @@ const Stage: React.FC<StageProps> = ({
             <span className={getClassFromProgress("s2", "text-th-black-30", "text-th-reference-100", "th-text-gradient")}>Referenzen</span>
           </span>}
         </h2>
+        <div style={{ width: 200 }} className="flex flex-row justify-end pr-10 pointer-events-auto" >
+          <button className={`
+            h-[3.75rem] w-[3.75rem] transition duration-150 ease-in-out rotate-12
+            hover:scale-110
+            active:scale-95 active:duration-100
+          `}>
+            <ThIcon icon="tutorial" className="h-[3.75rem] w-[3.75rem] text-th-tint-70" />
+          </button>
+        </div>
       </div>
 
       {/* Overlay-Bottom */}
