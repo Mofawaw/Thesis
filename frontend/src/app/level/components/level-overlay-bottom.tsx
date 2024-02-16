@@ -103,7 +103,7 @@ const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
                   switch (tippNode.baseNode.id) {
                     case "ti-1": tippCheckingAttemptsToUnlock = 0; break;
                     case "ti-2": tippCheckingAttemptsToUnlock = 3; break;
-                    case "ti-sol": tippCheckingAttemptsToUnlock = (level.stage.id === "s3" ? 20 : 10); break;
+                    case "ti-sol": tippCheckingAttemptsToUnlock = (level.stage.id === "s1" ? 6 : 10); break;
                   }
                   const tippUnlocked = levelProgress.checkingAttempts >= tippCheckingAttemptsToUnlock
 

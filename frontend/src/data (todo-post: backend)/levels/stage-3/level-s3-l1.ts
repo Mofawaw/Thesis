@@ -12,8 +12,6 @@ const initialCode =
 p1 = Punkt(1, 2)
 p2 = Punkt(3, 3)
 
-x = p1
-
 quadrat = 0
 zahl = 5
 
@@ -29,15 +27,15 @@ print(f"Punkt: ({p2.x}, {p2.y})")
 `;
 
 const expectedOutput =
-  `25
-Punkt: (1, 1)
-Punkt: (1, 1)
+  `Quadrat: 25
+Punkt: (3, 25)
+Punkt: (3, 25)
 `
 
 // ================================== Task ==================================
 const taskDescription =
   `<p><b>Ziel:</b></p>
-<p>Bearbeite das Programm, sodass beide Punkte an Position (3, zahl^2) landen.</p><br/>
+<p>Bearbeite das Programm, sodass beide Punkte an Position <i>(3, zahl^2)</i> landen.</p><br/>
 
 <p><b>Anweisungen:</b></p>
 <ul class="list-disc pl-4">
@@ -80,9 +78,9 @@ print(f"Punkt: ({p2.x}, {p2.y})")
 // ================================== Tipps ==================================
 const tippDescription =
   `<p><b>Erwartete Ausgabe:</b></p>
-25<br/>
-Punkt: (1, 1)<br/>
-Punkt: (1, 1)
+Quadrat: 25<br/>
+Punkt: (3, 25)<br/>
+Punkt: (3, 25)
 `
 
 // ---------------------------------------------------------------------------
