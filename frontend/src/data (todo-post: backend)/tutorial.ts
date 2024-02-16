@@ -59,7 +59,7 @@ const expectedGraph: CodeGraph = {
 }
 
 const taskDescription = `<p><b>Ziel:</b></p>
-<p>Fülle die Lücken des Speicher-Graphens aus.</p><br/>
+<p>Gegeben das Program. Fülle die Lücken des Speicher-Graphens aus.</p><br/>
 
 <p><b>Anweisungen:</b></p>
 <ul class="list-disc pl-4">

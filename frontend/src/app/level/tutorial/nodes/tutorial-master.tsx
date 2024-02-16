@@ -5,8 +5,10 @@ import { Node, useReactFlow } from "reactflow";
 import { convertToReactFlowNode, generateReactFlowNodes } from "../../level-initialization";
 import useUserStore from "@/stores/user-store";
 import { useEffect, useState } from "react";
+import useThStore from "@/stores/th-store";
 
 const TutorialMaster: React.FC = () => {
+  const thStore = useThStore.getState();
   const userStore = useUserStore.getState();
   const userProgress = useUserStore(state => state.userProgress);
   const reactFlowInstance = useReactFlow();
@@ -42,12 +44,6 @@ const TutorialMaster: React.FC = () => {
     reactFlowInstance.setNodes(tutorialLevelNodes);
   }
 
-  useEffect(() => {
-    if (userStore.userProgress?.completedTutorial) {
-      initializeTutorialChallenge();
-    }
-  }, [])
-
   return (
     <div className="flex flex-col gap-10">
       <div className="flex flex-col gap-3">
@@ -67,20 +63,22 @@ const TutorialMaster: React.FC = () => {
         </div>
       </div>
 
-      <div className="flex flex-col gap-3">
-        <p><b>(2) Um das Tutorial abzuschliessen, beende die Challenge:</b></p>
-        {showTutorialChallenge && !userProgress?.completedTutorial &&
-          <ThMenuTextButton width={250} thColor="th-tint" text="Los gehts!"
-            onClick={() => {
-              initializeTutorialChallenge();
-              userStore.updateUserProgress({ completedTutorialValueAndReference: true });
-            }
-            } />
-        }
-        {!showTutorialChallenge &&
-          <ThMenuTextButton width={250} thColor="th-black" bgThColorShade={20} shadowThColorShade={30} textThColorShade={40} text="Beende zuerst (1)" disabled />
-        }
-      </div>
+      {!thStore.activeLevel &&
+        <div className="flex flex-col gap-3">
+          <p><b>(2) Um das Tutorial abzuschliessen, beende die Challenge:</b></p>
+          {showTutorialChallenge &&
+            <ThMenuTextButton width={250} thColor="th-tint" text="Los gehts!"
+              onClick={() => {
+                initializeTutorialChallenge();
+                userStore.updateUserProgress({ completedTutorialValueAndReference: true });
+              }
+              } />
+          }
+          {!showTutorialChallenge &&
+            <ThMenuTextButton width={250} thColor="th-black" bgThColorShade={20} shadowThColorShade={30} textThColorShade={40} text="Beende zuerst (1)" disabled />
+          }
+        </div>
+      }
     </div>
   )
 }

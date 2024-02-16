@@ -16,7 +16,7 @@ const TutorialReference: React.FC = () => {
 
       <div className="flex flex-col gap-3">
         <p>(3) Mehrere Variablen: Kopieren die Referenz der anderen Variable:</p>
-        <TutorialCodeIDE height={100} scopeId={"tu-val-4"} mode="read" code={"x = [1, 2]\ny = [-1]\n\ny = x"} />
+        <TutorialCodeIDE height={100} scopeId={"tu-ref-4"} mode="read" code={"x = [1, 2]\ny = [-1]\n\ny = x"} />
         <TutorialCodeIDE height={170} scopeId={"tu-ref-5"} mode="read" code={"x = [1, 2]\ny = [-1]\n\ny = x\n\nx.append(3)\ny.append(4)"} />
       </div>
 
