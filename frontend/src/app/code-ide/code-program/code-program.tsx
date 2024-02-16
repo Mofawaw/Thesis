@@ -5,8 +5,6 @@ import CodeOutput from "./components/code-output.tsx"
 import { compileGetCodeOutput, compileGetGraph } from "../code-ide-network.ts";
 import useCodeIDEStore from "../code-ide-store.ts";
 import CodeIDEConfig, { codeIDELayout } from "../code-ide-config.ts";
-import ThPopup from "@/components/portals/th-popup.tsx";
-import ThMenuTextButton from "@/components/buttons/th-menu-text-button.tsx";
 
 interface CodeProgramProps {
   height: number;
@@ -22,8 +20,6 @@ const CodeProgram: React.FC<CodeProgramProps> = ({
   const store = useCodeIDEStore(scopeId).getState();
   let codeProgramComponent;
   let codeEditorHeight = codeIDELayout.getCodeEditorHeight(config, height);
-
-  const [openResetPopup, setOpenResetPopup] = useState(false);
 
   if (!config.runnable) {
     codeProgramComponent = (
@@ -45,7 +41,7 @@ const CodeProgram: React.FC<CodeProgramProps> = ({
             <ThIDEButton thColor="th-black" thColorShade={100} icon="run" onClick={() => compileGetCodeOutput(scopeId)} />
             <div className="flex flex-row justify-left gap-2 h-8">
               {config.type === "program+graph" && <ThIDEButton thColor="th-black" thColorShade={30} icon="generate" onClick={() => { compileGetGraph(scopeId) }} />}
-              {config.mode === "write" &&
+              {/* {config.mode === "write" &&
                 <ThPopup
                   width={450}
                   height={400}
@@ -72,7 +68,7 @@ const CodeProgram: React.FC<CodeProgramProps> = ({
                     </div>
                   </div>
                 </ThPopup>
-              }
+              } */}
             </div>
           </div>
 
