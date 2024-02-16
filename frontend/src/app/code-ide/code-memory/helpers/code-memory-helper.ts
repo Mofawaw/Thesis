@@ -2,7 +2,7 @@ import useThStore from "@/stores/th-store.ts";
 import useCodeIDEStore from "../../code-ide-store.ts";
 import CodeGraph from "../code-memory-types.ts";
 import useUserStore from "@/stores/user-store.ts";
-import { tutorialLevel } from "@/data (todo-post: backend)/tutorial.ts";
+import { tutorialLevel } from "@/data (todo-post: backend)/levels/extras/tutorial.ts";
 
 export function calculateAndSetGraphOutput(scopeId: string) {
   const store = useCodeIDEStore(scopeId).getState();

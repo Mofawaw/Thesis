@@ -10,9 +10,11 @@ import {
   GenerateIcon,
   LevelsIcon,
   ExitIcon,
+  BlankIcon,
+  StarIcon
 } from "@/assets/icons/icons.tsx";
 
-export type ThIconKey = 'plus' | 'minus' | 'fit' | 'tutorial' | 'tipps' | 'check' | 'run' | 'reset' | 'generate' | 'levels' | 'exit';
+export type ThIconKey = 'plus' | 'minus' | 'fit' | 'tutorial' | 'tipps' | 'check' | 'run' | 'reset' | 'generate' | 'levels' | 'exit' | 'blank' | 'star';
 
 interface ThIconProps extends React.SVGProps<SVGSVGElement> {
   icon: ThIconKey;
@@ -57,6 +59,12 @@ export const ThIcon: React.FC<ThIconProps> = ({
       break;
     case 'exit':
       IconComponent = ExitIcon;
+      break;
+    case 'blank':
+      IconComponent = BlankIcon;
+      break;
+    case 'star':
+      IconComponent = StarIcon;
       break;
     default:
       return null;

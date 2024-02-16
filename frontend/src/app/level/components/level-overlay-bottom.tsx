@@ -11,7 +11,7 @@ import { evaluateLevelCompletion } from "../level-evaluation.ts";
 import useUserStore from "@/stores/user-store.ts";
 import { useNavigate } from "react-router-dom";
 import useThStore from "@/stores/th-store.ts";
-import { tutorialMasterNode } from "@/data (todo-post: backend)/tutorial.ts";
+import { tutorialMasterNode } from "@/data (todo-post: backend)/levels/extras/tutorial.ts";
 
 interface LevelOverlayBottomProps {
   level: ThLevel;

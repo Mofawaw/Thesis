@@ -1,5 +1,5 @@
 import ThMenuTextButton from "@/components/buttons/th-menu-text-button";
-import { tutorialLevel, tutorialValueNode, tutorialReferenceNode } from "@/data (todo-post: backend)/tutorial";
+import { tutorialLevel, tutorialValueNode, tutorialReferenceNode } from "@/data (todo-post: backend)/levels/extras/tutorial";
 import { ThNode } from "@/types/th-types";
 import { Node, useReactFlow } from "reactflow";
 import { convertToReactFlowNode, generateReactFlowNodes } from "../../level-initialization";

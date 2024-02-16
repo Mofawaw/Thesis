@@ -1,4 +1,4 @@
-import Tutorial from "@/app/level/tutorial/tutorial";
+import LevelTutorial from "@/app/level/tutorial/level-tutorial";
 import { useState, useEffect } from "react";
 
 const TutorialRoute = () => {
@@ -13,7 +13,7 @@ const TutorialRoute = () => {
     <div className="relative w-screen h-screen bg-th-background">
       {/* Tutorial */}
       <div className={`absolute inset-0 transition-opacity duration-500 ${showTutorial ? 'opacity-100' : 'opacity-0'}`}>
-        <Tutorial key="tutorial" />
+        <LevelTutorial key="tutorial" />
       </div>
     </div>
   );

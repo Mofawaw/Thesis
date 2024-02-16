@@ -4,7 +4,7 @@ import 'reactflow/dist/style.css';
 import { nodeTypes } from '../nodes/types/node-types.ts';
 import { convertToReactFlowNode } from '../level-initialization.ts';
 import useUserStore from '@/stores/user-store.ts';
-import { tutorialLevel, tutorialMasterNode } from '@/data (todo-post: backend)/tutorial.ts';
+import { tutorialLevel, tutorialMasterNode } from '@/data (todo-post: backend)/levels/extras/tutorial.ts';
 import ThIconButton from '@/components/buttons/th-icon-button.tsx';
 import ThTextButton from '@/components/buttons/th-text-button.tsx';
 import ThDropdown from '@/components/portals/th-dropdown.tsx';
@@ -15,7 +15,7 @@ import ThIconTextButton from '@/components/buttons/th-icon-text-button.tsx';
 import { ThNode } from '@/types/th-types.ts';
 import { evaluateLevelCompletion } from '../level-evaluation.ts';
 
-const Tutorial: React.FC = () => {
+const LevelTutorial: React.FC = () => {
   const [nodes, setNodes] = useState<Node[]>([]);
 
   const addNode = (newLevelNode: ThNode) => {
@@ -60,12 +60,12 @@ const Tutorial: React.FC = () => {
   );
 }
 
-interface LevelReactFlowProps {
+interface TutorialReactFlowProps {
   nodes: Node[];
   setNodes: Dispatch<SetStateAction<Node[]>>;
 }
 
-const TutorialReactFlow: React.FC<LevelReactFlowProps> = ({
+const TutorialReactFlow: React.FC<TutorialReactFlowProps> = ({
   nodes,
   setNodes,
 }) => {
@@ -108,7 +108,7 @@ const TutorialReactFlow: React.FC<LevelReactFlowProps> = ({
   );
 }
 
-export default Tutorial;
+export default LevelTutorial;
 
 const TutorialOverlayTop: React.FC = () => {
   return (
@@ -126,12 +126,12 @@ const TutorialOverlayTop: React.FC = () => {
   )
 }
 
-interface LevelOverlayBottomProps {
+interface TutorialOverlayBottomProps {
   nodes: Node[];
   onAddNode: (node: ThNode) => (void);
 }
 
-const TutorialOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
+const TutorialOverlayBottom: React.FC<TutorialOverlayBottomProps> = ({
   nodes,
   onAddNode,
 }) => {

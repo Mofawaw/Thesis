@@ -1,6 +1,6 @@
 import { ThLevel, ThNode, ThStage, ThStageLevel } from "@/types/th-types.ts";
-import stages from "./stages";
-import categories from "./categories";
+import stages from "../../stages";
+import categories from "../../categories";
 import CodeGraph from "@/app/code-ide/code-memory/code-memory-types";
 
 export const tutorialMasterNode: ThNode = {
