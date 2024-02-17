@@ -3,6 +3,7 @@ import * as d3 from 'd3';
 import LevelButton, { LevelButtonProps, levelButtonRadius } from './level-button';
 import useUserStore from '@/stores/user-store';
 import { ThStage } from '@/types/th-types';
+import getRandomIntBetween from '@/helpers/random';
 
 interface LevelsProps {
   stages: ThStage[];
@@ -52,6 +53,8 @@ const Levels: React.FC<LevelsProps> = ({
       const height = window.innerHeight;
       const nodeRadius = levelButtonRadius;
       const nodeOffset = nodeRadius;
+      const group1ForceRadius = nodeRadius + 30;
+      const group2ForceRadius = nodeRadius + getRandomIntBetween(80, 120);
 
       // Initialize simulation
       const simulation = d3.forceSimulation(levelButtons)
@@ -59,7 +62,7 @@ const Levels: React.FC<LevelsProps> = ({
         .force("y", d3.forceY<LevelButtonProps>().strength(d => d.group === 1 ? 0.4 : 0).y(height / 2))
         .force("center", d3.forceCenter(width / 2, height / 2 - height * 0.05))
         .force("charge", d3.forceManyBody().strength(0.2))
-        .force("collide", d3.forceCollide<LevelButtonProps>().strength(0.2).radius(d => d.group === 1 ? nodeRadius + 30 : nodeRadius + 100).iterations(1));
+        .force("collide", d3.forceCollide<LevelButtonProps>().strength(0.2).radius(d => d.group === 1 ? group1ForceRadius : group2ForceRadius).iterations(1));
 
       // Run simulation
       simulation.nodes(levelButtons).on("tick", ticked);
