@@ -5,6 +5,7 @@ import StageRoute from './stage-route';
 import LevelRoute from './level-route';
 import useUserStore from '@/stores/user-store';
 import TutorialRoute from './tutorial-route';
+import BlankRoute from './blank-route';
 
 const Root = () => {
   const userStore = useUserStore.getState();
@@ -23,6 +24,7 @@ const Root = () => {
         <Route path="/" element={<StageRoute isInitialLoading={isInitialLoading} />} />
         <Route path="/level/:levelId" element={<LevelRoute />} />
         <Route path="/level/tutorial" element={<TutorialRoute />} />
+        <Route path="/level/blank" element={<BlankRoute />} />
       </Routes>
     </BrowserRouter>
   );

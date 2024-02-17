@@ -34,7 +34,8 @@ const stages: ThStage[] = [
     stageLevels: [
       { levelId: "s3-l1", label: "9", order: 9, category: categories[0] },
       { levelId: "s3-l2", label: "10", order: 10, category: categories[1] },
-      { levelId: "s3-lfinal", label: "Finale", order: 11, category: categories[2] },
+      { levelId: "s3-l3", label: "11", order: 11, category: categories[1] },
+      { levelId: "s3-lfinal", label: "Finale", order: 12, category: categories[2] },
     ]
   }
 ];

@@ -11,7 +11,7 @@ import ThMenuTextButton from '@/components/buttons/th-menu-text-button.tsx';
 import { useNavigate } from 'react-router-dom'
 import { ThNode } from '@/types/th-types.ts';
 import ThIconTextButton from '@/components/buttons/th-icon-text-button.tsx';
-import { emptyIDENode } from '@/data (todo-post: backend)/levels/extras/blank.ts';
+import { emptyExtraIDENode, emptyIDENode } from '@/data (todo-post: backend)/levels/extras/blank.ts';
 
 const LevelBlank: React.FC = () => {
   const [nodes, setNodes] = useState<Node[]>([]);
@@ -26,6 +26,9 @@ const LevelBlank: React.FC = () => {
       }
     });
 
+    if (newLevelNode.baseNode.data.codeIDE) {
+      newLevelNode.baseNode.data.codeIDE.scopeId = "ide" + "-" + (nodes.length + 1).toString()
+    }
     const reactflowNode: Node = convertToReactFlowNode(newLevelNode);
     reactflowNode.id = "blank" + "-" + (nodes.length + 1).toString();
     reactflowNode.position = { x: maxX + 20, y: 0 };
@@ -80,7 +83,7 @@ const BlankReactFlow: React.FC<BlankReactFlowProps> = ({
 
   const onNodesChange = useCallback((changes: NodeChange[]) => {
     const filteredChanges = changes.filter(change => {
-      if (change.type === 'remove' && change.id.includes("t-")) {
+      if (change.type === 'remove' && change.id.includes("c-")) {
         return false;
       }
       return true;
@@ -151,7 +154,7 @@ const BlankOverlayBottom: React.FC<BlankOverlayBottomProps> = ({
 
           <div className="flex flex-row gap-3 pointer-events-auto">
             {/*More*/}
-            <ThIconTextButton width={150} thColor="th-tint" icon="tutorial" text="Weitere IDE" onClick={() => onAddNode(emptyIDENode)} />
+            <ThIconTextButton width={200} thColor="th-tint" icon="tutorial" text="Weitere IDE" onClick={() => onAddNode(emptyExtraIDENode)} />
           </div>
 
           <div className="flex flex-col items-end gap-3 pointer-events-auto" style={{ width: 0 }}>

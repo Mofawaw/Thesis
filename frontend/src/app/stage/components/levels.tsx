@@ -54,7 +54,7 @@ const Levels: React.FC<LevelsProps> = ({
       const nodeRadius = levelButtonRadius;
       const nodeOffset = nodeRadius;
       const group1ForceRadius = nodeRadius + 30;
-      const group2ForceRadius = nodeRadius + getRandomIntBetween(80, 120);
+      const group2ForceRadius = nodeRadius + getRandomIntBetween(80, 100);
 
       // Initialize simulation
       const simulation = d3.forceSimulation(levelButtons)

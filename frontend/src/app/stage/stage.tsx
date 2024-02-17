@@ -58,7 +58,7 @@ const Stage: React.FC<StageProps> = ({
           >
             <ul className="flex flex-col items-center gap-3 p-5">
               <li><ThTextButton width={270} thColor="th-tint" text="Tutorial" onClick={() => navigate('/level/tutorial')} /></li>
-              <li><ThTextButton width={270} thColor="th-tint" text="Üben Leere IDE" /></li>
+              <li><ThTextButton width={270} thColor="th-tint" text="Üben Leere IDE" onClick={() => navigate('/level/blank')} /></li>
               <li><ThTextButton width={270} thColor="th-black" shadow={false} gradient={true} text="Üben mit AI" /></li>
             </ul>
           </ThPopup>

@@ -14,10 +14,11 @@ import levelL7 from "@/data (todo-post: backend)/levels/stage-2/level-s2-l3";
 import levelL8 from "@/data (todo-post: backend)/levels/stage-2/level-s2-lfinal";
 import levelL9 from "@/data (todo-post: backend)/levels/stage-3/level-s3-l1";
 import levelL10 from "@/data (todo-post: backend)/levels/stage-3/level-s3-l2";
-import levelL11 from "@/data (todo-post: backend)/levels/stage-3/level-s3-lfinal";
+import levelL11 from "@/data (todo-post: backend)/levels/stage-3/level-s3-l3";
+import levelL12 from "@/data (todo-post: backend)/levels/stage-3/level-s3-lfinal";
 
 const levels: ThLevel[][] = [
-  [levelL1, levelL2, levelL3, levelL4, levelL5, levelL6, levelL7, levelL8, levelL9, levelL10, levelL10, levelL11],
+  [levelL1, levelL2, levelL3, levelL4, levelL5, levelL6, levelL7, levelL8, levelL9, levelL10, levelL10, levelL11, levelL12],
 ];
 
 const delay = (ms: number): Promise<void> => {
