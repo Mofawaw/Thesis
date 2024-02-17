@@ -186,16 +186,16 @@ const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
             <ThDropdown
               position="top-left"
               width={180}
-              height={25 + 40 * level.stage.stageLevels.length}
+              height={25 + 40 * thStore.stages.flatMap(stage => stage.stageLevels).length}
               thColor={buttonsColor}
               button={<ThIconButton thColor={buttonsColor} icon="levels" onClick={() => setOpenLevelsDropdown(true)} />}
               isOpen={openLevelsDropdown}
               onClose={() => setOpenLevelsDropdown(false)}
             >
               <ul className="flex flex-col items-center gap-1 p-3">
-                {level.stage.stageLevels.map((stageLevel) => {
+                {thStore.stages.flatMap(stage => stage.stageLevels).map(stageLevel => {
                   const stagesProgress = useUserStore(state => state.stagesProgress);
-                  const levelStatus = stagesProgress[level.stage.id].levelsStatus.find(levelStatus => levelStatus.id === stageLevel.levelId);
+                  const levelStatus = Object.values(stagesProgress).flatMap(stageProgress => stageProgress.levelsStatus).find(levelStatus => levelStatus.id === stageLevel.levelId);
                   const label = !isNaN(parseFloat(stageLevel.label)) ? `Lvl ${stageLevel.label}` : stageLevel.label;
 
                   return (
