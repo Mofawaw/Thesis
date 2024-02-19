@@ -3,6 +3,7 @@ import { useState } from "react";
 import animal from "@/assets/images/animal-1.png";
 
 import ThStar, { ThStarProps } from "../custom/th-star.tsx";
+import { pxToRem } from "@/helpers/responsitivity.ts";
 
 interface ThStarUserProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   width: number;
@@ -27,7 +28,7 @@ const ThStarUser: React.FC<ThStarUserProps> = ({
 
   return (
     <button {...props}
-      style={{ width: `${width}px`, height: `${height}px` }}
+      style={{ width: pxToRem(width), height: pxToRem(height) }}
       className={
         `relative w-56 h-56 z-50 drop-shadow-xl transition duration-150 ease-in-out
         hover:scale-110

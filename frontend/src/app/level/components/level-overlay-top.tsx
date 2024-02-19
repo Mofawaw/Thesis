@@ -24,9 +24,9 @@ const LevelOverlayTop: React.FC<LevelOverlayTopProps> = ({
         <div className="flex justify-between">
           <div style={{ width: 165 }}>
             <ThButton width={115} height={155} thColor={buttonsColor} >
-              <div className="flex flex-col items-center -translate-y-1">
-                <ThCastle castle={level.stage.logo} color={stageProgress.status === "completed" ? "tint" : "stage"} className="w-[6.5rem]" />
-                <h3 className={`${levelProgress.status === "completed" ? "th-text-gradient" : `text-${buttonsColor}-100 scale-90`} -translate-y-4`}>{label}</h3>
+              <div className="flex flex-col items-center gap-3">
+                <ThCastle castle={level.stage.logo} color={stageProgress.status === "completed" ? "tint" : "stage"} className="h-24" />
+                <h3 className={`${levelProgress.status === "completed" ? "th-text-gradient" : `text-${buttonsColor}-100 scale-90`}`}>{label}</h3>
               </div>
             </ThButton>
           </div>

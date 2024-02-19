@@ -6,6 +6,7 @@ import { ThStage } from '@/types/th-types';
 import getRandomIntBetween from '@/helpers/random';
 
 import LevelButton, { LevelButtonProps, levelButtonRadius } from './level-button';
+import { responsiveSize } from '@/helpers/responsitivity';
 
 interface LevelsProps {
   stages: ThStage[];
@@ -55,8 +56,9 @@ const Levels: React.FC<LevelsProps> = ({
       const height = window.innerHeight;
       const nodeRadius = levelButtonRadius;
       const nodeOffset = nodeRadius;
-      const group1ForceRadius = nodeRadius + 30;
-      const group2ForceRadius = nodeRadius + getRandomIntBetween(80, 100);
+
+      const group1ForceRadius = nodeRadius + responsiveSize(30, 15);
+      const group2ForceRadius = nodeRadius + getRandomIntBetween(responsiveSize(80, 40), responsiveSize(100, 50));
 
       // Initialize simulation
       const simulation = d3.forceSimulation(levelButtons)

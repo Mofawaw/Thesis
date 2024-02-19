@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
 import { ThColorKey } from "@/utilities/th-color.ts";
+import { pxAccordingToRem, pxToRem } from '@/helpers/responsitivity';
 
 interface ThPopupPortalProps {
   width: number;
@@ -23,8 +24,8 @@ const ThPopupPortal: React.FC<ThPopupPortalProps> = ({
   const [position, setPosition] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
 
   useEffect(() => {
-    const top = (window.innerHeight - height) / 2;
-    const left = (window.innerWidth - width) / 2;
+    const top = (window.innerHeight - pxAccordingToRem(height)) / 2;
+    const left = (window.innerWidth - pxAccordingToRem(width)) / 2;
 
     setPosition({ top, left });
   }, [height, width]);
@@ -36,7 +37,7 @@ const ThPopupPortal: React.FC<ThPopupPortalProps> = ({
       </div>
 
       <div
-        style={{ width: `${width}px`, height: `${height}px`, top: `${position.top}px`, left: `${position.left}px` }}
+        style={{ width: pxToRem(width), height: pxToRem(height), top: `${position.top}px`, left: `${position.left}px` }}
         className={`absolute ${backgroundClass === "th-bg-gradient-100" ? "th-bg-gradient" : `bg-${thColor}-30`} rounded-th border-th border-${thColor}-20 z-40 animate-th-zoom-in-from-bottom`}
       >
         {children}

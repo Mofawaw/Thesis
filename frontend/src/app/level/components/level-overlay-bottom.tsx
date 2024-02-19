@@ -14,6 +14,7 @@ import useThStore from "@/stores/th-store.ts";
 import { tutorialMasterNode } from "@/data (todo-post: backend)/levels/extras/tutorial.ts";
 
 import { evaluateLevelCompletion } from "../level-evaluation.ts";
+import { responsiveClass } from "@/helpers/responsitivity.ts";
 
 interface LevelOverlayBottomProps {
   level: ThLevel;
@@ -129,7 +130,7 @@ const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
             {/*Check*/}
             <ThPopup
               width={openCheckResultsPopup?.success ? 1000 : 650}
-              height={openCheckResultsPopup?.success ? 600 : 800}
+              height={openCheckResultsPopup?.success ? 600 : 650}
               thColor={openCheckResultsPopup?.success ? "th-tint" : "th-black"}
               backgroundClass={openCheckResultsPopup?.success ? "th-bg-gradient" : "bg-none"}
               button={<ThIconTextButton width={150} thColor={buttonsColor} icon="check" text={"Check"} isLoading={onChecking} onClick={handleCheckButtonOnClick} />}
@@ -194,7 +195,7 @@ const LevelOverlayBottom: React.FC<LevelOverlayBottomProps> = ({
               isOpen={openLevelsDropdown}
               onClose={() => setOpenLevelsDropdown(false)}
             >
-              <ul className="flex flex-col items-center gap-1 p-3">
+              <ul className={`flex flex-col items-center ${responsiveClass("gap-1", "gap-0")} p-3`}>
                 {thStore.stages.flatMap(stage => stage.stageLevels).map(stageLevel => {
                   const stagesProgress = useUserStore(state => state.stagesProgress);
                   const levelStatus = Object.values(stagesProgress).flatMap(stageProgress => stageProgress.levelsStatus).find(levelStatus => levelStatus.id === stageLevel.levelId);

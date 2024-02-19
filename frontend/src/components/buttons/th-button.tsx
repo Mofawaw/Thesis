@@ -1,6 +1,7 @@
 import { ThColorKey, ThColorShadeKey } from "@/utilities/th-color.ts";
 
 import styles from './th-button.module.css';
+import { pxToRem } from "@/helpers/responsitivity";
 
 interface ThButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children?: React.ReactNode;
@@ -30,7 +31,7 @@ const ThButton: React.FC<ThButtonProps> = ({
 }) => {
   return (
     <button
-      style={{ width: `${width}px`, height: `${height}px` }}
+      style={{ width: pxToRem(width), height: pxToRem(height) }}
       className={`relative inline-block p-0 border-0 bg-transparent mb-[6px] ${styles.thButton}`}
       {...props}
     >
@@ -43,6 +44,7 @@ const ThButton: React.FC<ThButtonProps> = ({
 
       {/* Button Content */}
       <span
+        style={{ width: pxToRem(width), height: pxToRem(height) }}
         className={`
           block ${gradient ? "th-bg-gradient" : `bg-${thColor}-${bgThColorShade}`} ${round ? "rounded-full" : "rounded-th"} w-full h-full relative z-20 flex justify-center items-center transition duration-150 ease-in-out 
           hover:-translate-y-1
@@ -54,7 +56,7 @@ const ThButton: React.FC<ThButtonProps> = ({
       {/* Button Shadow */}
       {shadow &&
         <span
-          style={{ width: `${width - 10}px`, height: `${height - 10}px` }}
+          style={{ width: pxToRem(width - 10), height: pxToRem(height - 10) }}
           className={`block bg-${thColor}-${shadowThColorShade} ${round ? "rounded-full" : "rounded-th"} absolute bottom-[-6px] left-[5px] z-10`}>
         </span>
       }

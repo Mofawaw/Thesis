@@ -4,13 +4,14 @@ import CodeGraph from "@/app/code-ide/code-memory/code-memory-types";
 import CodeIDENode from "../code-ide-node";
 import TextNode from "../text-node";
 import TutorialNode from "../tutorial-node";
+import { responsiveSize } from "@/helpers/responsitivity";
 
 export const nodeTypes = { codeIDE: CodeIDENode, text: TextNode, tutorial: TutorialNode };
 
 export class ThNodeSize {
-  static small = { width: 500, height: 800 };
-  static medium = { width: 700, height: 800 };
-  static large = { width: 1100, height: 800 };
+  static small = { width: responsiveSize(500, 350), height: responsiveSize(800, 550) };
+  static medium = { width: responsiveSize(700, 550), height: responsiveSize(800, 550) };
+  static large = { width: responsiveSize(1100, 700), height: responsiveSize(800, 550) };
 
   static fromString(sizeType: string) {
     switch (sizeType) {
