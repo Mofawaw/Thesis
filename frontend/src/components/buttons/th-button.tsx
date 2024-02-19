@@ -1,4 +1,5 @@
 import { ThColorKey, ThColorShadeKey } from "@/utilities/th-color.ts";
+
 import styles from './th-button.module.css';
 
 interface ThButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {

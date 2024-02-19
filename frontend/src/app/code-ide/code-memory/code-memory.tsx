@@ -1,4 +1,5 @@
 import ThIDEButton from "@/components/buttons/th-ide-button.tsx";
+
 import CodeIDEConfig, { codeIDELayout } from "../code-ide-config.ts";
 import useCodeIDEStore from "../code-ide-store.ts";
 import CodeGraph from "./components/code-graph.tsx";
@@ -59,7 +60,7 @@ const CodeMemory: React.FC<CodeMemoryProps> = ({
       </div>
     )
   } else {
-    codeMemoryComponent = <div>No graph mode found.</div>
+    codeMemoryComponent = <div>{`No graph mode found. For store: ${store}`}</div>
   }
 
   return (

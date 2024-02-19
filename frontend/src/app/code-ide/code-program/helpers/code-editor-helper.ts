@@ -1,6 +1,7 @@
 import { EditorView } from '@codemirror/view';
 import { HighlightStyle, syntaxHighlighting } from '@codemirror/language';
 import { tags } from '@lezer/highlight';
+
 import { thColors } from '@/utilities/th-color.ts';
 import { thFont } from '@/utilities/th-font.ts';
 

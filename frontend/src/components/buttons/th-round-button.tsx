@@ -1,7 +1,8 @@
 import { ThIcon, ThIconKey } from "@/utilities/th-icon.tsx"
 import { ThColorKey, ThColorShadeKey } from "@/utilities/th-color.ts";
-import ThButton from "./th-button.tsx"
 import { ThCastleFlag, ThCastleKey } from "@/utilities/th-castle.tsx";
+
+import ThButton from "./th-button.tsx"
 
 interface ThRoundButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   thColor: ThColorKey;

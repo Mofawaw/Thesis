@@ -1,9 +1,11 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { fetchAndConfigureStage } from './routing-network';
 import { useEffect, useState } from 'react';
+
+import useUserStore from '@/stores/user-store';
+
+import { fetchAndConfigureStage } from './routing-network';
 import StageRoute from './stage-route';
 import LevelRoute from './level-route';
-import useUserStore from '@/stores/user-store';
 import TutorialRoute from './tutorial-route';
 import BlankRoute from './blank-route';
 

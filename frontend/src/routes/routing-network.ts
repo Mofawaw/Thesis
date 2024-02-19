@@ -3,7 +3,6 @@ import stages from "@/data (todo-post: backend)/stages.ts";
 import useThStore from "@/stores/th-store.ts";
 import useUserStore from "@/stores/user-store.ts";
 import getRandomIntBetween from "@/helpers/random.ts";
-
 import levelL1 from '@/data (todo-post: backend)/levels/stage-1/level-s1-l1';
 import levelL2 from '@/data (todo-post: backend)/levels/stage-1/level-s1-l2';
 import levelL3 from '@/data (todo-post: backend)/levels/stage-1/level-s1-l3';

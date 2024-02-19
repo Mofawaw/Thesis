@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
+
 import { ThColorKey } from "@/utilities/th-color.ts";
 
 interface ThPopupPortalProps {

@@ -3,11 +3,13 @@ import { EditorState, Transaction } from '@codemirror/state';
 import { EditorView, keymap, lineNumbers, highlightActiveLine, highlightActiveLineGutter } from '@codemirror/view';
 import { python } from '@codemirror/lang-python';
 import { defaultKeymap, indentWithTab, history, redo } from '@codemirror/commands';
-import { codeEditorStyles } from '../helpers/code-editor-helper.ts';
+
+import debounce from '@/helpers/debounce.ts';
+
 import useCodeIDEStore, { CodeIDEStore } from '../../code-ide-store.ts'
 import { compileGetGraph, compileGetCodeOutput } from '../../code-ide-network.ts';
-import debounce from '@/helpers/debounce.ts';
 import CodeIDEConfig from '../../code-ide-config.ts';
+import { codeEditorStyles } from '../helpers/code-editor-helper.ts';
 
 interface CodeEditorProps {
   height: number;
@@ -116,7 +118,6 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
               return [];
             }
           }
-          return tr;
           return tr;
         })
       ]

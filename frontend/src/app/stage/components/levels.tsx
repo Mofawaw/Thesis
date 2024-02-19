@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
-import LevelButton, { LevelButtonProps, levelButtonRadius } from './level-button';
+
 import useUserStore from '@/stores/user-store';
 import { ThStage } from '@/types/th-types';
 import getRandomIntBetween from '@/helpers/random';
+
+import LevelButton, { LevelButtonProps, levelButtonRadius } from './level-button';
 
 interface LevelsProps {
   stages: ThStage[];

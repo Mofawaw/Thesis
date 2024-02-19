@@ -1,6 +1,7 @@
+import { ThLevel } from "@/types/th-types.ts";
+
 import stages from "../../stages.ts";
 import categories from "../../categories.ts";
-import { ThLevel } from "@/types/th-types.ts";
 
 // ================================== CodeIDEs ==================================
 const initialCode =

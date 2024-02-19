@@ -1,8 +1,10 @@
 import { useState } from 'react';
+
+import useThStore from '@/stores/th-store';
+
 import { TextNodeData } from './types/node-types';
 import ComponentNode from './component-node/component-node';
 import { componentNodeLayout } from './component-node/component-node-helper';
-import useThStore from '@/stores/th-store';
 
 interface TextNodeProps {
   data: TextNodeData;

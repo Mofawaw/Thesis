@@ -1,17 +1,19 @@
 import { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
 import ReactFlow, { ReactFlowProvider, NodeChange, applyNodeChanges, useReactFlow, ReactFlowInstance, Node } from 'reactflow';
+import { useNavigate } from 'react-router-dom'
 import 'reactflow/dist/style.css';
-import { nodeTypes } from '../nodes/types/node-types.ts';
-import { convertToReactFlowNode } from '../level-initialization.ts';
+
 import useUserStore from '@/stores/user-store.ts';
 import ThIconButton from '@/components/buttons/th-icon-button.tsx';
 import ThTextButton from '@/components/buttons/th-text-button.tsx';
 import ThDropdown from '@/components/portals/th-dropdown.tsx';
 import ThMenuTextButton from '@/components/buttons/th-menu-text-button.tsx';
-import { useNavigate } from 'react-router-dom'
 import { ThNode } from '@/types/th-types.ts';
 import ThIconTextButton from '@/components/buttons/th-icon-text-button.tsx';
 import { emptyExtraIDENode, emptyIDENode } from '@/data (todo-post: backend)/levels/extras/blank.ts';
+
+import { nodeTypes } from '../nodes/types/node-types.ts';
+import { convertToReactFlowNode } from '../level-initialization.ts';
 
 const LevelBlank: React.FC = () => {
   const [nodes, setNodes] = useState<Node[]>([]);

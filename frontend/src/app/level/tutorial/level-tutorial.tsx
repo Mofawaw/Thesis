@@ -1,18 +1,20 @@
 import { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
 import ReactFlow, { ReactFlowProvider, NodeChange, applyNodeChanges, useReactFlow, ReactFlowInstance, Node } from 'reactflow';
+import { useNavigate } from 'react-router-dom'
 import 'reactflow/dist/style.css';
-import { nodeTypes } from '../nodes/types/node-types.ts';
-import { convertToReactFlowNode } from '../level-initialization.ts';
+
 import useUserStore from '@/stores/user-store.ts';
 import { tutorialLevel, tutorialMasterNode } from '@/data (todo-post: backend)/levels/extras/tutorial.ts';
 import ThIconButton from '@/components/buttons/th-icon-button.tsx';
 import ThTextButton from '@/components/buttons/th-text-button.tsx';
 import ThDropdown from '@/components/portals/th-dropdown.tsx';
 import ThMenuTextButton from '@/components/buttons/th-menu-text-button.tsx';
-import { useNavigate } from 'react-router-dom'
 import ThPopup from '@/components/portals/th-popup.tsx';
 import ThIconTextButton from '@/components/buttons/th-icon-text-button.tsx';
 import { ThNode } from '@/types/th-types.ts';
+
+import { convertToReactFlowNode } from '../level-initialization.ts';
+import { nodeTypes } from '../nodes/types/node-types.ts';
 import { evaluateLevelCompletion } from '../level-evaluation.ts';
 
 const LevelTutorial: React.FC = () => {

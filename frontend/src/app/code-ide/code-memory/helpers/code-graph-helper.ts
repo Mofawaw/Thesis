@@ -1,7 +1,9 @@
 import { dia, shapes } from 'jointjs';
-import CodeGraph, { CodeGraphNode, CodeGraphEdge } from '../code-memory-types.ts'
+
 import { thColors } from '@/utilities/th-color.ts';
 import { thFont } from '@/utilities/th-font.ts';
+
+import CodeGraph, { CodeGraphNode, CodeGraphEdge } from '../code-memory-types.ts'
 
 export const stylesGraph = {
   node: {

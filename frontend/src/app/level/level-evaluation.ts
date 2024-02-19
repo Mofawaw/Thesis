@@ -1,8 +1,10 @@
 import { Node } from "reactflow";
+
 import { CodeIDENetworkResultType, compileGetGraph, compileGetCodeOutput } from "@/app/code-ide/code-ide-network.ts";
 import useCodeIDEStore from "@/app/code-ide/code-ide-store.ts";
 import CodeGraph from "@/app/code-ide/code-memory/code-memory-types.ts";
 import { ThLevel, ThStage } from "@/types/th-types.ts";
+
 import { CodeIDENodeData } from "./nodes/types/node-types.ts";
 
 export function evaluateLevelCompletion(level: ThLevel, nodes: Node[]): Promise<{ result: boolean, title: string, message: string }> {

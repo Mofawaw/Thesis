@@ -1,7 +1,8 @@
-import stages from "../../stages.ts";
-import categories from "../../categories.ts";
 import { ThLevel } from "@/types/th-types.ts";
 import CodeGraph from "@/app/code-ide/code-memory/code-memory-types.ts";
+
+import stages from "../../stages.ts";
+import categories from "../../categories.ts";
 
 // ================================== CodeIDEs ==================================
 const initialCode =

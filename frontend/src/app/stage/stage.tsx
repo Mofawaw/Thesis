@@ -1,15 +1,15 @@
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import ThStarUserButton from '@/components/buttons/th-star-user-button';
-import Levels from './components/levels';
 import ThCastleButton from '@/components/buttons/th-castle-button';
 import { ThStage } from '@/types/th-types';
 import useUserStore from '@/stores/user-store';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { ThIcon } from '@/utilities/th-icon';
 import ThStageButton from '@/components/buttons/th-stage-button';
 import ThPopup from '@/components/portals/th-popup';
-import ThMenuTextButton from '@/components/buttons/th-menu-text-button';
 import ThTextButton from '@/components/buttons/th-text-button';
+
+import Levels from './components/levels';
 
 interface StageProps {
   stages: ThStage[];
@@ -48,19 +48,28 @@ const Stage: React.FC<StageProps> = ({
         </h2>
         <div style={{ width: 200 }} className="flex flex-col items-end gap-6 pr-10 pointer-events-auto" >
           <ThPopup
-            width={310}
-            height={25 + 65 * 3}
+            width={1000}
+            height={600}
             thColor={"th-tint"}
             backgroundClass={"bg-none"}
             button={<ThStageButton thColor="th-tint" thColorShade={70} icon="star" onClick={() => setOpenExtrasPopup(true)} />}
             isOpen={openExtrasPopup}
             onClose={() => setOpenExtrasPopup(false)}
           >
-            <ul className="flex flex-col items-center gap-3 p-5">
-              <li><ThTextButton width={270} thColor="th-tint" text="Tutorial" onClick={() => navigate('/level/tutorial')} /></li>
-              <li><ThTextButton width={270} thColor="th-tint" text="Üben Leere IDE" onClick={() => navigate('/level/blank')} /></li>
-              <li><ThTextButton width={270} thColor="th-black" shadow={false} gradient={true} text="Üben mit AI" /></li>
-            </ul>
+            <div className="h-full flex flex-col items-center justify-between text-center p-12">
+              <h3 className="scale-150"><span className="text-th-value-100">Werte</span><span className="text-th-together-100"> &</span><br /><span className="text-th-reference-100">Referenzen</span></h3>
+              <div className="h-full flex flex-col gap-1 pt-14 scale-110">
+                <p><b>Eine BSc Arbeit des DINFK, ETH Zürich</b></p>
+                <p>Autor: Kai Zheng</p>
+                <p>Supervisor: Prof. Dr. Juraj Hromkovič</p>
+                <p>Danke: Regula Lacher, Andre Macejko, Giovanni Serafani</p>
+              </div>
+              <ul className="flex flex-col items-center gap-3 p-5">
+                <li><ThTextButton width={270} thColor="th-tint" text="Tutorial" onClick={() => navigate('/level/tutorial')} /></li>
+                <li><ThTextButton width={270} thColor="th-tint" text="Üben Leere IDE" onClick={() => navigate('/level/blank')} /></li>
+                <li><ThTextButton width={270} thColor="th-black" shadow={false} gradient={true} text="Üben mit AI" /></li>
+              </ul>
+            </div>
           </ThPopup>
         </div>
       </div>

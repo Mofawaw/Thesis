@@ -1,5 +1,7 @@
 import { Node } from "reactflow";
+
 import { ThLevel, ThNode } from "@/types/th-types.ts";
+
 import { CodeIDENodeData, ComponentNodeData, TextNodeData, ThNodeSize, TutorialNodeData } from "./nodes/types/node-types.ts"
 
 export function generateReactFlowNodes(level: ThLevel): Node[] {

@@ -1,4 +1,5 @@
 import { ThStage } from '@/types/th-types.ts';
+
 import categories from './categories';
 
 const stages: ThStage[] = [

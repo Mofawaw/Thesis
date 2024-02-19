@@ -1,4 +1,5 @@
 import { EditorView, gutter, GutterMarker } from '@codemirror/view';
+
 import { thFont } from '@/utilities/th-font.ts';
 import { thColors } from '@/utilities/th-color.ts';
 

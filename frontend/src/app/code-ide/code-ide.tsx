@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+
 import CodeProgram from "./code-program/code-program.tsx";
 import CodeIDEConfig from "./code-ide-config.ts";
 import useCodeIDEStore from "./code-ide-store.ts";

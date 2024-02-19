@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { dia, shapes } from 'jointjs';
+
 import useCodeIDEStore, { CodeIDEStore } from '../../code-ide-store.ts';
+import CodeIDEConfig from '../../code-ide-config.ts';
 import { addDataToGraphInput, stylesGraphInput } from '../helpers/code-graph-input-helper.ts';
 import { CodeGraphNode } from '../code-memory-types.ts';
-import CodeIDEConfig from '../../code-ide-config.ts';
 
 interface CodeGraphInputProps {
   height: number;

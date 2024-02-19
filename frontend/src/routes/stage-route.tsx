@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import Stage from "@/app/stage/stage";
 import useThStore from "@/stores/th-store";
 import useUserStore from "@/stores/user-store";
 import ThPopup from "@/components/portals/th-popup";
 import ThTextButton from "@/components/buttons/th-text-button";
-import { useNavigate } from "react-router-dom";
 
 const StageRoute = ({ isInitialLoading }: { isInitialLoading: boolean }) => {
   const navigate = useNavigate();

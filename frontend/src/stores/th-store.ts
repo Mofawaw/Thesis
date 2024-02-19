@@ -1,5 +1,6 @@
-import { ThLevel, ThStage } from '@/types/th-types';
 import { create } from 'zustand';
+
+import { ThLevel, ThStage } from '@/types/th-types';
 
 export type ThStore = {
   stages: ThStage[];

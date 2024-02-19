@@ -1,5 +1,6 @@
-import LevelTutorial from "@/app/level/tutorial/level-tutorial";
 import { useState, useEffect } from "react";
+
+import LevelTutorial from "@/app/level/tutorial/level-tutorial";
 
 const TutorialRoute = () => {
   const [showTutorial, setShowTutorial] = useState(false);

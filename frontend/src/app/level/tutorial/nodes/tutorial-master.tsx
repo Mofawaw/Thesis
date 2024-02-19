@@ -1,16 +1,17 @@
+import { useState } from "react";
+import { Node, useReactFlow } from "reactflow";
+
 import ThMenuTextButton from "@/components/buttons/th-menu-text-button";
 import { tutorialLevel, tutorialValueNode, tutorialReferenceNode } from "@/data (todo-post: backend)/levels/extras/tutorial";
 import { ThNode } from "@/types/th-types";
-import { Node, useReactFlow } from "reactflow";
-import { convertToReactFlowNode, generateReactFlowNodes } from "../../level-initialization";
 import useUserStore from "@/stores/user-store";
-import { useEffect, useState } from "react";
 import useThStore from "@/stores/th-store";
+
+import { convertToReactFlowNode, generateReactFlowNodes } from "../../level-initialization";
 
 const TutorialMaster: React.FC = () => {
   const thStore = useThStore.getState();
   const userStore = useUserStore.getState();
-  const userProgress = useUserStore(state => state.userProgress);
   const reactFlowInstance = useReactFlow();
   const [showTutorialChallenge, setShowTutorialChallenge] = useState(false);
 

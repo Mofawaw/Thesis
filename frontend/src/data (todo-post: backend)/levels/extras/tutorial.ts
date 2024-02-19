@@ -1,7 +1,8 @@
-import { ThLevel, ThNode, ThStage, ThStageLevel } from "@/types/th-types.ts";
+import { ThLevel, ThNode, ThStage } from "@/types/th-types.ts";
+import CodeGraph from "@/app/code-ide/code-memory/code-memory-types";
+
 import stages from "../../stages";
 import categories from "../../categories";
-import CodeGraph from "@/app/code-ide/code-memory/code-memory-types";
 
 export const tutorialMasterNode: ThNode = {
   baseNode: { id: "t-tu-master", type: "tutorial", data: { title: "Tutorial", size: "small" } },

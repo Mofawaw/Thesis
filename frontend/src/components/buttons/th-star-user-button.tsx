@@ -1,6 +1,8 @@
 import { useState } from "react";
-import ThStar, { ThStarProps } from "../custom/th-star.tsx";
+
 import animal from "@/assets/images/animal-1.png";
+
+import ThStar, { ThStarProps } from "../custom/th-star.tsx";
 
 interface ThStarUserProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   width: number;

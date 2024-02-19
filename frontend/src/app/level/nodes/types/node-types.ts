@@ -1,5 +1,6 @@
 import CodeIDEConfig from "@/app/code-ide/code-ide-config";
 import CodeGraph from "@/app/code-ide/code-memory/code-memory-types";
+
 import CodeIDENode from "../code-ide-node";
 import TextNode from "../text-node";
 import TutorialNode from "../tutorial-node";

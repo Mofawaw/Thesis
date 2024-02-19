@@ -1,5 +1,6 @@
-import LevelBlank from "@/app/level/blank/level-blank";
 import { useState, useEffect } from "react";
+
+import LevelBlank from "@/app/level/blank/level-blank";
 
 const BlankRoute = () => {
   const [showBlank, setShowBlank] = useState(false);

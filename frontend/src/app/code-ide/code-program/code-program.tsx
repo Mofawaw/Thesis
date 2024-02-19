@@ -1,10 +1,10 @@
-import { useState } from "react";
 import ThIDEButton from "@/components/buttons/th-ide-button.tsx";
-import CodeEditor from "./components/code-editor.tsx";
-import CodeOutput from "./components/code-output.tsx"
+
 import { compileGetCodeOutput, compileGetGraph } from "../code-ide-network.ts";
 import useCodeIDEStore from "../code-ide-store.ts";
 import CodeIDEConfig, { codeIDELayout } from "../code-ide-config.ts";
+import CodeEditor from "./components/code-editor.tsx";
+import CodeOutput from "./components/code-output.tsx"
 
 interface CodeProgramProps {
   height: number;
@@ -81,7 +81,7 @@ const CodeProgram: React.FC<CodeProgramProps> = ({
       </div>
     )
   } else {
-    codeProgramComponent = <div>No program mode found.</div>
+    codeProgramComponent = <div>{`No graph mode found. For store: ${store}`}</div>
   }
 
   return (

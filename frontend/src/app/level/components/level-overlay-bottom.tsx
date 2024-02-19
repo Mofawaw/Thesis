@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Node, useReactFlow } from "reactflow";
+import { useNavigate } from "react-router-dom";
+
 import ThIconButton from "@/components/buttons/th-icon-button.tsx";
 import ThIconTextButton from "@/components/buttons/th-icon-text-button.tsx";
 import ThDropdown from "@/components/portals/th-dropdown.tsx";
@@ -7,11 +9,11 @@ import ThMenuTextButton from "@/components/buttons/th-menu-text-button.tsx";
 import ThPopup from "@/components/portals/th-popup.tsx";
 import ThTextButton from "@/components/buttons/th-text-button.tsx";
 import { ThLevel, ThNode } from "@/types/th-types.ts";
-import { evaluateLevelCompletion } from "../level-evaluation.ts";
 import useUserStore from "@/stores/user-store.ts";
-import { useNavigate } from "react-router-dom";
 import useThStore from "@/stores/th-store.ts";
 import { tutorialMasterNode } from "@/data (todo-post: backend)/levels/extras/tutorial.ts";
+
+import { evaluateLevelCompletion } from "../level-evaluation.ts";
 
 interface LevelOverlayBottomProps {
   level: ThLevel;

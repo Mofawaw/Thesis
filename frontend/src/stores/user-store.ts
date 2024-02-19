@@ -1,7 +1,8 @@
+import { create } from 'zustand';
+
 import useCodeIDEStore from '@/app/code-ide/code-ide-store';
 import { ThLevel, ThNode, ThStage } from '@/types/th-types';
 import { UserLevelProgress, UserProgress, UserProgressStatus, UserStageProgress } from '@/types/user-types';
-import { create } from 'zustand';
 
 export type UserStore = {
   userProgress: UserProgress | null;

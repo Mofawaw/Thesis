@@ -1,7 +1,9 @@
 import { dia, shapes } from 'jointjs';
-import CodeGraph, { CodeGraphNode, CodeGraphEdge } from '../code-memory-types.ts'
+
 import { thFont } from '@/utilities/th-font.ts';
 import { thColors } from '@/utilities/th-color.ts';
+
+import CodeGraph, { CodeGraphNode, CodeGraphEdge } from '../code-memory-types.ts'
 
 export const stylesGraphOutput = {
   node: {
@@ -56,7 +58,7 @@ const createAndResizeRect = (inputMaxChars: number): shapes.standard.Rectangle =
 const calculateMaxWidth = (nodes: CodeGraphNode[], type: string, inputMaxChars: number): number => {
   return nodes
     .filter(node => node.type.includes(type))
-    .reduce((maxWidth, node) => {
+    .reduce((maxWidth, _) => {
       const rect = createAndResizeRect(inputMaxChars);
       return Math.max(maxWidth, rect.size().width);
     }, 0);

@@ -1,8 +1,9 @@
 import { useEffect, useRef } from 'react';
 import { dia, shapes } from 'jointjs';
+
 import useCodeIDEStore, { CodeIDEStore } from '../../code-ide-store.ts';
-import { addDataToGraphOutput, stylesGraphOutput } from '../helpers/code-graph-output-helper.ts';
 import CodeIDEConfig from '../../code-ide-config.ts';
+import { addDataToGraphOutput, stylesGraphOutput } from '../helpers/code-graph-output-helper.ts';
 
 interface CodeGraphOutputProps {
   height: number;

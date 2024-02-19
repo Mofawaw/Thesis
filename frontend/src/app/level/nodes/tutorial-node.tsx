@@ -1,10 +1,11 @@
+import { useState } from 'react';
+
+import TutorialValue from '../tutorial/nodes/tutorial-value';
+import TutorialMaster from '../tutorial/nodes/tutorial-master';
+import TutorialReference from '../tutorial/nodes/tutorial-reference';
 import ComponentNode from './component-node/component-node';
 import { componentNodeLayout } from './component-node/component-node-helper';
 import { TutorialNodeData } from './types/node-types';
-import TutorialValue from '../tutorial/nodes/tutorial-value';
-import TutorialMaster from '../tutorial/nodes/tutorial-master';
-import { useState } from 'react';
-import TutorialReference from '../tutorial/nodes/tutorial-reference';
 
 interface TutorialNodeProps {
   data: TutorialNodeData;

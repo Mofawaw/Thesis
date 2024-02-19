@@ -1,13 +1,15 @@
 import { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
 import ReactFlow, { ReactFlowProvider, NodeChange, applyNodeChanges, useReactFlow, ReactFlowInstance, Node } from 'reactflow';
+import { useLocation } from "react-router-dom";
 import 'reactflow/dist/style.css';
+
+import { ThLevel, ThNode } from '@/types/th-types.ts';
+import useUserStore from '@/stores/user-store.ts';
+
 import { nodeTypes } from './nodes/types/node-types.ts';
 import LevelOverlayTop from './components/level-overlay-top.tsx';
 import LevelOverlayBottom from './components/level-overlay-bottom.tsx';
-import { ThLevel, ThNode } from '@/types/th-types.ts';
 import { convertToReactFlowNode, generateReactFlowNodes } from './level-initialization.ts';
-import useUserStore from '@/stores/user-store.ts';
-import { useLocation } from "react-router-dom";
 
 interface LevelProps {
   level: ThLevel;
