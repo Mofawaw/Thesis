@@ -76,7 +76,7 @@ const CodeProgram: React.FC<CodeProgramProps> = ({
         </div>
 
         <div className="px-4 my-2 overflow-hidden">
-          <CodeOutput scopeId={scopeId} config={config} />
+          <CodeOutput scopeId={scopeId} />
         </div>
       </div>
     )

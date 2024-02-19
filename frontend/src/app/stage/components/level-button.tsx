@@ -28,6 +28,8 @@ const LevelButton: React.FC<LevelButtonProps> = ({
   fx = null,
   fy = null,
 }) => {
+  console.log(x, y, fx, fy);
+
   const [opacity, setOpacity] = useState(0);
   const [openDropdown, setOpenDropdown] = useState(false);
   const navigate = useNavigate();

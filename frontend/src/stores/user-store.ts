@@ -44,7 +44,7 @@ function saveToLocalStorage(userProgress: UserProgress | null, stagesProgress: R
   localStorage.setItem(localStorageKey, JSON.stringify(stateToSave));
 }
 
-const useUserStore = create<UserStore>((set, get) => {
+const useUserStore = create<UserStore>((set, _) => {
   const initialState = loadFromLocalStorage();
 
   return {

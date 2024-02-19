@@ -26,7 +26,7 @@ const ComponentNode: React.FC<ComponentNodeProps> = ({
 
   const [size, setSize] = useState({ width: initialWidth, height: initialHeight });
 
-  const handleResize = (event: ResizeDragEvent, { width, height }: ResizeParams): void => {
+  const handleResize = (_: ResizeDragEvent, { width, height }: ResizeParams): void => {
     setSize({ width, height });
   };
 

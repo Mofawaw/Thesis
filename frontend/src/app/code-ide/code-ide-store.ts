@@ -21,6 +21,8 @@ export type CodeIDEStore = {
 };
 
 const createCodeIDEStore = (scopeId: string) => create<CodeIDEStore>((set) => {
+  console.log(`CodeIDEStore with scope id: ${scopeId}`);
+
   return {
     code: '',
     codeOutput: '',
