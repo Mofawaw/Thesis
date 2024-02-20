@@ -25,11 +25,11 @@ const expectedOutput =
 // ================================== Task ==================================
 const taskDescription =
   `<p><b>Ziel:</b></p>
-<p>Bearbeite das Programm, sodass es die Summe von den Variablen x, y und z ausgibt.</p><br/>
+<p>Bearbeite das Programm, sodass es die Summe von den Variablen <i>x</i>, <i>y</i> und <i>z</i> ausgibt.</p><br/>
 
 <p><b>Anweisungen:</b></p>
 <ul class="list-disc pl-4">
-  <li>Definiere eine Variable <i>z</i> mit dem Wert 30</li>
+  <li>Definiere eine Variable <i>z</i> mit dem Wert <i>30</i></li>
   <li>Aktualisiere die Variable <i>summe</i></li>
 </ul><br/>
 
