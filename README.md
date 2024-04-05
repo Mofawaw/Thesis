@@ -16,5 +16,5 @@ Backend
 
 ## Details
 
-https://kaizheng.de/thesis/thesis-kai-zheng.pdf/
+https://kaizheng.de/thesis/thesis-kai-zheng.pdf
 
